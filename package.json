@@ -1,0 +1,59 @@
+{
+  "name": "open-opgg-desktop",
+  "version": "1.0.0",
+  "description": "1:1 Clean-Room Open-Source Replica of OP.GG for Desktop",
+  "main": "main.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win nsis",
+    "dist:dir": "electron-builder --win dir",
+    "dist:portable": "electron-builder --win portable"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/1khvled/FREE-OPGG.git"
+  },
+  "build": {
+    "appId": "com.openopgg.desktop",
+    "productName": "OP.GG Desktop OpenSource",
+    "copyright": "Copyright © 2026 Open Source Community",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**/*"
+    ],
+    "win": {
+      "icon": "assets/icon.ico",
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "OP.GG Desktop OpenSource",
+      "artifactName": "OP.GG-Desktop-Setup-${version}.${ext}"
+    }
+  },
+  "keywords": [
+    "opgg",
+    "leagueoflegends",
+    "open-source"
+  ],
+  "author": "Open Source Community",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.7.9",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "electron": "^33.2.1",
+    "electron-builder": "^26.15.3"
+  }
+}

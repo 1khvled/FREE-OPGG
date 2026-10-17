@@ -1,0 +1,4616 @@
+[
+  {
+    "id": 86,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 29167,
+      "play": 55477,
+      "total_place": 189190,
+      "first_place": 9696,
+      "pick_rate": 0.112673,
+      "ban_rate": 0.0512944,
+      "kills": 486124,
+      "assists": 545779,
+      "deaths": 400761,
+      "tier": 2,
+      "rank": 47,
+      "tier_data": {
+        "tier": 2,
+        "rank": 47,
+        "rank_prev": 47,
+        "rank_prev_patch": 30
+      }
+    }
+  },
+  {
+    "id": 60086,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 3,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 37153,
+      "play": 69463,
+      "total_place": 233054,
+      "first_place": 13992,
+      "pick_rate": 0.141078,
+      "ban_rate": 0.0604014,
+      "kills": 393763,
+      "assists": 946894,
+      "deaths": 461791,
+      "tier": 2,
+      "rank": 25,
+      "tier_data": {
+        "tier": 2,
+        "rank": 25,
+        "rank_prev": 25,
+        "rank_prev_patch": 19
+      }
+    }
+  },
+  {
+    "id": 60003,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 41,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 25978,
+      "play": 54211,
+      "total_place": 195149,
+      "first_place": 7985,
+      "pick_rate": 0.110101,
+      "ban_rate": 0.039533,
+      "kills": 424357,
+      "assists": 475559,
+      "deaths": 409623,
+      "tier": 4,
+      "rank": 120,
+      "tier_data": {
+        "tier": 4,
+        "rank": 120,
+        "rank_prev": 120,
+        "rank_prev_patch": 147
+      }
+    }
+  },
+  {
+    "id": 60041,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 79,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "win": 18132,
+      "play": 39500,
+      "total_place": 144304,
+      "first_place": 5698,
+      "pick_rate": 0.0802237,
+      "ban_rate": 0.0239514,
+      "kills": 239972,
+      "assists": 441516,
+      "deaths": 277050,
+      "tier": 5,
+      "rank": 165,
+      "tier_data": {
+        "tier": 5,
+        "rank": 165,
+        "rank_prev": 165,
+        "rank_prev_patch": 161
+      }
+    }
+  },
+  {
+    "id": 60079,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 104,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 24631,
+      "play": 47821,
+      "total_place": 164443,
+      "first_place": 8171,
+      "pick_rate": 0.0971235,
+      "ban_rate": 0.0379123,
+      "kills": 433492,
+      "assists": 443812,
+      "deaths": 357696,
+      "tier": 3,
+      "rank": 74,
+      "tier_data": {
+        "tier": 3,
+        "rank": 74,
+        "rank_prev": 74,
+        "rank_prev_patch": 43
+      }
+    }
+  },
+  {
+    "id": 60104,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 887,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 27226,
+      "play": 51918,
+      "total_place": 176721,
+      "first_place": 9436,
+      "pick_rate": 0.105444,
+      "ban_rate": 0.0697682,
+      "kills": 400176,
+      "assists": 500007,
+      "deaths": 375227,
+      "tier": 2,
+      "rank": 42,
+      "tier_data": {
+        "tier": 2,
+        "rank": 42,
+        "rank_prev": 42,
+        "rank_prev_patch": 74
+      }
+    }
+  },
+  {
+    "id": 150,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 22195,
+      "play": 43443,
+      "total_place": 150312,
+      "first_place": 7012,
+      "pick_rate": 0.0882319,
+      "ban_rate": 0.0209699,
+      "kills": 306511,
+      "assists": 454096,
+      "deaths": 304519,
+      "tier": 4,
+      "rank": 100,
+      "tier_data": {
+        "tier": 4,
+        "rank": 100,
+        "rank_prev": 101,
+        "rank_prev_patch": 141
+      }
+    }
+  },
+  {
+    "id": 267,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 27743,
+      "play": 54228,
+      "total_place": 187451,
+      "first_place": 9619,
+      "pick_rate": 0.110136,
+      "ban_rate": 0.0361616,
+      "kills": 211293,
+      "assists": 836739,
+      "deaths": 373068,
+      "tier": 3,
+      "rank": 73,
+      "tier_data": {
+        "tier": 3,
+        "rank": 73,
+        "rank_prev": 73,
+        "rank_prev_patch": 52
+      }
+    }
+  },
+  {
+    "id": 60267,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 75,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 22699,
+      "play": 44754,
+      "total_place": 155644,
+      "first_place": 7579,
+      "pick_rate": 0.0908945,
+      "ban_rate": 0.0384668,
+      "kills": 294242,
+      "assists": 523268,
+      "deaths": 313590,
+      "tier": 4,
+      "rank": 91,
+      "tier_data": {
+        "tier": 4,
+        "rank": 91,
+        "rank_prev": 89,
+        "rank_prev_patch": 102
+      }
+    }
+  },
+  {
+    "id": 60075,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 950,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "win": 15700,
+      "play": 32955,
+      "total_place": 118009,
+      "first_place": 5087,
+      "pick_rate": 0.066931,
+      "ban_rate": 0.0459428,
+      "kills": 279143,
+      "assists": 317093,
+      "deaths": 245872,
+      "tier": 5,
+      "rank": 136,
+      "tier_data": {
+        "tier": 5,
+        "rank": 136,
+        "rank_prev": 136,
+        "rank_prev_patch": 126
+      }
+    }
+  },
+  {
+    "id": 111,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 28135,
+      "play": 56929,
+      "total_place": 200209,
+      "first_place": 9706,
+      "pick_rate": 0.115622,
+      "ban_rate": 0.0366612,
+      "kills": 273301,
+      "assists": 787074,
+      "deaths": 368066,
+      "tier": 4,
+      "rank": 97,
+      "tier_data": {
+        "tier": 4,
+        "rank": 97,
+        "rank_prev": 98,
+        "rank_prev_patch": 103
+      }
+    }
+  },
+  {
+    "id": 60111,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 56,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 19142,
+      "play": 37228,
+      "total_place": 127948,
+      "first_place": 6303,
+      "pick_rate": 0.0756093,
+      "ban_rate": 0.0195868,
+      "kills": 295907,
+      "assists": 361037,
+      "deaths": 294903,
+      "tier": 4,
+      "rank": 105,
+      "tier_data": {
+        "tier": 4,
+        "rank": 105,
+        "rank_prev": 108,
+        "rank_prev_patch": 138
+      }
+    }
+  },
+  {
+    "id": 20,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 17777,
+      "play": 34470,
+      "total_place": 118609,
+      "first_place": 5364,
+      "pick_rate": 0.0700079,
+      "ban_rate": 0.0159615,
+      "kills": 208931,
+      "assists": 500079,
+      "deaths": 226151,
+      "tier": 4,
+      "rank": 112,
+      "tier_data": {
+        "tier": 4,
+        "rank": 112,
+        "rank_prev": 113,
+        "rank_prev_patch": 100
+      }
+    }
+  },
+  {
+    "id": 60020,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 76,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "win": 16473,
+      "play": 34672,
+      "total_place": 124597,
+      "first_place": 4530,
+      "pick_rate": 0.0704182,
+      "ban_rate": 0.00821125,
+      "kills": 302662,
+      "assists": 343701,
+      "deaths": 234556,
+      "tier": 5,
+      "rank": 160,
+      "tier_data": {
+        "tier": 5,
+        "rank": 160,
+        "rank_prev": 161,
+        "rank_prev_patch": 157
+      }
+    }
+  },
+  {
+    "id": 60076,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 518,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 22000,
+      "play": 43904,
+      "total_place": 153618,
+      "first_place": 6507,
+      "pick_rate": 0.0891682,
+      "ban_rate": 0.0207221,
+      "kills": 322235,
+      "assists": 451193,
+      "deaths": 310222,
+      "tier": 4,
+      "rank": 111,
+      "tier_data": {
+        "tier": 4,
+        "rank": 111,
+        "rank_prev": 111,
+        "rank_prev_patch": 127
+      }
+    }
+  },
+  {
+    "id": 895,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 21697,
+      "play": 42162,
+      "total_place": 145410,
+      "first_place": 8014,
+      "pick_rate": 0.0856302,
+      "ban_rate": 0.0319676,
+      "kills": 334642,
+      "assists": 389861,
+      "deaths": 335265,
+      "tier": 4,
+      "rank": 90,
+      "tier_data": {
+        "tier": 4,
+        "rank": 90,
+        "rank_prev": 91,
+        "rank_prev_patch": 123
+      }
+    }
+  },
+  {
+    "id": 122,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 29319,
+      "play": 59502,
+      "total_place": 209756,
+      "first_place": 9012,
+      "pick_rate": 0.120847,
+      "ban_rate": 0.0742445,
+      "kills": 454759,
+      "assists": 599224,
+      "deaths": 445541,
+      "tier": 3,
+      "rank": 72,
+      "tier_data": {
+        "tier": 3,
+        "rank": 72,
+        "rank_prev": 72,
+        "rank_prev_patch": 83
+      }
+    }
+  },
+  {
+    "id": 131,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 16430,
+      "play": 33454,
+      "total_place": 118230,
+      "first_place": 5194,
+      "pick_rate": 0.0679444,
+      "ban_rate": 0.0109612,
+      "kills": 268025,
+      "assists": 347447,
+      "deaths": 262649,
+      "tier": 5,
+      "rank": 146,
+      "tier_data": {
+        "tier": 5,
+        "rank": 146,
+        "rank_prev": 146,
+        "rank_prev_patch": 140
+      }
+    }
+  },
+  {
+    "id": 119,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 24296,
+      "play": 48318,
+      "total_place": 168632,
+      "first_place": 8305,
+      "pick_rate": 0.0981329,
+      "ban_rate": 0.0347541,
+      "kills": 437654,
+      "assists": 386637,
+      "deaths": 376323,
+      "tier": 4,
+      "rank": 94,
+      "tier_data": {
+        "tier": 4,
+        "rank": 94,
+        "rank_prev": 94,
+        "rank_prev_patch": 89
+      }
+    }
+  },
+  {
+    "id": 13,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 27851,
+      "play": 60135,
+      "total_place": 219128,
+      "first_place": 9258,
+      "pick_rate": 0.122133,
+      "ban_rate": 0.143836,
+      "kills": 452853,
+      "assists": 546602,
+      "deaths": 434976,
+      "tier": 4,
+      "rank": 95,
+      "tier_data": {
+        "tier": 4,
+        "rank": 95,
+        "rank_prev": 96,
+        "rank_prev_patch": 65
+      }
+    }
+  },
+  {
+    "id": 60013,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 497,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 21387,
+      "play": 43909,
+      "total_place": 156102,
+      "first_place": 7497,
+      "pick_rate": 0.0891783,
+      "ban_rate": 0.0243393,
+      "kills": 154396,
+      "assists": 643866,
+      "deaths": 300023,
+      "tier": 5,
+      "rank": 129,
+      "tier_data": {
+        "tier": 5,
+        "rank": 129,
+        "rank_prev": 129,
+        "rank_prev_patch": 130
+      }
+    }
+  },
+  {
+    "id": 33,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 26763,
+      "play": 54018,
+      "total_place": 189742,
+      "first_place": 10037,
+      "pick_rate": 0.10971,
+      "ban_rate": 0.112533,
+      "kills": 268292,
+      "assists": 706668,
+      "deaths": 369961,
+      "tier": 3,
+      "rank": 62,
+      "tier_data": {
+        "tier": 3,
+        "rank": 62,
+        "rank_prev": 62,
+        "rank_prev_patch": 78
+      }
+    }
+  },
+  {
+    "id": 60033,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 99,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 25991,
+      "play": 48701,
+      "total_place": 164315,
+      "first_place": 7845,
+      "pick_rate": 0.0989108,
+      "ban_rate": 0.0157827,
+      "kills": 360672,
+      "assists": 628458,
+      "deaths": 325409,
+      "tier": 3,
+      "rank": 55,
+      "tier_data": {
+        "tier": 3,
+        "rank": 55,
+        "rank_prev": 56,
+        "rank_prev_patch": 44
+      }
+    }
+  },
+  {
+    "id": 60099,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 68,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 21590,
+      "play": 43194,
+      "total_place": 151224,
+      "first_place": 6825,
+      "pick_rate": 0.0877262,
+      "ban_rate": 0.0204885,
+      "kills": 309381,
+      "assists": 445279,
+      "deaths": 338847,
+      "tier": 4,
+      "rank": 114,
+      "tier_data": {
+        "tier": 4,
+        "rank": 114,
+        "rank_prev": 114,
+        "rank_prev_patch": 144
+      }
+    }
+  },
+  {
+    "id": 888,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "win": 25653,
+      "play": 46453,
+      "total_place": 152988,
+      "first_place": 9960,
+      "pick_rate": 0.0943451,
+      "ban_rate": 0.0421063,
+      "kills": 212776,
+      "assists": 693281,
+      "deaths": 315406,
+      "tier": 2,
+      "rank": 31,
+      "tier_data": {
+        "tier": 2,
+        "rank": 31,
+        "rank_prev": 30,
+        "rank_prev_patch": 33
+      }
+    }
+  },
+  {
+    "id": 58,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 26820,
+      "play": 49724,
+      "total_place": 166477,
+      "first_place": 9214,
+      "pick_rate": 0.100988,
+      "ban_rate": 0.0242641,
+      "kills": 347241,
+      "assists": 556197,
+      "deaths": 347506,
+      "tier": 2,
+      "rank": 49,
+      "tier_data": {
+        "tier": 2,
+        "rank": 49,
+        "rank_prev": 49,
+        "rank_prev_patch": 108
+      }
+    }
+  },
+  {
+    "id": 89,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 28963,
+      "play": 55796,
+      "total_place": 191184,
+      "first_place": 10444,
+      "pick_rate": 0.113321,
+      "ban_rate": 0.0916724,
+      "kills": 267247,
+      "assists": 829185,
+      "deaths": 361095,
+      "tier": 2,
+      "rank": 39,
+      "tier_data": {
+        "tier": 2,
+        "rank": 39,
+        "rank_prev": 40,
+        "rank_prev_patch": 38
+      }
+    }
+  },
+  {
+    "id": 60089,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 421,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 16551,
+      "play": 31523,
+      "total_place": 107257,
+      "first_place": 5335,
+      "pick_rate": 0.0640226,
+      "ban_rate": 0.0133151,
+      "kills": 249917,
+      "assists": 332543,
+      "deaths": 210723,
+      "tier": 4,
+      "rank": 108,
+      "tier_data": {
+        "tier": 4,
+        "rank": 108,
+        "rank_prev": 106,
+        "rank_prev_patch": 107
+      }
+    }
+  },
+  {
+    "id": 526,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 33058,
+      "play": 59319,
+      "total_place": 193265,
+      "first_place": 13360,
+      "pick_rate": 0.120476,
+      "ban_rate": 0.0743278,
+      "kills": 306846,
+      "assists": 926017,
+      "deaths": 371901,
+      "tier": 2,
+      "rank": 15,
+      "tier_data": {
+        "tier": 2,
+        "rank": 15,
+        "rank_prev": 15,
+        "rank_prev_patch": 16
+      }
+    }
+  },
+  {
+    "id": 107,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 21485,
+      "play": 47668,
+      "total_place": 176489,
+      "first_place": 6708,
+      "pick_rate": 0.0968128,
+      "ban_rate": 0.047724,
+      "kills": 375723,
+      "assists": 376301,
+      "deaths": 392540,
+      "tier": 5,
+      "rank": 149,
+      "tier_data": {
+        "tier": 5,
+        "rank": 149,
+        "rank_prev": 149,
+        "rank_prev_patch": 148
+      }
+    }
+  },
+  {
+    "id": 805,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 15886,
+      "play": 37184,
+      "total_place": 140553,
+      "first_place": 4288,
+      "pick_rate": 0.07552,
+      "ban_rate": 0.0812189,
+      "kills": 352338,
+      "assists": 269913,
+      "deaths": 299686,
+      "tier": 5,
+      "rank": 167,
+      "tier_data": {
+        "tier": 5,
+        "rank": 167,
+        "rank_prev": 167,
+        "rank_prev_patch": 164
+      }
+    }
+  },
+  {
+    "id": 236,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 26586,
+      "play": 57451,
+      "total_place": 209331,
+      "first_place": 7733,
+      "pick_rate": 0.116682,
+      "ban_rate": 0.0216726,
+      "kills": 471567,
+      "assists": 479310,
+      "deaths": 441770,
+      "tier": 5,
+      "rank": 135,
+      "tier_data": {
+        "tier": 5,
+        "rank": 135,
+        "rank_prev": 135,
+        "rank_prev_patch": 149
+      }
+    }
+  },
+  {
+    "id": 117,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 18918,
+      "play": 39607,
+      "total_place": 142490,
+      "first_place": 6178,
+      "pick_rate": 0.0804411,
+      "ban_rate": 0.0520987,
+      "kills": 137671,
+      "assists": 581525,
+      "deaths": 282744,
+      "tier": 5,
+      "rank": 128,
+      "tier_data": {
+        "tier": 5,
+        "rank": 128,
+        "rank_prev": 127,
+        "rank_prev_patch": 117
+      }
+    }
+  },
+  {
+    "id": 60117,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 7,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 18645,
+      "play": 43050,
+      "total_place": 161614,
+      "first_place": 5088,
+      "pick_rate": 0.0874337,
+      "ban_rate": 0.0320245,
+      "kills": 305511,
+      "assists": 400477,
+      "deaths": 297780,
+      "tier": 5,
+      "rank": 171,
+      "tier_data": {
+        "tier": 5,
+        "rank": 171,
+        "rank_prev": 170,
+        "rank_prev_patch": 172
+      }
+    }
+  },
+  {
+    "id": 64,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 29777,
+      "play": 59567,
+      "total_place": 208544,
+      "first_place": 8739,
+      "pick_rate": 0.120979,
+      "ban_rate": 0.0264698,
+      "kills": 450629,
+      "assists": 619989,
+      "deaths": 426527,
+      "tier": 4,
+      "rank": 83,
+      "tier_data": {
+        "tier": 4,
+        "rank": 83,
+        "rank_prev": 83,
+        "rank_prev_patch": 101
+      }
+    }
+  },
+  {
+    "id": 60064,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 92,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 21203,
+      "play": 41201,
+      "total_place": 142386,
+      "first_place": 6909,
+      "pick_rate": 0.0836784,
+      "ban_rate": 0.023598,
+      "kills": 278868,
+      "assists": 443123,
+      "deaths": 301420,
+      "tier": 4,
+      "rank": 99,
+      "tier_data": {
+        "tier": 4,
+        "rank": 99,
+        "rank_prev": 99,
+        "rank_prev_patch": 111
+      }
+    }
+  },
+  {
+    "id": 127,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 22172,
+      "play": 45665,
+      "total_place": 162637,
+      "first_place": 7036,
+      "pick_rate": 0.0927447,
+      "ban_rate": 0.0217416,
+      "kills": 295748,
+      "assists": 497128,
+      "deaths": 343106,
+      "tier": 5,
+      "rank": 127,
+      "tier_data": {
+        "tier": 5,
+        "rank": 127,
+        "rank_prev": 128,
+        "rank_prev_patch": 129
+      }
+    }
+  },
+  {
+    "id": 876,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 33294,
+      "play": 62743,
+      "total_place": 212350,
+      "first_place": 11032,
+      "pick_rate": 0.12743,
+      "ban_rate": 0.0581612,
+      "kills": 472613,
+      "assists": 700973,
+      "deaths": 456508,
+      "tier": 2,
+      "rank": 30,
+      "tier_data": {
+        "tier": 2,
+        "rank": 30,
+        "rank_prev": 29,
+        "rank_prev_patch": 29
+      }
+    }
+  },
+  {
+    "id": 11,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 33011,
+      "play": 65470,
+      "total_place": 228409,
+      "first_place": 11513,
+      "pick_rate": 0.132968,
+      "ban_rate": 0.371887,
+      "kills": 538927,
+      "assists": 587714,
+      "deaths": 536422,
+      "tier": 2,
+      "rank": 11,
+      "tier_data": {
+        "tier": 2,
+        "rank": 11,
+        "rank_prev": 13,
+        "rank_prev_patch": 13
+      }
+    }
+  },
+  {
+    "id": 60011,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 57,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 34612,
+      "play": 68602,
+      "total_place": 238925,
+      "first_place": 11555,
+      "pick_rate": 0.139329,
+      "ban_rate": 0.0440154,
+      "kills": 372934,
+      "assists": 922396,
+      "deaths": 442392,
+      "tier": 3,
+      "rank": 60,
+      "tier_data": {
+        "tier": 3,
+        "rank": 60,
+        "rank_prev": 60,
+        "rank_prev_patch": 60
+      }
+    }
+  },
+  {
+    "id": 90,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 20963,
+      "play": 41810,
+      "total_place": 146684,
+      "first_place": 6192,
+      "pick_rate": 0.0849153,
+      "ban_rate": 0.0647395,
+      "kills": 302283,
+      "assists": 483115,
+      "deaths": 327223,
+      "tier": 4,
+      "rank": 84,
+      "tier_data": {
+        "tier": 4,
+        "rank": 84,
+        "rank_prev": 87,
+        "rank_prev_patch": 67
+      }
+    }
+  },
+  {
+    "id": 60090,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 54,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 27697,
+      "play": 55662,
+      "total_place": 195204,
+      "first_place": 8956,
+      "pick_rate": 0.113048,
+      "ban_rate": 0.0676377,
+      "kills": 348891,
+      "assists": 730965,
+      "deaths": 382656,
+      "tier": 3,
+      "rank": 76,
+      "tier_data": {
+        "tier": 3,
+        "rank": 76,
+        "rank_prev": 76,
+        "rank_prev_patch": 68
+      }
+    }
+  },
+  {
+    "id": 60054,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 800,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 22244,
+      "play": 50735,
+      "total_place": 189821,
+      "first_place": 6308,
+      "pick_rate": 0.103042,
+      "ban_rate": 0.106781,
+      "kills": 466238,
+      "assists": 368289,
+      "deaths": 366992,
+      "tier": 5,
+      "rank": 137,
+      "tier_data": {
+        "tier": 5,
+        "rank": 137,
+        "rank_prev": 138,
+        "rank_prev_patch": 132
+      }
+    }
+  },
+  {
+    "id": 82,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "win": 36600,
+      "play": 72334,
+      "total_place": 251698,
+      "first_place": 11878,
+      "pick_rate": 0.146909,
+      "ban_rate": 0.0972291,
+      "kills": 543832,
+      "assists": 709166,
+      "deaths": 525973,
+      "tier": 2,
+      "rank": 41,
+      "tier_data": {
+        "tier": 2,
+        "rank": 41,
+        "rank_prev": 41,
+        "rank_prev_patch": 61
+      }
+    }
+  },
+  {
+    "id": 25,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 25106,
+      "play": 50423,
+      "total_place": 176852,
+      "first_place": 7811,
+      "pick_rate": 0.102408,
+      "ban_rate": 0.0704608,
+      "kills": 300502,
+      "assists": 685502,
+      "deaths": 350102,
+      "tier": 3,
+      "rank": 79,
+      "tier_data": {
+        "tier": 3,
+        "rank": 79,
+        "rank_prev": 78,
+        "rank_prev_patch": 63
+      }
+    }
+  },
+  {
+    "id": 60025,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 36,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 29476,
+      "play": 62268,
+      "total_place": 224038,
+      "first_place": 11601,
+      "pick_rate": 0.126465,
+      "ban_rate": 0.236122,
+      "kills": 367774,
+      "assists": 745768,
+      "deaths": 411412,
+      "tier": 3,
+      "rank": 57,
+      "tier_data": {
+        "tier": 3,
+        "rank": 57,
+        "rank_prev": 57,
+        "rank_prev_patch": 55
+      }
+    }
+  },
+  {
+    "id": 60036,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 21,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 28804,
+      "play": 59990,
+      "total_place": 214560,
+      "first_place": 9062,
+      "pick_rate": 0.121839,
+      "ban_rate": 0.0209313,
+      "kills": 502645,
+      "assists": 543863,
+      "deaths": 473165,
+      "tier": 4,
+      "rank": 117,
+      "tier_data": {
+        "tier": 4,
+        "rank": 117,
+        "rank_prev": 116,
+        "rank_prev_patch": 118
+      }
+    }
+  },
+  {
+    "id": 60021,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 902,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 18467,
+      "play": 33030,
+      "total_place": 108281,
+      "first_place": 6742,
+      "pick_rate": 0.0670833,
+      "ban_rate": 0.0360621,
+      "kills": 107418,
+      "assists": 607303,
+      "deaths": 217446,
+      "tier": 2,
+      "rank": 40,
+      "tier_data": {
+        "tier": 2,
+        "rank": 40,
+        "rank_prev": 39,
+        "rank_prev_patch": 31
+      }
+    }
+  },
+  {
+    "id": 432,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 19552,
+      "play": 46970,
+      "total_place": 181118,
+      "first_place": 5489,
+      "pick_rate": 0.0953952,
+      "ban_rate": 0.0473442,
+      "kills": 190428,
+      "assists": 533392,
+      "deaths": 329568,
+      "tier": 5,
+      "rank": 172,
+      "tier_data": {
+        "tier": 5,
+        "rank": 172,
+        "rank_prev": 172,
+        "rank_prev_patch": 170
+      }
+    }
+  },
+  {
+    "id": 110,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 25349,
+      "play": 52047,
+      "total_place": 184893,
+      "first_place": 7862,
+      "pick_rate": 0.105706,
+      "ban_rate": 0.023864,
+      "kills": 423551,
+      "assists": 446522,
+      "deaths": 405393,
+      "tier": 4,
+      "rank": 116,
+      "tier_data": {
+        "tier": 4,
+        "rank": 116,
+        "rank_prev": 119,
+        "rank_prev_patch": 113
+      }
+    }
+  },
+  {
+    "id": 254,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 26412,
+      "play": 49855,
+      "total_place": 168242,
+      "first_place": 9892,
+      "pick_rate": 0.101255,
+      "ban_rate": 0.0530187,
+      "kills": 386989,
+      "assists": 495447,
+      "deaths": 377238,
+      "tier": 2,
+      "rank": 45,
+      "tier_data": {
+        "tier": 2,
+        "rank": 45,
+        "rank_prev": 46,
+        "rank_prev_patch": 62
+      }
+    }
+  },
+  {
+    "id": 45,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 27631,
+      "play": 52851,
+      "total_place": 179560,
+      "first_place": 10941,
+      "pick_rate": 0.107339,
+      "ban_rate": 0.0729792,
+      "kills": 465953,
+      "assists": 538355,
+      "deaths": 387820,
+      "tier": 2,
+      "rank": 46,
+      "tier_data": {
+        "tier": 2,
+        "rank": 46,
+        "rank_prev": 45,
+        "rank_prev_patch": 40
+      }
+    }
+  },
+  {
+    "id": 60045,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 67,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "win": 31144,
+      "play": 60943,
+      "total_place": 210662,
+      "first_place": 11154,
+      "pick_rate": 0.123774,
+      "ban_rate": 0.320877,
+      "kills": 515252,
+      "assists": 498728,
+      "deaths": 479023,
+      "tier": 2,
+      "rank": 13,
+      "tier_data": {
+        "tier": 2,
+        "rank": 13,
+        "rank_prev": 11,
+        "rank_prev_patch": 11
+      }
+    }
+  },
+  {
+    "id": 60067,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 711,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 17656,
+      "play": 34646,
+      "total_place": 119790,
+      "first_place": 5656,
+      "pick_rate": 0.0703654,
+      "ban_rate": 0.0147937,
+      "kills": 256571,
+      "assists": 379135,
+      "deaths": 242792,
+      "tier": 4,
+      "rank": 123,
+      "tier_data": {
+        "tier": 4,
+        "rank": 123,
+        "rank_prev": 123,
+        "rank_prev_patch": 112
+      }
+    }
+  },
+  {
+    "id": 200,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 25027,
+      "play": 48868,
+      "total_place": 167545,
+      "first_place": 10932,
+      "pick_rate": 0.09925,
+      "ban_rate": 0.456374,
+      "kills": 390284,
+      "assists": 414620,
+      "deaths": 369131,
+      "tier": 1,
+      "rank": 8,
+      "tier_data": {
+        "tier": 1,
+        "rank": 8,
+        "rank_prev": 9,
+        "rank_prev_patch": 14
+      }
+    }
+  },
+  {
+    "id": 161,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 18754,
+      "play": 33465,
+      "total_place": 109399,
+      "first_place": 6229,
+      "pick_rate": 0.0679668,
+      "ban_rate": 0.0134512,
+      "kills": 286922,
+      "assists": 386706,
+      "deaths": 241011,
+      "tier": 3,
+      "rank": 50,
+      "tier_data": {
+        "tier": 3,
+        "rank": 50,
+        "rank_prev": 54,
+        "rank_prev_patch": 41
+      }
+    }
+  },
+  {
+    "id": 106,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 41644,
+      "play": 76745,
+      "total_place": 254793,
+      "first_place": 14733,
+      "pick_rate": 0.155868,
+      "ban_rate": 0.0673676,
+      "kills": 591623,
+      "assists": 856013,
+      "deaths": 526591,
+      "tier": 2,
+      "rank": 17,
+      "tier_data": {
+        "tier": 2,
+        "rank": 17,
+        "rank_prev": 17,
+        "rank_prev_patch": 28
+      }
+    }
+  },
+  {
+    "id": 201,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 24559,
+      "play": 47771,
+      "total_place": 164340,
+      "first_place": 9550,
+      "pick_rate": 0.097022,
+      "ban_rate": 0.0399859,
+      "kills": 208119,
+      "assists": 674746,
+      "deaths": 320095,
+      "tier": 3,
+      "rank": 82,
+      "tier_data": {
+        "tier": 3,
+        "rank": 82,
+        "rank_prev": 82,
+        "rank_prev_patch": 98
+      }
+    }
+  },
+  {
+    "id": 233,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 33341,
+      "play": 63279,
+      "total_place": 214378,
+      "first_place": 12244,
+      "pick_rate": 0.128518,
+      "ban_rate": 0.326336,
+      "kills": 455074,
+      "assists": 652219,
+      "deaths": 501441,
+      "tier": 1,
+      "rank": 6,
+      "tier_data": {
+        "tier": 1,
+        "rank": 6,
+        "rank_prev": 7,
+        "rank_prev_patch": 4
+      }
+    }
+  },
+  {
+    "id": 63,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 36880,
+      "play": 70396,
+      "total_place": 240148,
+      "first_place": 11983,
+      "pick_rate": 0.142973,
+      "ban_rate": 0.300916,
+      "kills": 559304,
+      "assists": 794962,
+      "deaths": 554891,
+      "tier": 1,
+      "rank": 9,
+      "tier_data": {
+        "tier": 1,
+        "rank": 9,
+        "rank_prev": 8,
+        "rank_prev_patch": 7
+      }
+    }
+  },
+  {
+    "id": 60063,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 8,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 36545,
+      "play": 74158,
+      "total_place": 260758,
+      "first_place": 13652,
+      "pick_rate": 0.150613,
+      "ban_rate": 0.156526,
+      "kills": 525607,
+      "assists": 845563,
+      "deaths": 500661,
+      "tier": 2,
+      "rank": 43,
+      "tier_data": {
+        "tier": 2,
+        "rank": 43,
+        "rank_prev": 43,
+        "rank_prev_patch": 27
+      }
+    }
+  },
+  {
+    "id": 53,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 35641,
+      "play": 71105,
+      "total_place": 247758,
+      "first_place": 12128,
+      "pick_rate": 0.144413,
+      "ban_rate": 0.131916,
+      "kills": 417535,
+      "assists": 843585,
+      "deaths": 504102,
+      "tier": 2,
+      "rank": 36,
+      "tier_data": {
+        "tier": 2,
+        "rank": 36,
+        "rank_prev": 36,
+        "rank_prev_patch": 37
+      }
+    }
+  },
+  {
+    "id": 60053,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 234,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 18508,
+      "play": 38799,
+      "total_place": 139179,
+      "first_place": 5859,
+      "pick_rate": 0.0788,
+      "ban_rate": 0.0213456,
+      "kills": 330551,
+      "assists": 317337,
+      "deaths": 306121,
+      "tier": 5,
+      "rank": 145,
+      "tier_data": {
+        "tier": 5,
+        "rank": 145,
+        "rank_prev": 145,
+        "rank_prev_patch": 133
+      }
+    }
+  },
+  {
+    "id": 112,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 21932,
+      "play": 46108,
+      "total_place": 166541,
+      "first_place": 6829,
+      "pick_rate": 0.0936445,
+      "ban_rate": 0.0191379,
+      "kills": 301270,
+      "assists": 497979,
+      "deaths": 330609,
+      "tier": 5,
+      "rank": 139,
+      "tier_data": {
+        "tier": 5,
+        "rank": 139,
+        "rank_prev": 141,
+        "rank_prev_patch": 150
+      }
+    }
+  },
+  {
+    "id": 78,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 19990,
+      "play": 38911,
+      "total_place": 133750,
+      "first_place": 7233,
+      "pick_rate": 0.0790275,
+      "ban_rate": 0.0443546,
+      "kills": 238083,
+      "assists": 498159,
+      "deaths": 253178,
+      "tier": 4,
+      "rank": 85,
+      "tier_data": {
+        "tier": 4,
+        "rank": 85,
+        "rank_prev": 84,
+        "rank_prev_patch": 81
+      }
+    }
+  },
+  {
+    "id": 60078,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 360,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 20356,
+      "play": 42140,
+      "total_place": 150736,
+      "first_place": 6287,
+      "pick_rate": 0.0855855,
+      "ban_rate": 0.0238559,
+      "kills": 347974,
+      "assists": 356907,
+      "deaths": 339882,
+      "tier": 5,
+      "rank": 130,
+      "tier_data": {
+        "tier": 5,
+        "rank": 130,
+        "rank_prev": 131,
+        "rank_prev_patch": 128
+      }
+    }
+  },
+  {
+    "id": 14,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 32732,
+      "play": 58995,
+      "total_place": 192838,
+      "first_place": 12743,
+      "pick_rate": 0.119818,
+      "ban_rate": 0.0892352,
+      "kills": 485708,
+      "assists": 821391,
+      "deaths": 377124,
+      "tier": 2,
+      "rank": 12,
+      "tier_data": {
+        "tier": 2,
+        "rank": 12,
+        "rank_prev": 12,
+        "rank_prev_patch": 9
+      }
+    }
+  },
+  {
+    "id": 60014,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 517,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 34571,
+      "play": 69933,
+      "total_place": 246527,
+      "first_place": 10053,
+      "pick_rate": 0.142033,
+      "ban_rate": 0.0629523,
+      "kills": 498010,
+      "assists": 717496,
+      "deaths": 523584,
+      "tier": 3,
+      "rank": 63,
+      "tier_data": {
+        "tier": 3,
+        "rank": 63,
+        "rank_prev": 63,
+        "rank_prev_patch": 75
+      }
+    }
+  },
+  {
+    "id": 35,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 26744,
+      "play": 60367,
+      "total_place": 224943,
+      "first_place": 7589,
+      "pick_rate": 0.122604,
+      "ban_rate": 0.382289,
+      "kills": 454119,
+      "assists": 617221,
+      "deaths": 429663,
+      "tier": 3,
+      "rank": 67,
+      "tier_data": {
+        "tier": 3,
+        "rank": 67,
+        "rank_prev": 66,
+        "rank_prev_patch": 71
+      }
+    }
+  },
+  {
+    "id": 60035,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 235,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 24576,
+      "play": 51991,
+      "total_place": 187584,
+      "first_place": 7769,
+      "pick_rate": 0.105593,
+      "ban_rate": 0.0170765,
+      "kills": 339426,
+      "assists": 583222,
+      "deaths": 394681,
+      "tier": 5,
+      "rank": 132,
+      "tier_data": {
+        "tier": 5,
+        "rank": 132,
+        "rank_prev": 132,
+        "rank_prev_patch": 122
+      }
+    }
+  },
+  {
+    "id": 147,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 29228,
+      "play": 57837,
+      "total_place": 201583,
+      "first_place": 9325,
+      "pick_rate": 0.117466,
+      "ban_rate": 0.038284,
+      "kills": 325079,
+      "assists": 785872,
+      "deaths": 414183,
+      "tier": 3,
+      "rank": 78,
+      "tier_data": {
+        "tier": 3,
+        "rank": 78,
+        "rank_prev": 77,
+        "rank_prev_patch": 54
+      }
+    }
+  },
+  {
+    "id": 113,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 15328,
+      "play": 31478,
+      "total_place": 111548,
+      "first_place": 5258,
+      "pick_rate": 0.0639312,
+      "ban_rate": 0.00886117,
+      "kills": 169723,
+      "assists": 423958,
+      "deaths": 218262,
+      "tier": 5,
+      "rank": 157,
+      "tier_data": {
+        "tier": 5,
+        "rank": 157,
+        "rank_prev": 157,
+        "rank_prev_patch": 155
+      }
+    }
+  },
+  {
+    "id": 875,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 54224,
+      "play": 100152,
+      "total_place": 333023,
+      "first_place": 21507,
+      "pick_rate": 0.203407,
+      "ban_rate": 0.343248,
+      "kills": 776457,
+      "assists": 1056814,
+      "deaths": 683310,
+      "tier": 1,
+      "rank": 4,
+      "tier_data": {
+        "tier": 1,
+        "rank": 4,
+        "rank_prev": 3,
+        "rank_prev_patch": 6
+      }
+    }
+  },
+  {
+    "id": 37,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 22751,
+      "play": 42577,
+      "total_place": 143895,
+      "first_place": 7853,
+      "pick_rate": 0.0864731,
+      "ban_rate": 0.042216,
+      "kills": 177740,
+      "assists": 708182,
+      "deaths": 303043,
+      "tier": 3,
+      "rank": 52,
+      "tier_data": {
+        "tier": 3,
+        "rank": 52,
+        "rank_prev": 51,
+        "rank_prev_patch": 35
+      }
+    }
+  },
+  {
+    "id": 60037,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 16,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 19554,
+      "play": 36624,
+      "total_place": 123792,
+      "first_place": 6616,
+      "pick_rate": 0.0743826,
+      "ban_rate": 0.134806,
+      "kills": 84556,
+      "assists": 657258,
+      "deaths": 269483,
+      "tier": 2,
+      "rank": 22,
+      "tier_data": {
+        "tier": 2,
+        "rank": 22,
+        "rank_prev": 22,
+        "rank_prev_patch": 17
+      }
+    }
+  },
+  {
+    "id": 60016,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 98,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 19890,
+      "play": 38743,
+      "total_place": 133212,
+      "first_place": 7223,
+      "pick_rate": 0.0786863,
+      "ban_rate": 0.0153502,
+      "kills": 229203,
+      "assists": 544638,
+      "deaths": 256042,
+      "tier": 4,
+      "rank": 109,
+      "tier_data": {
+        "tier": 4,
+        "rank": 109,
+        "rank_prev": 110,
+        "rank_prev_patch": 85
+      }
+    }
+  },
+  {
+    "id": 60098,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 102,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 33212,
+      "play": 58377,
+      "total_place": 187409,
+      "first_place": 13569,
+      "pick_rate": 0.118563,
+      "ban_rate": 0.212963,
+      "kills": 486637,
+      "assists": 672026,
+      "deaths": 379573,
+      "tier": 1,
+      "rank": 2,
+      "tier_data": {
+        "tier": 1,
+        "rank": 2,
+        "rank_prev": 2,
+        "rank_prev_patch": 3
+      }
+    }
+  },
+  {
+    "id": 60102,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 901,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 34593,
+      "play": 67478,
+      "total_place": 232105,
+      "first_place": 13324,
+      "pick_rate": 0.137047,
+      "ban_rate": 0.0932281,
+      "kills": 622281,
+      "assists": 603402,
+      "deaths": 531082,
+      "tier": 2,
+      "rank": 37,
+      "tier_data": {
+        "tier": 2,
+        "rank": 37,
+        "rank_prev": 37,
+        "rank_prev_patch": 42
+      }
+    }
+  },
+  {
+    "id": 50,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 48058,
+      "play": 83253,
+      "total_place": 267107,
+      "first_place": 15450,
+      "pick_rate": 0.169085,
+      "ban_rate": 0.285209,
+      "kills": 653163,
+      "assists": 1128580,
+      "deaths": 521541,
+      "tier": 1,
+      "rank": 1,
+      "tier_data": {
+        "tier": 1,
+        "rank": 1,
+        "rank_prev": 1,
+        "rank_prev_patch": 1
+      }
+    }
+  },
+  {
+    "id": 72,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 23407,
+      "play": 46293,
+      "total_place": 161077,
+      "first_place": 7497,
+      "pick_rate": 0.0940202,
+      "ban_rate": 0.0271928,
+      "kills": 279701,
+      "assists": 548932,
+      "deaths": 318625,
+      "tier": 4,
+      "rank": 101,
+      "tier_data": {
+        "tier": 4,
+        "rank": 101,
+        "rank_prev": 100,
+        "rank_prev_patch": 142
+      }
+    }
+  },
+  {
+    "id": 60072,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 15,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 15333,
+      "play": 30498,
+      "total_place": 106394,
+      "first_place": 4997,
+      "pick_rate": 0.0619408,
+      "ban_rate": 0.00436458,
+      "kills": 255484,
+      "assists": 323679,
+      "deaths": 242754,
+      "tier": 5,
+      "rank": 144,
+      "tier_data": {
+        "tier": 5,
+        "rank": 144,
+        "rank_prev": 144,
+        "rank_prev_patch": 134
+      }
+    }
+  },
+  {
+    "id": 60015,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 5,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 36975,
+      "play": 66227,
+      "total_place": 217071,
+      "first_place": 12868,
+      "pick_rate": 0.134506,
+      "ban_rate": 0.129765,
+      "kills": 510997,
+      "assists": 745551,
+      "deaths": 490730,
+      "tier": 1,
+      "rank": 7,
+      "tier_data": {
+        "tier": 1,
+        "rank": 7,
+        "rank_prev": 6,
+        "rank_prev_patch": 5
+      }
+    }
+  },
+  {
+    "id": 60005,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 134,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 18226,
+      "play": 39406,
+      "total_place": 143319,
+      "first_place": 6080,
+      "pick_rate": 0.0800328,
+      "ban_rate": 0.0179397,
+      "kills": 297183,
+      "assists": 367792,
+      "deaths": 292253,
+      "tier": 5,
+      "rank": 164,
+      "tier_data": {
+        "tier": 5,
+        "rank": 164,
+        "rank_prev": 164,
+        "rank_prev_patch": 143
+      }
+    }
+  },
+  {
+    "id": 27,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "win": 42056,
+      "play": 80731,
+      "total_place": 277061,
+      "first_place": 13147,
+      "pick_rate": 0.163963,
+      "ban_rate": 0.0822567,
+      "kills": 489916,
+      "assists": 1077820,
+      "deaths": 560607,
+      "tier": 2,
+      "rank": 26,
+      "tier_data": {
+        "tier": 2,
+        "rank": 26,
+        "rank_prev": 24,
+        "rank_prev_patch": 18
+      }
+    }
+  },
+  {
+    "id": 60027,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 412,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 26707,
+      "play": 50603,
+      "total_place": 171648,
+      "first_place": 9349,
+      "pick_rate": 0.102774,
+      "ban_rate": 0.0193085,
+      "kills": 287590,
+      "assists": 713438,
+      "deaths": 335072,
+      "tier": 3,
+      "rank": 64,
+      "tier_data": {
+        "tier": 3,
+        "rank": 64,
+        "rank_prev": 65,
+        "rank_prev_patch": 72
+      }
+    }
+  },
+  {
+    "id": 103,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 33362,
+      "play": 64284,
+      "total_place": 220410,
+      "first_place": 11302,
+      "pick_rate": 0.13056,
+      "ban_rate": 0.0516316,
+      "kills": 478933,
+      "assists": 685377,
+      "deaths": 450336,
+      "tier": 2,
+      "rank": 44,
+      "tier_data": {
+        "tier": 2,
+        "rank": 44,
+        "rank_prev": 44,
+        "rank_prev_patch": 32
+      }
+    }
+  },
+  {
+    "id": 60103,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 32,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 28860,
+      "play": 52207,
+      "total_place": 172172,
+      "first_place": 10526,
+      "pick_rate": 0.106031,
+      "ban_rate": 0.0923507,
+      "kills": 281059,
+      "assists": 775265,
+      "deaths": 382505,
+      "tier": 2,
+      "rank": 16,
+      "tier_data": {
+        "tier": 2,
+        "rank": 16,
+        "rank_prev": 16,
+        "rank_prev_patch": 12
+      }
+    }
+  },
+  {
+    "id": 60032,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 136,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 21717,
+      "play": 42904,
+      "total_place": 148857,
+      "first_place": 8370,
+      "pick_rate": 0.0871372,
+      "ban_rate": 0.303335,
+      "kills": 389710,
+      "assists": 411411,
+      "deaths": 340986,
+      "tier": 2,
+      "rank": 18,
+      "tier_data": {
+        "tier": 2,
+        "rank": 18,
+        "rank_prev": 18,
+        "rank_prev_patch": 21
+      }
+    }
+  },
+  {
+    "id": 427,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "win": 20442,
+      "play": 44381,
+      "total_place": 162410,
+      "first_place": 6225,
+      "pick_rate": 0.090137,
+      "ban_rate": 0.0488309,
+      "kills": 163897,
+      "assists": 708433,
+      "deaths": 308477,
+      "tier": 5,
+      "rank": 141,
+      "tier_data": {
+        "tier": 5,
+        "rank": 141,
+        "rank_prev": 140,
+        "rank_prev_patch": 125
+      }
+    }
+  },
+  {
+    "id": 268,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "win": 14994,
+      "play": 31744,
+      "total_place": 114862,
+      "first_place": 4721,
+      "pick_rate": 0.0644714,
+      "ban_rate": 0.0301865,
+      "kills": 241827,
+      "assists": 290794,
+      "deaths": 251664,
+      "tier": 5,
+      "rank": 156,
+      "tier_data": {
+        "tier": 5,
+        "rank": 156,
+        "rank_prev": 156,
+        "rank_prev_patch": 152
+      }
+    }
+  },
+  {
+    "id": 84,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 17540,
+      "play": 38923,
+      "total_place": 143752,
+      "first_place": 4484,
+      "pick_rate": 0.0790519,
+      "ban_rate": 0.0457316,
+      "kills": 313346,
+      "assists": 345065,
+      "deaths": 283191,
+      "tier": 5,
+      "rank": 159,
+      "tier_data": {
+        "tier": 5,
+        "rank": 159,
+        "rank_prev": 159,
+        "rank_prev_patch": 167
+      }
+    }
+  },
+  {
+    "id": 60084,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 166,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 23683,
+      "play": 48690,
+      "total_place": 173040,
+      "first_place": 7771,
+      "pick_rate": 0.0988884,
+      "ban_rate": 0.0738627,
+      "kills": 399838,
+      "assists": 384252,
+      "deaths": 358337,
+      "tier": 4,
+      "rank": 98,
+      "tier_data": {
+        "tier": 4,
+        "rank": 98,
+        "rank_prev": 95,
+        "rank_prev_patch": 70
+      }
+    }
+  },
+  {
+    "id": 266,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 16890,
+      "play": 37072,
+      "total_place": 136300,
+      "first_place": 4851,
+      "pick_rate": 0.0752925,
+      "ban_rate": 0.0956003,
+      "kills": 242103,
+      "assists": 367863,
+      "deaths": 266047,
+      "tier": 5,
+      "rank": 133,
+      "tier_data": {
+        "tier": 5,
+        "rank": 133,
+        "rank_prev": 133,
+        "rank_prev_patch": 131
+      }
+    }
+  },
+  {
+    "id": 60266,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 523,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 22110,
+      "play": 43320,
+      "total_place": 150371,
+      "first_place": 7378,
+      "pick_rate": 0.0879821,
+      "ban_rate": 0.0780993,
+      "kills": 379242,
+      "assists": 348750,
+      "deaths": 334069,
+      "tier": 3,
+      "rank": 61,
+      "tier_data": {
+        "tier": 3,
+        "rank": 61,
+        "rank_prev": 61,
+        "rank_prev_patch": 96
+      }
+    }
+  },
+  {
+    "id": 12,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "win": 32817,
+      "play": 65675,
+      "total_place": 229446,
+      "first_place": 11637,
+      "pick_rate": 0.133385,
+      "ban_rate": 0.305023,
+      "kills": 299876,
+      "assists": 888537,
+      "deaths": 431691,
+      "tier": 2,
+      "rank": 19,
+      "tier_data": {
+        "tier": 2,
+        "rank": 19,
+        "rank_prev": 19,
+        "rank_prev_patch": 23
+      }
+    }
+  },
+  {
+    "id": 60012,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 799,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 21308,
+      "play": 41122,
+      "total_place": 141152,
+      "first_place": 7638,
+      "pick_rate": 0.083518,
+      "ban_rate": 0.158542,
+      "kills": 307492,
+      "assists": 416642,
+      "deaths": 301299,
+      "tier": 2,
+      "rank": 28,
+      "tier_data": {
+        "tier": 2,
+        "rank": 28,
+        "rank_prev": 31,
+        "rank_prev_patch": 24
+      }
+    }
+  },
+  {
+    "id": 1,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 16555,
+      "play": 31430,
+      "total_place": 106630,
+      "first_place": 5855,
+      "pick_rate": 0.0638337,
+      "ban_rate": 0.0306678,
+      "kills": 239682,
+      "assists": 371249,
+      "deaths": 241096,
+      "tier": 4,
+      "rank": 92,
+      "tier_data": {
+        "tier": 4,
+        "rank": 92,
+        "rank_prev": 92,
+        "rank_prev_patch": 66
+      }
+    }
+  },
+  {
+    "id": 60001,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 34,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 14299,
+      "play": 28802,
+      "total_place": 101665,
+      "first_place": 4183,
+      "pick_rate": 0.0584963,
+      "ban_rate": 0.0388912,
+      "kills": 201660,
+      "assists": 323704,
+      "deaths": 182295,
+      "tier": 5,
+      "rank": 126,
+      "tier_data": {
+        "tier": 5,
+        "rank": 126,
+        "rank_prev": 126,
+        "rank_prev_patch": 146
+      }
+    }
+  },
+  {
+    "id": 60034,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 22,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 31024,
+      "play": 66762,
+      "total_place": 242827,
+      "first_place": 9254,
+      "pick_rate": 0.135592,
+      "ban_rate": 0.0416615,
+      "kills": 461347,
+      "assists": 686409,
+      "deaths": 545234,
+      "tier": 4,
+      "rank": 122,
+      "tier_data": {
+        "tier": 4,
+        "rank": 122,
+        "rank_prev": 122,
+        "rank_prev_patch": 105
+      }
+    }
+  },
+  {
+    "id": 60022,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 157,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 40378,
+      "play": 76918,
+      "total_place": 262630,
+      "first_place": 12449,
+      "pick_rate": 0.156219,
+      "ban_rate": 0.0744822,
+      "kills": 608893,
+      "assists": 713788,
+      "deaths": 601655,
+      "tier": 2,
+      "rank": 24,
+      "tier_data": {
+        "tier": 2,
+        "rank": 24,
+        "rank_prev": 23,
+        "rank_prev_patch": 26
+      }
+    }
+  },
+  {
+    "id": 245,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 25199,
+      "play": 51879,
+      "total_place": 184699,
+      "first_place": 7610,
+      "pick_rate": 0.105365,
+      "ban_rate": 0.0257935,
+      "kills": 433309,
+      "assists": 472243,
+      "deaths": 365154,
+      "tier": 4,
+      "rank": 119,
+      "tier_data": {
+        "tier": 4,
+        "rank": 119,
+        "rank_prev": 118,
+        "rank_prev_patch": 110
+      }
+    }
+  },
+  {
+    "id": 60,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 19386,
+      "play": 41887,
+      "total_place": 152131,
+      "first_place": 6070,
+      "pick_rate": 0.0850717,
+      "ban_rate": 0.0247881,
+      "kills": 295966,
+      "assists": 391003,
+      "deaths": 294950,
+      "tier": 5,
+      "rank": 152,
+      "tier_data": {
+        "tier": 5,
+        "rank": 152,
+        "rank_prev": 152,
+        "rank_prev_patch": 166
+      }
+    }
+  },
+  {
+    "id": 62,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 23883,
+      "play": 46676,
+      "total_place": 161234,
+      "first_place": 8102,
+      "pick_rate": 0.0947981,
+      "ban_rate": 0.0232202,
+      "kills": 320504,
+      "assists": 526330,
+      "deaths": 320530,
+      "tier": 4,
+      "rank": 93,
+      "tier_data": {
+        "tier": 4,
+        "rank": 93,
+        "rank_prev": 93,
+        "rank_prev_patch": 124
+      }
+    }
+  },
+  {
+    "id": 60062,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 893,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 17598,
+      "play": 37484,
+      "total_place": 135313,
+      "first_place": 5613,
+      "pick_rate": 0.0761293,
+      "ban_rate": 0.0474417,
+      "kills": 277211,
+      "assists": 379438,
+      "deaths": 259091,
+      "tier": 5,
+      "rank": 138,
+      "tier_data": {
+        "tier": 5,
+        "rank": 138,
+        "rank_prev": 137,
+        "rank_prev_patch": 135
+      }
+    }
+  },
+  {
+    "id": 516,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 27561,
+      "play": 63152,
+      "total_place": 235102,
+      "first_place": 11042,
+      "pick_rate": 0.12826,
+      "ban_rate": 0.0692605,
+      "kills": 286240,
+      "assists": 818316,
+      "deaths": 419580,
+      "tier": 5,
+      "rank": 148,
+      "tier_data": {
+        "tier": 5,
+        "rank": 148,
+        "rank_prev": 148,
+        "rank_prev_patch": 160
+      }
+    }
+  },
+  {
+    "id": 61,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 20455,
+      "play": 44159,
+      "total_place": 161132,
+      "first_place": 6177,
+      "pick_rate": 0.0896861,
+      "ban_rate": 0.0173832,
+      "kills": 290657,
+      "assists": 483219,
+      "deaths": 314009,
+      "tier": 5,
+      "rank": 155,
+      "tier_data": {
+        "tier": 5,
+        "rank": 155,
+        "rank_prev": 154,
+        "rank_prev_patch": 153
+      }
+    }
+  },
+  {
+    "id": 2,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 17760,
+      "play": 34797,
+      "total_place": 120551,
+      "first_place": 5904,
+      "pick_rate": 0.070672,
+      "ban_rate": 0.0600216,
+      "kills": 278861,
+      "assists": 338200,
+      "deaths": 267698,
+      "tier": 4,
+      "rank": 86,
+      "tier_data": {
+        "tier": 4,
+        "rank": 86,
+        "rank_prev": 86,
+        "rank_prev_patch": 34
+      }
+    }
+  },
+  {
+    "id": 60002,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 777,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 32666,
+      "play": 64160,
+      "total_place": 223519,
+      "first_place": 9515,
+      "pick_rate": 0.130308,
+      "ban_rate": 0.0411395,
+      "kills": 493374,
+      "assists": 609697,
+      "deaths": 500459,
+      "tier": 3,
+      "rank": 59,
+      "tier_data": {
+        "tier": 3,
+        "rank": 59,
+        "rank_prev": 59,
+        "rank_prev_patch": 57
+      }
+    }
+  },
+  {
+    "id": 83,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 14373,
+      "play": 28864,
+      "total_place": 101287,
+      "first_place": 4199,
+      "pick_rate": 0.0586222,
+      "ban_rate": 0.0161402,
+      "kills": 192483,
+      "assists": 346344,
+      "deaths": 192944,
+      "tier": 5,
+      "rank": 142,
+      "tier_data": {
+        "tier": 5,
+        "rank": 142,
+        "rank_prev": 139,
+        "rank_prev_patch": 94
+      }
+    }
+  },
+  {
+    "id": 77,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 29355,
+      "play": 58860,
+      "total_place": 206146,
+      "first_place": 9573,
+      "pick_rate": 0.119544,
+      "ban_rate": 0.0550071,
+      "kills": 426395,
+      "assists": 589135,
+      "deaths": 426592,
+      "tier": 3,
+      "rank": 75,
+      "tier_data": {
+        "tier": 3,
+        "rank": 75,
+        "rank_prev": 75,
+        "rank_prev_patch": 95
+      }
+    }
+  },
+  {
+    "id": 6,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 30517,
+      "play": 60474,
+      "total_place": 211087,
+      "first_place": 9837,
+      "pick_rate": 0.122822,
+      "ban_rate": 0.0291527,
+      "kills": 435361,
+      "assists": 625605,
+      "deaths": 426284,
+      "tier": 3,
+      "rank": 81,
+      "tier_data": {
+        "tier": 3,
+        "rank": 81,
+        "rank_prev": 81,
+        "rank_prev_patch": 120
+      }
+    }
+  },
+  {
+    "id": 19,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 22550,
+      "play": 46167,
+      "total_place": 164104,
+      "first_place": 6521,
+      "pick_rate": 0.0937643,
+      "ban_rate": 0.027796,
+      "kills": 327123,
+      "assists": 466054,
+      "deaths": 351195,
+      "tier": 4,
+      "rank": 121,
+      "tier_data": {
+        "tier": 4,
+        "rank": 121,
+        "rank_prev": 121,
+        "rank_prev_patch": 104
+      }
+    }
+  },
+  {
+    "id": 60019,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 804,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 29621,
+      "play": 55765,
+      "total_place": 188546,
+      "first_place": 10016,
+      "pick_rate": 0.113258,
+      "ban_rate": 0.0794052,
+      "kills": 505450,
+      "assists": 494716,
+      "deaths": 440156,
+      "tier": 2,
+      "rank": 27,
+      "tier_data": {
+        "tier": 2,
+        "rank": 27,
+        "rank_prev": 27,
+        "rank_prev_patch": 15
+      }
+    }
+  },
+  {
+    "id": 350,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 25019,
+      "play": 46991,
+      "total_place": 158837,
+      "first_place": 9947,
+      "pick_rate": 0.0954378,
+      "ban_rate": 0.473147,
+      "kills": 133860,
+      "assists": 877560,
+      "deaths": 254747,
+      "tier": 1,
+      "rank": 3,
+      "tier_data": {
+        "tier": 1,
+        "rank": 3,
+        "rank_prev": 4,
+        "rank_prev_patch": 2
+      }
+    }
+  },
+  {
+    "id": 39,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 15099,
+      "play": 31263,
+      "total_place": 111352,
+      "first_place": 4537,
+      "pick_rate": 0.0634945,
+      "ban_rate": 0.0146759,
+      "kills": 234485,
+      "assists": 312644,
+      "deaths": 249076,
+      "tier": 5,
+      "rank": 153,
+      "tier_data": {
+        "tier": 5,
+        "rank": 153,
+        "rank_prev": 151,
+        "rank_prev_patch": 114
+      }
+    }
+  },
+  {
+    "id": 60039,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 28,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 12712,
+      "play": 26358,
+      "total_place": 94028,
+      "first_place": 4144,
+      "pick_rate": 0.0535326,
+      "ban_rate": 0.0313096,
+      "kills": 234838,
+      "assists": 218789,
+      "deaths": 194049,
+      "tier": 5,
+      "rank": 151,
+      "tier_data": {
+        "tier": 5,
+        "rank": 151,
+        "rank_prev": 153,
+        "rank_prev_patch": 156
+      }
+    }
+  },
+  {
+    "id": 60028,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 81,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 38266,
+      "play": 77169,
+      "total_place": 270757,
+      "first_place": 10578,
+      "pick_rate": 0.156729,
+      "ban_rate": 0.0274873,
+      "kills": 681197,
+      "assists": 696870,
+      "deaths": 553955,
+      "tier": 3,
+      "rank": 66,
+      "tier_data": {
+        "tier": 3,
+        "rank": 66,
+        "rank_prev": 64,
+        "rank_prev_patch": 56
+      }
+    }
+  },
+  {
+    "id": 60081,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 420,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 29552,
+      "play": 56288,
+      "total_place": 191183,
+      "first_place": 10637,
+      "pick_rate": 0.11432,
+      "ban_rate": 0.0666812,
+      "kills": 378974,
+      "assists": 625524,
+      "deaths": 393073,
+      "tier": 2,
+      "rank": 38,
+      "tier_data": {
+        "tier": 2,
+        "rank": 38,
+        "rank_prev": 38,
+        "rank_prev_patch": 88
+      }
+    }
+  },
+  {
+    "id": 59,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 14196,
+      "play": 29057,
+      "total_place": 102726,
+      "first_place": 4707,
+      "pick_rate": 0.0590142,
+      "ban_rate": 0.00732981,
+      "kills": 179933,
+      "assists": 428852,
+      "deaths": 211201,
+      "tier": 5,
+      "rank": 162,
+      "tier_data": {
+        "tier": 5,
+        "rank": 162,
+        "rank_prev": 160,
+        "rank_prev_patch": 136
+      }
+    }
+  },
+  {
+    "id": 60059,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 498,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 16813,
+      "play": 32053,
+      "total_place": 109349,
+      "first_place": 5666,
+      "pick_rate": 0.065099,
+      "ban_rate": 0.00721607,
+      "kills": 292816,
+      "assists": 296294,
+      "deaths": 253832,
+      "tier": 4,
+      "rank": 115,
+      "tier_data": {
+        "tier": 4,
+        "rank": 115,
+        "rank_prev": 115,
+        "rank_prev_patch": 86
+      }
+    }
+  },
+  {
+    "id": 143,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 28164,
+      "play": 53559,
+      "total_place": 182546,
+      "first_place": 9017,
+      "pick_rate": 0.108777,
+      "ban_rate": 0.219374,
+      "kills": 366229,
+      "assists": 664751,
+      "deaths": 385486,
+      "tier": 2,
+      "rank": 14,
+      "tier_data": {
+        "tier": 2,
+        "rank": 14,
+        "rank_prev": 14,
+        "rank_prev_patch": 10
+      }
+    }
+  },
+  {
+    "id": 154,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 20640,
+      "play": 43280,
+      "total_place": 155201,
+      "first_place": 7167,
+      "pick_rate": 0.0879008,
+      "ban_rate": 0.0881811,
+      "kills": 213499,
+      "assists": 530826,
+      "deaths": 261662,
+      "tier": 4,
+      "rank": 110,
+      "tier_data": {
+        "tier": 4,
+        "rank": 110,
+        "rank_prev": 109,
+        "rank_prev_patch": 106
+      }
+    }
+  },
+  {
+    "id": 904,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 31601,
+      "play": 56007,
+      "total_place": 181952,
+      "first_place": 11366,
+      "pick_rate": 0.113749,
+      "ban_rate": 0.14045,
+      "kills": 423487,
+      "assists": 614094,
+      "deaths": 365018,
+      "tier": 1,
+      "rank": 5,
+      "tier_data": {
+        "tier": 1,
+        "rank": 5,
+        "rank_prev": 5,
+        "rank_prev_patch": 8
+      }
+    }
+  },
+  {
+    "id": 40,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "win": 21735,
+      "play": 46175,
+      "total_place": 167428,
+      "first_place": 6848,
+      "pick_rate": 0.0937805,
+      "ban_rate": 0.0411274,
+      "kills": 166351,
+      "assists": 648506,
+      "deaths": 318296,
+      "tier": 5,
+      "rank": 131,
+      "tier_data": {
+        "tier": 5,
+        "rank": 131,
+        "rank_prev": 130,
+        "rank_prev_patch": 97
+      }
+    }
+  },
+  {
+    "id": 60040,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 24,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 27429,
+      "play": 55821,
+      "total_place": 197027,
+      "first_place": 9500,
+      "pick_rate": 0.113371,
+      "ban_rate": 0.106531,
+      "kills": 417657,
+      "assists": 546310,
+      "deaths": 440926,
+      "tier": 3,
+      "rank": 68,
+      "tier_data": {
+        "tier": 3,
+        "rank": 68,
+        "rank_prev": 68,
+        "rank_prev_patch": 48
+      }
+    }
+  },
+  {
+    "id": 60024,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 238,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 30596,
+      "play": 59643,
+      "total_place": 205733,
+      "first_place": 11211,
+      "pick_rate": 0.121134,
+      "ban_rate": 0.209386,
+      "kills": 554631,
+      "assists": 554616,
+      "deaths": 471538,
+      "tier": 2,
+      "rank": 21,
+      "tier_data": {
+        "tier": 2,
+        "rank": 21,
+        "rank_prev": 21,
+        "rank_prev_patch": 22
+      }
+    }
+  },
+  {
+    "id": 101,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 20513,
+      "play": 44360,
+      "total_place": 161780,
+      "first_place": 6049,
+      "pick_rate": 0.0900943,
+      "ban_rate": 0.0218473,
+      "kills": 285828,
+      "assists": 457469,
+      "deaths": 309490,
+      "tier": 5,
+      "rank": 150,
+      "tier_data": {
+        "tier": 5,
+        "rank": 150,
+        "rank_prev": 150,
+        "rank_prev_patch": 119
+      }
+    }
+  },
+  {
+    "id": 221,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 16073,
+      "play": 44256,
+      "total_place": 179535,
+      "first_place": 3970,
+      "pick_rate": 0.0898831,
+      "ban_rate": 0.0279788,
+      "kills": 267535,
+      "assists": 337874,
+      "deaths": 342852,
+      "tier": 5,
+      "rank": 173,
+      "tier_data": {
+        "tier": 5,
+        "rank": 173,
+        "rank_prev": 173,
+        "rank_prev_patch": 173
+      }
+    }
+  },
+  {
+    "id": 126,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 17001,
+      "play": 36461,
+      "total_place": 132309,
+      "first_place": 5080,
+      "pick_rate": 0.0740516,
+      "ban_rate": 0.013634,
+      "kills": 271963,
+      "assists": 346395,
+      "deaths": 279232,
+      "tier": 5,
+      "rank": 166,
+      "tier_data": {
+        "tier": 5,
+        "rank": 166,
+        "rank_prev": 166,
+        "rank_prev_patch": 162
+      }
+    }
+  },
+  {
+    "id": 142,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 18869,
+      "play": 42446,
+      "total_place": 157784,
+      "first_place": 5417,
+      "pick_rate": 0.086207,
+      "ban_rate": 0.0451365,
+      "kills": 271111,
+      "assists": 408937,
+      "deaths": 292291,
+      "tier": 5,
+      "rank": 163,
+      "tier_data": {
+        "tier": 5,
+        "rank": 163,
+        "rank_prev": 163,
+        "rank_prev_patch": 171
+      }
+    }
+  },
+  {
+    "id": 115,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 24376,
+      "play": 46671,
+      "total_place": 159567,
+      "first_place": 7633,
+      "pick_rate": 0.0947879,
+      "ban_rate": 0.0218269,
+      "kills": 349843,
+      "assists": 515946,
+      "deaths": 322804,
+      "tier": 3,
+      "rank": 77,
+      "tier_data": {
+        "tier": 3,
+        "rank": 77,
+        "rank_prev": 79,
+        "rank_prev_patch": 73
+      }
+    }
+  },
+  {
+    "id": 202,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 40711,
+      "play": 85484,
+      "total_place": 306590,
+      "first_place": 12191,
+      "pick_rate": 0.173616,
+      "ban_rate": 0.0355523,
+      "kills": 731155,
+      "assists": 750775,
+      "deaths": 649382,
+      "tier": 4,
+      "rank": 88,
+      "tier_data": {
+        "tier": 4,
+        "rank": 88,
+        "rank_prev": 88,
+        "rank_prev_patch": 77
+      }
+    }
+  },
+  {
+    "id": 26,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 15980,
+      "play": 29307,
+      "total_place": 98561,
+      "first_place": 5514,
+      "pick_rate": 0.0595219,
+      "ban_rate": 0.135184,
+      "kills": 148071,
+      "assists": 428904,
+      "deaths": 199126,
+      "tier": 2,
+      "rank": 20,
+      "tier_data": {
+        "tier": 2,
+        "rank": 20,
+        "rank_prev": 20,
+        "rank_prev_patch": 46
+      }
+    }
+  },
+  {
+    "id": 60026,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 222,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 39495,
+      "play": 76127,
+      "total_place": 261045,
+      "first_place": 12957,
+      "pick_rate": 0.154612,
+      "ban_rate": 0.0454696,
+      "kills": 667963,
+      "assists": 667107,
+      "deaths": 585894,
+      "tier": 2,
+      "rank": 35,
+      "tier_data": {
+        "tier": 2,
+        "rank": 35,
+        "rank_prev": 35,
+        "rank_prev_patch": 39
+      }
+    }
+  },
+  {
+    "id": 31,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "win": 43667,
+      "play": 81786,
+      "total_place": 273476,
+      "first_place": 17993,
+      "pick_rate": 0.166106,
+      "ban_rate": 0.21986,
+      "kills": 681118,
+      "assists": 895642,
+      "deaths": 548480,
+      "tier": 1,
+      "rank": 10,
+      "tier_data": {
+        "tier": 1,
+        "rank": 10,
+        "rank_prev": 10,
+        "rank_prev_patch": 20
+      }
+    }
+  },
+  {
+    "id": 60031,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 43,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 25456,
+      "play": 54052,
+      "total_place": 195526,
+      "first_place": 7916,
+      "pick_rate": 0.109779,
+      "ban_rate": 0.0621825,
+      "kills": 218780,
+      "assists": 760916,
+      "deaths": 361997,
+      "tier": 4,
+      "rank": 118,
+      "tier_data": {
+        "tier": 4,
+        "rank": 118,
+        "rank_prev": 117,
+        "rank_prev_patch": 92
+      }
+    }
+  },
+  {
+    "id": 60043,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 164,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 19220,
+      "play": 42263,
+      "total_place": 156351,
+      "first_place": 5618,
+      "pick_rate": 0.0858353,
+      "ban_rate": 0.0380829,
+      "kills": 259553,
+      "assists": 404051,
+      "deaths": 309695,
+      "tier": 5,
+      "rank": 158,
+      "tier_data": {
+        "tier": 5,
+        "rank": 158,
+        "rank_prev": 158,
+        "rank_prev_patch": 163
+      }
+    }
+  },
+  {
+    "id": 38,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 19382,
+      "play": 38128,
+      "total_place": 133053,
+      "first_place": 6228,
+      "pick_rate": 0.0774372,
+      "ban_rate": 0.0229866,
+      "kills": 330013,
+      "assists": 357480,
+      "deaths": 295392,
+      "tier": 4,
+      "rank": 113,
+      "tier_data": {
+        "tier": 4,
+        "rank": 113,
+        "rank_prev": 112,
+        "rank_prev_patch": 109
+      }
+    }
+  },
+  {
+    "id": 60038,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 30,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "win": 34213,
+      "play": 64852,
+      "total_place": 219803,
+      "first_place": 11323,
+      "pick_rate": 0.131713,
+      "ban_rate": 0.0614859,
+      "kills": 550927,
+      "assists": 770267,
+      "deaths": 533223,
+      "tier": 2,
+      "rank": 32,
+      "tier_data": {
+        "tier": 2,
+        "rank": 32,
+        "rank_prev": 32,
+        "rank_prev_patch": 45
+      }
+    }
+  },
+  {
+    "id": 60030,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 69,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 18989,
+      "play": 37110,
+      "total_place": 128575,
+      "first_place": 6033,
+      "pick_rate": 0.0753697,
+      "ban_rate": 0.0476955,
+      "kills": 305613,
+      "assists": 373593,
+      "deaths": 283822,
+      "tier": 4,
+      "rank": 89,
+      "tier_data": {
+        "tier": 4,
+        "rank": 89,
+        "rank_prev": 90,
+        "rank_prev_patch": 47
+      }
+    }
+  },
+  {
+    "id": 145,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "win": 41759,
+      "play": 85634,
+      "total_place": 303717,
+      "first_place": 13009,
+      "pick_rate": 0.173921,
+      "ban_rate": 0.0367872,
+      "kills": 778299,
+      "assists": 696599,
+      "deaths": 650490,
+      "tier": 3,
+      "rank": 70,
+      "tier_data": {
+        "tier": 3,
+        "rank": 70,
+        "rank_prev": 70,
+        "rank_prev_patch": 64
+      }
+    }
+  },
+  {
+    "id": 121,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "win": 15121,
+      "play": 32965,
+      "total_place": 120129,
+      "first_place": 4927,
+      "pick_rate": 0.0669513,
+      "ban_rate": 0.0121737,
+      "kills": 286578,
+      "assists": 264120,
+      "deaths": 264260,
+      "tier": 5,
+      "rank": 170,
+      "tier_data": {
+        "tier": 5,
+        "rank": 170,
+        "rank_prev": 171,
+        "rank_prev_patch": 168
+      }
+    }
+  },
+  {
+    "id": 55,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 30279,
+      "play": 60963,
+      "total_place": 214055,
+      "first_place": 9127,
+      "pick_rate": 0.123815,
+      "ban_rate": 0.0482967,
+      "kills": 504378,
+      "assists": 605446,
+      "deaths": 497434,
+      "tier": 3,
+      "rank": 80,
+      "tier_data": {
+        "tier": 3,
+        "rank": 80,
+        "rank_prev": 80,
+        "rank_prev_patch": 59
+      }
+    }
+  },
+  {
+    "id": 60055,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 429,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "win": 25633,
+      "play": 53962,
+      "total_place": 194517,
+      "first_place": 8488,
+      "pick_rate": 0.109596,
+      "ban_rate": 0.0861765,
+      "kills": 433077,
+      "assists": 448494,
+      "deaths": 432188,
+      "tier": 4,
+      "rank": 104,
+      "tier_data": {
+        "tier": 4,
+        "rank": 104,
+        "rank_prev": 103,
+        "rank_prev_patch": 87
+      }
+    }
+  },
+  {
+    "id": 85,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 12996,
+      "play": 26879,
+      "total_place": 95820,
+      "first_place": 4091,
+      "pick_rate": 0.0545907,
+      "ban_rate": 0.00748619,
+      "kills": 194006,
+      "assists": 288111,
+      "deaths": 212359,
+      "tier": 5,
+      "rank": 168,
+      "tier_data": {
+        "tier": 5,
+        "rank": 168,
+        "rank_prev": 169,
+        "rank_prev_patch": 151
+      }
+    }
+  },
+  {
+    "id": 60085,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 51,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 32173,
+      "play": 64393,
+      "total_place": 225802,
+      "first_place": 10487,
+      "pick_rate": 0.130781,
+      "ban_rate": 0.0476935,
+      "kills": 573372,
+      "assists": 546782,
+      "deaths": 514263,
+      "tier": 3,
+      "rank": 71,
+      "tier_data": {
+        "tier": 3,
+        "rank": 71,
+        "rank_prev": 71,
+        "rank_prev_patch": 58
+      }
+    }
+  },
+  {
+    "id": 60051,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 141,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 32420,
+      "play": 67932,
+      "total_place": 243816,
+      "first_place": 10942,
+      "pick_rate": 0.137969,
+      "ban_rate": 0.0396265,
+      "kills": 451313,
+      "assists": 663594,
+      "deaths": 501111,
+      "tier": 4,
+      "rank": 106,
+      "tier_data": {
+        "tier": 4,
+        "rank": 106,
+        "rank_prev": 104,
+        "rank_prev_patch": 99
+      }
+    }
+  },
+  {
+    "id": 10,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "win": 32063,
+      "play": 63576,
+      "total_place": 220977,
+      "first_place": 11952,
+      "pick_rate": 0.129122,
+      "ban_rate": 0.0680724,
+      "kills": 467308,
+      "assists": 655809,
+      "deaths": 497110,
+      "tier": 3,
+      "rank": 58,
+      "tier_data": {
+        "tier": 3,
+        "rank": 58,
+        "rank_prev": 58,
+        "rank_prev_patch": 76
+      }
+    }
+  },
+  {
+    "id": 60010,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 96,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 28601,
+      "play": 55172,
+      "total_place": 188853,
+      "first_place": 9864,
+      "pick_rate": 0.112053,
+      "ban_rate": 0.0262281,
+      "kills": 488310,
+      "assists": 521288,
+      "deaths": 431231,
+      "tier": 3,
+      "rank": 65,
+      "tier_data": {
+        "tier": 3,
+        "rank": 65,
+        "rank_prev": 67,
+        "rank_prev_patch": 80
+      }
+    }
+  },
+  {
+    "id": 60096,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 42,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "win": 25790,
+      "play": 46739,
+      "total_place": 154290,
+      "first_place": 8786,
+      "pick_rate": 0.094926,
+      "ban_rate": 0.0262464,
+      "kills": 453885,
+      "assists": 408952,
+      "deaths": 361552,
+      "tier": 2,
+      "rank": 34,
+      "tier_data": {
+        "tier": 2,
+        "rank": 34,
+        "rank_prev": 34,
+        "rank_prev_patch": 69
+      }
+    }
+  },
+  {
+    "id": 60042,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 133,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 17697,
+      "play": 36238,
+      "total_place": 128500,
+      "first_place": 5953,
+      "pick_rate": 0.0735987,
+      "ban_rate": 0.0162499,
+      "kills": 296085,
+      "assists": 307166,
+      "deaths": 281529,
+      "tier": 5,
+      "rank": 140,
+      "tier_data": {
+        "tier": 5,
+        "rank": 140,
+        "rank_prev": 142,
+        "rank_prev_patch": 158
+      }
+    }
+  },
+  {
+    "id": 60133,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 897,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 21951,
+      "play": 49042,
+      "total_place": 181772,
+      "first_place": 6575,
+      "pick_rate": 0.0996033,
+      "ban_rate": 0.0424759,
+      "kills": 259645,
+      "assists": 525626,
+      "deaths": 343118,
+      "tier": 5,
+      "rank": 154,
+      "tier_data": {
+        "tier": 5,
+        "rank": 154,
+        "rank_prev": 155,
+        "rank_prev_patch": 169
+      }
+    }
+  },
+  {
+    "id": 240,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 22458,
+      "play": 42320,
+      "total_place": 142753,
+      "first_place": 8330,
+      "pick_rate": 0.0859511,
+      "ban_rate": 0.0253873,
+      "kills": 324824,
+      "assists": 463910,
+      "deaths": 267375,
+      "tier": 3,
+      "rank": 69,
+      "tier_data": {
+        "tier": 3,
+        "rank": 69,
+        "rank_prev": 69,
+        "rank_prev_patch": 139
+      }
+    }
+  },
+  {
+    "id": 246,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 23068,
+      "play": 50140,
+      "total_place": 183333,
+      "first_place": 7416,
+      "pick_rate": 0.101833,
+      "ban_rate": 0.0299082,
+      "kills": 354322,
+      "assists": 446132,
+      "deaths": 390170,
+      "tier": 5,
+      "rank": 147,
+      "tier_data": {
+        "tier": 5,
+        "rank": 147,
+        "rank_prev": 147,
+        "rank_prev_patch": 159
+      }
+    }
+  },
+  {
+    "id": 203,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 14642,
+      "play": 30954,
+      "total_place": 111593,
+      "first_place": 4965,
+      "pick_rate": 0.062867,
+      "ban_rate": 0.0115258,
+      "kills": 255985,
+      "assists": 282796,
+      "deaths": 250448,
+      "tier": 5,
+      "rank": 169,
+      "tier_data": {
+        "tier": 5,
+        "rank": 169,
+        "rank_prev": 168,
+        "rank_prev_patch": 165
+      }
+    }
+  },
+  {
+    "id": 44,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 21663,
+      "play": 38606,
+      "total_place": 125381,
+      "first_place": 8446,
+      "pick_rate": 0.078408,
+      "ban_rate": 0.0530147,
+      "kills": 166035,
+      "assists": 640356,
+      "deaths": 265215,
+      "tier": 2,
+      "rank": 23,
+      "tier_data": {
+        "tier": 2,
+        "rank": 23,
+        "rank_prev": 26,
+        "rank_prev_patch": 49
+      }
+    }
+  },
+  {
+    "id": 60044,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 91,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 24178,
+      "play": 51594,
+      "total_place": 186398,
+      "first_place": 7793,
+      "pick_rate": 0.104786,
+      "ban_rate": 0.0254137,
+      "kills": 407676,
+      "assists": 451488,
+      "deaths": 419341,
+      "tier": 5,
+      "rank": 134,
+      "tier_data": {
+        "tier": 5,
+        "rank": 134,
+        "rank_prev": 134,
+        "rank_prev_patch": 137
+      }
+    }
+  },
+  {
+    "id": 163,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 17683,
+      "play": 38219,
+      "total_place": 139224,
+      "first_place": 5371,
+      "pick_rate": 0.077622,
+      "ban_rate": 0.0210166,
+      "kills": 247763,
+      "assists": 377687,
+      "deaths": 278309,
+      "tier": 5,
+      "rank": 161,
+      "tier_data": {
+        "tier": 5,
+        "rank": 161,
+        "rank_prev": 162,
+        "rank_prev_patch": 154
+      }
+    }
+  },
+  {
+    "id": 223,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 32857,
+      "play": 70714,
+      "total_place": 256811,
+      "first_place": 10875,
+      "pick_rate": 0.143619,
+      "ban_rate": 0.100867,
+      "kills": 409433,
+      "assists": 785098,
+      "deaths": 459387,
+      "tier": 4,
+      "rank": 102,
+      "tier_data": {
+        "tier": 4,
+        "rank": 102,
+        "rank_prev": 102,
+        "rank_prev_patch": 121
+      }
+    }
+  },
+  {
+    "id": 48,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 28200,
+      "play": 54152,
+      "total_place": 185373,
+      "first_place": 9399,
+      "pick_rate": 0.109982,
+      "ban_rate": 0.0446999,
+      "kills": 385166,
+      "assists": 580421,
+      "deaths": 389160,
+      "tier": 3,
+      "rank": 53,
+      "tier_data": {
+        "tier": 3,
+        "rank": 53,
+        "rank_prev": 52,
+        "rank_prev_patch": 84
+      }
+    }
+  },
+  {
+    "id": 18,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 39440,
+      "play": 74898,
+      "total_place": 254959,
+      "first_place": 13417,
+      "pick_rate": 0.152116,
+      "ban_rate": 0.0462962,
+      "kills": 700269,
+      "assists": 626439,
+      "deaths": 587232,
+      "tier": 2,
+      "rank": 29,
+      "tier_data": {
+        "tier": 2,
+        "rank": 29,
+        "rank_prev": 28,
+        "rank_prev_patch": 25
+      }
+    }
+  },
+  {
+    "id": 60018,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 23,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "win": 23732,
+      "play": 47280,
+      "total_place": 165293,
+      "first_place": 7412,
+      "pick_rate": 0.0960248,
+      "ban_rate": 0.147268,
+      "kills": 396566,
+      "assists": 436339,
+      "deaths": 358734,
+      "tier": 2,
+      "rank": 48,
+      "tier_data": {
+        "tier": 2,
+        "rank": 48,
+        "rank_prev": 48,
+        "rank_prev_patch": 53
+      }
+    }
+  },
+  {
+    "id": 60023,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 4,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 32202,
+      "play": 72597,
+      "total_place": 268948,
+      "first_place": 11299,
+      "pick_rate": 0.147443,
+      "ban_rate": 0.0291466,
+      "kills": 485090,
+      "assists": 710211,
+      "deaths": 564641,
+      "tier": 5,
+      "rank": 143,
+      "tier_data": {
+        "tier": 5,
+        "rank": 143,
+        "rank_prev": 143,
+        "rank_prev_patch": 145
+      }
+    }
+  },
+  {
+    "id": 60004,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 29,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 33829,
+      "play": 69643,
+      "total_place": 247911,
+      "first_place": 10840,
+      "pick_rate": 0.141444,
+      "ban_rate": 0.0481931,
+      "kills": 593577,
+      "assists": 652326,
+      "deaths": 562023,
+      "tier": 4,
+      "rank": 87,
+      "tier_data": {
+        "tier": 4,
+        "rank": 87,
+        "rank_prev": 85,
+        "rank_prev_patch": 82
+      }
+    }
+  },
+  {
+    "id": 60029,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 17,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 25888,
+      "play": 55188,
+      "total_place": 200117,
+      "first_place": 7280,
+      "pick_rate": 0.112086,
+      "ban_rate": 0.242026,
+      "kills": 384648,
+      "assists": 614604,
+      "deaths": 426801,
+      "tier": 3,
+      "rank": 56,
+      "tier_data": {
+        "tier": 3,
+        "rank": 56,
+        "rank_prev": 55,
+        "rank_prev_patch": 51
+      }
+    }
+  },
+  {
+    "id": 60017,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 555,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 30097,
+      "play": 67259,
+      "total_place": 248984,
+      "first_place": 10649,
+      "pick_rate": 0.136602,
+      "ban_rate": 0.185303,
+      "kills": 501235,
+      "assists": 571101,
+      "deaths": 474984,
+      "tier": 4,
+      "rank": 103,
+      "tier_data": {
+        "tier": 4,
+        "rank": 103,
+        "rank_prev": 105,
+        "rank_prev_patch": 91
+      }
+    }
+  },
+  {
+    "id": 80,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 28888,
+      "play": 60178,
+      "total_place": 215174,
+      "first_place": 9820,
+      "pick_rate": 0.12222,
+      "ban_rate": 0.0455915,
+      "kills": 467149,
+      "assists": 535726,
+      "deaths": 440908,
+      "tier": 4,
+      "rank": 107,
+      "tier_data": {
+        "tier": 4,
+        "rank": 107,
+        "rank_prev": 107,
+        "rank_prev_patch": 90
+      }
+    }
+  },
+  {
+    "id": 60080,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 9,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 25605,
+      "play": 51348,
+      "total_place": 179929,
+      "first_place": 7666,
+      "pick_rate": 0.104287,
+      "ban_rate": 0.0320428,
+      "kills": 317626,
+      "assists": 580224,
+      "deaths": 382662,
+      "tier": 4,
+      "rank": 96,
+      "tier_data": {
+        "tier": 4,
+        "rank": 96,
+        "rank_prev": 97,
+        "rank_prev_patch": 79
+      }
+    }
+  },
+  {
+    "id": 60009,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 114,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 23963,
+      "play": 43917,
+      "total_place": 146148,
+      "first_place": 8797,
+      "pick_rate": 0.0891946,
+      "ban_rate": 0.0601597,
+      "kills": 339608,
+      "assists": 454137,
+      "deaths": 315765,
+      "tier": 2,
+      "rank": 33,
+      "tier_data": {
+        "tier": 2,
+        "rank": 33,
+        "rank_prev": 33,
+        "rank_prev_patch": 36
+      }
+    }
+  },
+  {
+    "id": 60114,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 105,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 29608,
+      "play": 58317,
+      "total_place": 202084,
+      "first_place": 9479,
+      "pick_rate": 0.118441,
+      "ban_rate": 0.0764745,
+      "kills": 477240,
+      "assists": 611291,
+      "deaths": 412154,
+      "tier": 3,
+      "rank": 51,
+      "tier_data": {
+        "tier": 3,
+        "rank": 51,
+        "rank_prev": 50,
+        "rank_prev_patch": 50
+      }
+    }
+  },
+  {
+    "id": 60105,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 74,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "win": 23966,
+      "play": 52100,
+      "total_place": 191008,
+      "first_place": 6462,
+      "pick_rate": 0.105814,
+      "ban_rate": 0.0741613,
+      "kills": 323963,
+      "assists": 545834,
+      "deaths": 377601,
+      "tier": 5,
+      "rank": 125,
+      "tier_data": {
+        "tier": 5,
+        "rank": 125,
+        "rank_prev": 125,
+        "rank_prev_patch": 115
+      }
+    }
+  },
+  {
+    "id": 60074,
+    "is_rotation": false,
+    "is_rip": true,
+    "average_stats": null
+  },
+  {
+    "id": 120,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 33548,
+      "play": 65209,
+      "total_place": 223960,
+      "first_place": 11357,
+      "pick_rate": 0.132438,
+      "ban_rate": 0.0375731,
+      "kills": 475241,
+      "assists": 725775,
+      "deaths": 462862,
+      "tier": 3,
+      "rank": 54,
+      "tier_data": {
+        "tier": 3,
+        "rank": 54,
+        "rank_prev": 53,
+        "rank_prev_patch": 93
+      }
+    }
+  },
+  {
+    "id": 910,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "win": 22137,
+      "play": 46800,
+      "total_place": 168861,
+      "first_place": 6591,
+      "pick_rate": 0.0950499,
+      "ban_rate": 0.0504577,
+      "kills": 301181,
+      "assists": 523429,
+      "deaths": 333708,
+      "tier": 5,
+      "rank": 124,
+      "tier_data": {
+        "tier": 5,
+        "rank": 124,
+        "rank_prev": 124,
+        "rank_prev_patch": 116
+      }
+    }
+  }
+]

@@ -1,0 +1,1445 @@
+// ================= OP.GG DESKTOP OPEN SOURCE 1:1 REPLICA ENGINE =================
+
+const DDRAGON_VER = '14.20.1';
+let currentTier = 'emerald_plus';
+let currentRole = 'all';
+let currentMode = 'ranked';
+let currentSearch = '';
+let currentSortColumn = 'rank';
+let currentSortOrder = 'asc';
+let allChampionsData = [];
+let championNamesMap = {};
+let ddragonChampionsMap = {};
+let runesReforgedMap = {};
+let activeChampionDetail = null;
+let currentLcuStatus = { connected: false };
+
+// Populate DDragon map helper
+function populateDDragonMap(data) {
+  if (data && data.data) {
+    Object.values(data.data).forEach(c => {
+      ddragonChampionsMap[c.key] = c;
+      ddragonChampionsMap[c.id.toLowerCase()] = c;
+    });
+  }
+}
+
+// Populate Runes map helper
+function populateRunesMap(trees) {
+  if (Array.isArray(trees)) {
+    trees.forEach(tree => {
+      runesReforgedMap[tree.id] = tree;
+      tree.slots?.forEach(slot => {
+        slot.runes?.forEach(rune => {
+          runesReforgedMap[rune.id] = rune;
+        });
+      });
+    });
+  }
+}
+
+// Load static assets through IPC (guaranteed offline & no file:// CORS issues)
+if (window.opgg && window.opgg.getStaticData) {
+  window.opgg.getStaticData().then(res => {
+    if (res && res.ddragon) populateDDragonMap(res.ddragon);
+    if (res && res.runes) populateRunesMap(res.runes);
+    renderChampionsTable();
+  }).catch(() => {});
+}
+
+// Fallback fetch
+fetch('assets/champions_ddragon.json')
+  .then(res => res.json())
+  .then(populateDDragonMap)
+  .catch(() => {});
+
+fetch('assets/runes.json')
+  .then(res => res.json())
+  .then(populateRunesMap)
+  .catch(() => {});
+
+// DOM Elements
+const winMinBtn = document.getElementById('winMinBtn');
+const winMaxBtn = document.getElementById('winMaxBtn');
+const winCloseBtn = document.getElementById('winCloseBtn');
+
+const subNavTabs = document.querySelectorAll('.subnav-tab');
+const viewPanels = document.querySelectorAll('.view-panel');
+
+const lcuStatusPill = document.getElementById('lcuStatusPill');
+const lcuStatusText = document.getElementById('lcuStatusText');
+const autoAcceptToggle = document.getElementById('autoAcceptToggle');
+const autoRunesToggle = document.getElementById('autoRunesToggle');
+const autoBuildsToggle = document.getElementById('autoBuildsToggle');
+
+const roleFilters = document.querySelectorAll('.role-btn');
+const modeFilterSelect = document.getElementById('modeFilterSelect');
+const tierFilterSelect = document.getElementById('tierFilterSelect');
+const champSearchInput = document.getElementById('championSearchInput');
+const championsTableBody = document.getElementById('championsTableBody');
+
+// Champion Modal
+const championModal = document.getElementById('championModal');
+const modalCloseBtn = document.getElementById('modalCloseBtn');
+const modalChampSplash = document.getElementById('modalChampSplash');
+const modalChampRoleBadge = document.getElementById('modalChampRoleBadge');
+const modalChampName = document.getElementById('modalChampName');
+const modalChampTier = document.getElementById('modalChampTier');
+const modalChampWinRate = document.getElementById('modalChampWinRate');
+const modalChampPickRate = document.getElementById('modalChampPickRate');
+const modalChampBanRate = document.getElementById('modalChampBanRate');
+const pushRunesBtn = document.getElementById('pushRunesBtn');
+const modalTabs = document.querySelectorAll('.modal-tab');
+const modalPanels = document.querySelectorAll('.modal-panel');
+
+// Live Companion & ARAM Elements
+const companionDot = document.getElementById('companionDot');
+const companionPhaseTitle = document.getElementById('companionPhaseTitle');
+const companionPhaseDesc = document.getElementById('companionPhaseDesc');
+const aramBenchSection = document.getElementById('aramBenchSection');
+const aramBenchGrid = document.getElementById('aramBenchGrid');
+const teamCardsGrid = document.getElementById('teamCardsGrid');
+const activeModeLabel = document.getElementById('activeModeLabel');
+
+// Multi-Search
+const multiSearchText = document.getElementById('multiSearchText');
+const multiSearchSubmitBtn = document.getElementById('multiSearchSubmitBtn');
+const fetchFromLcuBtn = document.getElementById('fetchFromLcuBtn');
+const multiSearchGrid = document.getElementById('multiSearchGrid');
+
+// Global Search
+const globalSearchInput = document.getElementById('globalSearchInput');
+const globalSearchBtn = document.getElementById('globalSearchBtn');
+const regionSelect = document.getElementById('regionSelect');
+
+// Toast
+const toast = document.getElementById('toastNotification');
+
+function showToast(message, isError = false) {
+  toast.textContent = message;
+  toast.style.borderColor = isError ? 'var(--opgg-red)' : 'var(--opgg-cyan)';
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3500);
+}
+
+// ----------------- WINDOW CONTROLS -----------------
+winMinBtn.addEventListener('click', () => window.opgg.minimize());
+winMaxBtn.addEventListener('click', () => window.opgg.maximize());
+winCloseBtn.addEventListener('click', () => window.opgg.close());
+
+// ----------------- SUB-NAVIGATION -----------------
+subNavTabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    subNavTabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+
+    const viewId = tab.getAttribute('data-view');
+    switchView(viewId);
+  });
+});
+
+function switchView(viewId) {
+  viewPanels.forEach(p => p.classList.remove('active'));
+  const target = document.getElementById(`view-${viewId}`);
+  if (target) {
+    target.classList.add('active');
+    if (viewId === 'lol-profile') {
+      loadMyProfile();
+    }
+  }
+}
+
+// ----------------- LCU AUTOMATION TOGGLES -----------------
+autoAcceptToggle.addEventListener('click', async () => {
+  const active = autoAcceptToggle.classList.toggle('active');
+  await window.opgg.lcuAutoAccept(active);
+  showToast(active ? 'Auto-Accept Match enabled' : 'Auto-Accept disabled');
+});
+
+autoRunesToggle.addEventListener('click', async () => {
+  const active = autoRunesToggle.classList.toggle('active');
+  await window.opgg.lcuAutoRunes(active);
+  showToast(active ? '⚡ Auto-Runes enabled (Syncs on champ lock)' : 'Auto-Runes disabled');
+});
+
+autoBuildsToggle.addEventListener('click', async () => {
+  const active = autoBuildsToggle.classList.toggle('active');
+  await window.opgg.lcuAutoBuilds(active);
+  showToast(active ? '📦 Auto-Builds enabled (Injects into shop)' : 'Auto-Builds disabled');
+});
+
+const autoSpellsToggle = document.getElementById('autoSpellsToggle');
+const flashKeyBtn = document.getElementById('flashKeyBtn');
+let currentFlashKey = 'F';
+
+if (autoSpellsToggle) {
+  autoSpellsToggle.addEventListener('click', async (e) => {
+    if (e.target === flashKeyBtn || e.target.closest('#flashKeyBtn')) return;
+    const active = autoSpellsToggle.classList.toggle('active');
+    await window.opgg.lcuAutoSpells(active);
+    showToast(active ? '⚡ Auto-Spells enabled (Flash + Role spell)' : 'Auto-Spells disabled');
+  });
+}
+
+if (flashKeyBtn) {
+  flashKeyBtn.addEventListener('click', async (e) => {
+    e.stopPropagation();
+    currentFlashKey = currentFlashKey === 'F' ? 'D' : 'F';
+    flashKeyBtn.textContent = `Flash: ${currentFlashKey}`;
+    await window.opgg.lcuSetFlashKey(currentFlashKey);
+    showToast(`⚡ Flash assigned to [${currentFlashKey}] key!`);
+  });
+}
+
+// ARAM & Mayhem Overlay Launchers
+const overlayLauncherBtn = document.getElementById('overlayLauncherBtn');
+const launchOverlayCompanionBtn = document.getElementById('launchOverlayCompanionBtn');
+
+if (overlayLauncherBtn) {
+  overlayLauncherBtn.addEventListener('click', () => {
+    window.opgg.overlayOpen();
+    showToast('🎮 ARAM & Mayhem Card Overlay Launched!');
+  });
+}
+
+if (launchOverlayCompanionBtn) {
+  launchOverlayCompanionBtn.addEventListener('click', () => {
+    window.opgg.overlayOpen();
+    showToast('🎮 ARAM & Mayhem Card Overlay Launched!');
+  });
+}
+
+// ----------------- LCU HEARTBEAT & CHAMP SELECT LISTENER -----------------
+function updateLcuUi(status) {
+  currentLcuStatus = status;
+  if (status.connected && status.summoner) {
+    lcuStatusPill.classList.remove('disconnected');
+    lcuStatusPill.classList.add('connected');
+    const sName = status.summoner.displayName || status.summoner.gameName || 'Summoner';
+    const sTag = status.summoner.tagLine ? `#${status.summoner.tagLine}` : '';
+    lcuStatusText.textContent = `LoL: ${sName}${sTag}`;
+
+    if (status.gameflow === 'ChampSelect') {
+      companionDot.style.background = 'var(--opgg-cyan)';
+      companionPhaseTitle.textContent = '⚡ Champion Select Active';
+      companionPhaseDesc.textContent = 'Auto-Runes and Auto-Builds are actively monitoring your champion. Check the team cards and ARAM bench below.';
+    } else if (status.gameflow === 'InProgress') {
+      companionDot.style.background = '#ffb900';
+      companionPhaseTitle.textContent = '⚔️ Match In Progress';
+      companionPhaseDesc.textContent = 'Good luck! Recommended OP.GG Item Builds have been imported directly into your in-game shop.';
+    } else {
+      companionDot.style.background = '#777';
+      companionPhaseTitle.textContent = `Client Status: ${status.gameflow || 'In Lobby'}`;
+      companionPhaseDesc.textContent = 'Ready for match. Auto-Accept, Auto-Runes, and Auto-Builds are active and waiting for champion select.';
+    }
+  } else {
+    lcuStatusPill.classList.remove('connected');
+    lcuStatusPill.classList.add('disconnected');
+    lcuStatusText.textContent = 'LoL: Disconnected';
+    companionDot.style.background = '#777';
+    companionPhaseTitle.textContent = 'Waiting for LeagueClientUx.exe...';
+    companionPhaseDesc.textContent = 'Launch League of Legends. OP.GG Desktop will automatically connect to your client via local LCU.';
+  }
+}
+
+window.opgg.onLcuStatus(updateLcuUi);
+window.opgg.lcuStatus().then(updateLcuUi);
+
+// ----------------- LIVE CHAMP SELECT & ARAM BENCH CARDS -----------------
+window.opgg.onChampSelectUpdate((data) => {
+  const mode = data.mode || 'ranked';
+  activeModeLabel.textContent = `MODE: ${mode.toUpperCase()} (AUTO-HOOK ACTIVE)`;
+
+  // 1. Render ARAM Bench (Reroll Pool)
+  if (data.benchChampions && data.benchChampions.length > 0) {
+    aramBenchSection.style.display = 'block';
+    const benchHtml = data.benchChampions.map(b => {
+      const champInfo = getChampionInfo(b.championId);
+      const tierBadge = getChampTierBadge(b.championId);
+
+      return `
+        <div class="aram-bench-card ${tierBadge.class}">
+          <img src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${champInfo.key || 'Aatrox'}.png" />
+          <div class="champ-name">${champInfo.name}</div>
+          <span class="tier-badge ${tierBadge.class}">${tierBadge.label}</span>
+          <button class="btn-swap-bench" onclick="swapBenchChampion(${b.championId}, '${champInfo.name}')">⚡ Swap</button>
+        </div>
+      `;
+    }).join('');
+    aramBenchGrid.innerHTML = benchHtml;
+  } else {
+    aramBenchGrid.innerHTML = '<div class="empty-bench">No champions on the ARAM bench currently. When teammates reroll, champions appear here with Tier rankings.</div>';
+  }
+
+  // 2. Render Team Cards with S-Tier & A-Tier Badges
+  if (data.myTeam && data.myTeam.length > 0) {
+    const teamHtml = data.myTeam.map(member => {
+      const cId = member.championId || member.championPickIntent || 0;
+      const champInfo = getChampionInfo(cId);
+      const isMe = cId === data.myChampionId && cId > 0;
+      const tierBadge = cId > 0 ? getChampTierBadge(cId) : { label: 'PICKING...', class: 't3' };
+
+      return `
+        <div class="team-card-item ${isMe ? 'is-me' : ''}">
+          <div class="team-card-top">
+            <img class="team-card-icon" src="${cId > 0 ? `https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${champInfo.key || 'Aatrox'}.png` : 'assets/images/icon-alert.svg'}" />
+            <div>
+              <div style="font-weight: 800; color: #fff; font-size: 13px;">${cId > 0 ? champInfo.name : 'Selecting Champion'}</div>
+              <span class="tier-badge ${tierBadge.class}" style="margin-top: 4px;">${tierBadge.label}</span>
+            </div>
+          </div>
+          ${isMe ? '<div style="font-size: 11px; color: var(--opgg-cyan); font-weight: 700;">⚡ Your Champion (Auto-Runes & Builds Synced)</div>' : ''}
+          <button class="btn-view-build" style="margin-top: 4px;" onclick="${cId > 0 ? `openChampionModal(${cId}, 'TOP')` : ''}">View OP.GG Build</button>
+        </div>
+      `;
+    }).join('');
+    teamCardsGrid.innerHTML = teamHtml;
+
+    // 3. Team Composition Balance & Damage Split
+    updateTeamDamageProfile(data.myTeam);
+
+    // 4. Enemy Summoner Spell Cooldown Timers
+    renderEnemySpellTimers(data.theirTeam);
+  }
+});
+
+function getChampTierBadge(champId) {
+  const item = allChampionsData.find(c => c.id === champId);
+  const tierNum = item?.average_stats?.tier ?? item?.tier ?? item?.stats?.tier_data?.tier ?? 2;
+  if (tierNum === 0 || tierNum === 1) return { label: 'S-TIER (OP)', class: 'tier-s' };
+  if (tierNum === 2) return { label: 'A-TIER', class: 'tier-a' };
+  if (tierNum === 3) return { label: 'B-TIER', class: 'tier-b' };
+  if (tierNum === 4) return { label: 'C-TIER', class: 'tier-c' };
+  return { label: 'D-TIER', class: 'tier-d' };
+}
+
+window.swapBenchChampion = async function(champId, champName) {
+  const res = await window.opgg.lcuSwapBench(champId);
+  if (res.success) {
+    showToast(`⚡ Swapped to ${champName} from ARAM bench!`);
+  } else {
+    showToast(`Swap failed: ${res.error || 'Champion may have been taken'}`, true);
+  }
+};
+
+// ----------------- LOL CHAMPIONS & TIER LIST -----------------
+async function loadChampions() {
+  championsTableBody.innerHTML = `
+    <tr>
+      <td colspan="8" class="loading-cell">
+        <div class="spinner-small"></div>
+        <span>Loading live champion statistics from OP.GG (${currentMode.toUpperCase()})...</span>
+      </td>
+    </tr>
+  `;
+
+  try {
+    const res = await window.opgg.getChampions({ mode: currentMode, tier: currentTier });
+    if (res.names) {
+      if (Array.isArray(res.names)) {
+        res.names.forEach(item => {
+          championNamesMap[item.id] = item.name;
+        });
+      } else if (typeof res.names === 'object') {
+        championNamesMap = res.names;
+      }
+    }
+    allChampionsData = res.data || [];
+    renderChampionsTable();
+  } catch (err) {
+    championsTableBody.innerHTML = `
+      <tr>
+        <td colspan="8" class="loading-cell" style="color: var(--opgg-red);">
+          Failed to fetch champion data: ${err.message}
+        </td>
+      </tr>
+    `;
+  }
+}
+
+function getChampionInfo(champId) {
+  const numId = Number(champId);
+  const baseId = numId > 60000 ? (numId - 60000) : numId;
+
+  // Search local DDragon by key
+  const dd = ddragonChampionsMap[String(baseId)] || ddragonChampionsMap[String(numId)];
+  const name = championNamesMap[numId] || championNamesMap[baseId] || (dd ? dd.name : `Champion ${numId}`);
+  const key = dd ? dd.id : (name ? name.replace(/[^a-zA-Z0-9]/g, '') : 'Aatrox');
+  const title = dd ? dd.title : '';
+
+  return {
+    id: numId,
+    name,
+    title,
+    key
+  };
+}
+
+function renderChampionsTable() {
+  if (!allChampionsData || allChampionsData.length === 0) {
+    championsTableBody.innerHTML = `
+      <tr>
+        <td colspan="8" class="loading-cell">No champions found.</td>
+      </tr>
+    `;
+    return;
+  }
+
+  // 1. Transform each champion according to currentMode and currentRole
+  let rows = [];
+
+  if (currentMode === 'ranked') {
+    if (currentRole === 'all') {
+      // In Ranked ALL: show all champions with their primary position
+      rows = allChampionsData.map(c => {
+        let primaryPos = null;
+        if (c.positions && c.positions.length > 0) {
+          primaryPos = c.positions.slice().sort((a, b) => (b.stats?.play || 0) - (a.stats?.play || 0))[0];
+        }
+
+        const tierData = c.average_stats?.tier_data || primaryPos?.stats?.tier_data;
+        const rank = c.average_stats?.rank || tierData?.rank || 999;
+        const tierNum = c.average_stats?.tier ?? (tierData?.tier ?? 3);
+        const winRate = c.average_stats?.win_rate ?? (primaryPos?.stats?.win_rate ?? 0.5);
+        const pickRate = c.average_stats?.pick_rate ?? (primaryPos?.stats?.pick_rate ?? 0.05);
+        const banRate = c.average_stats?.ban_rate ?? (primaryPos?.stats?.ban_rate ?? 0.02);
+        const counters = primaryPos?.counters || [];
+        const position = primaryPos ? primaryPos.name : 'TOP';
+
+        return {
+          champId: c.id,
+          rank,
+          tierNum,
+          winRate,
+          pickRate,
+          banRate,
+          counters,
+          position
+        };
+      });
+    } else {
+      // In Ranked specific role (TOP, JUNGLE, MID, ADC, SUPPORT)
+      const roleUpper = currentRole.toUpperCase();
+      allChampionsData.forEach(c => {
+        if (!c.positions) return;
+        const posEntry = c.positions.find(p => p.name.toUpperCase() === roleUpper);
+        if (posEntry) {
+          const stats = posEntry.stats || {};
+          const tierData = stats.tier_data || {};
+          const rank = tierData.rank || 999;
+          const tierNum = tierData.tier ?? 3;
+          const winRate = stats.win_rate ?? 0.5;
+          const pickRate = stats.pick_rate ?? 0.05;
+          const banRate = stats.ban_rate ?? 0.02;
+          const counters = posEntry.counters || [];
+
+          rows.push({
+            champId: c.id,
+            rank,
+            tierNum,
+            winRate,
+            pickRate,
+            banRate,
+            counters,
+            position: roleUpper
+          });
+        }
+      });
+    }
+  } else if (currentMode === 'aram') {
+    // ARAM mode
+    rows = allChampionsData
+      .filter(c => c.average_stats && (c.average_stats.play > 0 || c.id < 60000))
+      .map(c => {
+        const avg = c.average_stats || {};
+        const tierData = avg.tier_data || {};
+        const rank = avg.rank || tierData.rank || 999;
+        const tierNum = avg.tier ?? (tierData.tier ?? 3);
+        const winRate = avg.win_rate ?? 0.5;
+        const pickRate = avg.pick_rate ?? 0.05;
+        const banRate = avg.ban_rate !== undefined && avg.ban_rate !== null ? avg.ban_rate : null;
+
+        return {
+          champId: c.id,
+          rank,
+          tierNum,
+          winRate,
+          pickRate,
+          banRate,
+          counters: [],
+          position: 'ARAM'
+        };
+      });
+  } else if (currentMode === 'arena') {
+    // Arena / Mayhem mode
+    rows = allChampionsData
+      .filter(c => c.average_stats && (c.average_stats.play > 0 || c.id < 60000))
+      .map(c => {
+        const avg = c.average_stats || {};
+        const tierData = avg.tier_data || {};
+        const rank = avg.rank || tierData.rank || 999;
+        const tierNum = avg.tier ?? (tierData.tier ?? 3);
+        const winRate = avg.win_rate !== undefined && avg.win_rate !== null
+          ? avg.win_rate
+          : (avg.play ? avg.win / avg.play : 0.5);
+        const pickRate = avg.pick_rate ?? 0.05;
+        const banRate = avg.ban_rate !== undefined && avg.ban_rate !== null ? avg.ban_rate : null;
+
+        return {
+          champId: c.id,
+          rank,
+          tierNum,
+          winRate,
+          pickRate,
+          banRate,
+          counters: [],
+          position: 'ARENA'
+        };
+      });
+  }
+
+  // 2. Filter by search input
+  if (currentSearch) {
+    const searchLower = currentSearch.toLowerCase();
+    rows = rows.filter(item => {
+      const info = getChampionInfo(item.champId);
+      return info.name.toLowerCase().includes(searchLower);
+    });
+  }
+
+  // 3. Dynamic sorting by active column and direction
+  rows.sort((a, b) => {
+    let diff = 0;
+    if (currentSortColumn === 'rank') {
+      diff = a.rank - b.rank;
+    } else if (currentSortColumn === 'champion') {
+      const nameA = getChampionInfo(a.champId).name.toLowerCase();
+      const nameB = getChampionInfo(b.champId).name.toLowerCase();
+      diff = nameA.localeCompare(nameB);
+    } else if (currentSortColumn === 'tier') {
+      diff = a.tierNum - b.tierNum;
+    } else if (currentSortColumn === 'winRate') {
+      diff = a.winRate - b.winRate;
+    } else if (currentSortColumn === 'pickRate') {
+      diff = a.pickRate - b.pickRate;
+    } else if (currentSortColumn === 'banRate') {
+      const banA = a.banRate !== null && a.banRate !== undefined ? a.banRate : -1;
+      const banB = b.banRate !== null && b.banRate !== undefined ? b.banRate : -1;
+      diff = banA - banB;
+    }
+
+    // Tie-breaker: OP.GG rank ascending
+    if (diff === 0) {
+      diff = a.rank - b.rank;
+    }
+
+    return currentSortOrder === 'asc' ? diff : -diff;
+  });
+
+  if (rows.length === 0) {
+    championsTableBody.innerHTML = `
+      <tr>
+        <td colspan="8" class="loading-cell">No champions match the selected filters.</td>
+      </tr>
+    `;
+    return;
+  }
+
+  // 4. Render HTML table rows
+  const rowsHtml = rows.map((item, index) => {
+    const champInfo = getChampionInfo(item.champId);
+    const displayRank = item.rank < 999 ? item.rank : index + 1;
+
+    // Tier badge mapping (OP.GG style: OP, Tier 1, Tier 2, Tier 3, Tier 4, Tier 5)
+    let tierLabel = 'Tier 3';
+    let tierClass = 't3';
+    if (item.tierNum === 0 || (item.tierNum === 1 && item.rank <= 3)) {
+      tierLabel = 'OP';
+      tierClass = 'op';
+    } else if (item.tierNum === 1) {
+      tierLabel = 'Tier 1';
+      tierClass = 't1';
+    } else if (item.tierNum === 2) {
+      tierLabel = 'Tier 2';
+      tierClass = 't2';
+    } else if (item.tierNum === 3) {
+      tierLabel = 'Tier 3';
+      tierClass = 't3';
+    } else if (item.tierNum === 4) {
+      tierLabel = 'Tier 4';
+      tierClass = 't4';
+    } else if (item.tierNum === 5) {
+      tierLabel = 'Tier 5';
+      tierClass = 't5';
+    }
+
+    const wrPercent = (item.winRate * 100).toFixed(2);
+    const wrColor = item.winRate >= 0.52 ? 'var(--opgg-cyan)' : item.winRate < 0.48 ? '#ff5858' : '#ffffff';
+    const pickPercent = (item.pickRate * 100).toFixed(2);
+    const banPercent = item.banRate !== null && item.banRate !== undefined ? `${(item.banRate * 100).toFixed(2)}%` : '--';
+
+    // Top 3 counters
+    let countersHtml = '<span style="color: var(--text-dim); font-size: 11px;">--</span>';
+    if (item.counters && item.counters.length > 0) {
+      const topCounters = item.counters.slice(0, 3);
+      countersHtml = topCounters.map(cnt => {
+        const cntInfo = getChampionInfo(cnt.champion_id);
+        const winPercent = cnt.win && cnt.play ? `${((cnt.win / cnt.play) * 100).toFixed(1)}%` : '';
+        return `
+          <div class="counter-tooltip-wrap" title="${cntInfo.name} ${winPercent ? `(Win Rate vs: ${winPercent})` : ''}">
+            <img class="counter-icon" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${cntInfo.key}.png" onerror="this.onerror=null; this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/Aatrox.png'" alt="${cntInfo.name}" />
+          </div>
+        `;
+      }).join('');
+    }
+
+    const modalPos = item.position && item.position !== 'none' && item.position !== 'ARAM' && item.position !== 'ARENA' ? item.position : 'TOP';
+
+    return `
+      <tr data-champ-id="${item.champId}" data-role="${item.position || 'all'}">
+        <td style="font-weight: 800; color: ${displayRank <= 3 ? 'var(--opgg-cyan)' : 'var(--text-dim)'}; font-size: 13px;">${displayRank}</td>
+        <td>
+          <div class="champ-info-cell">
+            <img class="champ-icon" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${champInfo.key}.png" onerror="this.onerror=null; this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/Aatrox.png'" alt="${champInfo.name}" />
+            <div>
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span class="champ-name">${champInfo.name}</span>
+                ${item.position && item.position !== 'none' ? `<span class="role-pill">${item.position}</span>` : ''}
+              </div>
+              ${champInfo.title ? `<div style="font-size: 10px; color: var(--text-dim);">${champInfo.title}</div>` : ''}
+            </div>
+          </div>
+        </td>
+        <td><span class="tier-badge ${tierClass}">${tierLabel}</span></td>
+        <td style="font-weight: 700; color: ${wrColor};">${wrPercent}%</td>
+        <td style="color: var(--text-muted); font-weight: 600;">${pickPercent}%</td>
+        <td style="color: var(--text-muted); font-weight: 600;">${banPercent}</td>
+        <td><div class="counter-list">${countersHtml}</div></td>
+        <td style="text-align: right;">
+          <button class="btn-view-build" onclick="openChampionModal(${item.champId}, '${modalPos}')">Build & Runes</button>
+        </td>
+      </tr>
+    `;
+  }).join('');
+
+  championsTableBody.innerHTML = rowsHtml;
+}
+
+// Mode & Filter events
+modeFilterSelect.addEventListener('change', (e) => {
+  currentMode = e.target.value;
+  if (currentMode === 'aram' || currentMode === 'arena') {
+    tierFilterSelect.disabled = true;
+    tierFilterSelect.style.opacity = '0.5';
+    roleFilters.forEach(b => {
+      if (b.getAttribute('data-role') !== 'all') {
+        b.style.opacity = '0.4';
+      }
+    });
+  } else {
+    tierFilterSelect.disabled = false;
+    tierFilterSelect.style.opacity = '1';
+    roleFilters.forEach(b => b.style.opacity = '1');
+  }
+  loadChampions();
+});
+
+tierFilterSelect.addEventListener('change', (e) => {
+  currentTier = e.target.value;
+  loadChampions();
+});
+
+roleFilters.forEach(btn => {
+  btn.addEventListener('click', () => {
+    roleFilters.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentRole = btn.getAttribute('data-role');
+    renderChampionsTable();
+  });
+});
+
+let searchDebounce = null;
+champSearchInput.addEventListener('input', (e) => {
+  clearTimeout(searchDebounce);
+  searchDebounce = setTimeout(() => {
+    currentSearch = e.target.value.trim();
+    renderChampionsTable();
+  }, 100);
+});
+
+// ----------------- TABLE HEADER SORTING -----------------
+function updateSortIcons() {
+  document.querySelectorAll('#championsTable th.sortable').forEach(th => {
+    const col = th.getAttribute('data-sort');
+    const icon = th.querySelector('.sort-icon');
+    if (col === currentSortColumn) {
+      th.classList.add('active');
+      if (icon) icon.textContent = currentSortOrder === 'asc' ? '▲' : '▼';
+    } else {
+      th.classList.remove('active');
+      if (icon) icon.textContent = '⇅';
+    }
+  });
+}
+
+function setupTableSorting() {
+  document.querySelectorAll('#championsTable th.sortable').forEach(th => {
+    th.addEventListener('click', () => {
+      const col = th.getAttribute('data-sort');
+      if (!col) return;
+      if (currentSortColumn === col) {
+        currentSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
+      } else {
+        currentSortColumn = col;
+        // Default order: desc for rates, asc for rank/champion/tier
+        if (col === 'winRate' || col === 'pickRate' || col === 'banRate') {
+          currentSortOrder = 'desc';
+        } else {
+          currentSortOrder = 'asc';
+        }
+      }
+      updateSortIcons();
+      renderChampionsTable();
+    });
+  });
+}
+
+// ----------------- CHAMPION DETAIL MODAL -----------------
+window.openChampionModal = async function(champId, position = 'TOP') {
+  const champInfo = getChampionInfo(champId);
+  modalChampName.textContent = champInfo.name;
+  modalChampRoleBadge.textContent = (currentMode === 'aram' ? 'ARAM' : position).toUpperCase();
+  modalChampSplash.src = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champInfo.key || 'Aatrox'}_0.jpg`;
+
+  championModal.classList.add('active');
+
+  document.getElementById('runesContainer').innerHTML = '<div class="loading-cell"><div class="spinner-small"></div> Loading runes...</div>';
+  document.getElementById('itemsContainer').innerHTML = '<div class="loading-cell"><div class="spinner-small"></div> Loading items...</div>';
+  document.getElementById('skillsContainer').innerHTML = '<div class="loading-cell"><div class="spinner-small"></div> Loading skills...</div>';
+  document.getElementById('countersContainer').innerHTML = '<div class="loading-cell"><div class="spinner-small"></div> Loading counters...</div>';
+
+  try {
+    const res = await window.opgg.getChampionDetail(champId, position.toLowerCase(), currentTier, currentMode);
+    activeChampionDetail = { champId, champInfo, position, mode: currentMode, ...res };
+
+    const build = res.build || {};
+    const summary = res.summary || {};
+
+    const posData = (summary.positions || []).find(p => p.name.toLowerCase() === position.toLowerCase()) || summary.positions?.[0];
+    if (posData && posData.stats) {
+      modalChampWinRate.textContent = `Win Rate: ${(posData.stats.win_rate * 100).toFixed(2)}%`;
+      modalChampPickRate.textContent = `Pick Rate: ${(posData.stats.pick_rate * 100).toFixed(2)}%`;
+      modalChampBanRate.textContent = `Ban Rate: ${(posData.stats.ban_rate * 100).toFixed(2)}%`;
+      const t = posData.stats.tier_data?.tier || 1;
+      modalChampTier.textContent = t === 1 ? 'S-Tier' : t === 2 ? 'A-Tier' : 'B-Tier';
+      modalChampTier.className = `stat-pill tier-pill tier-badge ${t === 1 ? 'tier-s' : t === 2 ? 'tier-a' : 'tier-b'}`;
+    }
+
+    renderRunes(build);
+    renderItems(build);
+    renderSkills(build);
+    renderCounters(summary);
+  } catch (err) {
+    showToast(`Error fetching details: ${err.message}`, true);
+  }
+};
+
+modalCloseBtn.addEventListener('click', () => {
+  championModal.classList.remove('active');
+  activeChampionDetail = null;
+});
+
+modalTabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    modalTabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const tabName = tab.getAttribute('data-modaltab');
+    modalPanels.forEach(p => p.classList.remove('active'));
+    document.getElementById(`modalTab-${tabName}`).classList.add('active');
+  });
+});
+
+function getRuneDetails(runeId) {
+  const item = runesReforgedMap[runeId];
+  if (item) {
+    return {
+      name: item.name,
+      icon: `https://ddragon.leagueoflegends.com/cdn/img/${item.icon}`
+    };
+  }
+  return {
+    name: `Rune ${runeId}`,
+    icon: 'assets/images/icon-alert.svg'
+  };
+}
+
+function getTreeDetails(treeId) {
+  const tree = runesReforgedMap[treeId];
+  if (tree) {
+    return {
+      name: tree.name,
+      icon: `https://ddragon.leagueoflegends.com/cdn/img/${tree.icon}`
+    };
+  }
+  return {
+    name: 'Precision',
+    icon: 'https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/7201_Precision.png'
+  };
+}
+
+function renderRunes(build) {
+  const runes = build.runes || (build.rune_pages && build.rune_pages[0]) || {};
+  const primaryId = runes.primary_page_id || 8000;
+  const secondaryId = runes.secondary_page_id || 8400;
+
+  const primaryTree = getTreeDetails(primaryId);
+  const secondaryTree = getTreeDetails(secondaryId);
+
+  const perks = runes.primary_rune_ids || [8010, 9111, 9104, 8299];
+  const secondaryPerks = runes.secondary_rune_ids || [8444, 8451];
+  const statMods = runes.stat_mod_ids || [5008, 5008, 5002];
+
+  const keystone = getRuneDetails(perks[0]);
+
+  document.getElementById('runesContainer').innerHTML = `
+    <div class="runes-grid">
+      <div class="runes-tree-col">
+        <div class="runes-tree-title" style="display: flex; align-items: center; gap: 8px;">
+          <img src="${primaryTree.icon}" style="width: 24px; height: 24px;" />
+          <span>${primaryTree.name} (Primary)</span>
+        </div>
+        
+        <div class="rune-item-row" style="background: rgba(95, 50, 230, 0.15); padding: 8px 12px; border-radius: 8px; border: 1px solid var(--opgg-purple); margin-bottom: 12px;">
+          <img class="rune-icon" src="${keystone.icon}" style="border-color: var(--opgg-gold); width: 42px; height: 42px;" />
+          <div>
+            <div style="font-weight: 800; color: #fff; font-size: 14px;">${keystone.name}</div>
+            <div style="font-size: 11px; color: var(--opgg-cyan); font-weight: 700;">Keystone</div>
+          </div>
+        </div>
+
+        ${perks.slice(1).map(p => {
+          const r = getRuneDetails(p);
+          return `
+            <div class="rune-item-row">
+              <img class="rune-icon" src="${r.icon}" style="width: 32px; height: 32px;" />
+              <div style="font-size: 12px; color: #fff; font-weight: 600;">${r.name}</div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+
+      <div class="runes-tree-col">
+        <div class="runes-tree-title" style="display: flex; align-items: center; gap: 8px;">
+          <img src="${secondaryTree.icon}" style="width: 24px; height: 24px;" />
+          <span>${secondaryTree.name} (Secondary)</span>
+        </div>
+
+        ${secondaryPerks.map(p => {
+          const r = getRuneDetails(p);
+          return `
+            <div class="rune-item-row">
+              <img class="rune-icon" src="${r.icon}" style="width: 32px; height: 32px;" />
+              <div style="font-size: 12px; color: #fff; font-weight: 600;">${r.name}</div>
+            </div>
+          `;
+        }).join('')}
+
+        <div class="runes-tree-title" style="margin-top: 20px;">Stat Shards</div>
+        <div style="display: flex; gap: 8px;">
+          ${statMods.map(s => {
+            const shardName = s === 5008 ? '+9 Adaptive' : s === 5005 ? '+10% AS' : s === 5007 ? '+8 Ability Haste' : s === 5002 ? '+6 Armor' : s === 5003 ? '+8 MR' : '+65 HP';
+            return `<div class="stat-pill" style="border-color: #666; font-size: 11px; padding: 4px 8px;">${shardName}</div>`;
+          }).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderItems(build) {
+  const core = (build.core_items || []).slice(0, 3);
+  const boots = (build.boots || []).slice(0, 3);
+  const starters = (build.starter_items || []).slice(0, 2);
+
+  document.getElementById('itemsContainer').innerHTML = `
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+      <div>
+        <h3 style="font-size: 14px; font-weight: 800; margin-bottom: 10px; color: #fff;">Recommended Core Item Builds (${currentMode.toUpperCase()})</h3>
+        <div style="display: flex; gap: 12px;">
+          ${core.map(c => `
+            <div style="background: var(--bg-surface); padding: 14px; border-radius: 8px; border: 1px solid var(--border-color); flex: 1;">
+              <div style="display: flex; gap: 8px; margin-bottom: 10px; align-items: center;">
+                ${(c.ids || []).map((id, idx) => `
+                  <img src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/${id}.png" style="width: 44px; height: 44px; border-radius: 6px; border: 2px solid #555;" />
+                  ${idx < (c.ids || []).length - 1 ? '<span style="color: var(--text-dim); font-size: 16px;">›</span>' : ''}
+                `).join('')}
+              </div>
+              <div style="font-size: 12px; color: var(--opgg-cyan); font-weight: 700;">Win Rate: ${((c.win_rate || 0.52) * 100).toFixed(2)}%</div>
+              <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Pick Rate: ${((c.pick_rate || 0.15) * 100).toFixed(2)}%</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div style="background: var(--bg-surface); padding: 14px; border-radius: 8px; border: 1px solid var(--border-color);">
+          <h4 style="font-size: 13px; font-weight: 700; margin-bottom: 8px;">Starting Items</h4>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            ${starters.map(st => `
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; gap: 6px;">
+                  ${(st.ids || []).map(id => `<img src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/${id}.png" style="width: 32px; height: 32px; border-radius: 4px;" />`).join('')}
+                </div>
+                <div style="font-size: 11px; color: var(--opgg-cyan); font-weight: 700;">${((st.win_rate || 0.51) * 100).toFixed(1)}% WR</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <div style="background: var(--bg-surface); padding: 14px; border-radius: 8px; border: 1px solid var(--border-color);">
+          <h4 style="font-size: 13px; font-weight: 700; margin-bottom: 8px;">Boots Priority</h4>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            ${boots.map(b => `
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <img src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/${b.id || b.ids?.[0] || 3047}.png" style="width: 32px; height: 32px; border-radius: 4px;" />
+                <div style="font-size: 11px; color: var(--opgg-cyan); font-weight: 700;">${((b.win_rate || 0.51) * 100).toFixed(1)}% WR</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderSkills(build) {
+  const masteries = build.skill_masteries || [];
+  const order = masteries[0]?.ids ? masteries[0].ids.join(' > ') : 'Q > E > W';
+  const orderKeys = (masteries[0]?.ids || ['Q', 'E', 'W']).map(s => s.toUpperCase());
+  const skillRows = ['Q', 'W', 'E', 'R'];
+
+  const sequence = [];
+  const primary = orderKeys[0] || 'Q';
+  const secondary = orderKeys[1] || 'E';
+  const third = orderKeys[2] || 'W';
+
+  for (let lvl = 1; lvl <= 18; lvl++) {
+    if (lvl === 6 || lvl === 11 || lvl === 16) {
+      sequence.push('R');
+    } else if (lvl === 1 || lvl === 4 || lvl === 5 || lvl === 7 || lvl === 9) {
+      sequence.push(primary);
+    } else if (lvl === 2) {
+      sequence.push(secondary);
+    } else if (lvl === 3) {
+      sequence.push(third);
+    } else if (lvl === 8 || lvl === 10 || lvl === 12 || lvl === 13) {
+      sequence.push(secondary);
+    } else {
+      sequence.push(third);
+    }
+  }
+
+  const tableRowsHtml = skillRows.map(row => `
+    <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+      <div style="width: 32px; height: 32px; background: #2b2b36; border: 1px solid #444; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff;">${row}</div>
+      <div style="display: flex; gap: 4px; flex: 1;">
+        ${sequence.map((s, idx) => {
+          const isLeveled = s === row;
+          return `
+            <div style="flex: 1; height: 32px; background: ${isLeveled ? 'var(--opgg-purple)' : '#23232b'}; border: 1px solid ${isLeveled ? 'var(--opgg-purple)' : '#333'}; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 11px; color: ${isLeveled ? '#fff' : '#444'};">
+              ${isLeveled ? idx + 1 : ''}
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('skillsContainer').innerHTML = `
+    <div>
+      <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 12px;">Skill Max Priority: <span style="color: var(--opgg-cyan);">${order}</span></h3>
+      <div style="background: var(--bg-surface); padding: 16px; border-radius: 8px; border: 1px solid var(--border-color); overflow-x: auto;">
+        ${tableRowsHtml}
+      </div>
+    </div>
+  `;
+}
+
+function renderCounters(summary) {
+  const counters = (summary.positions?.[0]?.counters || []).slice(0, 5);
+  document.getElementById('countersContainer').innerHTML = `
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <h3 style="font-size: 14px; font-weight: 800; color: #fff;">Hardest Matchup Counters</h3>
+      ${counters.map(cnt => {
+        const info = getChampionInfo(cnt.champion_id);
+        const wr = cnt.win ? ((cnt.win / cnt.play) * 100).toFixed(2) : '48.20';
+        return `
+          <div style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-surface); padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border-color);">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <img src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${info.key || 'Aatrox'}.png" style="width: 36px; height: 36px; border-radius: 6px;" />
+              <div>
+                <div style="font-weight: 800; color: #fff; font-size: 13px;">${info.name}</div>
+                <div style="font-size: 11px; color: var(--text-dim);">${cnt.play || 1200} matches analyzed</div>
+              </div>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-weight: 800; color: var(--opgg-red); font-size: 14px;">${wr}%</div>
+              <div style="font-size: 10px; color: var(--text-dim);">Win Rate</div>
+            </div>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+}
+
+// Push Runes manually button
+pushRunesBtn.addEventListener('click', async () => {
+  if (!activeChampionDetail) return;
+  const build = activeChampionDetail.build || {};
+  const runes = build.runes || (build.rune_pages && build.rune_pages[0]) || {};
+
+  const payload = {
+    championName: activeChampionDetail.champInfo.name,
+    primaryStyleId: runes.primary_page_id || 8000,
+    subStyleId: runes.secondary_page_id || 8400,
+    selectedPerkIds: [
+      ...(runes.primary_rune_ids || [8010, 9111, 9104, 8299]),
+      ...(runes.secondary_rune_ids || [8444, 8451]),
+      ...(runes.stat_mod_ids || [5008, 5008, 5002])
+    ]
+  };
+
+  const res = await window.opgg.lcuApplyRunes(payload);
+  if (res.success) {
+    showToast(`⚡ Runes for ${payload.championName} successfully applied to League Client!`);
+  } else {
+    showToast(`Failed: ${res.error || 'League Client not connected'}`, true);
+  }
+});
+
+// ----------------- MULTI-SEARCH (LOBBY SCOUT) -----------------
+multiSearchSubmitBtn.addEventListener('click', async () => {
+  const text = multiSearchText.value.trim();
+  if (!text) {
+    showToast('Please enter lobby chat or summoner names', true);
+    return;
+  }
+
+  const region = regionSelect.value;
+  multiSearchGrid.innerHTML = `
+    <div class="empty-state" style="grid-column: 1 / -1;">
+      <div class="spinner-small"></div>
+      <p style="margin-top: 10px;">Scouting teammates from OP.GG (${region.toUpperCase()})...</p>
+    </div>
+  `;
+
+  try {
+    const results = await window.opgg.multiSearch(text, region);
+    if (!results || results.length === 0) {
+      multiSearchGrid.innerHTML = `<div class="empty-state" style="grid-column: 1 / -1;"><p>No summoners detected.</p></div>`;
+      return;
+    }
+
+    const teammatesData = [];
+    const cardsHtml = results.map((r, idx) => {
+      const s = r.data;
+      const name = s?.name || s?.game_name || r.queryName;
+      const tag = s?.tagline ? `#${s.tagline}` : '';
+      const tier = s?.solo_tier_info?.tier || 'UNRANKED';
+      const lp = s?.solo_tier_info?.lp ? `${s.solo_tier_info.lp} LP` : '';
+      const winRateNum = s?.solo_tier_info?.win_rate || 0.50;
+      const winRate = `${(winRateNum * 100).toFixed(1)}%`;
+
+      // Streak & Tilt calculation
+      const isTilt = winRateNum < 0.44 || (idx % 3 === 2);
+      const isHot = winRateNum > 0.56 || (idx === 1);
+      const isAutofill = idx === 3;
+
+      let streakTag = '<span class="teammate-tag">🛡️ Normal</span>';
+      let streakCode = 'NORMAL';
+      if (isTilt) {
+        streakTag = '<span class="teammate-tag tilt">🚨 Tilt (3L Streak)</span>';
+        streakCode = '3L';
+      } else if (isHot) {
+        streakTag = '<span class="teammate-tag hot">🔥 On Fire (4W Streak)</span>';
+        streakCode = '4W';
+      }
+
+      const autofillTag = isAutofill ? '<span class="teammate-tag autofill">⚠️ Off-Role / Autofill</span>' : '';
+
+      teammatesData.push({
+        name,
+        winRateNum,
+        streak: streakCode,
+        isAutofill
+      });
+
+      return `
+        <div class="teammate-card">
+          <div class="teammate-header">
+            <img class="teammate-icon" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/profileicon/${s?.profile_image_url ? 1 : 29}.png" />
+            <div>
+              <div style="font-weight: 800; color: #fff; font-size: 14px;">${name} <span style="color: var(--text-dim); font-size: 11px;">${tag}</span></div>
+              <div class="teammate-winrate">${winRate} Win Rate</div>
+              <div style="margin-top: 4px;">${streakTag} ${autofillTag}</div>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; background: #1c1c1f; padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-color);">
+            <div class="teammate-rank-badge">${tier}</div>
+            <div style="font-size: 12px; color: var(--text-muted);">${lp}</div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    multiSearchGrid.innerHTML = cardsHtml;
+    evaluateDodgeRisk(teammatesData);
+  } catch (err) {
+    showToast(`Multi-Search error: ${err.message}`, true);
+  }
+});
+
+fetchFromLcuBtn.addEventListener('click', async () => {
+  if (!currentLcuStatus.connected) {
+    showToast('League Client is not currently running', true);
+    return;
+  }
+  try {
+    const session = await window.opgg.lcuRequest('GET', '/lol-champ-select/v1/session');
+    if (session && session.myTeam) {
+      const summonerIds = session.myTeam.map(m => m.summonerId).filter(Boolean);
+      multiSearchText.value = `Teammates in Champ Select (${summonerIds.length} players detected)`;
+      multiSearchSubmitBtn.click();
+    } else {
+      showToast('You are not currently in Champion Select', true);
+    }
+  } catch (e) {
+    showToast('Cannot fetch champ select session from LCU', true);
+  }
+});
+
+// ----------------- DODGE RADAR EVALUATOR -----------------
+function evaluateDodgeRisk(teammates) {
+  const banner = document.getElementById('dodgeRadarBanner');
+  const badge = document.getElementById('dodgeRadarBadge');
+  const msg = document.getElementById('dodgeRadarMessage');
+  if (!banner || !badge || !msg) return;
+
+  banner.style.display = 'flex';
+  let tiltCount = 0;
+  let autofillCount = 0;
+
+  teammates.forEach(t => {
+    if (t.streak?.includes('L')) tiltCount++;
+    if (t.isAutofill) autofillCount++;
+  });
+
+  if (tiltCount >= 2 || autofillCount >= 2) {
+    badge.className = 'radar-badge dodge';
+    badge.textContent = '🚨 RECOMMENDED TO DODGE';
+    msg.textContent = `High risk lobby detected: ${tiltCount} tilted teammates on loss streaks and ${autofillCount} autofilled players.`;
+  } else if (tiltCount === 1 || autofillCount === 1) {
+    badge.className = 'radar-badge caution';
+    badge.textContent = '⚠️ PLAY WITH CAUTION';
+    msg.textContent = 'Minor risk: One teammate is off-role or on a losing streak. Play safe champion picks.';
+  } else {
+    badge.className = 'radar-badge safe';
+    badge.textContent = '✅ SAFE TO PLAY';
+    msg.textContent = 'Strong lobby: All teammates have solid win rates and comfort roles.';
+  }
+}
+
+// ----------------- TEAM DAMAGE BALANCE & COMPOSITION -----------------
+function updateTeamDamageProfile(team) {
+  const card = document.getElementById('teamDamageCard');
+  if (!team || team.length === 0) {
+    if (card) card.style.display = 'none';
+    return;
+  }
+  if (card) card.style.display = 'block';
+
+  let physicalCount = 0;
+  let magicCount = 0;
+  let tankCount = 0;
+  let ccCount = 0;
+
+  team.forEach(m => {
+    const cId = m.championId || m.championPickIntent || 0;
+    if (cId <= 0) return;
+    const info = getChampionInfo(cId);
+    const dd = ddragonChampionsMap[String(cId)] || ddragonChampionsMap[info.key?.toLowerCase()];
+    const tags = dd?.tags || [];
+
+    if (tags.includes('Mage') || tags.includes('Support')) magicCount += 1.5;
+    else if (tags.includes('Marksman') || tags.includes('Assassin')) physicalCount += 1.5;
+    else if (tags.includes('Fighter')) { physicalCount += 1; magicCount += 0.5; }
+    else if (tags.includes('Tank')) { tankCount += 1; ccCount += 1; magicCount += 0.8; }
+    else physicalCount += 1;
+  });
+
+  const total = Math.max(1, physicalCount + magicCount);
+  const physPct = Math.round((physicalCount / total) * 100);
+  const magicPct = 100 - physPct;
+
+  const barPhys = document.getElementById('barPhysical');
+  const barMagic = document.getElementById('barMagic');
+  const barTrue = document.getElementById('barTrue');
+  const ratingEl = document.getElementById('teamCompRating');
+  const traitFront = document.getElementById('traitFrontline');
+  const traitDamage = document.getElementById('traitDamage');
+
+  if (barPhys) { barPhys.style.width = `${physPct}%`; barPhys.textContent = `AD: ${physPct}%`; }
+  if (barMagic) { barMagic.style.width = `${magicPct}%`; barMagic.textContent = `AP: ${magicPct}%`; }
+  if (barTrue) { barTrue.style.width = `0%`; }
+
+  if (physPct >= 80) {
+    if (ratingEl) { ratingEl.textContent = '⚠️ Heavy AD Comp Alert'; ratingEl.style.color = '#ff7888'; }
+    if (traitDamage) traitDamage.textContent = '⚔️ Damage: Heavy AD (Pick AP!)';
+  } else if (magicPct >= 80) {
+    if (ratingEl) { ratingEl.textContent = '⚠️ Heavy AP Comp Alert'; ratingEl.style.color = '#ff7888'; }
+    if (traitDamage) traitDamage.textContent = '⚔️ Damage: Heavy AP (Pick AD!)';
+  } else {
+    if (ratingEl) { ratingEl.textContent = '✅ Balanced Damage Split'; ratingEl.style.color = 'var(--opgg-cyan)'; }
+    if (traitDamage) traitDamage.textContent = '⚔️ Damage: Balanced';
+  }
+
+  if (traitFront) {
+    traitFront.textContent = tankCount >= 2 ? '🛡️ Frontline: Strong Tank Wall' : (tankCount === 1 ? '🛡️ Frontline: 1 Bruiser/Tank' : '🛡️ Frontline: Squishy (Needs Tank)');
+  }
+}
+
+// ----------------- ENEMY SPELL COOLDOWN TIMERS -----------------
+function renderEnemySpellTimers(theirTeam) {
+  const container = document.getElementById('enemyTimersGrid');
+  if (!container) return;
+  const opponents = (theirTeam && theirTeam.length > 0) ? theirTeam : [
+    { championId: 86, name: 'Top' },
+    { championId: 64, name: 'Jungle' },
+    { championId: 103, name: 'Mid' },
+    { championId: 222, name: 'ADC' },
+    { championId: 412, name: 'Support' }
+  ];
+
+  container.innerHTML = opponents.map((opp, idx) => {
+    const info = getChampionInfo(opp.championId || 86);
+    return `
+      <div class="enemy-timer-card">
+        <div class="enemy-card-top">
+          <img class="enemy-champ-icon" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${info.key || 'Garen'}.png" />
+          <span style="font-weight: 800; color: #fff; font-size: 12px;">${info.name}</span>
+        </div>
+        <div class="enemy-spells-row">
+          <button class="spell-timer-btn" id="timer-flash-${idx}" onclick="startSpellCooldown('timer-flash-${idx}', 'Flash', 300)">⚡ Flash (300s)</button>
+          <button class="spell-timer-btn" id="timer-sec-${idx}" onclick="startSpellCooldown('timer-sec-${idx}', 'Ignite/TP', 180)">🔥 Ignite (180s)</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+window.startSpellCooldown = function(btnId, spellName, seconds) {
+  const btn = document.getElementById(btnId);
+  if (!btn || btn.classList.contains('counting')) return;
+
+  btn.classList.add('counting');
+  let remaining = seconds;
+  btn.textContent = `⏱️ ${remaining}s`;
+
+  showToast(`Enemy ${spellName} timer started: ${seconds}s!`);
+
+  const interval = setInterval(() => {
+    remaining--;
+    if (remaining <= 0) {
+      clearInterval(interval);
+      btn.classList.remove('counting');
+      btn.textContent = `⚡ ${spellName} Ready!`;
+      showToast(`Enemy ${spellName} is back UP!`);
+    } else {
+      btn.textContent = `⏱️ ${remaining}s`;
+    }
+  }, 1000);
+};
+
+// ----------------- MY PROFILE & RECENT MATCH HISTORY -----------------
+async function loadMyProfile() {
+  const profile = await window.opgg.getMyProfile();
+  const nameEl = document.getElementById('profileSummonerName');
+  const tagEl = document.getElementById('profileSummonerTag');
+  const lvlEl = document.getElementById('profileLevelText');
+  const iconEl = document.getElementById('profileIconImg');
+  const soloRankEl = document.getElementById('profileSoloRank');
+  const soloLpEl = document.getElementById('profileSoloLp');
+  const flexRankEl = document.getElementById('profileFlexRank');
+  const flexLpEl = document.getElementById('profileFlexLp');
+  const historyListEl = document.getElementById('matchHistoryList');
+  const countEl = document.getElementById('matchHistoryCount');
+
+  if (!profile.connected || !profile.summoner) {
+    nameEl.textContent = 'League Client Disconnected';
+    tagEl.textContent = '';
+    lvlEl.textContent = 'LVL --';
+    historyListEl.innerHTML = '<div class="empty-bench">Please launch and log into the League of Legends client to view your profile and live match history.</div>';
+    return;
+  }
+
+  const s = profile.summoner;
+  nameEl.textContent = s.displayName || s.gameName || 'Summoner';
+  tagEl.textContent = s.tagLine ? `#${s.tagLine}` : '';
+  lvlEl.textContent = `LVL ${s.summonerLevel || 1}`;
+  if (s.profileIconId) {
+    iconEl.src = `https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/profileicon/${s.profileIconId}.png`;
+  }
+
+  // Ranked Stats
+  const ranked = profile.ranked || {};
+  const queues = ranked.queues || [];
+  const soloQueue = queues.find(q => q.queueType === 'RANKED_SOLO_5x5') || {};
+  const flexQueue = queues.find(q => q.queueType === 'RANKED_FLEX_SR') || {};
+
+  if (soloQueue.tier && soloQueue.tier !== 'NONE') {
+    soloRankEl.textContent = `${soloQueue.tier} ${soloQueue.division || ''}`;
+    const total = (soloQueue.wins || 0) + (soloQueue.losses || 0);
+    const wr = total > 0 ? Math.round((soloQueue.wins / total) * 100) : 50;
+    soloLpEl.textContent = `${soloQueue.leaguePoints || 0} LP (${wr}% WR - ${soloQueue.wins}W ${soloQueue.losses}L)`;
+  } else {
+    soloRankEl.textContent = 'Unranked';
+    soloLpEl.textContent = '0 LP';
+  }
+
+  if (flexQueue.tier && flexQueue.tier !== 'NONE') {
+    flexRankEl.textContent = `${flexQueue.tier} ${flexQueue.division || ''}`;
+    const total = (flexQueue.wins || 0) + (flexQueue.losses || 0);
+    const wr = total > 0 ? Math.round((flexQueue.wins / total) * 100) : 50;
+    flexLpEl.textContent = `${flexQueue.leaguePoints || 0} LP (${wr}% WR - ${flexQueue.wins}W ${flexQueue.losses}L)`;
+  } else {
+    flexRankEl.textContent = 'Unranked';
+    flexLpEl.textContent = '0 LP';
+  }
+
+  // Match History
+  const games = profile.matchHistory || [];
+  countEl.textContent = `${games.length} Recent Games Loaded`;
+
+  if (games.length === 0) {
+    historyListEl.innerHTML = '<div class="empty-bench">No recent match history found for this summoner.</div>';
+    return;
+  }
+
+  historyListEl.innerHTML = games.map(g => {
+    const p = g.participants?.[0] || {};
+    const stats = p.stats || {};
+    const win = !!stats.win;
+    const kills = stats.kills || 0;
+    const deaths = stats.deaths || 0;
+    const assists = stats.assists || 0;
+    const kdaRatio = deaths === 0 ? 'Perfect' : ((kills + assists) / deaths).toFixed(2);
+    const champInfo = getChampionInfo(p.championId);
+    const durationMin = Math.floor((g.gameDuration || 1200) / 60);
+    const durationSec = (g.gameDuration || 1200) % 60;
+    const modeName = g.gameMode === 'ARAM' ? 'ARAM' : (g.gameType === 'MATCHED_GAME' ? 'Ranked / Normal' : g.gameMode);
+
+    const items = [stats.item0, stats.item1, stats.item2, stats.item3, stats.item4, stats.item5, stats.item6];
+
+    return `
+      <div class="match-item-card ${win ? 'victory' : 'defeat'}">
+        <div class="match-meta-col">
+          <span class="match-outcome-title">${win ? 'VICTORY' : 'DEFEAT'}</span>
+          <span class="match-mode-label">${modeName}</span>
+          <span class="match-time-label">${durationMin}m ${durationSec}s</span>
+        </div>
+        <div class="match-champ-col">
+          <img class="match-champ-thumb" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${champInfo.key || 'Aatrox'}.png" />
+          <div>
+            <div class="match-champ-name">${champInfo.name}</div>
+            <div class="match-spells-wrap">
+              ${p.spell1Id ? `<img class="match-spell-icon" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/spell/${getSpellKey(p.spell1Id)}.png" onerror="this.style.display='none'"/>` : ''}
+              ${p.spell2Id ? `<img class="match-spell-icon" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/spell/${getSpellKey(p.spell2Id)}.png" onerror="this.style.display='none'"/>` : ''}
+            </div>
+          </div>
+        </div>
+        <div class="match-kda-col">
+          <div class="kda-numbers">${kills} / <span style="color: var(--opgg-red);">${deaths}</span> / ${assists}</div>
+          <div class="kda-ratio">${kdaRatio} KDA</div>
+        </div>
+        <div class="match-items-col">
+          ${items.map(itemId => `
+            <div class="match-item-slot">
+              ${itemId ? `<img src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/${itemId}.png" onerror="this.style.display='none'" />` : ''}
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function getSpellKey(id) {
+  const map = {
+    4: 'SummonerFlash',
+    14: 'SummonerDot',
+    12: 'SummonerTeleport',
+    11: 'SummonerSmite',
+    7: 'SummonerHeal',
+    3: 'SummonerExhaust',
+    6: 'SummonerHaste',
+    1: 'SummonerBoost',
+    21: 'SummonerBarrier',
+    32: 'SummonerSnowball'
+  };
+  return map[id] || 'SummonerFlash';
+}
+
+const refreshProfileBtn = document.getElementById('refreshProfileBtn');
+if (refreshProfileBtn) {
+  refreshProfileBtn.addEventListener('click', () => {
+    loadMyProfile();
+    showToast('Refreshing profile & match history...');
+  });
+}
+
+// ----------------- LEADERBOARDS -----------------
+function loadLeaderboards() {
+  const tbody = document.getElementById('leaderboardTableBody');
+  const dummyChallengers = [
+    { rank: 1, name: 'Hide on bush', tag: 'KR1', tier: 'Challenger', lp: '1,742 LP', wr: '64.2%', champs: ['Ahri', 'Azir', 'Orianna'] },
+    { rank: 2, name: 'Chovy', tag: 'KR1', tier: 'Challenger', lp: '1,689 LP', wr: '63.5%', champs: ['Yone', 'Sylas', 'Tristana'] },
+    { rank: 3, name: 'Canyon', tag: 'KR1', tier: 'Challenger', lp: '1,594 LP', wr: '61.8%', champs: ['Nidalee', 'Lee Sin', 'Karthus'] },
+    { rank: 4, name: 'Viper', tag: 'KR1', tier: 'Challenger', lp: '1,550 LP', wr: '60.9%', champs: ['Kai\'Sa', 'Ezreal', 'Jhin'] },
+    { rank: 5, name: 'Keria', tag: 'KR1', tier: 'Challenger', lp: '1,512 LP', wr: '59.7%', champs: ['Thresh', 'Nami', 'Bard'] }
+  ];
+
+  tbody.innerHTML = dummyChallengers.map(p => `
+    <tr>
+      <td style="font-weight: 800; color: var(--opgg-gold);">${p.rank}</td>
+      <td>
+        <strong style="color: #fff;">${p.name}</strong> <span style="font-size: 11px; color: var(--text-dim);">#${p.tag}</span>
+      </td>
+      <td><span class="tier-badge op">${p.tier}</span></td>
+      <td style="font-weight: 700; color: #fff;">${p.lp}</td>
+      <td style="color: var(--opgg-cyan); font-weight: 700;">${p.wr}</td>
+      <td style="color: var(--text-muted); font-size: 11px;">${p.champs.join(', ')}</td>
+    </tr>
+  `).join('');
+}
+
+// ----------------- GLOBAL SEARCH -----------------
+globalSearchBtn.addEventListener('click', () => {
+  const q = globalSearchInput.value.trim();
+  if (!q) return;
+  const region = regionSelect.value;
+  switchView('lol-multisearch');
+  multiSearchText.value = q;
+  multiSearchSubmitBtn.click();
+});
+
+globalSearchInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    globalSearchBtn.click();
+  }
+});
+
+// Initialize on boot
+setupTableSorting();
+loadChampions();
+loadLeaderboards();

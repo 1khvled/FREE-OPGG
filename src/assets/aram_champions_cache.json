@@ -1,0 +1,7554 @@
+[
+  {
+    "id": 86,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 47445,
+      "win_rate": 0.513036,
+      "pick_rate": 0.0628314,
+      "ban_rate": null,
+      "kda": 2.843363,
+      "tier": 2,
+      "rank": 42,
+      "tier_data": {
+        "tier": 2,
+        "rank": 42,
+        "rank_prev": 44,
+        "rank_prev_patch": 49
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.49604,
+          "role_rate": 0.570245,
+          "play": 25129,
+          "win": 12465
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.53659,
+          "role_rate": 0.242494,
+          "play": 10686,
+          "win": 5734
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.537693,
+          "role_rate": 0.181814,
+          "play": 8012,
+          "win": 4308
+        }
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 47549,
+      "win_rate": 0.520831,
+      "pick_rate": 0.0629691,
+      "ban_rate": null,
+      "kda": 3.322228,
+      "tier": 2,
+      "rank": 27,
+      "tier_data": {
+        "tier": 2,
+        "rank": 27,
+        "rank_prev": 29,
+        "rank_prev_patch": 31
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.524119,
+          "role_rate": 0.903482,
+          "play": 39802,
+          "win": 20861
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.480706,
+          "role_rate": 0.0900032,
+          "play": 3965,
+          "win": 1906
+        }
+      }
+    ]
+  },
+  {
+    "id": 41,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 43103,
+      "win_rate": 0.501891,
+      "pick_rate": 0.0570813,
+      "ban_rate": null,
+      "kda": 3.286162,
+      "tier": 3,
+      "rank": 78,
+      "tier_data": {
+        "tier": 3,
+        "rank": 78,
+        "rank_prev": 81,
+        "rank_prev_patch": 68
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.504396,
+          "role_rate": 0.907524,
+          "play": 36281,
+          "win": 18300
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.500317,
+          "role_rate": 0.0393967,
+          "play": 1575,
+          "win": 788
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.467012,
+          "role_rate": 0.0386713,
+          "play": 1546,
+          "win": 722
+        }
+      }
+    ]
+  },
+  {
+    "id": 79,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "play": 32315,
+      "win_rate": 0.506421,
+      "pick_rate": 0.0427947,
+      "ban_rate": null,
+      "kda": 3.190293,
+      "tier": 3,
+      "rank": 71,
+      "tier_data": {
+        "tier": 3,
+        "rank": 71,
+        "rank_prev": 72,
+        "rank_prev_patch": 63
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.502862,
+          "role_rate": 0.697664,
+          "play": 20962,
+          "win": 10541
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.525209,
+          "role_rate": 0.299041,
+          "play": 8985,
+          "win": 4719
+        }
+      }
+    ]
+  },
+  {
+    "id": 104,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 45015,
+      "win_rate": 0.475753,
+      "pick_rate": 0.0596134,
+      "ban_rate": null,
+      "kda": 3.01289,
+      "tier": 4,
+      "rank": 147,
+      "tier_data": {
+        "tier": 4,
+        "rank": 147,
+        "rank_prev": 145,
+        "rank_prev_patch": 159
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.476076,
+          "role_rate": 0.955478,
+          "play": 39960,
+          "win": 19024
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.45148,
+          "role_rate": 0.0290756,
+          "play": 1216,
+          "win": 549
+        }
+      }
+    ]
+  },
+  {
+    "id": 887,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 23626,
+      "win_rate": 0.513883,
+      "pick_rate": 0.0312879,
+      "ban_rate": null,
+      "kda": 2.684028,
+      "tier": 3,
+      "rank": 60,
+      "tier_data": {
+        "tier": 3,
+        "rank": 60,
+        "rank_prev": 62,
+        "rank_prev_patch": 66
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.516221,
+          "role_rate": 0.95542,
+          "play": 20960,
+          "win": 10820
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.446834,
+          "role_rate": 0.038153,
+          "play": 837,
+          "win": 374
+        }
+      }
+    ]
+  },
+  {
+    "id": 150,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 32511,
+      "win_rate": 0.513457,
+      "pick_rate": 0.0430543,
+      "ban_rate": null,
+      "kda": 3.064618,
+      "tier": 3,
+      "rank": 52,
+      "tier_data": {
+        "tier": 3,
+        "rank": 52,
+        "rank_prev": 54,
+        "rank_prev_patch": 57
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.510453,
+          "role_rate": 0.731449,
+          "play": 22100,
+          "win": 11281
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.523222,
+          "role_rate": 0.249421,
+          "play": 7536,
+          "win": 3943
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.474394,
+          "role_rate": 0.0122791,
+          "play": 371,
+          "win": 176
+        }
+      }
+    ]
+  },
+  {
+    "id": 267,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 47541,
+      "win_rate": 0.502345,
+      "pick_rate": 0.0629585,
+      "ban_rate": null,
+      "kda": 5.601711,
+      "tier": 3,
+      "rank": 77,
+      "tier_data": {
+        "tier": 3,
+        "rank": 77,
+        "rank_prev": 74,
+        "rank_prev_patch": 81
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "CONTROLLER",
+        "stats": {
+          "win_rate": 0.524773,
+          "role_rate": 0.624223,
+          "play": 27429,
+          "win": 14394
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.465899,
+          "role_rate": 0.361712,
+          "play": 15894,
+          "win": 7405
+        }
+      }
+    ]
+  },
+  {
+    "id": 75,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 28603,
+      "win_rate": 0.470021,
+      "pick_rate": 0.0378789,
+      "ban_rate": null,
+      "kda": 2.935127,
+      "tier": 3,
+      "rank": 137,
+      "tier_data": {
+        "tier": 3,
+        "rank": 137,
+        "rank_prev": 136,
+        "rank_prev_patch": 148
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.479518,
+          "role_rate": 0.757587,
+          "play": 19920,
+          "win": 9552
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.430777,
+          "role_rate": 0.14779,
+          "play": 3886,
+          "win": 1674
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.44685,
+          "role_rate": 0.07728,
+          "play": 2032,
+          "win": 908
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.465296,
+          "role_rate": 0.0147943,
+          "play": 389,
+          "win": 181
+        }
+      }
+    ]
+  },
+  {
+    "id": 950,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "play": 15147,
+      "win_rate": 0.434409,
+      "pick_rate": 0.0200592,
+      "ban_rate": null,
+      "kda": 2.600089,
+      "tier": 4,
+      "rank": 141,
+      "tier_data": {
+        "tier": 4,
+        "rank": 141,
+        "rank_prev": 140,
+        "rank_prev_patch": 140
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.431094,
+          "role_rate": 0.596512,
+          "play": 8381,
+          "win": 3613
+        }
+      },
+      {
+        "name": "SLAYER",
+        "stats": {
+          "win_rate": 0.474908,
+          "role_rate": 0.251032,
+          "play": 3527,
+          "win": 1675
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.380734,
+          "role_rate": 0.139644,
+          "play": 1962,
+          "win": 747
+        }
+      }
+    ]
+  },
+  {
+    "id": 111,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 53086,
+      "win_rate": 0.509814,
+      "pick_rate": 0.0703018,
+      "ban_rate": null,
+      "kda": 3.110565,
+      "tier": 2,
+      "rank": 47,
+      "tier_data": {
+        "tier": 2,
+        "rank": 47,
+        "rank_prev": 47,
+        "rank_prev_patch": 42
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.511795,
+          "role_rate": 0.977505,
+          "play": 48451,
+          "win": 24797
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.38764,
+          "role_rate": 0.0143647,
+          "play": 712,
+          "win": 276
+        }
+      }
+    ]
+  },
+  {
+    "id": 56,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 22531,
+      "win_rate": 0.451556,
+      "pick_rate": 0.0298378,
+      "ban_rate": null,
+      "kda": 2.554011,
+      "tier": 4,
+      "rank": 148,
+      "tier_data": {
+        "tier": 4,
+        "rank": 148,
+        "rank_prev": 148,
+        "rank_prev_patch": 133
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.458969,
+          "role_rate": 0.477859,
+          "play": 10090,
+          "win": 4631
+        }
+      },
+      {
+        "name": "SLAYER",
+        "stats": {
+          "win_rate": 0.468959,
+          "role_rate": 0.324982,
+          "play": 6862,
+          "win": 3218
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.400636,
+          "role_rate": 0.163722,
+          "play": 3457,
+          "win": 1385
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.454867,
+          "role_rate": 0.0267582,
+          "play": 565,
+          "win": 257
+        }
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 29551,
+      "win_rate": 0.46435,
+      "pick_rate": 0.0391344,
+      "ban_rate": null,
+      "kda": 3.101213,
+      "tier": 4,
+      "rank": 145,
+      "tier_data": {
+        "tier": 4,
+        "rank": 145,
+        "rank_prev": 144,
+        "rank_prev_patch": 145
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.459563,
+          "role_rate": 0.806339,
+          "play": 22084,
+          "win": 10149
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.493214,
+          "role_rate": 0.190996,
+          "play": 5231,
+          "win": 2580
+        }
+      }
+    ]
+  },
+  {
+    "id": 76,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "play": 69409,
+      "win_rate": 0.515942,
+      "pick_rate": 0.0919183,
+      "ban_rate": null,
+      "kda": 4.838814,
+      "tier": 2,
+      "rank": 21,
+      "tier_data": {
+        "tier": 2,
+        "rank": 21,
+        "rank_prev": 21,
+        "rank_prev_patch": 25
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.516604,
+          "role_rate": 0.993698,
+          "play": 64022,
+          "win": 33074
+        }
+      }
+    ]
+  },
+  {
+    "id": 518,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 63191,
+      "win_rate": 0.506433,
+      "pick_rate": 0.0836838,
+      "ban_rate": null,
+      "kda": 3.355707,
+      "tier": 3,
+      "rank": 55,
+      "tier_data": {
+        "tier": 3,
+        "rank": 55,
+        "rank_prev": 53,
+        "rank_prev_patch": 62
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.50693,
+          "role_rate": 0.987324,
+          "play": 57795,
+          "win": 29298
+        }
+      }
+    ]
+  },
+  {
+    "id": 895,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 17705,
+      "win_rate": 0.472465,
+      "pick_rate": 0.0234467,
+      "ban_rate": null,
+      "kda": 2.615816,
+      "tier": 3,
+      "rank": 115,
+      "tier_data": {
+        "tier": 3,
+        "rank": 115,
+        "rank_prev": 115,
+        "rank_prev_patch": 114
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.47724,
+          "role_rate": 0.963521,
+          "play": 15795,
+          "win": 7538
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.373762,
+          "role_rate": 0.0246447,
+          "play": 404,
+          "win": 151
+        }
+      }
+    ]
+  },
+  {
+    "id": 122,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 43083,
+      "win_rate": 0.501219,
+      "pick_rate": 0.0570548,
+      "ban_rate": null,
+      "kda": 2.55783,
+      "tier": 3,
+      "rank": 82,
+      "tier_data": {
+        "tier": 3,
+        "rank": 82,
+        "rank_prev": 84,
+        "rank_prev_patch": 83
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.505678,
+          "role_rate": 0.628783,
+          "play": 25184,
+          "win": 12735
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.49814,
+          "role_rate": 0.355812,
+          "play": 14251,
+          "win": 7099
+        }
+      }
+    ]
+  },
+  {
+    "id": 131,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 28573,
+      "win_rate": 0.484303,
+      "pick_rate": 0.0378392,
+      "ban_rate": null,
+      "kda": 2.695871,
+      "tier": 3,
+      "rank": 111,
+      "tier_data": {
+        "tier": 3,
+        "rank": 111,
+        "rank_prev": 110,
+        "rank_prev_patch": 127
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.471259,
+          "role_rate": 0.849446,
+          "play": 22529,
+          "win": 10617
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.559357,
+          "role_rate": 0.147689,
+          "play": 3917,
+          "win": 2191
+        }
+      }
+    ]
+  },
+  {
+    "id": 119,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 51222,
+      "win_rate": 0.488677,
+      "pick_rate": 0.0678333,
+      "ban_rate": null,
+      "kda": 3.069183,
+      "tier": 3,
+      "rank": 122,
+      "tier_data": {
+        "tier": 3,
+        "rank": 122,
+        "rank_prev": 121,
+        "rank_prev_patch": 135
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.489399,
+          "role_rate": 0.983251,
+          "play": 46788,
+          "win": 22898
+        }
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 40429,
+      "win_rate": 0.470405,
+      "pick_rate": 0.0535401,
+      "ban_rate": null,
+      "kda": 3.291843,
+      "tier": 4,
+      "rank": 153,
+      "tier_data": {
+        "tier": 4,
+        "rank": 153,
+        "rank_prev": 154,
+        "rank_prev_patch": 147
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.472648,
+          "role_rate": 0.944943,
+          "play": 35390,
+          "win": 16727
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.439566,
+          "role_rate": 0.0516928,
+          "play": 1936,
+          "win": 851
+        }
+      }
+    ]
+  },
+  {
+    "id": 497,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 24962,
+      "win_rate": 0.5002,
+      "pick_rate": 0.0330572,
+      "ban_rate": null,
+      "kda": 3.978029,
+      "tier": 3,
+      "rank": 86,
+      "tier_data": {
+        "tier": 3,
+        "rank": 86,
+        "rank_prev": 86,
+        "rank_prev_patch": 86
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.493111,
+          "role_rate": 0.825933,
+          "play": 19160,
+          "win": 9448
+        }
+      },
+      {
+        "name": "CONTROLLER",
+        "stats": {
+          "win_rate": 0.544251,
+          "role_rate": 0.104233,
+          "play": 2418,
+          "win": 1316
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.522546,
+          "role_rate": 0.0650056,
+          "play": 1508,
+          "win": 788
+        }
+      }
+    ]
+  },
+  {
+    "id": 33,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 19040,
+      "win_rate": 0.472899,
+      "pick_rate": 0.0252147,
+      "ban_rate": null,
+      "kda": 2.721369,
+      "tier": 3,
+      "rank": 116,
+      "tier_data": {
+        "tier": 3,
+        "rank": 116,
+        "rank_prev": 117,
+        "rank_prev_patch": 109
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.47562,
+          "role_rate": 0.986603,
+          "play": 17453,
+          "win": 8301
+        }
+      }
+    ]
+  },
+  {
+    "id": 99,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 95741,
+      "win_rate": 0.53276,
+      "pick_rate": 0.12679,
+      "ban_rate": null,
+      "kda": 5.164677,
+      "tier": 1,
+      "rank": 3,
+      "tier_data": {
+        "tier": 1,
+        "rank": 3,
+        "rank_prev": 3,
+        "rank_prev_patch": 2
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.533697,
+          "role_rate": 0.995362,
+          "play": 88419,
+          "win": 47189
+        }
+      }
+    ]
+  },
+  {
+    "id": 68,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 45121,
+      "win_rate": 0.498726,
+      "pick_rate": 0.0597537,
+      "ban_rate": null,
+      "kda": 2.904257,
+      "tier": 3,
+      "rank": 91,
+      "tier_data": {
+        "tier": 3,
+        "rank": 91,
+        "rank_prev": 88,
+        "rank_prev_patch": 87
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.498576,
+          "role_rate": 0.987552,
+          "play": 41095,
+          "win": 20489
+        }
+      }
+    ]
+  },
+  {
+    "id": 888,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "play": 34056,
+      "win_rate": 0.501086,
+      "pick_rate": 0.0451004,
+      "ban_rate": null,
+      "kda": 4.14281,
+      "tier": 3,
+      "rank": 84,
+      "tier_data": {
+        "tier": 3,
+        "rank": 84,
+        "rank_prev": 83,
+        "rank_prev_patch": 85
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "CONTROLLER",
+        "stats": {
+          "win_rate": 0.523443,
+          "role_rate": 0.536186,
+          "play": 16892,
+          "win": 8842
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.47368,
+          "role_rate": 0.408234,
+          "play": 12861,
+          "win": 6092
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.477839,
+          "role_rate": 0.0458355,
+          "play": 1444,
+          "win": 690
+        }
+      }
+    ]
+  },
+  {
+    "id": 58,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 28857,
+      "win_rate": 0.501993,
+      "pick_rate": 0.0382153,
+      "ban_rate": null,
+      "kda": 2.561978,
+      "tier": 3,
+      "rank": 81,
+      "tier_data": {
+        "tier": 3,
+        "rank": 81,
+        "rank_prev": 79,
+        "rank_prev_patch": 67
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.507367,
+          "role_rate": 0.856322,
+          "play": 22940,
+          "win": 11639
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.468855,
+          "role_rate": 0.13304,
+          "play": 3564,
+          "win": 1671
+        }
+      }
+    ]
+  },
+  {
+    "id": 89,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 36593,
+      "win_rate": 0.524417,
+      "pick_rate": 0.0484601,
+      "ban_rate": null,
+      "kda": 2.97883,
+      "tier": 2,
+      "rank": 31,
+      "tier_data": {
+        "tier": 2,
+        "rank": 31,
+        "rank_prev": 31,
+        "rank_prev_patch": 34
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.524698,
+          "role_rate": 0.983772,
+          "play": 33343,
+          "win": 17495
+        }
+      }
+    ]
+  },
+  {
+    "id": 421,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 7175,
+      "win_rate": 0.497003,
+      "pick_rate": 0.00950185,
+      "ban_rate": null,
+      "kda": 2.937156,
+      "tier": 3,
+      "rank": 89,
+      "tier_data": {
+        "tier": 3,
+        "rank": 89,
+        "rank_prev": 87,
+        "rank_prev_patch": 84
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.502988,
+          "role_rate": 0.593249,
+          "play": 3849,
+          "win": 1936
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.487484,
+          "role_rate": 0.350956,
+          "play": 2277,
+          "win": 1110
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.381579,
+          "role_rate": 0.0234279,
+          "play": 152,
+          "win": 58
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.490196,
+          "role_rate": 0.0157213,
+          "play": 102,
+          "win": 50
+        }
+      },
+      {
+        "name": "SLAYER",
+        "stats": {
+          "win_rate": 0.371429,
+          "role_rate": 0.0107891,
+          "play": 70,
+          "win": 26
+        }
+      }
+    ]
+  },
+  {
+    "id": 526,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 21022,
+      "win_rate": 0.52916,
+      "pick_rate": 0.0278394,
+      "ban_rate": null,
+      "kda": 3.668403,
+      "tier": 2,
+      "rank": 43,
+      "tier_data": {
+        "tier": 2,
+        "rank": 43,
+        "rank_prev": 42,
+        "rank_prev_patch": 41
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.532932,
+          "role_rate": 0.978567,
+          "play": 19085,
+          "win": 10171
+        }
+      }
+    ]
+  },
+  {
+    "id": 107,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 20812,
+      "win_rate": 0.449404,
+      "pick_rate": 0.0275613,
+      "ban_rate": null,
+      "kda": 2.086576,
+      "tier": 4,
+      "rank": 144,
+      "tier_data": {
+        "tier": 4,
+        "rank": 144,
+        "rank_prev": 142,
+        "rank_prev_patch": 138
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.4384,
+          "role_rate": 0.579597,
+          "play": 11323,
+          "win": 4964
+        }
+      },
+      {
+        "name": "SLAYER",
+        "stats": {
+          "win_rate": 0.464398,
+          "role_rate": 0.245137,
+          "play": 4789,
+          "win": 2224
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.47679,
+          "role_rate": 0.117987,
+          "play": 2305,
+          "win": 1099
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.422764,
+          "role_rate": 0.0440725,
+          "play": 861,
+          "win": 364
+        }
+      }
+    ]
+  },
+  {
+    "id": 805,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 27110,
+      "win_rate": 0.433383,
+      "pick_rate": 0.0359018,
+      "ban_rate": null,
+      "kda": 2.654643,
+      "tier": 4,
+      "rank": 164,
+      "tier_data": {
+        "tier": 4,
+        "rank": 164,
+        "rank_prev": 164,
+        "rank_prev_patch": 172
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.433216,
+          "role_rate": 0.993106,
+          "play": 25066,
+          "win": 10859
+        }
+      }
+    ]
+  },
+  {
+    "id": 236,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 83759,
+      "win_rate": 0.481369,
+      "pick_rate": 0.110922,
+      "ban_rate": null,
+      "kda": 3.172542,
+      "tier": 4,
+      "rank": 161,
+      "tier_data": {
+        "tier": 4,
+        "rank": 161,
+        "rank_prev": 160,
+        "rank_prev_patch": 163
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.482112,
+          "role_rate": 0.964492,
+          "play": 75051,
+          "win": 36183
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.473684,
+          "role_rate": 0.0166037,
+          "play": 1292,
+          "win": 612
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.496954,
+          "role_rate": 0.014766,
+          "play": 1149,
+          "win": 571
+        }
+      }
+    ]
+  },
+  {
+    "id": 117,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 42967,
+      "win_rate": 0.465962,
+      "pick_rate": 0.0569012,
+      "ban_rate": null,
+      "kda": 4.749823,
+      "tier": 4,
+      "rank": 157,
+      "tier_data": {
+        "tier": 4,
+        "rank": 157,
+        "rank_prev": 158,
+        "rank_prev_patch": 160
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "CONTROLLER",
+        "stats": {
+          "win_rate": 0.495537,
+          "role_rate": 0.712915,
+          "play": 28230,
+          "win": 13989
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.414928,
+          "role_rate": 0.163417,
+          "play": 6471,
+          "win": 2685
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.350568,
+          "role_rate": 0.0844992,
+          "play": 3346,
+          "win": 1173
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.469322,
+          "role_rate": 0.0234608,
+          "play": 929,
+          "win": 436
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.313274,
+          "role_rate": 0.0142684,
+          "play": 565,
+          "win": 177
+        }
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 55180,
+      "win_rate": 0.449928,
+      "pick_rate": 0.0730749,
+      "ban_rate": null,
+      "kda": 3.177362,
+      "tier": 5,
+      "rank": 169,
+      "tier_data": {
+        "tier": 5,
+        "rank": 169,
+        "rank_prev": 170,
+        "rank_prev_patch": 165
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.45038,
+          "role_rate": 0.98953,
+          "play": 50564,
+          "win": 22773
+        }
+      }
+    ]
+  },
+  {
+    "id": 64,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 54608,
+      "win_rate": 0.438324,
+      "pick_rate": 0.0723174,
+      "ban_rate": null,
+      "kda": 3.02634,
+      "tier": 5,
+      "rank": 173,
+      "tier_data": {
+        "tier": 5,
+        "rank": 173,
+        "rank_prev": 173,
+        "rank_prev_patch": 169
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.443365,
+          "role_rate": 0.872078,
+          "play": 44169,
+          "win": 19583
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.379572,
+          "role_rate": 0.0415614,
+          "play": 2105,
+          "win": 799
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.438613,
+          "role_rate": 0.0410085,
+          "play": 2077,
+          "win": 911
+        }
+      },
+      {
+        "name": "SLAYER",
+        "stats": {
+          "win_rate": 0.437403,
+          "role_rate": 0.0380074,
+          "play": 1925,
+          "win": 842
+        }
+      }
+    ]
+  },
+  {
+    "id": 92,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 16845,
+      "win_rate": 0.466548,
+      "pick_rate": 0.0223078,
+      "ban_rate": null,
+      "kda": 2.395705,
+      "tier": 3,
+      "rank": 121,
+      "tier_data": {
+        "tier": 3,
+        "rank": 121,
+        "rank_prev": 118,
+        "rank_prev_patch": 139
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.470292,
+          "role_rate": 0.942221,
+          "play": 14693,
+          "win": 6910
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.433265,
+          "role_rate": 0.03123,
+          "play": 487,
+          "win": 211
+        }
+      },
+      {
+        "name": "SLAYER",
+        "stats": {
+          "win_rate": 0.447059,
+          "role_rate": 0.0109016,
+          "play": 170,
+          "win": 76
+        }
+      }
+    ]
+  },
+  {
+    "id": 127,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 50508,
+      "win_rate": 0.50493,
+      "pick_rate": 0.0668877,
+      "ban_rate": null,
+      "kda": 2.986987,
+      "tier": 3,
+      "rank": 66,
+      "tier_data": {
+        "tier": 3,
+        "rank": 66,
+        "rank_prev": 66,
+        "rank_prev_patch": 55
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.505693,
+          "role_rate": 0.985319,
+          "play": 46109,
+          "win": 23317
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.525692,
+          "role_rate": 0.0108129,
+          "play": 506,
+          "win": 266
+        }
+      }
+    ]
+  },
+  {
+    "id": 876,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 38447,
+      "win_rate": 0.47057,
+      "pick_rate": 0.0509154,
+      "ban_rate": null,
+      "kda": 3.040715,
+      "tier": 4,
+      "rank": 149,
+      "tier_data": {
+        "tier": 4,
+        "rank": 149,
+        "rank_prev": 151,
+        "rank_prev_patch": 153
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.472425,
+          "role_rate": 0.985112,
+          "play": 35068,
+          "win": 16567
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.393643,
+          "role_rate": 0.0114894,
+          "play": 409,
+          "win": 161
+        }
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 48339,
+      "win_rate": 0.543826,
+      "pick_rate": 0.0640153,
+      "ban_rate": null,
+      "kda": 2.454847,
+      "tier": 1,
+      "rank": 10,
+      "tier_data": {
+        "tier": 1,
+        "rank": 10,
+        "rank_prev": 10,
+        "rank_prev_patch": 12
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.541658,
+          "role_rate": 0.566836,
+          "play": 25409,
+          "win": 13763
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.550661,
+          "role_rate": 0.41525,
+          "play": 18614,
+          "win": 10250
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.441071,
+          "role_rate": 0.0124927,
+          "play": 560,
+          "win": 247
+        }
+      }
+    ]
+  },
+  {
+    "id": 57,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 48828,
+      "win_rate": 0.498239,
+      "pick_rate": 0.0646629,
+      "ban_rate": null,
+      "kda": 3.266136,
+      "tier": 3,
+      "rank": 94,
+      "tier_data": {
+        "tier": 3,
+        "rank": 94,
+        "rank_prev": 92,
+        "rank_prev_patch": 99
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.507441,
+          "role_rate": 0.811205,
+          "play": 36690,
+          "win": 18618
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.461854,
+          "role_rate": 0.183444,
+          "play": 8297,
+          "win": 3832
+        }
+      }
+    ]
+  },
+  {
+    "id": 90,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 50286,
+      "win_rate": 0.501611,
+      "pick_rate": 0.0665937,
+      "ban_rate": null,
+      "kda": 3.404,
+      "tier": 3,
+      "rank": 79,
+      "tier_data": {
+        "tier": 3,
+        "rank": 79,
+        "rank_prev": 77,
+        "rank_prev_patch": 90
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.500806,
+          "role_rate": 0.997171,
+          "play": 46529,
+          "win": 23302
+        }
+      }
+    ]
+  },
+  {
+    "id": 54,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 68260,
+      "win_rate": 0.497803,
+      "pick_rate": 0.0903967,
+      "ban_rate": null,
+      "kda": 2.840326,
+      "tier": 3,
+      "rank": 99,
+      "tier_data": {
+        "tier": 3,
+        "rank": 99,
+        "rank_prev": 96,
+        "rank_prev_patch": 102
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.46924,
+          "role_rate": 0.616531,
+          "play": 38995,
+          "win": 18298
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.545715,
+          "role_rate": 0.380433,
+          "play": 24062,
+          "win": 13131
+        }
+      }
+    ]
+  },
+  {
+    "id": 800,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 82416,
+      "win_rate": 0.473015,
+      "pick_rate": 0.109143,
+      "ban_rate": null,
+      "kda": 3.827801,
+      "tier": 5,
+      "rank": 167,
+      "tier_data": {
+        "tier": 5,
+        "rank": 167,
+        "rank_prev": 167,
+        "rank_prev_patch": 164
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.472652,
+          "role_rate": 0.996926,
+          "play": 76202,
+          "win": 36017
+        }
+      }
+    ]
+  },
+  {
+    "id": 82,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "play": 48100,
+      "win_rate": 0.538378,
+      "pick_rate": 0.0636988,
+      "ban_rate": null,
+      "kda": 2.879281,
+      "tier": 1,
+      "rank": 14,
+      "tier_data": {
+        "tier": 1,
+        "rank": 14,
+        "rank_prev": 14,
+        "rank_prev_patch": 16
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.548139,
+          "role_rate": 0.596075,
+          "play": 26787,
+          "win": 14683
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.522165,
+          "role_rate": 0.395558,
+          "play": 17776,
+          "win": 9282
+        }
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 90226,
+      "win_rate": 0.510762,
+      "pick_rate": 0.119486,
+      "ban_rate": null,
+      "kda": 4.404909,
+      "tier": 2,
+      "rank": 29,
+      "tier_data": {
+        "tier": 2,
+        "rank": 29,
+        "rank_prev": 25,
+        "rank_prev_patch": 30
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.511645,
+          "role_rate": 0.993246,
+          "play": 83384,
+          "win": 42663
+        }
+      }
+    ]
+  },
+  {
+    "id": 36,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 33307,
+      "win_rate": 0.514757,
+      "pick_rate": 0.0441085,
+      "ban_rate": null,
+      "kda": 2.937905,
+      "tier": 2,
+      "rank": 49,
+      "tier_data": {
+        "tier": 2,
+        "rank": 49,
+        "rank_prev": 48,
+        "rank_prev_patch": 72
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.516577,
+          "role_rate": 0.991339,
+          "play": 30675,
+          "win": 15846
+        }
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 101751,
+      "win_rate": 0.514344,
+      "pick_rate": 0.134749,
+      "ban_rate": null,
+      "kda": 3.584705,
+      "tier": 2,
+      "rank": 16,
+      "tier_data": {
+        "tier": 2,
+        "rank": 16,
+        "rank_prev": 17,
+        "rank_prev_patch": 14
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.508537,
+          "role_rate": 0.723969,
+          "play": 68292,
+          "win": 34729
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.533134,
+          "role_rate": 0.127817,
+          "play": 12057,
+          "win": 6428
+        }
+      },
+      {
+        "name": "SLAYER",
+        "stats": {
+          "win_rate": 0.533073,
+          "role_rate": 0.125008,
+          "play": 11792,
+          "win": 6286
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.497965,
+          "role_rate": 0.0208417,
+          "play": 1966,
+          "win": 979
+        }
+      }
+    ]
+  },
+  {
+    "id": 902,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 25588,
+      "win_rate": 0.515085,
+      "pick_rate": 0.0338862,
+      "ban_rate": null,
+      "kda": 6.495328,
+      "tier": 3,
+      "rank": 57,
+      "tier_data": {
+        "tier": 3,
+        "rank": 57,
+        "rank_prev": 55,
+        "rank_prev_patch": 61
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "CONTROLLER",
+        "stats": {
+          "win_rate": 0.558056,
+          "role_rate": 0.539704,
+          "play": 12798,
+          "win": 7142
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.465158,
+          "role_rate": 0.45085,
+          "play": 10691,
+          "win": 4973
+        }
+      }
+    ]
+  },
+  {
+    "id": 432,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 35745,
+      "win_rate": 0.458777,
+      "pick_rate": 0.0473371,
+      "ban_rate": null,
+      "kda": 4.20361,
+      "tier": 4,
+      "rank": 158,
+      "tier_data": {
+        "tier": 4,
+        "rank": 158,
+        "rank_prev": 157,
+        "rank_prev_patch": 158
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.485022,
+          "role_rate": 0.57296,
+          "play": 19028,
+          "win": 9229
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.412226,
+          "role_rate": 0.314755,
+          "play": 10453,
+          "win": 4309
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.453855,
+          "role_rate": 0.0554652,
+          "play": 1842,
+          "win": 836
+        }
+      },
+      {
+        "name": "CONTROLLER",
+        "stats": {
+          "win_rate": 0.485004,
+          "role_rate": 0.03514,
+          "play": 1167,
+          "win": 566
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.421474,
+          "role_rate": 0.0187895,
+          "play": 624,
+          "win": 263
+        }
+      }
+    ]
+  },
+  {
+    "id": 110,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 89934,
+      "win_rate": 0.499033,
+      "pick_rate": 0.1191,
+      "ban_rate": null,
+      "kda": 3.65343,
+      "tier": 3,
+      "rank": 95,
+      "tier_data": {
+        "tier": 3,
+        "rank": 95,
+        "rank_prev": 94,
+        "rank_prev_patch": 108
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.51254,
+          "role_rate": 0.610911,
+          "play": 50917,
+          "win": 26097
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.478025,
+          "role_rate": 0.27381,
+          "play": 22821,
+          "win": 10909
+        }
+      },
+      {
+        "name": "SLAYER",
+        "stats": {
+          "win_rate": 0.508574,
+          "role_rate": 0.0713652,
+          "play": 5948,
+          "win": 3025
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.453434,
+          "role_rate": 0.0382622,
+          "play": 3189,
+          "win": 1446
+        }
+      }
+    ]
+  },
+  {
+    "id": 254,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 31781,
+      "win_rate": 0.492999,
+      "pick_rate": 0.0420876,
+      "ban_rate": null,
+      "kda": 2.402687,
+      "tier": 3,
+      "rank": 102,
+      "tier_data": {
+        "tier": 3,
+        "rank": 102,
+        "rank_prev": 100,
+        "rank_prev_patch": 101
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.49843,
+          "role_rate": 0.760628,
+          "play": 22615,
+          "win": 11272
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.45118,
+          "role_rate": 0.115398,
+          "play": 3431,
+          "win": 1548
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.496822,
+          "role_rate": 0.100531,
+          "play": 2989,
+          "win": 1485
+        }
+      },
+      {
+        "name": "SLAYER",
+        "stats": {
+          "win_rate": 0.527337,
+          "role_rate": 0.0190704,
+          "play": 567,
+          "win": 299
+        }
+      }
+    ]
+  },
+  {
+    "id": 45,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 82478,
+      "win_rate": 0.49321,
+      "pick_rate": 0.109226,
+      "ban_rate": null,
+      "kda": 3.507132,
+      "tier": 3,
+      "rank": 119,
+      "tier_data": {
+        "tier": 3,
+        "rank": 119,
+        "rank_prev": 119,
+        "rank_prev_patch": 117
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.493125,
+          "role_rate": 0.963842,
+          "play": 73892,
+          "win": 36438
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.516773,
+          "role_rate": 0.0346056,
+          "play": 2653,
+          "win": 1371
+        }
+      }
+    ]
+  },
+  {
+    "id": 67,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "play": 65967,
+      "win_rate": 0.481771,
+      "pick_rate": 0.0873601,
+      "ban_rate": null,
+      "kda": 2.616748,
+      "tier": 4,
+      "rank": 154,
+      "tier_data": {
+        "tier": 4,
+        "rank": 154,
+        "rank_prev": 152,
+        "rank_prev_patch": 162
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.488096,
+          "role_rate": 0.601752,
+          "play": 36542,
+          "win": 17836
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.472845,
+          "role_rate": 0.375984,
+          "play": 22832,
+          "win": 10796
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.460222,
+          "role_rate": 0.0192504,
+          "play": 1169,
+          "win": 538
+        }
+      }
+    ]
+  },
+  {
+    "id": 711,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 43124,
+      "win_rate": 0.508905,
+      "pick_rate": 0.0571091,
+      "ban_rate": null,
+      "kda": 3.485197,
+      "tier": 3,
+      "rank": 58,
+      "tier_data": {
+        "tier": 3,
+        "rank": 58,
+        "rank_prev": 57,
+        "rank_prev_patch": 56
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.508343,
+          "role_rate": 0.99483,
+          "play": 40215,
+          "win": 20443
+        }
+      }
+    ]
+  },
+  {
+    "id": 200,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 18701,
+      "win_rate": 0.529918,
+      "pick_rate": 0.0247657,
+      "ban_rate": null,
+      "kda": 2.390059,
+      "tier": 2,
+      "rank": 46,
+      "tier_data": {
+        "tier": 2,
+        "rank": 46,
+        "rank_prev": 46,
+        "rank_prev_patch": 13
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.556029,
+          "role_rate": 0.612202,
+          "play": 10566,
+          "win": 5875
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.479094,
+          "role_rate": 0.299322,
+          "play": 5166,
+          "win": 2475
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.505747,
+          "role_rate": 0.065531,
+          "play": 1131,
+          "win": 572
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.567568,
+          "role_rate": 0.0171505,
+          "play": 296,
+          "win": 168
+        }
+      }
+    ]
+  },
+  {
+    "id": 161,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 63536,
+      "win_rate": 0.530424,
+      "pick_rate": 0.0841407,
+      "ban_rate": null,
+      "kda": 4.210007,
+      "tier": 1,
+      "rank": 12,
+      "tier_data": {
+        "tier": 1,
+        "rank": 12,
+        "rank_prev": 12,
+        "rank_prev_patch": 6
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.531835,
+          "role_rate": 0.997592,
+          "play": 58819,
+          "win": 31282
+        }
+      }
+    ]
+  },
+  {
+    "id": 106,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 35504,
+      "win_rate": 0.498085,
+      "pick_rate": 0.0470179,
+      "ban_rate": null,
+      "kda": 2.751867,
+      "tier": 3,
+      "rank": 93,
+      "tier_data": {
+        "tier": 3,
+        "rank": 93,
+        "rank_prev": 95,
+        "rank_prev_patch": 88
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.498589,
+          "role_rate": 0.806438,
+          "play": 26581,
+          "win": 13253
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.502953,
+          "role_rate": 0.148994,
+          "play": 4911,
+          "win": 2470
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.499261,
+          "role_rate": 0.0205394,
+          "play": 677,
+          "win": 338
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.464497,
+          "role_rate": 0.0205091,
+          "play": 676,
+          "win": 314
+        }
+      }
+    ]
+  },
+  {
+    "id": 201,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 31888,
+      "win_rate": 0.498087,
+      "pick_rate": 0.0422293,
+      "ban_rate": null,
+      "kda": 3.879956,
+      "tier": 3,
+      "rank": 92,
+      "tier_data": {
+        "tier": 3,
+        "rank": 92,
+        "rank_prev": 91,
+        "rank_prev_patch": 92
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.498742,
+          "role_rate": 0.965352,
+          "play": 28614,
+          "win": 14271
+        }
+      },
+      {
+        "name": "CONTROLLER",
+        "stats": {
+          "win_rate": 0.559242,
+          "role_rate": 0.0213556,
+          "play": 633,
+          "win": 354
+        }
+      }
+    ]
+  },
+  {
+    "id": 233,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 16700,
+      "win_rate": 0.493713,
+      "pick_rate": 0.0221158,
+      "ban_rate": null,
+      "kda": 2.325656,
+      "tier": 3,
+      "rank": 96,
+      "tier_data": {
+        "tier": 3,
+        "rank": 96,
+        "rank_prev": 97,
+        "rank_prev_patch": 69
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.50045,
+          "role_rate": 0.790859,
+          "play": 12233,
+          "win": 6122
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.457447,
+          "role_rate": 0.139772,
+          "play": 2162,
+          "win": 989
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.499389,
+          "role_rate": 0.052948,
+          "play": 819,
+          "win": 409
+        }
+      }
+    ]
+  },
+  {
+    "id": 63,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 83801,
+      "win_rate": 0.498419,
+      "pick_rate": 0.110978,
+      "ban_rate": null,
+      "kda": 3.193665,
+      "tier": 3,
+      "rank": 97,
+      "tier_data": {
+        "tier": 3,
+        "rank": 97,
+        "rank_prev": 98,
+        "rank_prev_patch": 91
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.499768,
+          "role_rate": 0.997078,
+          "play": 77458,
+          "win": 38711
+        }
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 27389,
+      "win_rate": 0.436087,
+      "pick_rate": 0.0362712,
+      "ban_rate": null,
+      "kda": 2.831673,
+      "tier": 4,
+      "rank": 163,
+      "tier_data": {
+        "tier": 4,
+        "rank": 163,
+        "rank_prev": 163,
+        "rank_prev_patch": 156
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.439355,
+          "role_rate": 0.961606,
+          "play": 24495,
+          "win": 10762
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.374419,
+          "role_rate": 0.0337612,
+          "play": 860,
+          "win": 322
+        }
+      }
+    ]
+  },
+  {
+    "id": 53,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 85455,
+      "win_rate": 0.502557,
+      "pick_rate": 0.113168,
+      "ban_rate": null,
+      "kda": 3.072017,
+      "tier": 3,
+      "rank": 68,
+      "tier_data": {
+        "tier": 3,
+        "rank": 68,
+        "rank_prev": 68,
+        "rank_prev_patch": 78
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.522079,
+          "role_rate": 0.704027,
+          "play": 55823,
+          "win": 29144
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.45418,
+          "role_rate": 0.281987,
+          "play": 22359,
+          "win": 10155
+        }
+      }
+    ]
+  },
+  {
+    "id": 234,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 24265,
+      "win_rate": 0.501133,
+      "pick_rate": 0.0321341,
+      "ban_rate": null,
+      "kda": 2.624,
+      "tier": 3,
+      "rank": 85,
+      "tier_data": {
+        "tier": 3,
+        "rank": 85,
+        "rank_prev": 85,
+        "rank_prev_patch": 95
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.50453,
+          "role_rate": 0.586781,
+          "play": 13246,
+          "win": 6683
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.496017,
+          "role_rate": 0.400372,
+          "play": 9038,
+          "win": 4483
+        }
+      }
+    ]
+  },
+  {
+    "id": 112,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 59219,
+      "win_rate": 0.537378,
+      "pick_rate": 0.0784237,
+      "ban_rate": null,
+      "kda": 3.846333,
+      "tier": 1,
+      "rank": 8,
+      "tier_data": {
+        "tier": 1,
+        "rank": 8,
+        "rank_prev": 8,
+        "rank_prev_patch": 11
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.536917,
+          "role_rate": 0.9952,
+          "play": 54731,
+          "win": 29386
+        }
+      }
+    ]
+  },
+  {
+    "id": 78,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 23041,
+      "win_rate": 0.525672,
+      "pick_rate": 0.0305132,
+      "ban_rate": null,
+      "kda": 3.047962,
+      "tier": 2,
+      "rank": 44,
+      "tier_data": {
+        "tier": 2,
+        "rank": 44,
+        "rank_prev": 41,
+        "rank_prev_patch": 36
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.527261,
+          "role_rate": 0.975721,
+          "play": 20817,
+          "win": 10976
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.457386,
+          "role_rate": 0.0164987,
+          "play": 352,
+          "win": 161
+        }
+      }
+    ]
+  },
+  {
+    "id": 360,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 38197,
+      "win_rate": 0.501008,
+      "pick_rate": 0.0505843,
+      "ban_rate": null,
+      "kda": 2.665467,
+      "tier": 3,
+      "rank": 83,
+      "tier_data": {
+        "tier": 3,
+        "rank": 83,
+        "rank_prev": 82,
+        "rank_prev_patch": 74
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.500908,
+          "role_rate": 0.985823,
+          "play": 35256,
+          "win": 17660
+        }
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 23844,
+      "win_rate": 0.537032,
+      "pick_rate": 0.0315766,
+      "ban_rate": null,
+      "kda": 2.664006,
+      "tier": 2,
+      "rank": 32,
+      "tier_data": {
+        "tier": 2,
+        "rank": 32,
+        "rank_prev": 33,
+        "rank_prev_patch": 39
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.542602,
+          "role_rate": 0.917589,
+          "play": 20398,
+          "win": 11068
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.41879,
+          "role_rate": 0.0282501,
+          "play": 628,
+          "win": 263
+        }
+      },
+      {
+        "name": "SLAYER",
+        "stats": {
+          "win_rate": 0.472995,
+          "role_rate": 0.0274854,
+          "play": 611,
+          "win": 289
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.546642,
+          "role_rate": 0.0241116,
+          "play": 536,
+          "win": 293
+        }
+      }
+    ]
+  },
+  {
+    "id": 517,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 52187,
+      "win_rate": 0.47736,
+      "pick_rate": 0.0691112,
+      "ban_rate": null,
+      "kda": 2.634853,
+      "tier": 4,
+      "rank": 152,
+      "tier_data": {
+        "tier": 4,
+        "rank": 152,
+        "rank_prev": 153,
+        "rank_prev_patch": 150
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.470368,
+          "role_rate": 0.888251,
+          "play": 42994,
+          "win": 20223
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.525166,
+          "role_rate": 0.105903,
+          "play": 5126,
+          "win": 2692
+        }
+      }
+    ]
+  },
+  {
+    "id": 35,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 54126,
+      "win_rate": 0.484776,
+      "pick_rate": 0.0716791,
+      "ban_rate": null,
+      "kda": 3.38983,
+      "tier": 3,
+      "rank": 132,
+      "tier_data": {
+        "tier": 3,
+        "rank": 132,
+        "rank_prev": 128,
+        "rank_prev_patch": 122
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.512815,
+          "role_rate": 0.765063,
+          "play": 38511,
+          "win": 19749
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.386069,
+          "role_rate": 0.180821,
+          "play": 9102,
+          "win": 3514
+        }
+      },
+      {
+        "name": "SLAYER",
+        "stats": {
+          "win_rate": 0.407534,
+          "role_rate": 0.0406063,
+          "play": 2044,
+          "win": 833
+        }
+      }
+    ]
+  },
+  {
+    "id": 235,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 71614,
+      "win_rate": 0.488801,
+      "pick_rate": 0.0948384,
+      "ban_rate": null,
+      "kda": 4.655056,
+      "tier": 3,
+      "rank": 130,
+      "tier_data": {
+        "tier": 3,
+        "rank": 130,
+        "rank_prev": 135,
+        "rank_prev_patch": 144
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.486846,
+          "role_rate": 0.910484,
+          "play": 60132,
+          "win": 29275
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.511202,
+          "role_rate": 0.0743444,
+          "play": 4910,
+          "win": 2510
+        }
+      }
+    ]
+  },
+  {
+    "id": 147,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 80004,
+      "win_rate": 0.509337,
+      "pick_rate": 0.105949,
+      "ban_rate": null,
+      "kda": 4.619504,
+      "tier": 2,
+      "rank": 38,
+      "tier_data": {
+        "tier": 2,
+        "rank": 38,
+        "rank_prev": 39,
+        "rank_prev_patch": 23
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.507928,
+          "role_rate": 0.959846,
+          "play": 71138,
+          "win": 36133
+        }
+      },
+      {
+        "name": "CONTROLLER",
+        "stats": {
+          "win_rate": 0.554126,
+          "role_rate": 0.0356478,
+          "play": 2642,
+          "win": 1464
+        }
+      }
+    ]
+  },
+  {
+    "id": 113,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 20577,
+      "win_rate": 0.511493,
+      "pick_rate": 0.0272501,
+      "ban_rate": null,
+      "kda": 3.058293,
+      "tier": 3,
+      "rank": 67,
+      "tier_data": {
+        "tier": 3,
+        "rank": 67,
+        "rank_prev": 67,
+        "rank_prev_patch": 75
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.513184,
+          "role_rate": 0.98281,
+          "play": 18810,
+          "win": 9653
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.403042,
+          "role_rate": 0.0137416,
+          "play": 263,
+          "win": 106
+        }
+      }
+    ]
+  },
+  {
+    "id": 875,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 43910,
+      "win_rate": 0.519221,
+      "pick_rate": 0.05815,
+      "ban_rate": null,
+      "kda": 2.601239,
+      "tier": 2,
+      "rank": 34,
+      "tier_data": {
+        "tier": 2,
+        "rank": 34,
+        "rank_prev": 35,
+        "rank_prev_patch": 44
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.513088,
+          "role_rate": 0.518433,
+          "play": 21164,
+          "win": 10859
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.530944,
+          "role_rate": 0.470225,
+          "play": 19196,
+          "win": 10192
+        }
+      }
+    ]
+  },
+  {
+    "id": 37,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 39651,
+      "win_rate": 0.521172,
+      "pick_rate": 0.0525098,
+      "ban_rate": null,
+      "kda": 5.211467,
+      "tier": 2,
+      "rank": 35,
+      "tier_data": {
+        "tier": 2,
+        "rank": 35,
+        "rank_prev": 34,
+        "rank_prev_patch": 28
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.486305,
+          "role_rate": 0.52938,
+          "play": 19496,
+          "win": 9481
+        }
+      },
+      {
+        "name": "CONTROLLER",
+        "stats": {
+          "win_rate": 0.564648,
+          "role_rate": 0.454247,
+          "play": 16729,
+          "win": 9446
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.502203,
+          "role_rate": 0.0123276,
+          "play": 454,
+          "win": 228
+        }
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 39009,
+      "win_rate": 0.510216,
+      "pick_rate": 0.0516596,
+      "ban_rate": null,
+      "kda": 5.837355,
+      "tier": 3,
+      "rank": 56,
+      "tier_data": {
+        "tier": 3,
+        "rank": 56,
+        "rank_prev": 58,
+        "rank_prev_patch": 51
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.494033,
+          "role_rate": 0.410286,
+          "play": 14831,
+          "win": 7327
+        }
+      },
+      {
+        "name": "CONTROLLER",
+        "stats": {
+          "win_rate": 0.524467,
+          "role_rate": 0.350503,
+          "play": 12670,
+          "win": 6645
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.521317,
+          "role_rate": 0.230995,
+          "play": 8350,
+          "win": 4353
+        }
+      }
+    ]
+  },
+  {
+    "id": 98,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 28167,
+      "win_rate": 0.52029,
+      "pick_rate": 0.0373016,
+      "ban_rate": null,
+      "kda": 3.648292,
+      "tier": 2,
+      "rank": 45,
+      "tier_data": {
+        "tier": 2,
+        "rank": 45,
+        "rank_prev": 45,
+        "rank_prev_patch": 43
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.523213,
+          "role_rate": 0.978024,
+          "play": 25546,
+          "win": 13366
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.512626,
+          "role_rate": 0.0151608,
+          "play": 396,
+          "win": 203
+        }
+      }
+    ]
+  },
+  {
+    "id": 102,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 18637,
+      "win_rate": 0.484413,
+      "pick_rate": 0.024681,
+      "ban_rate": null,
+      "kda": 2.809767,
+      "tier": 3,
+      "rank": 106,
+      "tier_data": {
+        "tier": 3,
+        "rank": 106,
+        "rank_prev": 105,
+        "rank_prev_patch": 120
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.494245,
+          "role_rate": 0.492318,
+          "play": 8427,
+          "win": 4165
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.476074,
+          "role_rate": 0.310101,
+          "play": 5308,
+          "win": 2527
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.470389,
+          "role_rate": 0.189402,
+          "play": 3242,
+          "win": 1525
+        }
+      }
+    ]
+  },
+  {
+    "id": 901,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 58682,
+      "win_rate": 0.452183,
+      "pick_rate": 0.0777126,
+      "ban_rate": null,
+      "kda": 3.466798,
+      "tier": 5,
+      "rank": 171,
+      "tier_data": {
+        "tier": 5,
+        "rank": 171,
+        "rank_prev": 169,
+        "rank_prev_patch": 173
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.459011,
+          "role_rate": 0.673272,
+          "play": 36424,
+          "win": 16719
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.439142,
+          "role_rate": 0.299778,
+          "play": 16218,
+          "win": 7122
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.430582,
+          "role_rate": 0.0197043,
+          "play": 1066,
+          "win": 459
+        }
+      }
+    ]
+  },
+  {
+    "id": 50,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 62922,
+      "win_rate": 0.635612,
+      "pick_rate": 0.0833276,
+      "ban_rate": null,
+      "kda": 4.782611,
+      "tier": 0,
+      "rank": 1,
+      "tier_data": {
+        "tier": 0,
+        "rank": 1,
+        "rank_prev": 1,
+        "rank_prev_patch": 64
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.639615,
+          "role_rate": 0.785481,
+          "play": 45887,
+          "win": 29350
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.620534,
+          "role_rate": 0.211746,
+          "play": 12370,
+          "win": 7676
+        }
+      }
+    ]
+  },
+  {
+    "id": 72,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 13344,
+      "win_rate": 0.482239,
+      "pick_rate": 0.0176715,
+      "ban_rate": null,
+      "kda": 3.060402,
+      "tier": 3,
+      "rank": 105,
+      "tier_data": {
+        "tier": 3,
+        "rank": 105,
+        "rank_prev": 104,
+        "rank_prev_patch": 106
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.483847,
+          "role_rate": 0.971911,
+          "play": 12041,
+          "win": 5826
+        }
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 59006,
+      "win_rate": 0.497577,
+      "pick_rate": 0.0781416,
+      "ban_rate": null,
+      "kda": 3.750277,
+      "tier": 3,
+      "rank": 98,
+      "tier_data": {
+        "tier": 3,
+        "rank": 98,
+        "rank_prev": 101,
+        "rank_prev_patch": 107
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.497892,
+          "role_rate": 0.976094,
+          "play": 53365,
+          "win": 26570
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.45204,
+          "role_rate": 0.0165898,
+          "play": 907,
+          "win": 410
+        }
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 25633,
+      "win_rate": 0.517263,
+      "pick_rate": 0.0339458,
+      "ban_rate": null,
+      "kda": 2.527217,
+      "tier": 3,
+      "rank": 51,
+      "tier_data": {
+        "tier": 3,
+        "rank": 51,
+        "rank_prev": 51,
+        "rank_prev_patch": 50
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.517303,
+          "role_rate": 0.807585,
+          "play": 19101,
+          "win": 9881
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.506385,
+          "role_rate": 0.0761458,
+          "play": 1801,
+          "win": 912
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.590361,
+          "role_rate": 0.0666751,
+          "play": 1577,
+          "win": 931
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.457627,
+          "role_rate": 0.0449011,
+          "play": 1062,
+          "win": 486
+        }
+      }
+    ]
+  },
+  {
+    "id": 134,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 51934,
+      "win_rate": 0.484134,
+      "pick_rate": 0.0687762,
+      "ban_rate": null,
+      "kda": 3.381758,
+      "tier": 3,
+      "rank": 133,
+      "tier_data": {
+        "tier": 3,
+        "rank": 133,
+        "rank_prev": 132,
+        "rank_prev_patch": 111
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.485527,
+          "role_rate": 0.996853,
+          "play": 48469,
+          "win": 23533
+        }
+      }
+    ]
+  },
+  {
+    "id": 27,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "play": 33253,
+      "win_rate": 0.508465,
+      "pick_rate": 0.0440369,
+      "ban_rate": null,
+      "kda": 2.657392,
+      "tier": 3,
+      "rank": 64,
+      "tier_data": {
+        "tier": 3,
+        "rank": 64,
+        "rank_prev": 65,
+        "rank_prev_patch": 77
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.521957,
+          "role_rate": 0.633076,
+          "play": 19538,
+          "win": 10198
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.487251,
+          "role_rate": 0.362161,
+          "play": 11177,
+          "win": 5446
+        }
+      }
+    ]
+  },
+  {
+    "id": 412,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 63417,
+      "win_rate": 0.497201,
+      "pick_rate": 0.0839831,
+      "ban_rate": null,
+      "kda": 3.609937,
+      "tier": 3,
+      "rank": 100,
+      "tier_data": {
+        "tier": 3,
+        "rank": 100,
+        "rank_prev": 99,
+        "rank_prev_patch": 71
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.50291,
+          "role_rate": 0.938553,
+          "play": 55491,
+          "win": 27907
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.366995,
+          "role_rate": 0.0343346,
+          "play": 2030,
+          "win": 745
+        }
+      },
+      {
+        "name": "CONTROLLER",
+        "stats": {
+          "win_rate": 0.608371,
+          "role_rate": 0.0113152,
+          "play": 669,
+          "win": 407
+        }
+      }
+    ]
+  },
+  {
+    "id": 103,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 85463,
+      "win_rate": 0.516984,
+      "pick_rate": 0.113179,
+      "ban_rate": null,
+      "kda": 3.500127,
+      "tier": 2,
+      "rank": 17,
+      "tier_data": {
+        "tier": 2,
+        "rank": 17,
+        "rank_prev": 16,
+        "rank_prev_patch": 17
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.517568,
+          "role_rate": 0.995126,
+          "play": 79006,
+          "win": 40891
+        }
+      }
+    ]
+  },
+  {
+    "id": 32,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 37274,
+      "win_rate": 0.518646,
+      "pick_rate": 0.049362,
+      "ban_rate": null,
+      "kda": 2.689827,
+      "tier": 2,
+      "rank": 40,
+      "tier_data": {
+        "tier": 2,
+        "rank": 40,
+        "rank_prev": 40,
+        "rank_prev_patch": 46
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.52826,
+          "role_rate": 0.861566,
+          "play": 29830,
+          "win": 15758
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.458245,
+          "role_rate": 0.135575,
+          "play": 4694,
+          "win": 2151
+        }
+      }
+    ]
+  },
+  {
+    "id": 136,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 38642,
+      "win_rate": 0.508436,
+      "pick_rate": 0.0511736,
+      "ban_rate": null,
+      "kda": 3.489434,
+      "tier": 3,
+      "rank": 61,
+      "tier_data": {
+        "tier": 3,
+        "rank": 61,
+        "rank_prev": 60,
+        "rank_prev_patch": 59
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.50849,
+          "role_rate": 0.995655,
+          "play": 35747,
+          "win": 18177
+        }
+      }
+    ]
+  },
+  {
+    "id": 427,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "play": 18099,
+      "win_rate": 0.497099,
+      "pick_rate": 0.0239685,
+      "ban_rate": null,
+      "kda": 4.693572,
+      "tier": 3,
+      "rank": 90,
+      "tier_data": {
+        "tier": 3,
+        "rank": 90,
+        "rank_prev": 93,
+        "rank_prev_patch": 96
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "CONTROLLER",
+        "stats": {
+          "win_rate": 0.539519,
+          "role_rate": 0.557714,
+          "play": 9388,
+          "win": 5065
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.457525,
+          "role_rate": 0.386027,
+          "play": 6498,
+          "win": 2973
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.443983,
+          "role_rate": 0.0429513,
+          "play": 723,
+          "win": 321
+        }
+      }
+    ]
+  },
+  {
+    "id": 268,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "play": 22843,
+      "win_rate": 0.465,
+      "pick_rate": 0.030251,
+      "ban_rate": null,
+      "kda": 2.712165,
+      "tier": 3,
+      "rank": 128,
+      "tier_data": {
+        "tier": 3,
+        "rank": 128,
+        "rank_prev": 129,
+        "rank_prev_patch": 136
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.465598,
+          "role_rate": 0.989741,
+          "play": 21031,
+          "win": 9792
+        }
+      }
+    ]
+  },
+  {
+    "id": 84,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 35683,
+      "win_rate": 0.422386,
+      "pick_rate": 0.047255,
+      "ban_rate": null,
+      "kda": 2.512243,
+      "tier": 5,
+      "rank": 170,
+      "tier_data": {
+        "tier": 5,
+        "rank": 170,
+        "rank_prev": 171,
+        "rank_prev_patch": 171
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.419651,
+          "role_rate": 0.928181,
+          "play": 30604,
+          "win": 12843
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.472777,
+          "role_rate": 0.0668446,
+          "play": 2204,
+          "win": 1042
+        }
+      }
+    ]
+  },
+  {
+    "id": 166,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 34594,
+      "win_rate": 0.475921,
+      "pick_rate": 0.0458128,
+      "ban_rate": null,
+      "kda": 2.894099,
+      "tier": 3,
+      "rank": 134,
+      "tier_data": {
+        "tier": 3,
+        "rank": 134,
+        "rank_prev": 131,
+        "rank_prev_patch": 110
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.47701,
+          "role_rate": 0.959821,
+          "play": 30840,
+          "win": 14711
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.485236,
+          "role_rate": 0.0316206,
+          "play": 1016,
+          "win": 493
+        }
+      }
+    ]
+  },
+  {
+    "id": 266,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 22007,
+      "win_rate": 0.489662,
+      "pick_rate": 0.0291439,
+      "ban_rate": null,
+      "kda": 2.605772,
+      "tier": 3,
+      "rank": 103,
+      "tier_data": {
+        "tier": 3,
+        "rank": 103,
+        "rank_prev": 102,
+        "rank_prev_patch": 112
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.494066,
+          "role_rate": 0.933209,
+          "play": 19044,
+          "win": 9409
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.427624,
+          "role_rate": 0.0443475,
+          "play": 905,
+          "win": 387
+        }
+      },
+      {
+        "name": "SLAYER",
+        "stats": {
+          "win_rate": 0.560811,
+          "role_rate": 0.0145048,
+          "play": 296,
+          "win": 166
+        }
+      }
+    ]
+  },
+  {
+    "id": 523,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 34895,
+      "win_rate": 0.514228,
+      "pick_rate": 0.0462114,
+      "ban_rate": null,
+      "kda": 3.058745,
+      "tier": 2,
+      "rank": 48,
+      "tier_data": {
+        "tier": 2,
+        "rank": 48,
+        "rank_prev": 49,
+        "rank_prev_patch": 48
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.515119,
+          "role_rate": 0.989301,
+          "play": 32179,
+          "win": 16576
+        }
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "play": 35005,
+      "win_rate": 0.504614,
+      "pick_rate": 0.0463571,
+      "ban_rate": null,
+      "kda": 3.513641,
+      "tier": 3,
+      "rank": 72,
+      "tier_data": {
+        "tier": 3,
+        "rank": 72,
+        "rank_prev": 75,
+        "rank_prev_patch": 60
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.506573,
+          "role_rate": 0.948132,
+          "play": 30655,
+          "win": 15529
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.413483,
+          "role_rate": 0.0412904,
+          "play": 1335,
+          "win": 552
+        }
+      }
+    ]
+  },
+  {
+    "id": 799,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 16657,
+      "win_rate": 0.46629,
+      "pick_rate": 0.0220589,
+      "ban_rate": null,
+      "kda": 2.438783,
+      "tier": 3,
+      "rank": 120,
+      "tier_data": {
+        "tier": 3,
+        "rank": 120,
+        "rank_prev": 122,
+        "rank_prev_patch": 131
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.466917,
+          "role_rate": 0.948252,
+          "play": 14403,
+          "win": 6725
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.386707,
+          "role_rate": 0.0217921,
+          "play": 331,
+          "win": 128
+        }
+      },
+      {
+        "name": "SLAYER",
+        "stats": {
+          "win_rate": 0.54,
+          "role_rate": 0.0197511,
+          "play": 300,
+          "win": 162
+        }
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 42288,
+      "win_rate": 0.479758,
+      "pick_rate": 0.056002,
+      "ban_rate": null,
+      "kda": 3.078536,
+      "tier": 3,
+      "rank": 136,
+      "tier_data": {
+        "tier": 3,
+        "rank": 136,
+        "rank_prev": 137,
+        "rank_prev_patch": 126
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.480572,
+          "role_rate": 0.992638,
+          "play": 38964,
+          "win": 18725
+        }
+      }
+    ]
+  },
+  {
+    "id": 34,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 45538,
+      "win_rate": 0.491062,
+      "pick_rate": 0.060306,
+      "ban_rate": null,
+      "kda": 3.930769,
+      "tier": 3,
+      "rank": 107,
+      "tier_data": {
+        "tier": 3,
+        "rank": 107,
+        "rank_prev": 109,
+        "rank_prev_patch": 143
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.490135,
+          "role_rate": 0.988694,
+          "play": 41713,
+          "win": 20445
+        }
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 93241,
+      "win_rate": 0.523235,
+      "pick_rate": 0.123479,
+      "ban_rate": null,
+      "kda": 3.539436,
+      "tier": 1,
+      "rank": 9,
+      "tier_data": {
+        "tier": 1,
+        "rank": 9,
+        "rank_prev": 9,
+        "rank_prev_patch": 1
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.549968,
+          "role_rate": 0.708525,
+          "play": 61269,
+          "win": 33696
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.429846,
+          "role_rate": 0.163275,
+          "play": 14119,
+          "win": 6069
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.506875,
+          "role_rate": 0.109328,
+          "play": 9454,
+          "win": 4792
+        }
+      }
+    ]
+  },
+  {
+    "id": 157,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 57141,
+      "win_rate": 0.540908,
+      "pick_rate": 0.0756718,
+      "ban_rate": null,
+      "kda": 2.369118,
+      "tier": 1,
+      "rank": 7,
+      "tier_data": {
+        "tier": 1,
+        "rank": 7,
+        "rank_prev": 7,
+        "rank_prev_patch": 8
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.548884,
+          "role_rate": 0.711609,
+          "play": 37753,
+          "win": 20722
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.525474,
+          "role_rate": 0.242701,
+          "play": 12876,
+          "win": 6766
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.53867,
+          "role_rate": 0.0416753,
+          "play": 2211,
+          "win": 1191
+        }
+      }
+    ]
+  },
+  {
+    "id": 245,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 46457,
+      "win_rate": 0.507071,
+      "pick_rate": 0.061523,
+      "ban_rate": null,
+      "kda": 2.958817,
+      "tier": 3,
+      "rank": 59,
+      "tier_data": {
+        "tier": 3,
+        "rank": 59,
+        "rank_prev": 61,
+        "rank_prev_patch": 54
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.507182,
+          "role_rate": 0.961797,
+          "play": 41490,
+          "win": 21043
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.516043,
+          "role_rate": 0.0346794,
+          "play": 1496,
+          "win": 772
+        }
+      }
+    ]
+  },
+  {
+    "id": 60,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 21032,
+      "win_rate": 0.461107,
+      "pick_rate": 0.0278527,
+      "ban_rate": null,
+      "kda": 3.04136,
+      "tier": 3,
+      "rank": 131,
+      "tier_data": {
+        "tier": 3,
+        "rank": 131,
+        "rank_prev": 133,
+        "rank_prev_patch": 123
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.463512,
+          "role_rate": 0.973831,
+          "play": 18979,
+          "win": 8797
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.482857,
+          "role_rate": 0.0179588,
+          "play": 350,
+          "win": 169
+        }
+      }
+    ]
+  },
+  {
+    "id": 62,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 39016,
+      "win_rate": 0.527117,
+      "pick_rate": 0.0516689,
+      "ban_rate": null,
+      "kda": 2.913024,
+      "tier": 2,
+      "rank": 24,
+      "tier_data": {
+        "tier": 2,
+        "rank": 24,
+        "rank_prev": 26,
+        "rank_prev_patch": 27
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.53103,
+          "role_rate": 0.907747,
+          "play": 32904,
+          "win": 17473
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.501422,
+          "role_rate": 0.0582101,
+          "play": 2110,
+          "win": 1058
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.464448,
+          "role_rate": 0.0182355,
+          "play": 661,
+          "win": 307
+        }
+      },
+      {
+        "name": "SLAYER",
+        "stats": {
+          "win_rate": 0.516432,
+          "role_rate": 0.0117524,
+          "play": 426,
+          "win": 220
+        }
+      }
+    ]
+  },
+  {
+    "id": 893,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 34883,
+      "win_rate": 0.506063,
+      "pick_rate": 0.0461956,
+      "ban_rate": null,
+      "kda": 3.497125,
+      "tier": 3,
+      "rank": 69,
+      "tier_data": {
+        "tier": 3,
+        "rank": 69,
+        "rank_prev": 69,
+        "rank_prev_patch": 65
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.505319,
+          "role_rate": 0.996778,
+          "play": 31867,
+          "win": 16103
+        }
+      }
+    ]
+  },
+  {
+    "id": 516,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 20608,
+      "win_rate": 0.505872,
+      "pick_rate": 0.0272912,
+      "ban_rate": null,
+      "kda": 3.154036,
+      "tier": 3,
+      "rank": 75,
+      "tier_data": {
+        "tier": 3,
+        "rank": 75,
+        "rank_prev": 73,
+        "rank_prev_patch": 94
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.503927,
+          "role_rate": 0.994532,
+          "play": 19098,
+          "win": 9624
+        }
+      }
+    ]
+  },
+  {
+    "id": 61,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 56710,
+      "win_rate": 0.478522,
+      "pick_rate": 0.075101,
+      "ban_rate": null,
+      "kda": 4.260237,
+      "tier": 4,
+      "rank": 155,
+      "tier_data": {
+        "tier": 4,
+        "rank": 155,
+        "rank_prev": 155,
+        "rank_prev_patch": 149
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.480011,
+          "role_rate": 0.992358,
+          "play": 52205,
+          "win": 25059
+        }
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 14776,
+      "win_rate": 0.52768,
+      "pick_rate": 0.0195679,
+      "ban_rate": null,
+      "kda": 2.585834,
+      "tier": 3,
+      "rank": 54,
+      "tier_data": {
+        "tier": 3,
+        "rank": 54,
+        "rank_prev": 56,
+        "rank_prev_patch": 53
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.534807,
+          "role_rate": 0.906015,
+          "play": 12397,
+          "win": 6630
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.47667,
+          "role_rate": 0.0798801,
+          "play": 1093,
+          "win": 521
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.536913,
+          "role_rate": 0.0108894,
+          "play": 149,
+          "win": 80
+        }
+      }
+    ]
+  },
+  {
+    "id": 777,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 46551,
+      "win_rate": 0.532319,
+      "pick_rate": 0.0616475,
+      "ban_rate": null,
+      "kda": 2.543036,
+      "tier": 2,
+      "rank": 15,
+      "tier_data": {
+        "tier": 2,
+        "rank": 15,
+        "rank_prev": 15,
+        "rank_prev_patch": 15
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.544006,
+          "role_rate": 0.533217,
+          "play": 22963,
+          "win": 12492
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.525058,
+          "role_rate": 0.4323,
+          "play": 18617,
+          "win": 9775
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.469665,
+          "role_rate": 0.0325322,
+          "play": 1401,
+          "win": 658
+        }
+      }
+    ]
+  },
+  {
+    "id": 83,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 10752,
+      "win_rate": 0.527065,
+      "pick_rate": 0.0142389,
+      "ban_rate": null,
+      "kda": 3.370679,
+      "tier": 3,
+      "rank": 63,
+      "tier_data": {
+        "tier": 3,
+        "rank": 63,
+        "rank_prev": 63,
+        "rank_prev_patch": 52
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.534437,
+          "role_rate": 0.6824,
+          "play": 6824,
+          "win": 3647
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.512126,
+          "role_rate": 0.2474,
+          "play": 2474,
+          "win": 1267
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.536797,
+          "role_rate": 0.0462,
+          "play": 462,
+          "win": 248
+        }
+      },
+      {
+        "name": "SLAYER",
+        "stats": {
+          "win_rate": 0.4375,
+          "role_rate": 0.016,
+          "play": 160,
+          "win": 70
+        }
+      }
+    ]
+  },
+  {
+    "id": 77,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 13784,
+      "win_rate": 0.46554,
+      "pick_rate": 0.0182541,
+      "ban_rate": null,
+      "kda": 2.498449,
+      "tier": 3,
+      "rank": 113,
+      "tier_data": {
+        "tier": 3,
+        "rank": 113,
+        "rank_prev": 113,
+        "rank_prev_patch": 105
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.487556,
+          "role_rate": 0.5202,
+          "play": 6670,
+          "win": 3252
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.456642,
+          "role_rate": 0.409219,
+          "play": 5247,
+          "win": 2396
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.414763,
+          "role_rate": 0.0443769,
+          "play": 569,
+          "win": 236
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.307692,
+          "role_rate": 0.0141944,
+          "play": 182,
+          "win": 56
+        }
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 28554,
+      "win_rate": 0.499405,
+      "pick_rate": 0.0378141,
+      "ban_rate": null,
+      "kda": 2.733583,
+      "tier": 3,
+      "rank": 88,
+      "tier_data": {
+        "tier": 3,
+        "rank": 88,
+        "rank_prev": 89,
+        "rank_prev_patch": 76
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.489318,
+          "role_rate": 0.564547,
+          "play": 14978,
+          "win": 7329
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.515842,
+          "role_rate": 0.423505,
+          "play": 11236,
+          "win": 5796
+        }
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 21546,
+      "win_rate": 0.505291,
+      "pick_rate": 0.0285334,
+      "ban_rate": null,
+      "kda": 2.447468,
+      "tier": 3,
+      "rank": 76,
+      "tier_data": {
+        "tier": 3,
+        "rank": 76,
+        "rank_prev": 76,
+        "rank_prev_patch": 89
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.518267,
+          "role_rate": 0.619219,
+          "play": 12372,
+          "win": 6412
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.487498,
+          "role_rate": 0.358308,
+          "play": 7159,
+          "win": 3490
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.407725,
+          "role_rate": 0.0116617,
+          "play": 233,
+          "win": 95
+        }
+      }
+    ]
+  },
+  {
+    "id": 804,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 48359,
+      "win_rate": 0.490043,
+      "pick_rate": 0.0640418,
+      "ban_rate": null,
+      "kda": 2.978081,
+      "tier": 3,
+      "rank": 114,
+      "tier_data": {
+        "tier": 3,
+        "rank": 114,
+        "rank_prev": 114,
+        "rank_prev_patch": 97
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.489835,
+          "role_rate": 0.969959,
+          "play": 43976,
+          "win": 21541
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.481322,
+          "role_rate": 0.0153514,
+          "play": 696,
+          "win": 335
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.478261,
+          "role_rate": 0.010146,
+          "play": 460,
+          "win": 220
+        }
+      }
+    ]
+  },
+  {
+    "id": 350,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 25959,
+      "win_rate": 0.467853,
+      "pick_rate": 0.0343775,
+      "ban_rate": null,
+      "kda": 8.830403,
+      "tier": 3,
+      "rank": 135,
+      "tier_data": {
+        "tier": 3,
+        "rank": 135,
+        "rank_prev": 134,
+        "rank_prev_patch": 132
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "CONTROLLER",
+        "stats": {
+          "win_rate": 0.486722,
+          "role_rate": 0.596871,
+          "play": 14347,
+          "win": 6983
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.44491,
+          "role_rate": 0.396847,
+          "play": 9539,
+          "win": 4244
+        }
+      }
+    ]
+  },
+  {
+    "id": 39,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 19865,
+      "win_rate": 0.522779,
+      "pick_rate": 0.0263072,
+      "ban_rate": null,
+      "kda": 2.481908,
+      "tier": 3,
+      "rank": 50,
+      "tier_data": {
+        "tier": 3,
+        "rank": 50,
+        "rank_prev": 50,
+        "rank_prev_patch": 47
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.527669,
+          "role_rate": 0.909022,
+          "play": 16806,
+          "win": 8868
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.49759,
+          "role_rate": 0.044894,
+          "play": 830,
+          "win": 413
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.439291,
+          "role_rate": 0.0396473,
+          "play": 733,
+          "win": 322
+        }
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 11959,
+      "win_rate": 0.454135,
+      "pick_rate": 0.0158373,
+      "ban_rate": null,
+      "kda": 3.074172,
+      "tier": 3,
+      "rank": 118,
+      "tier_data": {
+        "tier": 3,
+        "rank": 118,
+        "rank_prev": 120,
+        "rank_prev_patch": 113
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.455236,
+          "role_rate": 0.995499,
+          "play": 11058,
+          "win": 5034
+        }
+      }
+    ]
+  },
+  {
+    "id": 81,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 96833,
+      "win_rate": 0.49762,
+      "pick_rate": 0.128236,
+      "ban_rate": null,
+      "kda": 3.865425,
+      "tier": 3,
+      "rank": 104,
+      "tier_data": {
+        "tier": 3,
+        "rank": 104,
+        "rank_prev": 106,
+        "rank_prev_patch": 80
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.50184,
+          "role_rate": 0.853822,
+          "play": 76622,
+          "win": 38452
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.458724,
+          "role_rate": 0.0867952,
+          "play": 7789,
+          "win": 3573
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.489889,
+          "role_rate": 0.0462893,
+          "play": 4154,
+          "win": 2035
+        }
+      }
+    ]
+  },
+  {
+    "id": 420,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 34833,
+      "win_rate": 0.504435,
+      "pick_rate": 0.0461293,
+      "ban_rate": null,
+      "kda": 2.576608,
+      "tier": 3,
+      "rank": 73,
+      "tier_data": {
+        "tier": 3,
+        "rank": 73,
+        "rank_prev": 71,
+        "rank_prev_patch": 70
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.487014,
+          "role_rate": 0.610219,
+          "play": 19790,
+          "win": 9638
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.536747,
+          "role_rate": 0.381795,
+          "play": 12382,
+          "win": 6646
+        }
+      }
+    ]
+  },
+  {
+    "id": 59,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 31006,
+      "win_rate": 0.470393,
+      "pick_rate": 0.0410612,
+      "ban_rate": null,
+      "kda": 3.397884,
+      "tier": 3,
+      "rank": 138,
+      "tier_data": {
+        "tier": 3,
+        "rank": 138,
+        "rank_prev": 138,
+        "rank_prev_patch": 142
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.478577,
+          "role_rate": 0.699227,
+          "play": 20072,
+          "win": 9606
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.47263,
+          "role_rate": 0.156553,
+          "play": 4494,
+          "win": 2124
+        }
+      },
+      {
+        "name": "SLAYER",
+        "stats": {
+          "win_rate": 0.476364,
+          "role_rate": 0.0862189,
+          "play": 2475,
+          "win": 1179
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.385542,
+          "role_rate": 0.0520449,
+          "play": 1494,
+          "win": 576
+        }
+      }
+    ]
+  },
+  {
+    "id": 498,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 54501,
+      "win_rate": 0.538064,
+      "pick_rate": 0.0721757,
+      "ban_rate": null,
+      "kda": 3.389707,
+      "tier": 1,
+      "rank": 11,
+      "tier_data": {
+        "tier": 1,
+        "rank": 11,
+        "rank_prev": 11,
+        "rank_prev_patch": 9
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.538932,
+          "role_rate": 0.977832,
+          "play": 49535,
+          "win": 26696
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.482269,
+          "role_rate": 0.0167002,
+          "play": 846,
+          "win": 408
+        }
+      }
+    ]
+  },
+  {
+    "id": 143,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 58631,
+      "win_rate": 0.518122,
+      "pick_rate": 0.077645,
+      "ban_rate": null,
+      "kda": 3.862412,
+      "tier": 2,
+      "rank": 23,
+      "tier_data": {
+        "tier": 2,
+        "rank": 23,
+        "rank_prev": 22,
+        "rank_prev_patch": 32
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.519448,
+          "role_rate": 0.995998,
+          "play": 53759,
+          "win": 27925
+        }
+      }
+    ]
+  },
+  {
+    "id": 154,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 21525,
+      "win_rate": 0.480046,
+      "pick_rate": 0.0285056,
+      "ban_rate": null,
+      "kda": 2.917314,
+      "tier": 3,
+      "rank": 109,
+      "tier_data": {
+        "tier": 3,
+        "rank": 109,
+        "rank_prev": 108,
+        "rank_prev_patch": 128
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.484877,
+          "role_rate": 0.962276,
+          "play": 18978,
+          "win": 9202
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.42003,
+          "role_rate": 0.0339215,
+          "play": 669,
+          "win": 281
+        }
+      }
+    ]
+  },
+  {
+    "id": 904,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 22344,
+      "win_rate": 0.519334,
+      "pick_rate": 0.0295902,
+      "ban_rate": null,
+      "kda": 2.565375,
+      "tier": 3,
+      "rank": 53,
+      "tier_data": {
+        "tier": 3,
+        "rank": 53,
+        "rank_prev": 52,
+        "rank_prev_patch": 45
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.520336,
+          "role_rate": 0.939117,
+          "play": 19497,
+          "win": 10145
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.489443,
+          "role_rate": 0.0501903,
+          "play": 1042,
+          "win": 510
+        }
+      }
+    ]
+  },
+  {
+    "id": 40,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "play": 43737,
+      "win_rate": 0.499623,
+      "pick_rate": 0.0579209,
+      "ban_rate": null,
+      "kda": 5.421238,
+      "tier": 3,
+      "rank": 87,
+      "tier_data": {
+        "tier": 3,
+        "rank": 87,
+        "rank_prev": 90,
+        "rank_prev_patch": 93
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "CONTROLLER",
+        "stats": {
+          "win_rate": 0.524288,
+          "role_rate": 0.515608,
+          "play": 20895,
+          "win": 10955
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.474601,
+          "role_rate": 0.464874,
+          "play": 18839,
+          "win": 8941
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.385151,
+          "role_rate": 0.0106354,
+          "play": 431,
+          "win": 166
+        }
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 35283,
+      "win_rate": 0.5247,
+      "pick_rate": 0.0467253,
+      "ban_rate": null,
+      "kda": 2.323294,
+      "tier": 2,
+      "rank": 33,
+      "tier_data": {
+        "tier": 2,
+        "rank": 33,
+        "rank_prev": 32,
+        "rank_prev_patch": 26
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.526301,
+          "role_rate": 0.843566,
+          "play": 27604,
+          "win": 14528
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.506268,
+          "role_rate": 0.0950707,
+          "play": 3111,
+          "win": 1575
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.52904,
+          "role_rate": 0.0531431,
+          "play": 1739,
+          "win": 920
+        }
+      }
+    ]
+  },
+  {
+    "id": 238,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 44501,
+      "win_rate": 0.453743,
+      "pick_rate": 0.0589327,
+      "ban_rate": null,
+      "kda": 2.751781,
+      "tier": 5,
+      "rank": 166,
+      "tier_data": {
+        "tier": 5,
+        "rank": 166,
+        "rank_prev": 166,
+        "rank_prev_patch": 166
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "SLAYER",
+        "stats": {
+          "win_rate": 0.472326,
+          "role_rate": 0.654669,
+          "play": 26975,
+          "win": 12741
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.441979,
+          "role_rate": 0.204543,
+          "play": 8428,
+          "win": 3725
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.386092,
+          "role_rate": 0.134016,
+          "play": 5522,
+          "win": 2132
+        }
+      }
+    ]
+  },
+  {
+    "id": 101,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 83290,
+      "win_rate": 0.509665,
+      "pick_rate": 0.110301,
+      "ban_rate": null,
+      "kda": 4.702598,
+      "tier": 2,
+      "rank": 36,
+      "tier_data": {
+        "tier": 2,
+        "rank": 36,
+        "rank_prev": 38,
+        "rank_prev_patch": 40
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.510127,
+          "role_rate": 0.997581,
+          "play": 77120,
+          "win": 39341
+        }
+      }
+    ]
+  },
+  {
+    "id": 221,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 36062,
+      "win_rate": 0.470689,
+      "pick_rate": 0.0477569,
+      "ban_rate": null,
+      "kda": 3.067462,
+      "tier": 4,
+      "rank": 146,
+      "tier_data": {
+        "tier": 4,
+        "rank": 146,
+        "rank_prev": 146,
+        "rank_prev_patch": 141
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.469747,
+          "role_rate": 0.969764,
+          "play": 32394,
+          "win": 15217
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.424444,
+          "role_rate": 0.0134714,
+          "play": 450,
+          "win": 191
+        }
+      }
+    ]
+  },
+  {
+    "id": 126,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 55579,
+      "win_rate": 0.454434,
+      "pick_rate": 0.0736033,
+      "ban_rate": null,
+      "kda": 3.446518,
+      "tier": 5,
+      "rank": 168,
+      "tier_data": {
+        "tier": 5,
+        "rank": 168,
+        "rank_prev": 168,
+        "rank_prev_patch": 167
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.453371,
+          "role_rate": 0.602676,
+          "play": 30807,
+          "win": 13967
+        }
+      },
+      {
+        "name": "SLAYER",
+        "stats": {
+          "win_rate": 0.483262,
+          "role_rate": 0.229082,
+          "play": 11710,
+          "win": 5659
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.424771,
+          "role_rate": 0.155897,
+          "play": 7969,
+          "win": 3385
+        }
+      }
+    ]
+  },
+  {
+    "id": 142,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 51184,
+      "win_rate": 0.502501,
+      "pick_rate": 0.067783,
+      "ban_rate": null,
+      "kda": 3.882256,
+      "tier": 3,
+      "rank": 74,
+      "tier_data": {
+        "tier": 3,
+        "rank": 74,
+        "rank_prev": 78,
+        "rank_prev_patch": 100
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.503745,
+          "role_rate": 0.995024,
+          "play": 47393,
+          "win": 23874
+        }
+      }
+    ]
+  },
+  {
+    "id": 115,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 82635,
+      "win_rate": 0.512773,
+      "pick_rate": 0.109434,
+      "ban_rate": null,
+      "kda": 4.287766,
+      "tier": 2,
+      "rank": 25,
+      "tier_data": {
+        "tier": 2,
+        "rank": 25,
+        "rank_prev": 28,
+        "rank_prev_patch": 19
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.513884,
+          "role_rate": 0.996842,
+          "play": 76381,
+          "win": 39251
+        }
+      }
+    ]
+  },
+  {
+    "id": 202,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 100089,
+      "win_rate": 0.509786,
+      "pick_rate": 0.132548,
+      "ban_rate": null,
+      "kda": 4.230266,
+      "tier": 2,
+      "rank": 28,
+      "tier_data": {
+        "tier": 2,
+        "rank": 28,
+        "rank_prev": 27,
+        "rank_prev_patch": 33
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.509252,
+          "role_rate": 0.971748,
+          "play": 90254,
+          "win": 45962
+        }
+      },
+      {
+        "name": "SLAYER",
+        "stats": {
+          "win_rate": 0.568474,
+          "role_rate": 0.0192618,
+          "play": 1789,
+          "win": 1017
+        }
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 42177,
+      "win_rate": 0.484008,
+      "pick_rate": 0.055855,
+      "ban_rate": null,
+      "kda": 4.764841,
+      "tier": 3,
+      "rank": 124,
+      "tier_data": {
+        "tier": 3,
+        "rank": 124,
+        "rank_prev": 125,
+        "rank_prev_patch": 137
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.48544,
+          "role_rate": 0.963584,
+          "play": 37706,
+          "win": 18304
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.515528,
+          "role_rate": 0.0205719,
+          "play": 805,
+          "win": 415
+        }
+      },
+      {
+        "name": "CONTROLLER",
+        "stats": {
+          "win_rate": 0.49543,
+          "role_rate": 0.0139787,
+          "play": 547,
+          "win": 271
+        }
+      }
+    ]
+  },
+  {
+    "id": 222,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 96465,
+      "win_rate": 0.531965,
+      "pick_rate": 0.127749,
+      "ban_rate": null,
+      "kda": 3.387731,
+      "tier": 1,
+      "rank": 4,
+      "tier_data": {
+        "tier": 1,
+        "rank": 4,
+        "rank_prev": 4,
+        "rank_prev_patch": 3
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.534258,
+          "role_rate": 0.969682,
+          "play": 86739,
+          "win": 46341
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.466958,
+          "role_rate": 0.0179316,
+          "play": 1604,
+          "win": 749
+        }
+      }
+    ]
+  },
+  {
+    "id": 31,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "play": 66617,
+      "win_rate": 0.51703,
+      "pick_rate": 0.0882209,
+      "ban_rate": null,
+      "kda": 3.202237,
+      "tier": 2,
+      "rank": 20,
+      "tier_data": {
+        "tier": 2,
+        "rank": 20,
+        "rank_prev": 19,
+        "rank_prev_patch": 29
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.520388,
+          "role_rate": 0.89541,
+          "play": 55399,
+          "win": 28829
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.481138,
+          "role_rate": 0.101115,
+          "play": 6256,
+          "win": 3010
+        }
+      }
+    ]
+  },
+  {
+    "id": 43,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 64777,
+      "win_rate": 0.477222,
+      "pick_rate": 0.0857842,
+      "ban_rate": null,
+      "kda": 4.279547,
+      "tier": 4,
+      "rank": 159,
+      "tier_data": {
+        "tier": 4,
+        "rank": 159,
+        "rank_prev": 159,
+        "rank_prev_patch": 154
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.476446,
+          "role_rate": 0.889102,
+          "play": 53387,
+          "win": 25436
+        }
+      },
+      {
+        "name": "CONTROLLER",
+        "stats": {
+          "win_rate": 0.506719,
+          "role_rate": 0.0855178,
+          "play": 5135,
+          "win": 2602
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.453274,
+          "role_rate": 0.0226326,
+          "play": 1359,
+          "win": 616
+        }
+      }
+    ]
+  },
+  {
+    "id": 164,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 15759,
+      "win_rate": 0.465892,
+      "pick_rate": 0.0208696,
+      "ban_rate": null,
+      "kda": 2.40213,
+      "tier": 3,
+      "rank": 117,
+      "tier_data": {
+        "tier": 3,
+        "rank": 117,
+        "rank_prev": 116,
+        "rank_prev_patch": 121
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.469573,
+          "role_rate": 0.920055,
+          "play": 13442,
+          "win": 6312
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.481336,
+          "role_rate": 0.0696783,
+          "play": 1018,
+          "win": 490
+        }
+      }
+    ]
+  },
+  {
+    "id": 38,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 19902,
+      "win_rate": 0.451161,
+      "pick_rate": 0.0263562,
+      "ban_rate": null,
+      "kda": 2.583893,
+      "tier": 4,
+      "rank": 139,
+      "tier_data": {
+        "tier": 4,
+        "rank": 139,
+        "rank_prev": 139,
+        "rank_prev_patch": 146
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.449297,
+          "role_rate": 0.969971,
+          "play": 17701,
+          "win": 7953
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.523232,
+          "role_rate": 0.0271248,
+          "play": 495,
+          "win": 259
+        }
+      }
+    ]
+  },
+  {
+    "id": 30,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "play": 44641,
+      "win_rate": 0.484375,
+      "pick_rate": 0.0591181,
+      "ban_rate": null,
+      "kda": 2.822221,
+      "tier": 3,
+      "rank": 126,
+      "tier_data": {
+        "tier": 3,
+        "rank": 126,
+        "rank_prev": 124,
+        "rank_prev_patch": 125
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.483974,
+          "role_rate": 0.995877,
+          "play": 41308,
+          "win": 19992
+        }
+      }
+    ]
+  },
+  {
+    "id": 69,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 31664,
+      "win_rate": 0.435826,
+      "pick_rate": 0.0419326,
+      "ban_rate": null,
+      "kda": 3.067769,
+      "tier": 5,
+      "rank": 165,
+      "tier_data": {
+        "tier": 5,
+        "rank": 165,
+        "rank_prev": 165,
+        "rank_prev_patch": 157
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.437149,
+          "role_rate": 0.99354,
+          "play": 29530,
+          "win": 12909
+        }
+      }
+    ]
+  },
+  {
+    "id": 145,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "play": 91267,
+      "win_rate": 0.48849,
+      "pick_rate": 0.120865,
+      "ban_rate": null,
+      "kda": 3.831781,
+      "tier": 4,
+      "rank": 142,
+      "tier_data": {
+        "tier": 4,
+        "rank": 142,
+        "rank_prev": 147,
+        "rank_prev_patch": 152
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.493994,
+          "role_rate": 0.555352,
+          "play": 47035,
+          "win": 23235
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.486897,
+          "role_rate": 0.406404,
+          "play": 34420,
+          "win": 16759
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.461436,
+          "role_rate": 0.0355161,
+          "play": 3008,
+          "win": 1388
+        }
+      }
+    ]
+  },
+  {
+    "id": 121,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "play": 24869,
+      "win_rate": 0.429692,
+      "pick_rate": 0.032934,
+      "ban_rate": null,
+      "kda": 2.631712,
+      "tier": 4,
+      "rank": 162,
+      "tier_data": {
+        "tier": 4,
+        "rank": 162,
+        "rank_prev": 162,
+        "rank_prev_patch": 168
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "SLAYER",
+        "stats": {
+          "win_rate": 0.460135,
+          "role_rate": 0.486578,
+          "play": 11238,
+          "win": 5171
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.444988,
+          "role_rate": 0.27429,
+          "play": 6335,
+          "win": 2819
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.35165,
+          "role_rate": 0.222982,
+          "play": 5150,
+          "win": 1811
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.449612,
+          "role_rate": 0.0111708,
+          "play": 258,
+          "win": 116
+        }
+      }
+    ]
+  },
+  {
+    "id": 55,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 28571,
+      "win_rate": 0.445942,
+      "pick_rate": 0.0378366,
+      "ban_rate": null,
+      "kda": 2.593767,
+      "tier": 4,
+      "rank": 160,
+      "tier_data": {
+        "tier": 4,
+        "rank": 160,
+        "rank_prev": 161,
+        "rank_prev_patch": 161
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.407762,
+          "role_rate": 0.561355,
+          "play": 14918,
+          "win": 6083
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.511601,
+          "role_rate": 0.264346,
+          "play": 7025,
+          "win": 3594
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.475163,
+          "role_rate": 0.127262,
+          "play": 3382,
+          "win": 1607
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.441569,
+          "role_rate": 0.04508,
+          "play": 1198,
+          "win": 529
+        }
+      }
+    ]
+  },
+  {
+    "id": 429,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "play": 44961,
+      "win_rate": 0.571162,
+      "pick_rate": 0.0595418,
+      "ban_rate": null,
+      "kda": 3.355549,
+      "tier": 1,
+      "rank": 2,
+      "tier_data": {
+        "tier": 1,
+        "rank": 2,
+        "rank_prev": 2,
+        "rank_prev_patch": 4
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.575305,
+          "role_rate": 0.817197,
+          "play": 34015,
+          "win": 19569
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.562051,
+          "role_rate": 0.167259,
+          "play": 6962,
+          "win": 3913
+        }
+      }
+    ]
+  },
+  {
+    "id": 85,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 28609,
+      "win_rate": 0.476214,
+      "pick_rate": 0.0378869,
+      "ban_rate": null,
+      "kda": 2.729738,
+      "tier": 3,
+      "rank": 125,
+      "tier_data": {
+        "tier": 3,
+        "rank": 125,
+        "rank_prev": 126,
+        "rank_prev_patch": 130
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.477333,
+          "role_rate": 0.977354,
+          "play": 25852,
+          "win": 12340
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.367021,
+          "role_rate": 0.014215,
+          "play": 376,
+          "win": 138
+        }
+      }
+    ]
+  },
+  {
+    "id": 51,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 97792,
+      "win_rate": 0.525636,
+      "pick_rate": 0.129506,
+      "ban_rate": null,
+      "kda": 3.523934,
+      "tier": 1,
+      "rank": 5,
+      "tier_data": {
+        "tier": 1,
+        "rank": 5,
+        "rank_prev": 5,
+        "rank_prev_patch": 7
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.526196,
+          "role_rate": 0.983399,
+          "play": 89269,
+          "win": 46973
+        }
+      }
+    ]
+  },
+  {
+    "id": 141,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 25691,
+      "win_rate": 0.472033,
+      "pick_rate": 0.0340226,
+      "ban_rate": null,
+      "kda": 2.265591,
+      "tier": 3,
+      "rank": 127,
+      "tier_data": {
+        "tier": 3,
+        "rank": 127,
+        "rank_prev": 127,
+        "rank_prev_patch": 118
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "FIGHTER|SLAYER",
+        "stats": {
+          "win_rate": 0.505099,
+          "role_rate": 0.484019,
+          "play": 11570,
+          "win": 5844
+        }
+      },
+      {
+        "name": "FIGHTER|ASSASSIN",
+        "stats": {
+          "win_rate": 0.432833,
+          "role_rate": 0.214567,
+          "play": 5129,
+          "win": 2220
+        }
+      },
+      {
+        "name": "SLAYER|ASSASSIN",
+        "stats": {
+          "win_rate": 0.525591,
+          "role_rate": 0.139767,
+          "play": 3341,
+          "win": 1756
+        }
+      },
+      {
+        "name": "MARKSMAN|ASSASSIN",
+        "stats": {
+          "win_rate": 0.422631,
+          "role_rate": 0.0432564,
+          "play": 1034,
+          "win": 437
+        }
+      },
+      {
+        "name": "TANK|SLAYER",
+        "stats": {
+          "win_rate": 0.477738,
+          "role_rate": 0.0347641,
+          "play": 831,
+          "win": 397
+        }
+      },
+      {
+        "name": "SLAYER|SLAYER",
+        "stats": {
+          "win_rate": 0.505995,
+          "role_rate": 0.0174448,
+          "play": 417,
+          "win": 211
+        }
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "play": 52100,
+      "win_rate": 0.512015,
+      "pick_rate": 0.068996,
+      "ban_rate": null,
+      "kda": 3.337633,
+      "tier": 2,
+      "rank": 41,
+      "tier_data": {
+        "tier": 2,
+        "rank": 41,
+        "rank_prev": 43,
+        "rank_prev_patch": 38
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.526408,
+          "role_rate": 0.413441,
+          "play": 19975,
+          "win": 10515
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.485815,
+          "role_rate": 0.33926,
+          "play": 16391,
+          "win": 7963
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.530972,
+          "role_rate": 0.23724,
+          "play": 11462,
+          "win": 6086
+        }
+      }
+    ]
+  },
+  {
+    "id": 96,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 64385,
+      "win_rate": 0.511532,
+      "pick_rate": 0.085265,
+      "ban_rate": null,
+      "kda": 3.346728,
+      "tier": 2,
+      "rank": 39,
+      "tier_data": {
+        "tier": 2,
+        "rank": 39,
+        "rank_prev": 37,
+        "rank_prev_patch": 37
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.49775,
+          "role_rate": 0.510009,
+          "play": 30447,
+          "win": 15155
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.543291,
+          "role_rate": 0.360425,
+          "play": 21517,
+          "win": 11690
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.484102,
+          "role_rate": 0.123804,
+          "play": 7391,
+          "win": 3578
+        }
+      }
+    ]
+  },
+  {
+    "id": 42,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "play": 51109,
+      "win_rate": 0.480581,
+      "pick_rate": 0.0676836,
+      "ban_rate": null,
+      "kda": 3.265018,
+      "tier": 4,
+      "rank": 140,
+      "tier_data": {
+        "tier": 4,
+        "rank": 140,
+        "rank_prev": 141,
+        "rank_prev_patch": 116
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.480753,
+          "role_rate": 0.68732,
+          "play": 32680,
+          "win": 15711
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.483746,
+          "role_rate": 0.298904,
+          "play": 14212,
+          "win": 6875
+        }
+      }
+    ]
+  },
+  {
+    "id": 133,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 38528,
+      "win_rate": 0.488865,
+      "pick_rate": 0.0510226,
+      "ban_rate": null,
+      "kda": 2.959739,
+      "tier": 3,
+      "rank": 108,
+      "tier_data": {
+        "tier": 3,
+        "rank": 108,
+        "rank_prev": 107,
+        "rank_prev_patch": 119
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.49023,
+          "role_rate": 0.940363,
+          "play": 33980,
+          "win": 16658
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.48924,
+          "role_rate": 0.0385776,
+          "play": 1394,
+          "win": 682
+        }
+      },
+      {
+        "name": "SLAYER",
+        "stats": {
+          "win_rate": 0.502083,
+          "role_rate": 0.0132835,
+          "play": 480,
+          "win": 241
+        }
+      }
+    ]
+  },
+  {
+    "id": 897,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 14474,
+      "win_rate": 0.427387,
+      "pick_rate": 0.0191679,
+      "ban_rate": null,
+      "kda": 2.490591,
+      "tier": 4,
+      "rank": 143,
+      "tier_data": {
+        "tier": 4,
+        "rank": 143,
+        "rank_prev": 143,
+        "rank_prev_patch": 124
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.429497,
+          "role_rate": 0.987718,
+          "play": 13269,
+          "win": 5699
+        }
+      }
+    ]
+  },
+  {
+    "id": 240,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 9608,
+      "win_rate": 0.506557,
+      "pick_rate": 0.0127239,
+      "ban_rate": null,
+      "kda": 3.255473,
+      "tier": 3,
+      "rank": 80,
+      "tier_data": {
+        "tier": 3,
+        "rank": 80,
+        "rank_prev": 80,
+        "rank_prev_patch": 82
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.517004,
+          "role_rate": 0.797847,
+          "play": 7116,
+          "win": 3679
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.467549,
+          "role_rate": 0.177935,
+          "play": 1587,
+          "win": 742
+        }
+      }
+    ]
+  },
+  {
+    "id": 246,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 27957,
+      "win_rate": 0.45874,
+      "pick_rate": 0.0370235,
+      "ban_rate": null,
+      "kda": 2.547987,
+      "tier": 4,
+      "rank": 150,
+      "tier_data": {
+        "tier": 4,
+        "rank": 150,
+        "rank_prev": 150,
+        "rank_prev_patch": 129
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "SLAYER",
+        "stats": {
+          "win_rate": 0.469602,
+          "role_rate": 0.733796,
+          "play": 19031,
+          "win": 8937
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.391304,
+          "role_rate": 0.155196,
+          "play": 4025,
+          "win": 1575
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.475911,
+          "role_rate": 0.0984384,
+          "play": 2553,
+          "win": 1215
+        }
+      }
+    ]
+  },
+  {
+    "id": 203,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 40175,
+      "win_rate": 0.530852,
+      "pick_rate": 0.0532037,
+      "ban_rate": null,
+      "kda": 3.073837,
+      "tier": 2,
+      "rank": 18,
+      "tier_data": {
+        "tier": 2,
+        "rank": 18,
+        "rank_prev": 20,
+        "rank_prev_patch": 21
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.535367,
+          "role_rate": 0.93279,
+          "play": 34905,
+          "win": 18687
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.48709,
+          "role_rate": 0.0610636,
+          "play": 2285,
+          "win": 1113
+        }
+      }
+    ]
+  },
+  {
+    "id": 44,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 13972,
+      "win_rate": 0.515102,
+      "pick_rate": 0.0185031,
+      "ban_rate": null,
+      "kda": 4.144969,
+      "tier": 3,
+      "rank": 70,
+      "tier_data": {
+        "tier": 3,
+        "rank": 70,
+        "rank_prev": 70,
+        "rank_prev_patch": 73
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.519179,
+          "role_rate": 0.952577,
+          "play": 12514,
+          "win": 6497
+        }
+      },
+      {
+        "name": "CONTROLLER",
+        "stats": {
+          "win_rate": 0.52,
+          "role_rate": 0.0304484,
+          "play": 400,
+          "win": 208
+        }
+      }
+    ]
+  },
+  {
+    "id": 91,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 29987,
+      "win_rate": 0.473272,
+      "pick_rate": 0.0397118,
+      "ban_rate": null,
+      "kda": 2.620762,
+      "tier": 3,
+      "rank": 129,
+      "tier_data": {
+        "tier": 3,
+        "rank": 129,
+        "rank_prev": 130,
+        "rank_prev_patch": 134
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "SLAYER",
+        "stats": {
+          "win_rate": 0.495255,
+          "role_rate": 0.616409,
+          "play": 17175,
+          "win": 8506
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.465211,
+          "role_rate": 0.185694,
+          "play": 5174,
+          "win": 2407
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.421705,
+          "role_rate": 0.185192,
+          "play": 5160,
+          "win": 2176
+        }
+      }
+    ]
+  },
+  {
+    "id": 163,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 32767,
+      "win_rate": 0.464278,
+      "pick_rate": 0.0433933,
+      "ban_rate": null,
+      "kda": 3.215688,
+      "tier": 4,
+      "rank": 151,
+      "tier_data": {
+        "tier": 4,
+        "rank": 151,
+        "rank_prev": 149,
+        "rank_prev_patch": 155
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.463579,
+          "role_rate": 0.994997,
+          "play": 30230,
+          "win": 14014
+        }
+      }
+    ]
+  },
+  {
+    "id": 223,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 40527,
+      "win_rate": 0.507489,
+      "pick_rate": 0.0536699,
+      "ban_rate": null,
+      "kda": 3.213285,
+      "tier": 3,
+      "rank": 62,
+      "tier_data": {
+        "tier": 3,
+        "rank": 62,
+        "rank_prev": 59,
+        "rank_prev_patch": 79
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.508616,
+          "role_rate": 0.983791,
+          "play": 37083,
+          "win": 18861
+        }
+      }
+    ]
+  },
+  {
+    "id": 48,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 29694,
+      "win_rate": 0.509025,
+      "pick_rate": 0.0393238,
+      "ban_rate": null,
+      "kda": 3.195048,
+      "tier": 3,
+      "rank": 65,
+      "tier_data": {
+        "tier": 3,
+        "rank": 65,
+        "rank_prev": 64,
+        "rank_prev_patch": 58
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.508966,
+          "role_rate": 0.646946,
+          "play": 17846,
+          "win": 9083
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.518012,
+          "role_rate": 0.326047,
+          "play": 8994,
+          "win": 4659
+        }
+      },
+      {
+        "name": "CONTROLLER",
+        "stats": {
+          "win_rate": 0.5,
+          "role_rate": 0.0107305,
+          "play": 296,
+          "win": 148
+        }
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 83335,
+      "win_rate": 0.529681,
+      "pick_rate": 0.110361,
+      "ban_rate": null,
+      "kda": 2.979974,
+      "tier": 1,
+      "rank": 6,
+      "tier_data": {
+        "tier": 1,
+        "rank": 6,
+        "rank_prev": 6,
+        "rank_prev_patch": 5
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.530728,
+          "role_rate": 0.974553,
+          "play": 75370,
+          "win": 40001
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.518268,
+          "role_rate": 0.0191109,
+          "play": 1478,
+          "win": 766
+        }
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "play": 25224,
+      "win_rate": 0.541587,
+      "pick_rate": 0.0334041,
+      "ban_rate": null,
+      "kda": 2.820658,
+      "tier": 2,
+      "rank": 26,
+      "tier_data": {
+        "tier": 2,
+        "rank": 26,
+        "rank_prev": 23,
+        "rank_prev_patch": 24
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.543389,
+          "role_rate": 0.681008,
+          "play": 16018,
+          "win": 8704
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.54021,
+          "role_rate": 0.198248,
+          "play": 4663,
+          "win": 2519
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.516323,
+          "role_rate": 0.113303,
+          "play": 2665,
+          "win": 1376
+        }
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 61104,
+      "win_rate": 0.519295,
+      "pick_rate": 0.08092,
+      "ban_rate": null,
+      "kda": 3.359199,
+      "tier": 2,
+      "rank": 19,
+      "tier_data": {
+        "tier": 2,
+        "rank": 19,
+        "rank_prev": 18,
+        "rank_prev_patch": 20
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.539823,
+          "role_rate": 0.791212,
+          "play": 44622,
+          "win": 24088
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.441807,
+          "role_rate": 0.194248,
+          "play": 10955,
+          "win": 4840
+        }
+      }
+    ]
+  },
+  {
+    "id": 29,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 75870,
+      "win_rate": 0.5121,
+      "pick_rate": 0.100475,
+      "ban_rate": null,
+      "kda": 3.157304,
+      "tier": 2,
+      "rank": 30,
+      "tier_data": {
+        "tier": 2,
+        "rank": 30,
+        "rank_prev": 30,
+        "rank_prev_patch": 18
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.515619,
+          "role_rate": 0.93686,
+          "play": 65880,
+          "win": 33969
+        }
+      },
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.454923,
+          "role_rate": 0.0342292,
+          "play": 2407,
+          "win": 1095
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.456769,
+          "role_rate": 0.025,
+          "play": 1758,
+          "win": 803
+        }
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 72925,
+      "win_rate": 0.482167,
+      "pick_rate": 0.0965746,
+      "ban_rate": null,
+      "kda": 2.985776,
+      "tier": 4,
+      "rank": 156,
+      "tier_data": {
+        "tier": 4,
+        "rank": 156,
+        "rank_prev": 156,
+        "rank_prev_patch": 151
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.48314,
+          "role_rate": 0.963557,
+          "play": 65095,
+          "win": 31450
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.448294,
+          "role_rate": 0.0281984,
+          "play": 1905,
+          "win": 854
+        }
+      }
+    ]
+  },
+  {
+    "id": 555,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 58098,
+      "win_rate": 0.448174,
+      "pick_rate": 0.0769392,
+      "ban_rate": null,
+      "kda": 2.910037,
+      "tier": 5,
+      "rank": 172,
+      "tier_data": {
+        "tier": 5,
+        "rank": 172,
+        "rank_prev": 172,
+        "rank_prev_patch": 170
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "SLAYER",
+        "stats": {
+          "win_rate": 0.461763,
+          "role_rate": 0.730344,
+          "play": 39451,
+          "win": 18217
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.387399,
+          "role_rate": 0.169835,
+          "play": 9174,
+          "win": 3554
+        }
+      },
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.455526,
+          "role_rate": 0.0755503,
+          "play": 4081,
+          "win": 1859
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.463094,
+          "role_rate": 0.0183091,
+          "play": 989,
+          "win": 458
+        }
+      }
+    ]
+  },
+  {
+    "id": 80,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 51303,
+      "win_rate": 0.491297,
+      "pick_rate": 0.0679406,
+      "ban_rate": null,
+      "kda": 2.845217,
+      "tier": 3,
+      "rank": 110,
+      "tier_data": {
+        "tier": 3,
+        "rank": 110,
+        "rank_prev": 112,
+        "rank_prev_patch": 115
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.496288,
+          "role_rate": 0.882955,
+          "play": 42026,
+          "win": 20857
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.467836,
+          "role_rate": 0.0502973,
+          "play": 2394,
+          "win": 1120
+        }
+      },
+      {
+        "name": "MARKSMAN",
+        "stats": {
+          "win_rate": 0.425075,
+          "role_rate": 0.0420615,
+          "play": 2002,
+          "win": 851
+        }
+      },
+      {
+        "name": "SLAYER",
+        "stats": {
+          "win_rate": 0.544776,
+          "role_rate": 0.0197071,
+          "play": 938,
+          "win": 511
+        }
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 52441,
+      "win_rate": 0.514807,
+      "pick_rate": 0.0694476,
+      "ban_rate": null,
+      "kda": 2.888496,
+      "tier": 2,
+      "rank": 37,
+      "tier_data": {
+        "tier": 2,
+        "rank": 37,
+        "rank_prev": 36,
+        "rank_prev_patch": 35
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.51528,
+          "role_rate": 0.974804,
+          "play": 47316,
+          "win": 24381
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.531047,
+          "role_rate": 0.0222295,
+          "play": 1079,
+          "win": 573
+        }
+      }
+    ]
+  },
+  {
+    "id": 114,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 11110,
+      "win_rate": 0.482268,
+      "pick_rate": 0.014713,
+      "ban_rate": null,
+      "kda": 2.559471,
+      "tier": 3,
+      "rank": 101,
+      "tier_data": {
+        "tier": 3,
+        "rank": 101,
+        "rank_prev": 103,
+        "rank_prev_patch": 98
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.485538,
+          "role_rate": 0.952693,
+          "play": 9888,
+          "win": 4801
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.401685,
+          "role_rate": 0.0343,
+          "play": 356,
+          "win": 143
+        }
+      }
+    ]
+  },
+  {
+    "id": 105,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 49902,
+      "win_rate": 0.487676,
+      "pick_rate": 0.0660852,
+      "ban_rate": null,
+      "kda": 2.60506,
+      "tier": 3,
+      "rank": 123,
+      "tier_data": {
+        "tier": 3,
+        "rank": 123,
+        "rank_prev": 123,
+        "rank_prev_patch": 104
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.476735,
+          "role_rate": 0.846272,
+          "play": 39179,
+          "win": 18678
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.546836,
+          "role_rate": 0.14781,
+          "play": 6843,
+          "win": 3742
+        }
+      }
+    ]
+  },
+  {
+    "id": 74,
+    "is_rotation": true,
+    "is_rip": false,
+    "average_stats": {
+      "play": 62274,
+      "win_rate": 0.530976,
+      "pick_rate": 0.0824694,
+      "ban_rate": null,
+      "kda": 3.751735,
+      "tier": 1,
+      "rank": 13,
+      "tier_data": {
+        "tier": 1,
+        "rank": 13,
+        "rank_prev": 13,
+        "rank_prev_patch": 10
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.531955,
+          "role_rate": 0.995645,
+          "play": 57612,
+          "win": 30647
+        }
+      }
+    ]
+  },
+  {
+    "id": 120,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 19550,
+      "win_rate": 0.47688,
+      "pick_rate": 0.0258901,
+      "ban_rate": null,
+      "kda": 2.730705,
+      "tier": 3,
+      "rank": 112,
+      "tier_data": {
+        "tier": 3,
+        "rank": 112,
+        "rank_prev": 111,
+        "rank_prev_patch": 103
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "FIGHTER",
+        "stats": {
+          "win_rate": 0.486576,
+          "role_rate": 0.827554,
+          "play": 15011,
+          "win": 7304
+        }
+      },
+      {
+        "name": "TANK",
+        "stats": {
+          "win_rate": 0.445931,
+          "role_rate": 0.148354,
+          "play": 2691,
+          "win": 1200
+        }
+      }
+    ]
+  },
+  {
+    "id": 910,
+    "is_rotation": false,
+    "is_rip": false,
+    "average_stats": {
+      "play": 48584,
+      "win_rate": 0.5219,
+      "pick_rate": 0.0643398,
+      "ban_rate": null,
+      "kda": 4.630877,
+      "tier": 2,
+      "rank": 22,
+      "tier_data": {
+        "tier": 2,
+        "rank": 22,
+        "rank_prev": 24,
+        "rank_prev_patch": 22
+      }
+    },
+    "positions": null,
+    "roles": [
+      {
+        "name": "MAGE",
+        "stats": {
+          "win_rate": 0.522831,
+          "role_rate": 0.995371,
+          "play": 44938,
+          "win": 23495
+        }
+      }
+    ]
+  }
+]
