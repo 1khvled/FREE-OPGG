@@ -36,14 +36,18 @@
 
       <!-- Navigation Tabs -->
       <nav class="overlay-nav">
-        <button class="nav-tab active" data-tab="bench" id="tabBench">
+        <button class="nav-tab active" data-tab="runes" id="tabRunes">
+          <span class="tab-icon">⚡</span>
+          <span>Runes & Build</span>
+        </button>
+        <button class="nav-tab" data-tab="bench" id="tabBench">
           <span class="tab-icon">🎲</span>
-          <span>ARAM Bench Cards</span>
+          <span>ARAM Bench</span>
           <span class="badge-count" id="benchCount">0</span>
         </button>
         <button class="nav-tab" data-tab="team" id="tabTeam">
           <span class="tab-icon">🛡️</span>
-          <span>Team Picks & Builds</span>
+          <span>Team Picks</span>
         </button>
         <button class="nav-tab" data-tab="augments" id="tabAugments">
           <span class="tab-icon">🃏</span>
@@ -57,8 +61,8 @@
 
       <!-- Window Action Controls -->
       <div class="overlay-actions">
-        <button class="action-btn" id="btnTestDemo" title="Load Demo Bench Cards (Test Overlay)">
-          <span>🎲 Demo Cards</span>
+        <button class="action-btn" id="btnTestDemo" title="Load Demo Champion & Bench (Test Overlay)">
+          <span>🎲 Demo</span>
         </button>
         <button class="action-btn" id="btnDockLeague" title="Snap / Dock Directly Over League of Legends Client">
           <span>🗗 Dock Client</span>
@@ -79,8 +83,118 @@
     <!-- Overlay Body Content -->
     <main class="overlay-content">
 
+      <!-- 0. CHAMPION RUNES & BUILDS OVERLAY (1:1 OP.GG OVERLAY HUD) -->
+      <section class="tab-panel active" id="panel-runes">
+        <div class="overlay-runes-header">
+          <div class="runes-header-left">
+            <div class="overlay-champ-avatar-wrap">
+              <img id="overlayChampAvatar" src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/champion/Aatrox.png" alt="Champion" />
+              <div class="champ-tier-badge tier-splus" id="overlayChampTierBadge">S+ OP</div>
+            </div>
+            <div class="overlay-champ-meta">
+              <div class="overlay-champ-title-row">
+                <span class="overlay-champ-name" id="overlayChampName">Aatrox</span>
+                <span class="overlay-champ-role-tag" id="overlayChampRoleTag">TOP</span>
+                <span class="overlay-champ-wr-badge" id="overlayChampWrBadge">52.8% WR</span>
+                <span class="overlay-champ-pr-badge" id="overlayChampPrBadge">14.2% Pick</span>
+              </div>
+              <div class="overlay-mode-selector-strip">
+                <button class="overlay-mode-btn active" data-mode="ranked" id="btnOverlayModeRanked">Ranked Solo</button>
+                <button class="overlay-mode-btn" data-mode="aram" id="btnOverlayModeAram">ARAM</button>
+                <button class="overlay-mode-btn" data-mode="arena" id="btnOverlayModeArena">Arena / Mayhem</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="runes-header-center">
+            <!-- Quick Champion Lookup inside Overlay -->
+            <div class="overlay-champ-search-wrap">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="overlayChampSearchInput" placeholder="Lookup Champion..." autocomplete="off" />
+              <div class="overlay-champ-dropdown" id="overlayChampDropdown" style="display: none;"></div>
+            </div>
+          </div>
+
+          <div class="runes-header-right">
+            <!-- Auto-Import Switch -->
+            <label class="auto-import-pill" title="Automatically push runes to League Client whenever champion is locked">
+              <input type="checkbox" id="overlayAutoRunesCheck" checked />
+              <span class="auto-import-switch"></span>
+              <span class="auto-import-label">⚡ Auto-Import</span>
+            </label>
+            <!-- 1-Click Import Actions -->
+            <button class="btn-overlay-import-runes" id="btnOverlayImportRunes" title="Push runes directly to League Client">
+              <span>⚡ Import Runes</span>
+            </button>
+            <button class="btn-overlay-import-spells" id="btnOverlayImportSpells" title="Push summoner spells to League Client">
+              <span>🔮 Spells</span>
+            </button>
+            <button class="btn-overlay-import-items" id="btnOverlayImportItems" title="Push item build set to League Client">
+              <span>🎒 Item Set</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Runes & Build 3-Column Display Grid -->
+        <div class="overlay-runes-grid">
+          <!-- Col 1: Interactive Runes Tree -->
+          <div class="overlay-panel-col runes-tree-card">
+            <div class="card-section-header">
+              <div class="header-with-tabs">
+                <span class="section-title">⚡ OP.GG RECOMMENDED RUNES</span>
+                <div class="runes-preset-pills" id="overlayRunePresets">
+                  <button class="preset-pill active" data-preset="0" id="presetBtn0">Primary (53.4% WR)</button>
+                  <button class="preset-pill" data-preset="1" id="presetBtn1">Alternative (51.8% WR)</button>
+                </div>
+              </div>
+            </div>
+            <div class="overlay-runes-display" id="overlayRunesDisplay">
+              <!-- Populated dynamically: Primary Tree, Secondary Tree, Stat Shards -->
+            </div>
+          </div>
+
+          <!-- Col 2: Summoner Spells & Skill Max Priority -->
+          <div class="overlay-panel-col spells-skills-card">
+            <div class="sub-card-box">
+              <div class="card-section-header">
+                <span class="section-title">✨ SUMMONER SPELLS</span>
+                <div class="flash-key-toggle-wrap">
+                  <span style="font-size: 10px; color: var(--text-dim);">Flash:</span>
+                  <button class="flash-btn active" id="btnFlashD">D</button>
+                  <button class="flash-btn" id="btnFlashF">F</button>
+                </div>
+              </div>
+              <div class="spells-recommend-row" id="overlaySpellsRow">
+                <!-- Populated dynamically -->
+              </div>
+            </div>
+
+            <div class="sub-card-box" style="margin-top: 10px;">
+              <div class="card-section-header">
+                <span class="section-title">🎯 SKILL MAX PRIORITY</span>
+                <span class="skill-order-text" id="overlaySkillOrderText">Q ➔ E ➔ W</span>
+              </div>
+              <div class="skills-progression-row" id="overlaySkillsProgression">
+                <!-- Populated dynamically -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Col 3: Core Items & Build Path -->
+          <div class="overlay-panel-col items-build-card">
+            <div class="card-section-header">
+              <span class="section-title">🎒 CORE ITEMS & BUILD PATH</span>
+              <span class="items-wr-tag" id="overlayItemsWrTag">54.5% WR</span>
+            </div>
+            <div class="items-sections-scroll" id="overlayItemsSections">
+              <!-- Populated dynamically: Starters, Core 3, Boots, Situational -->
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- 1. ARAM BENCH POOL VIEW -->
-      <section class="tab-panel active" id="panel-bench">
+      <section class="tab-panel" id="panel-bench">
         <div class="panel-header-strip">
           <div class="strip-left">
             <span class="strip-heading">🎲 ARAM BENCH REROLL POOL</span>
@@ -194,6 +308,9 @@
 
     <!-- Overlay Toast Notification -->
     <div class="overlay-toast" id="overlayToast"></div>
+
+    <!-- Overlay Floating Tooltip -->
+    <div class="opgg-global-tooltip" id="overlayGlobalTooltip"></div>
 
   </div>
 

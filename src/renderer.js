@@ -42,6 +42,12 @@ function populateRunesMap(trees) {
   }
 }
 
+let itemsDataMap = {};
+function populateItemsMap(items) {
+  if (!items) return;
+  itemsDataMap = items.data || items;
+}
+
 let metaAugmentsMap = {};
 let metaAugmentsList = [];
 
@@ -101,6 +107,7 @@ if (window.opgg && window.opgg.getStaticData) {
     if (res && res.ddragon) populateDDragonMap(res.ddragon);
     if (res && res.runes) populateRunesMap(res.runes);
     if (res && res.augments) populateAugmentsMap(res.augments);
+    if (res && res.items) populateItemsMap(res.items);
     renderChampionsTable();
   }).catch(() => {});
 }
@@ -114,6 +121,11 @@ fetch('assets/champions_ddragon.json')
 fetch('assets/runes.json')
   .then(res => res.json())
   .then(populateRunesMap)
+  .catch(() => {});
+
+fetch('assets/items.json')
+  .then(res => res.json())
+  .then(populateItemsMap)
   .catch(() => {});
 
 fetch('assets/meta_augments.json')
@@ -223,6 +235,148 @@ function getAramBalanceTag(champId) {
   if (!b) return '';
   return `<span class="aram-balance-pill ${b.type}">${b.dmg} / ${b.taken}</span>`;
 }
+
+// ================= CHAMPION FAVORITES & PINNING (⭐ MY POOL) =================
+let favoriteChampIds = new Set();
+try {
+  const savedFavs = JSON.parse(localStorage.getItem('opgg_fav_champs') || '[]');
+  if (Array.isArray(savedFavs)) {
+    favoriteChampIds = new Set(savedFavs);
+  }
+} catch (e) {}
+
+function updateFavCountBadge() {
+  const badge = document.getElementById('favCountBadge');
+  if (badge) badge.textContent = favoriteChampIds.size;
+}
+updateFavCountBadge();
+
+window.toggleChampionFavorite = function(champId, event) {
+  if (event) {
+    event.stopPropagation();
+  }
+  const id = Number(champId);
+  const isNowFav = !favoriteChampIds.has(id);
+  if (isNowFav) {
+    favoriteChampIds.add(id);
+    playAudioChime('accept');
+    showToast(`⭐ Pinned to My Pool favorites!`);
+  } else {
+    favoriteChampIds.delete(id);
+    showToast(`Removed from favorites.`);
+  }
+
+  localStorage.setItem('opgg_fav_champs', JSON.stringify(Array.from(favoriteChampIds)));
+  updateFavCountBadge();
+  renderChampionsTable();
+};
+
+// ================= ARCHETYPE / CLASS FILTER ENGINE =================
+let currentArchetype = 'all';
+const archetypeChips = document.querySelectorAll('.arch-chip');
+if (archetypeChips) {
+  archetypeChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      archetypeChips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      currentArchetype = chip.getAttribute('data-tag') || 'all';
+      playAudioChime('accept');
+      renderChampionsTable();
+    });
+  });
+}
+
+// ================= FLOATING INTERACTIVE TOOLTIP ENGINE =================
+const globalTooltip = document.getElementById('opggGlobalTooltip');
+
+function showGlobalTooltip(e, contentHtml) {
+  if (!globalTooltip || !contentHtml) return;
+  globalTooltip.innerHTML = contentHtml;
+  globalTooltip.classList.add('show');
+  positionTooltip(e);
+}
+
+function hideGlobalTooltip() {
+  if (globalTooltip) {
+    globalTooltip.classList.remove('show');
+  }
+}
+
+function positionTooltip(e) {
+  if (!globalTooltip) return;
+  const padding = 15;
+  const tooltipRect = globalTooltip.getBoundingClientRect();
+  let x = e.clientX + padding;
+  let y = e.clientY + padding;
+
+  if (x + tooltipRect.width > window.innerWidth) {
+    x = e.clientX - tooltipRect.width - padding;
+  }
+  if (y + tooltipRect.height > window.innerHeight) {
+    y = e.clientY - tooltipRect.height - padding;
+  }
+  globalTooltip.style.left = `${Math.max(10, x)}px`;
+  globalTooltip.style.top = `${Math.max(10, y)}px`;
+}
+
+window.addEventListener('mousemove', (e) => {
+  if (globalTooltip && globalTooltip.classList.contains('show')) {
+    positionTooltip(e);
+  }
+});
+
+// Delegated hover listener for items, runes, and spells
+document.body.addEventListener('mouseover', (e) => {
+  const target = e.target.closest('[data-tooltip-type]');
+  if (!target) return;
+  const type = target.getAttribute('data-tooltip-type');
+  const id = target.getAttribute('data-tooltip-id');
+
+  if (type === 'item') {
+    const item = itemsDataMap[String(id)] || itemsDataMap[String(normalizeItemId(id))];
+    if (item) {
+      const statsList = Object.entries(item.stats || {}).map(([k, v]) => {
+        const cleanKey = k.replace('Flat', '').replace('Mod', '').replace('PhysicalDamage', 'Attack Damage').replace('MagicDamage', 'Ability Power');
+        return `<div>+${v} ${cleanKey}</div>`;
+      }).join('');
+      const cleanDesc = (item.description || '').replace(/<[^>]*>/g, ' ');
+      const html = `
+        <div class="tooltip-header">
+          <img class="tooltip-icon" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/${id}.png" onerror="this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/1001.png'" />
+          <div>
+            <div class="tooltip-title">${item.name}</div>
+            <div class="tooltip-cost">🪙 ${item.gold?.total || '3,000'} gold (${item.gold?.sell || '2,100'} sell)</div>
+          </div>
+        </div>
+        ${statsList ? `<div class="tooltip-stats">${statsList}</div>` : ''}
+        <div class="tooltip-desc">${cleanDesc}</div>
+      `;
+      showGlobalTooltip(e, html);
+    }
+  } else if (type === 'rune') {
+    const r = getRuneDetails(Number(id));
+    const rObj = runesReforgedMap[Number(id)] || {};
+    const desc = rObj.shortDesc ? rObj.shortDesc.replace(/<[^>]*>/g, ' ') : 'Empowering rune enhancement';
+    const html = `
+      <div class="tooltip-header">
+        <img class="tooltip-icon" src="${r.icon}" />
+        <div>
+          <div class="tooltip-title">${r.name}</div>
+          <div style="font-size: 10px; color: var(--opgg-cyan); font-weight: 700;">Keystone / Rune</div>
+        </div>
+      </div>
+      <div class="tooltip-desc">${desc}</div>
+    `;
+    showGlobalTooltip(e, html);
+  }
+});
+
+document.body.addEventListener('mouseout', (e) => {
+  if (e.target.closest('[data-tooltip-type]')) {
+    hideGlobalTooltip();
+  }
+});
+
 
 
 // Listen for auto-patch updates from main process
@@ -772,7 +926,8 @@ function getChampionInfo(champId) {
     id: numId,
     name,
     title,
-    key
+    key,
+    tags: dd?.tags || []
   };
 }
 
@@ -971,6 +1126,18 @@ function renderChampionsTable() {
     }
   }
 
+  // Archetype & Starred Favorites (My Pool) Filter
+  if (currentArchetype === 'favorites') {
+    rows = rows.filter(item => favoriteChampIds.has(Number(item.champId)));
+  } else if (currentArchetype && currentArchetype !== 'all') {
+    const archLower = currentArchetype.toLowerCase();
+    rows = rows.filter(item => {
+      const info = getChampionInfo(item.champId);
+      const tags = (info.tags || []).map(t => t.toLowerCase());
+      return tags.includes(archLower);
+    });
+  }
+
   // 2. Filter by search input
   if (currentSearch) {
     const searchLower = currentSearch.toLowerCase();
@@ -1034,6 +1201,7 @@ function renderChampionsTable() {
   const rowsHtml = rows.map((item, index) => {
     const champInfo = getChampionInfo(item.champId);
     const displayRank = item.rank < 999 ? item.rank : index + 1;
+    const isFav = favoriteChampIds.has(Number(item.champId));
 
     // Rank difference badge (▲, ▼, -)
     let rankDiffHtml = '<span class="rank-diff same">-</span>';
@@ -1098,6 +1266,9 @@ function renderChampionsTable() {
 
       return `
         <tr data-champ-id="${item.champId}" data-role="ARENA">
+          <td style="text-align: center;">
+            <button class="btn-fav-star ${isFav ? 'active' : ''}" onclick="toggleChampionFavorite(${item.champId}, event)" title="${isFav ? 'Unpin favorite' : 'Pin to My Pool'}">⭐</button>
+          </td>
           <td>
             <div class="rank-cell-wrap">
               <span style="font-weight: 800; color: ${displayRank <= 3 ? 'var(--opgg-cyan)' : 'var(--text-dim)'}; font-size: 13px;">${displayRank}</span>
@@ -1164,6 +1335,9 @@ function renderChampionsTable() {
 
     return `
       <tr data-champ-id="${item.champId}" data-role="${item.position || 'all'}">
+        <td style="text-align: center;">
+          <button class="btn-fav-star ${isFav ? 'active' : ''}" onclick="toggleChampionFavorite(${item.champId}, event)" title="${isFav ? 'Unpin favorite' : 'Pin to My Pool'}">⭐</button>
+        </td>
         <td>
           <div class="rank-cell-wrap">
             <span style="font-weight: 800; color: ${displayRank <= 3 ? 'var(--opgg-cyan)' : 'var(--text-dim)'}; font-size: 13px;">${displayRank}</span>
@@ -1220,6 +1394,7 @@ function updateTableHeaderForMode() {
   if (currentMode === 'arena') {
     thead.innerHTML = `
       <tr>
+        <th style="width: 42px; text-align: center;" title="Favorite Pin">⭐</th>
         <th class="sortable ${currentSortColumn === 'rank' ? 'active' : ''}" data-sort="rank" style="width: 75px;">Rank <span class="sort-icon">${currentSortColumn === 'rank' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
         <th class="sortable ${currentSortColumn === 'champion' ? 'active' : ''}" data-sort="champion">Champion <span class="sort-icon">${currentSortColumn === 'champion' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
         <th class="sortable ${currentSortColumn === 'tier' ? 'active' : ''}" data-sort="tier" style="width: 80px;">Tier <span class="sort-icon">${currentSortColumn === 'tier' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
@@ -1236,6 +1411,7 @@ function updateTableHeaderForMode() {
   } else {
     thead.innerHTML = `
       <tr>
+        <th style="width: 42px; text-align: center;" title="Favorite Pin">⭐</th>
         <th class="sortable ${currentSortColumn === 'rank' ? 'active' : ''}" data-sort="rank" style="width: 75px;">Rank <span class="sort-icon">${currentSortColumn === 'rank' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
         <th class="sortable ${currentSortColumn === 'champion' ? 'active' : ''}" data-sort="champion">Champion <span class="sort-icon">${currentSortColumn === 'champion' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
         <th class="sortable ${currentSortColumn === 'tier' ? 'active' : ''}" data-sort="tier" style="width: 80px;">Tier <span class="sort-icon">${currentSortColumn === 'tier' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
@@ -1614,7 +1790,7 @@ function renderRunes(build) {
         </div>
         
         <div class="rune-item-row" style="background: rgba(95, 50, 230, 0.15); padding: 8px 12px; border-radius: 8px; border: 1px solid var(--opgg-purple); margin-bottom: 12px;">
-          <img class="rune-icon" src="${keystone.icon}" style="border-color: var(--opgg-gold); width: 42px; height: 42px;" />
+          <img class="rune-icon" src="${keystone.icon}" data-tooltip-type="rune" data-tooltip-id="${perks[0]}" style="border-color: var(--opgg-gold); width: 42px; height: 42px; cursor: pointer;" />
           <div>
             <div style="font-weight: 800; color: #fff; font-size: 14px;">${keystone.name}</div>
             <div style="font-size: 11px; color: var(--opgg-cyan); font-weight: 700;">Keystone</div>
@@ -1625,7 +1801,7 @@ function renderRunes(build) {
           const r = getRuneDetails(p);
           return `
             <div class="rune-item-row">
-              <img class="rune-icon" src="${r.icon}" style="width: 32px; height: 32px;" />
+              <img class="rune-icon" src="${r.icon}" data-tooltip-type="rune" data-tooltip-id="${p}" style="width: 32px; height: 32px; cursor: pointer;" />
               <div style="font-size: 12px; color: #fff; font-weight: 600;">${r.name}</div>
             </div>
           `;
@@ -1642,7 +1818,7 @@ function renderRunes(build) {
           const r = getRuneDetails(p);
           return `
             <div class="rune-item-row">
-              <img class="rune-icon" src="${r.icon}" style="width: 32px; height: 32px;" />
+              <img class="rune-icon" src="${r.icon}" data-tooltip-type="rune" data-tooltip-id="${p}" style="width: 32px; height: 32px; cursor: pointer;" />
               <div style="font-size: 12px; color: #fff; font-weight: 600;">${r.name}</div>
             </div>
           `;
@@ -1676,7 +1852,7 @@ function renderItems(build) {
                 ${(c.ids || []).map((id, idx) => {
                   const normId = normalizeItemId(id);
                   return `
-                    <img loading="lazy" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/${normId}.png" onerror="this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/1001.png'" style="width: 44px; height: 44px; border-radius: 6px; border: 2px solid #555;" />
+                    <img loading="lazy" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/${normId}.png" data-tooltip-type="item" data-tooltip-id="${normId}" onerror="this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/1001.png'" style="width: 44px; height: 44px; border-radius: 6px; border: 2px solid #555; cursor: pointer;" />
                     ${idx < (c.ids || []).length - 1 ? '<span style="color: var(--text-dim); font-size: 16px;">›</span>' : ''}
                   `;
                 }).join('')}
@@ -1697,7 +1873,7 @@ function renderItems(build) {
                 <div style="display: flex; gap: 6px;">
                   ${(st.ids || []).map(id => {
                     const normId = normalizeItemId(id);
-                    return `<img loading="lazy" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/${normId}.png" onerror="this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/1001.png'" style="width: 32px; height: 32px; border-radius: 4px;" />`;
+                    return `<img loading="lazy" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/${normId}.png" data-tooltip-type="item" data-tooltip-id="${normId}" onerror="this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/1001.png'" style="width: 32px; height: 32px; border-radius: 4px; cursor: pointer;" />`;
                   }).join('')}
                 </div>
                 <div style="font-size: 11px; color: var(--opgg-cyan); font-weight: 700;">${((st.win_rate || 0.51) * 100).toFixed(1)}% WR</div>
@@ -1714,7 +1890,7 @@ function renderItems(build) {
               const normId = normalizeItemId(rawId);
               return `
                 <div style="display: flex; align-items: center; justify-content: space-between;">
-                  <img loading="lazy" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/${normId}.png" onerror="this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/3047.png'" style="width: 32px; height: 32px; border-radius: 4px;" />
+                  <img loading="lazy" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/${normId}.png" data-tooltip-type="item" data-tooltip-id="${normId}" onerror="this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/3047.png'" style="width: 32px; height: 32px; border-radius: 4px; cursor: pointer;" />
                   <div style="font-size: 11px; color: var(--opgg-cyan); font-weight: 700;">${((b.win_rate || 0.51) * 100).toFixed(1)}% WR</div>
                 </div>
               `;
@@ -2181,6 +2357,38 @@ pushRunesBtn.addEventListener('click', async () => {
   }
 });
 
+// Copy Champion Build Summary Button
+const btnCopyChampBuildSummary = document.getElementById('btnCopyChampBuildSummary');
+if (btnCopyChampBuildSummary) {
+  btnCopyChampBuildSummary.addEventListener('click', () => {
+    if (!activeChampionDetail) return;
+    const name = activeChampionDetail.champInfo.name;
+    const pos = (activeChampionDetail.position || 'TOP').toUpperCase();
+    const build = activeChampionDetail.build || {};
+    const runes = build.runes || (build.rune_pages && build.rune_pages[0]) || {};
+    const keystone = getRuneDetails(runes.primary_rune_ids?.[0] || 8010);
+    const primaryTree = getTreeDetails(runes.primary_page_id || 8000);
+    const secondaryTree = getTreeDetails(runes.secondary_page_id || 8400);
+
+    const coreNames = (build.core_items?.[0]?.ids || [3078, 3053, 3161]).map(id => {
+      const item = itemsDataMap[String(normalizeItemId(id))];
+      return item ? item.name : `Item #${id}`;
+    });
+
+    const skillOrder = build.skill_masteries?.[0]?.ids ? build.skill_masteries[0].ids.join(' > ') : 'Q > E > W';
+
+    const summaryText = `[OP.GG ${name} (${pos})] Keystone: ${keystone.name} (${primaryTree.name} + ${secondaryTree.name}) | Core: ${coreNames.join(', ')} | Max: ${skillOrder}`;
+
+    if (window.opgg?.copyToClipboard) {
+      window.opgg.copyToClipboard(summaryText);
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(summaryText);
+    }
+    playAudioChime('accept');
+    showToast(`📋 Copied ${name} build summary to clipboard!`);
+  });
+}
+
 // ----------------- MULTI-SEARCH (LOBBY SCOUT) -----------------
 multiSearchSubmitBtn.addEventListener('click', async () => {
   const text = multiSearchText.value.trim();
@@ -2301,18 +2509,39 @@ function evaluateDodgeRisk(teammates) {
     if (t.isAutofill) autofillCount++;
   });
 
+  let riskScore = 15;
   if (tiltCount >= 2 || autofillCount >= 2) {
+    riskScore = Math.min(95, 70 + (tiltCount * 8) + (autofillCount * 6));
     badge.className = 'radar-badge dodge';
     badge.textContent = '🚨 RECOMMENDED TO DODGE';
     msg.textContent = `High risk lobby detected: ${tiltCount} tilted teammates on loss streaks and ${autofillCount} autofilled players.`;
   } else if (tiltCount === 1 || autofillCount === 1) {
+    riskScore = 48 + (tiltCount * 8) + (autofillCount * 8);
     badge.className = 'radar-badge caution';
     badge.textContent = '⚠️ PLAY WITH CAUTION';
     msg.textContent = 'Minor risk: One teammate is off-role or on a losing streak. Play safe champion picks.';
   } else {
+    riskScore = Math.max(12, 22 - teammates.filter(t => t.streak?.includes('W')).length * 3);
     badge.className = 'radar-badge safe';
     badge.textContent = '✅ SAFE TO PLAY';
     msg.textContent = 'Strong lobby: All teammates have solid win rates and comfort roles.';
+  }
+
+  // Animate SVG Gauge Arc & Number
+  const gaugeVal = document.getElementById('dodgeGaugeVal');
+  const scoreNum = document.getElementById('dodgeRiskScoreNum');
+  if (scoreNum) scoreNum.textContent = riskScore;
+  if (gaugeVal) {
+    const totalLength = 141.37;
+    const offset = totalLength - (totalLength * (riskScore / 100));
+    gaugeVal.style.strokeDashoffset = offset;
+    if (riskScore >= 70) {
+      gaugeVal.style.stroke = 'var(--opgg-red)';
+    } else if (riskScore >= 40) {
+      gaugeVal.style.stroke = '#ffb800';
+    } else {
+      gaugeVal.style.stroke = 'var(--opgg-cyan)';
+    }
   }
 
   // Populate formatted clipboard summary for game lobby

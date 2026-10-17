@@ -19,6 +19,8 @@ contextBridge.exposeInMainWorld('opgg', {
   lcuStatus: () => ipcRenderer.invoke('lcu:status'),
   lcuRequest: (method, endpoint, data) => ipcRenderer.invoke('lcu:request', { method, endpoint, data }),
   lcuApplyRunes: (runesData) => ipcRenderer.invoke('lcu:apply-runes', runesData),
+  lcuApplySpells: (spellsData) => ipcRenderer.invoke('lcu:apply-spells', spellsData),
+  lcuApplyItemBuild: (buildData) => ipcRenderer.invoke('lcu:apply-item-build', buildData),
   lcuAutoAccept: (enabled) => ipcRenderer.invoke('lcu:auto-accept', enabled),
   lcuAutoRunes: (enabled) => ipcRenderer.invoke('lcu:auto-runes', enabled),
   lcuAutoBuilds: (enabled) => ipcRenderer.invoke('lcu:auto-builds', enabled),

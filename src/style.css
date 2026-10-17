@@ -3347,6 +3347,250 @@ body.theme-cyber {
   overflow: hidden;
 }
 
+/* ================= ARCHETYPE / CLASS FILTER CHIPS ================= */
+.archetype-strip {
+  padding: 0 24px 10px 24px;
+}
+
+.archetype-chips {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.arch-chip {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.arch-chip:hover {
+  background: #282a38;
+  color: #fff;
+  border-color: #555870;
+  transform: translateY(-1px);
+}
+
+.arch-chip.active {
+  background: rgba(83, 131, 232, 0.2);
+  border-color: var(--opgg-cyan);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(0, 207, 188, 0.2);
+}
+
+.arch-chip.favorites-chip {
+  margin-left: auto;
+  border-color: rgba(255, 184, 0, 0.4);
+  color: #ffb800;
+}
+
+.arch-chip.favorites-chip.active {
+  background: rgba(255, 184, 0, 0.2);
+  border-color: #ffb800;
+  color: #fff;
+}
+
+/* Favorite Star Button */
+.btn-fav-star {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #4b4e64;
+  transition: all 0.15s ease;
+  padding: 4px;
+  outline: none;
+}
+
+.btn-fav-star:hover {
+  color: #ffd043;
+  transform: scale(1.25);
+}
+
+.btn-fav-star.active {
+  color: #ffb800;
+  text-shadow: 0 0 8px rgba(255, 184, 0, 0.6);
+  transform: scale(1.15);
+}
+
+/* ================= DODGE RADAR INTERACTIVE GAUGE ================= */
+.dodge-radar-banner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: #171924;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 14px 20px;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+}
+
+.dodge-gauge-wrap {
+  position: relative;
+  width: 120px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dodge-gauge-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.gauge-val {
+  transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.3s ease;
+}
+
+.gauge-score-display {
+  position: absolute;
+  bottom: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+}
+
+.gauge-number {
+  font-size: 18px;
+  font-weight: 900;
+  color: #fff;
+}
+
+.gauge-label {
+  font-size: 8px;
+  font-weight: 800;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
+}
+
+.radar-text-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.radar-msg {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* ================= INTERACTIVE GLOBAL TOOLTIP ================= */
+.opgg-global-tooltip {
+  position: fixed;
+  z-index: 99999;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  background: #12141c;
+  border: 1px solid #36394e;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.7);
+  border-radius: 8px;
+  padding: 12px 14px;
+  max-width: 310px;
+  color: #e2e8f0;
+  font-family: inherit;
+  transition: opacity 0.12s ease;
+  transform: translate(14px, 14px);
+}
+
+.opgg-global-tooltip.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.tooltip-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.tooltip-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  object-fit: cover;
+}
+
+.tooltip-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.tooltip-cost {
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffb800;
+}
+
+.tooltip-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 6px;
+  font-size: 11px;
+  color: var(--opgg-cyan);
+  font-weight: 600;
+}
+
+.tooltip-desc {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+/* Interactive Rune Setup Tabs */
+.runes-setup-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.rune-setup-tab {
+  background: #1c1d27;
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.rune-setup-tab:hover {
+  background: #252736;
+  color: #fff;
+}
+
+.rune-setup-tab.active {
+  background: rgba(83, 131, 232, 0.2);
+  border-color: var(--opgg-cyan);
+  color: #fff;
+}
+
+
 
 
 

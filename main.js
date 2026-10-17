@@ -847,6 +847,35 @@ ipcMain.handle('lcu:apply-runes', async (e, runesPayload) => {
   }
 });
 
+// Apply summoner spells
+ipcMain.handle('lcu:apply-spells', async (e, { spell1Id, spell2Id }) => {
+  if (!lcuState.connected) {
+    return { success: false, error: 'League Client is not connected' };
+  }
+  try {
+    await lcuApiCall('PATCH', '/lol-champ-select/v1/session/my-selection', {
+      spell1Id: Number(spell1Id),
+      spell2Id: Number(spell2Id)
+    });
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
+// Apply custom item set build
+ipcMain.handle('lcu:apply-item-build', async (e, { champId, champName, mode, position }) => {
+  if (!lcuState.connected) {
+    return { success: false, error: 'League Client is not connected' };
+  }
+  try {
+    const success = await executeAutoItemBuilds(champId, champName, mode, position);
+    return { success };
+  } catch (err) {
+    return { success: false, error: err.message };
+  }
+});
+
 // Static Assets (DDragon & Runes) with offline local reading
 ipcMain.handle('opgg:static-data', async () => {
   const assetsDir = path.join(__dirname, 'src', 'assets');
@@ -865,14 +894,14 @@ ipcMain.handle('opgg:static-data', async () => {
       runes = JSON.parse(fs.readFileSync(runesPath, 'utf8'));
     }
   } catch (e) {}
+  let items = null;
   try {
-    const augPath = path.join(assetsDir, 'meta_augments.json');
-    if (fs.existsSync(augPath)) {
-      const parsed = JSON.parse(fs.readFileSync(augPath, 'utf8'));
-      augments = parsed.data || parsed;
+    const itemsPath = path.join(assetsDir, 'items.json');
+    if (fs.existsSync(itemsPath)) {
+      items = JSON.parse(fs.readFileSync(itemsPath, 'utf8'));
     }
   } catch (e) {}
-  return { ddragon, runes, augments };
+  return { ddragon, runes, augments, items };
 });
 
 // OP.GG Champion Tier List (Ranked, ARAM, Arena/Mayhem) with per-server & per-tier live endpoints

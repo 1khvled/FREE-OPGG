@@ -1138,3 +1138,692 @@ body.overlay-body {
   color: var(--opgg-cyan);
 }
 
+/* ================= 1:1 OP.GG RUNES & BUILD OVERLAY HUD ================= */
+
+.overlay-runes-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 14px;
+  background: rgba(18, 20, 28, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.runes-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.overlay-champ-avatar-wrap {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  flex-shrink: 0;
+}
+
+.overlay-champ-avatar-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.overlay-champ-avatar-wrap .champ-tier-badge {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  font-size: 8px;
+  padding: 1px 0;
+  text-align: center;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.overlay-champ-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.overlay-champ-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.overlay-champ-name {
+  font-size: 14px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.3px;
+}
+
+.overlay-champ-role-tag {
+  background: rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.overlay-champ-wr-badge {
+  background: rgba(0, 207, 188, 0.15);
+  border: 1px solid rgba(0, 207, 188, 0.3);
+  color: var(--opgg-cyan);
+  font-size: 10px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.overlay-champ-pr-badge {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-dim);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.overlay-mode-selector-strip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.overlay-mode-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-dim);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.overlay-mode-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.overlay-mode-btn.active {
+  background: rgba(83, 131, 236, 0.25);
+  border-color: #5383ec;
+  color: #fff;
+}
+
+/* Quick Search in Overlay */
+.runes-header-center {
+  position: relative;
+  flex: 1;
+  max-width: 200px;
+}
+
+.overlay-champ-search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 4px 8px;
+  gap: 6px;
+}
+
+.overlay-champ-search-wrap .search-icon {
+  font-size: 11px;
+  opacity: 0.6;
+}
+
+.overlay-champ-search-wrap input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 11px;
+  width: 100%;
+}
+
+.overlay-champ-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #181b24;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  max-height: 180px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  margin-top: 4px;
+}
+
+.overlay-champ-drop-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.overlay-champ-drop-item:hover {
+  background: rgba(83, 131, 236, 0.2);
+}
+
+.overlay-champ-drop-item img {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+}
+
+.overlay-champ-drop-item span {
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* Header Right Actions */
+.runes-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.auto-import-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 4px 10px;
+  border-radius: 16px;
+  transition: all 0.15s ease;
+}
+
+.auto-import-pill:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.auto-import-pill input {
+  display: none;
+}
+
+.auto-import-switch {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #475569;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.auto-import-pill input:checked + .auto-import-switch {
+  background: var(--opgg-cyan);
+  box-shadow: 0 0 8px var(--opgg-cyan);
+}
+
+.auto-import-label {
+  font-size: 11px;
+  font-weight: 800;
+  color: #e2e8f0;
+}
+
+.btn-overlay-import-runes {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #00bba3, #009380);
+  border: 1px solid rgba(0, 187, 163, 0.6);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 187, 163, 0.35);
+}
+
+.btn-overlay-import-runes:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0, 187, 163, 0.55);
+}
+
+.btn-overlay-import-spells,
+.btn-overlay-import-items {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-overlay-import-spells:hover,
+.btn-overlay-import-items:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* 3-Column Grid in Runes Overlay */
+.overlay-runes-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.95fr 1.05fr;
+  gap: 12px;
+  padding: 12px;
+  height: calc(100% - 56px);
+  overflow-y: auto;
+}
+
+.overlay-panel-col {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.section-title {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: #94a3b8;
+}
+
+.header-with-tabs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.runes-preset-pills {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.preset-pill {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-dim);
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.preset-pill.active {
+  background: rgba(0, 207, 188, 0.2);
+  border-color: var(--opgg-cyan);
+  color: var(--opgg-cyan);
+}
+
+/* Runes Display Visual Trees */
+.overlay-runes-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.rune-tree-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rune-tree-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.tree-icon-mini {
+  width: 18px;
+  height: 18px;
+}
+
+.keystone-showcase {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(83, 131, 236, 0.12);
+  border: 1px solid rgba(83, 131, 236, 0.35);
+  border-radius: 6px;
+  padding: 6px 8px;
+}
+
+.keystone-icon-glow {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid #ffb800;
+  box-shadow: 0 0 10px rgba(255, 184, 0, 0.45);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.keystone-name-label {
+  font-size: 11px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.slot-runes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.slot-rune-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 4px 6px;
+  border-radius: 5px;
+}
+
+.slot-rune-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.slot-rune-title {
+  font-size: 10px;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.shards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.shard-badge {
+  font-size: 9px;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #cbd5e1;
+}
+
+/* Col 2: Spells & Skills */
+.sub-card-box {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  padding: 8px 10px;
+}
+
+.flash-key-toggle-wrap {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.flash-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-dim);
+  font-size: 9px;
+  font-weight: 800;
+  padding: 1px 5px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.flash-btn.active {
+  background: #ffb800;
+  border-color: #ffb800;
+  color: #000;
+}
+
+.spells-recommend-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.spell-pair-card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  flex: 1;
+}
+
+.spell-icon-pair {
+  display: flex;
+  gap: 4px;
+}
+
+.spell-thumb {
+  width: 28px;
+  height: 28px;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+}
+
+.spell-pair-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.spell-pair-wr {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--opgg-cyan);
+}
+
+.spell-pair-pr {
+  font-size: 9px;
+  color: var(--text-dim);
+}
+
+.skill-order-text {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--opgg-cyan);
+  letter-spacing: 0.5px;
+}
+
+.skills-progression-row {
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.skill-prog-step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  padding: 4px 0;
+}
+
+.skill-prog-lvl {
+  font-size: 8px;
+  color: var(--text-dim);
+}
+
+.skill-prog-key {
+  font-size: 11px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.skill-prog-step.priority {
+  background: rgba(83, 131, 236, 0.25);
+  border-color: #5383ec;
+}
+
+/* Col 3: Items Build Path */
+.items-wr-tag {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--opgg-cyan);
+}
+
+.items-sections-scroll {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+}
+
+.item-sub-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.item-sub-title {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.item-icons-flex {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.item-overlay-thumb {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.item-overlay-thumb:hover {
+  transform: scale(1.1);
+  border-color: var(--opgg-cyan);
+}
+
+.item-arrow-divider {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin: 0 1px;
+}
+
+/* Floating Tooltip in Overlay */
+.opgg-global-tooltip {
+  position: fixed;
+  z-index: 99999;
+  pointer-events: none;
+  background: rgba(18, 20, 29, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 10px 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 1px 1px rgba(255, 255, 255, 0.1) inset;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #fff;
+  max-width: 270px;
+  font-size: 11px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.12s ease;
+}
+
+.opgg-global-tooltip.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.opgg-global-tooltip .tooltip-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.opgg-global-tooltip .tooltip-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.opgg-global-tooltip .tooltip-title {
+  font-size: 12px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.opgg-global-tooltip .tooltip-cost {
+  font-size: 10px;
+  color: #ffb800;
+  font-weight: 700;
+}
+
+.opgg-global-tooltip .tooltip-stats {
+  color: var(--opgg-cyan);
+  font-size: 10px;
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+.opgg-global-tooltip .tooltip-desc {
+  font-size: 10px;
+  color: #cbd5e1;
+  line-height: 1.35;
+}
+
+

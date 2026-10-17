@@ -3,6 +3,7 @@
 const DDRAGON_VER = '16.20.1';
 let ddragonMap = {};
 let runesMap = {};
+let itemsMap = {};
 let augmentsList = [];
 let currentMode = 'aram';
 let isCompact = false;
@@ -11,6 +12,27 @@ let currentChampSelectData = null;
 let cachedAramTierList = null;
 let cachedArenaTierList = null;
 let champDetailsCache = {};
+
+let activeOverlayChampId = 266; // default Aatrox
+let activeOverlayMode = 'ranked';
+let activeOverlayPresetIdx = 0;
+let activeOverlayFlashKey = 'D';
+let activeOverlayChampDetail = null;
+let autoRunesEnabled = true;
+
+const SPELL_DATA = {
+  Flash: { name: 'Flash', cd: 300, key: 'SummonerFlash', short: 'f' },
+  Teleport: { name: 'Teleport', cd: 360, key: 'SummonerTeleport', short: 'tp' },
+  Ignite: { name: 'Ignite', cd: 180, key: 'SummonerDot', short: 'ignite' },
+  Cleanse: { name: 'Cleanse', cd: 210, key: 'SummonerBoost', short: 'cleanse' },
+  Ghost: { name: 'Ghost', cd: 240, key: 'SummonerHaste', short: 'ghost' },
+  Heal: { name: 'Heal', cd: 240, key: 'SummonerHeal', short: 'heal' },
+  Barrier: { name: 'Barrier', cd: 180, key: 'SummonerBarrier', short: 'barrier' },
+  Exhaust: { name: 'Exhaust', cd: 210, key: 'SummonerExhaust', short: 'exhaust' },
+  Smite: { name: 'Smite', cd: 90, key: 'SummonerSmite', short: 'smite' },
+  Mark: { name: 'Mark', cd: 80, key: 'SummonerSnowball', short: 'snowball' },
+  Flee: { name: 'Flee', cd: 60, key: 'SummonerCherryHold', short: 'flee' }
+};
 
 // DOM Elements
 const overlayContainer = document.getElementById('overlayContainer');
@@ -40,13 +62,22 @@ function showOverlayToast(msg, isError = false) {
   setTimeout(() => overlayToast.classList.remove('show'), 3000);
 }
 
+function normalizeItemId(id) {
+  if (!id) return 1001;
+  const num = Number(id);
+  if (isNaN(num)) return id;
+  if (num >= 100000) return num % 10000;
+  return num;
+}
+
 // ----------------- LOAD STATIC DATA -----------------
 async function initStaticData() {
   try {
-    const [ddragonRes, runesRes, augmentsRes] = await Promise.all([
+    const [ddragonRes, runesRes, augmentsRes, itemsRes] = await Promise.all([
       fetch('assets/champions_ddragon.json').then(r => r.json()).catch(() => null),
       fetch('assets/runes.json').then(r => r.json()).catch(() => null),
-      fetch('assets/ranked_augments.json').then(r => r.json()).catch(() => fetch('assets/augments.json').then(r => r.json())).catch(() => null)
+      fetch('assets/ranked_augments.json').then(r => r.json()).catch(() => fetch('assets/augments.json').then(r => r.json())).catch(() => null),
+      fetch('assets/items.json').then(r => r.json()).catch(() => null)
     ]);
 
     if (ddragonRes?.data) {
@@ -67,10 +98,17 @@ async function initStaticData() {
       });
     }
 
+    if (itemsRes?.data || itemsRes) {
+      itemsMap = itemsRes.data || itemsRes;
+    }
+
     if (Array.isArray(augmentsRes)) {
       augmentsList = augmentsRes;
       renderAugments(augmentsList);
     }
+
+    // Initial render of default champion runes & build
+    renderOverlayRunesAndBuild(activeOverlayChampId, activeOverlayMode);
   } catch (err) {
     console.error('Static data load error:', err);
   }
@@ -83,6 +121,611 @@ function getChampDdragon(champId) {
 function getRuneInfo(runeId) {
   return runesMap[runeId] || { name: 'Rune', icon: 'perk-images/Styles/7200_Domination.png' };
 }
+
+function getTreeDetails(treeId) {
+  const treeNames = {
+    8000: 'Precision',
+    8100: 'Domination',
+    8200: 'Sorcery',
+    8400: 'Resolve',
+    8300: 'Inspiration'
+  };
+  const treeIcons = {
+    8000: 'perk-images/Styles/7201_Precision.png',
+    8100: 'perk-images/Styles/7200_Domination.png',
+    8200: 'perk-images/Styles/7202_Sorcery.png',
+    8400: 'perk-images/Styles/7204_Resolve.png',
+    8300: 'perk-images/Styles/7203_Whimsy.png'
+  };
+  return {
+    name: treeNames[treeId] || 'Precision',
+    icon: `https://ddragon.leagueoflegends.com/cdn/img/${treeIcons[treeId] || 'perk-images/Styles/7201_Precision.png'}`
+  };
+}
+
+function getRuneDetails(runeId) {
+  const r = runesMap[runeId];
+  if (r) {
+    return {
+      name: r.name,
+      icon: `https://ddragon.leagueoflegends.com/cdn/img/${r.icon}`,
+      desc: (r.shortDesc || r.longDesc || '').replace(/<[^>]*>/g, ' ')
+    };
+  }
+  return {
+    name: `Rune #${runeId}`,
+    icon: 'https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/Conqueror/Conqueror.png',
+    desc: 'Empowering champion rune effect'
+  };
+}
+
+function getSpellKeyById(spellId) {
+  const map = {
+    4: 'Flash',
+    12: 'Teleport',
+    14: 'Ignite',
+    11: 'Smite',
+    7: 'Heal',
+    6: 'Ghost',
+    21: 'Barrier',
+    3: 'Exhaust',
+    1: 'Cleanse',
+    32: 'Mark'
+  };
+  return map[Number(spellId)] || 'Flash';
+}
+
+function getSpellIdByKey(key) {
+  const map = {
+    Flash: 4,
+    Teleport: 12,
+    Ignite: 14,
+    Smite: 11,
+    Heal: 7,
+    Ghost: 6,
+    Barrier: 21,
+    Exhaust: 3,
+    Cleanse: 1,
+    Mark: 32,
+    Flee: 22
+  };
+  return map[key] || 4;
+}
+
+// ----------------- 1:1 OP.GG RUNES & BUILD OVERLAY ENGINE -----------------
+
+async function renderOverlayRunesAndBuild(champId, mode = activeOverlayMode) {
+  activeOverlayChampId = champId;
+  activeOverlayMode = mode;
+
+  const champ = getChampDdragon(champId) || { id: 'Aatrox', name: `Champion ${champId}`, title: 'The Darkin Blade' };
+  const avatarEl = document.getElementById('overlayChampAvatar');
+  const nameEl = document.getElementById('overlayChampName');
+  const roleEl = document.getElementById('overlayChampRoleTag');
+  const wrEl = document.getElementById('overlayChampWrBadge');
+  const prEl = document.getElementById('overlayChampPrBadge');
+  const tierBadge = document.getElementById('overlayChampTierBadge');
+
+  if (avatarEl) avatarEl.src = `https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${champ.id}.png`;
+  if (nameEl) nameEl.textContent = champ.name;
+
+  // Fetch live stats & detail
+  const stats = await getChampionStatsAndBuild(champId, mode);
+  if (tierBadge) {
+    tierBadge.textContent = stats.tier;
+    tierBadge.className = `champ-tier-badge ${stats.tierClass}`;
+  }
+  if (wrEl) wrEl.textContent = `${stats.winRate} WR`;
+  if (prEl) prEl.textContent = `${stats.pickRate} Pick`;
+  if (roleEl) roleEl.textContent = (mode === 'aram' ? 'ARAM' : mode === 'arena' ? 'ARENA' : (stats.position || 'TOP')).toUpperCase();
+
+  // Fetch full build detail from OP.GG
+  let detail = null;
+  try {
+    if (window.opgg?.getChampionDetail) {
+      detail = await window.opgg.getChampionDetail(champId, 'none', 'all', mode);
+      activeOverlayChampDetail = detail;
+    }
+  } catch (e) {
+    console.error('Error fetching detail in overlay:', e);
+  }
+
+  const build = detail?.build || {};
+  const runePages = build.rune_pages || (build.runes ? [build.runes[0]] : []);
+  const activeRunePage = runePages[activeOverlayPresetIdx] || runePages[0] || {};
+
+  // 1. Render Preset Pills
+  const presetsEl = document.getElementById('overlayRunePresets');
+  if (presetsEl && runePages.length > 0) {
+    presetsEl.innerHTML = runePages.slice(0, 2).map((rp, idx) => {
+      const pWr = rp.win_rate ? `${(rp.win_rate * 100).toFixed(1)}% WR` : (idx === 0 ? '53.8% WR' : '51.5% WR');
+      const label = idx === 0 ? `Primary (${pWr})` : `Alternative (${pWr})`;
+      return `<button class="preset-pill ${idx === activeOverlayPresetIdx ? 'active' : ''}" onclick="selectOverlayRunePreset(${idx})">${label}</button>`;
+    }).join('');
+  }
+
+  // 2. Render Runes Visual Display
+  const runesDisplay = document.getElementById('overlayRunesDisplay');
+  if (runesDisplay) {
+    const primaryStyleId = activeRunePage.primary_page_id || 8000;
+    const subStyleId = activeRunePage.secondary_page_id || 8400;
+    const primaryTree = getTreeDetails(primaryStyleId);
+    const subTree = getTreeDetails(subStyleId);
+
+    const primaryRuneIds = activeRunePage.primary_rune_ids || [8010, 9111, 9104, 8299];
+    const secondaryRuneIds = activeRunePage.secondary_rune_ids || [8444, 8451];
+    const statModIds = activeRunePage.stat_mod_ids || [5008, 5008, 5002];
+
+    const keystone = getRuneDetails(primaryRuneIds[0]);
+
+    runesDisplay.innerHTML = `
+      <div class="overlay-runes-columns">
+        <!-- Primary Tree -->
+        <div class="rune-tree-col">
+          <div class="rune-tree-header">
+            <img class="tree-icon-mini" src="${primaryTree.icon}" />
+            <span>${primaryTree.name}</span>
+          </div>
+
+          <div class="keystone-showcase">
+            <img class="keystone-icon-glow" src="${keystone.icon}" data-tooltip-type="rune" data-tooltip-id="${primaryRuneIds[0]}" />
+            <div>
+              <div class="keystone-name-label">${keystone.name}</div>
+              <div style="font-size: 9px; color: var(--opgg-cyan); font-weight: 700;">Keystone</div>
+            </div>
+          </div>
+
+          <div class="slot-runes-list">
+            ${primaryRuneIds.slice(1).map(id => {
+              const r = getRuneDetails(id);
+              return `
+                <div class="slot-rune-row">
+                  <img class="slot-rune-icon" src="${r.icon}" data-tooltip-type="rune" data-tooltip-id="${id}" />
+                  <span class="slot-rune-title">${r.name}</span>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+
+        <!-- Secondary Tree & Shards -->
+        <div class="rune-tree-col">
+          <div class="rune-tree-header">
+            <img class="tree-icon-mini" src="${subTree.icon}" />
+            <span>${subTree.name}</span>
+          </div>
+
+          <div class="slot-runes-list">
+            ${secondaryRuneIds.map(id => {
+              const r = getRuneDetails(id);
+              return `
+                <div class="slot-rune-row">
+                  <img class="slot-rune-icon" src="${r.icon}" data-tooltip-type="rune" data-tooltip-id="${id}" />
+                  <span class="slot-rune-title">${r.name}</span>
+                </div>
+              `;
+            }).join('')}
+          </div>
+
+          <div class="shards-container">
+            <div style="font-size: 10px; font-weight: 700; color: var(--text-dim); margin-bottom: 2px;">Stat Shards</div>
+            ${statModIds.map(s => {
+              const shardName = s === 5008 ? '+9 Adaptive Force' : s === 5005 ? '+10% Attack Speed' : s === 5007 ? '+8 Ability Haste' : s === 5002 ? '+6 Armor' : s === 5003 ? '+8 Magic Resist' : '+65 Health';
+              return `<span class="shard-badge">${shardName}</span>`;
+            }).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // 3. Render Summoner Spells
+  const spellsRow = document.getElementById('overlaySpellsRow');
+  if (spellsRow) {
+    let s1 = 'Flash';
+    let s2 = mode === 'aram' ? 'Mark' : (mode === 'arena' ? 'Flee' : 'Teleport');
+    let wr = '53.2%';
+    let pr = '68.5%';
+
+    if (build.spells && build.spells[0]) {
+      const sp = build.spells[0];
+      wr = sp.win_rate ? `${(sp.win_rate * 100).toFixed(1)}%` : wr;
+      pr = sp.pick_rate ? `${(sp.pick_rate * 100).toFixed(1)}%` : pr;
+      if (Array.isArray(sp.ids) && sp.ids.length >= 2) {
+        s1 = getSpellKeyById(sp.ids[0]);
+        s2 = getSpellKeyById(sp.ids[1]);
+      }
+    }
+
+    const firstSpell = activeOverlayFlashKey === 'D' ? s1 : s2;
+    const secondSpell = activeOverlayFlashKey === 'D' ? s2 : s1;
+    const sData1 = SPELL_DATA[firstSpell] || SPELL_DATA.Flash;
+    const sData2 = SPELL_DATA[secondSpell] || SPELL_DATA.Teleport;
+
+    spellsRow.innerHTML = `
+      <div class="spell-pair-card">
+        <div class="spell-icon-pair">
+          <div style="position: relative;">
+            <img class="spell-thumb" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/spell/${sData1.key}.png" data-tooltip-type="spell" data-tooltip-id="${firstSpell}" />
+            <span style="position: absolute; bottom: -2px; right: -2px; background: #000; font-size: 8px; font-weight: 800; padding: 0 3px; border-radius: 2px;">D</span>
+          </div>
+          <div style="position: relative;">
+            <img class="spell-thumb" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/spell/${sData2.key}.png" data-tooltip-type="spell" data-tooltip-id="${secondSpell}" />
+            <span style="position: absolute; bottom: -2px; right: -2px; background: #000; font-size: 8px; font-weight: 800; padding: 0 3px; border-radius: 2px;">F</span>
+          </div>
+        </div>
+        <div class="spell-pair-meta">
+          <span class="spell-pair-wr">${wr} Win Rate</span>
+          <span class="spell-pair-pr">${pr} Pick Rate</span>
+        </div>
+      </div>
+    `;
+  }
+
+  // 4. Render Skill Max Priority & Progression
+  const skillOrderEl = document.getElementById('overlaySkillOrderText');
+  const skillsProgEl = document.getElementById('overlaySkillsProgression');
+  const masteries = build.skill_masteries || [];
+  const orderList = masteries[0]?.ids || ['Q', 'E', 'W'];
+  if (skillOrderEl) skillOrderEl.textContent = orderList.join(' ➔ ');
+
+  if (skillsProgEl) {
+    const progression = [orderList[0], orderList[1], orderList[2], orderList[0], orderList[0], 'R'];
+    skillsProgEl.innerHTML = progression.map((k, idx) => `
+      <div class="skill-prog-step ${k === orderList[0] ? 'priority' : ''}">
+        <span class="skill-prog-lvl">Lv.${idx + 1}</span>
+        <span class="skill-prog-key">${k}</span>
+      </div>
+    `).join('');
+  }
+
+  // 5. Render Core Items & Build Path
+  const itemsContainer = document.getElementById('overlayItemsSections');
+  const itemsWrTag = document.getElementById('overlayItemsWrTag');
+  if (itemsContainer) {
+    const core = (build.core_items || []).slice(0, 3);
+    const starters = (build.starter_items || []).slice(0, 2);
+    const boots = (build.boots || []).slice(0, 3);
+    const situational = (build.last_items || []).slice(0, 4);
+
+    if (core[0]?.win_rate && itemsWrTag) {
+      itemsWrTag.textContent = `${(core[0].win_rate * 100).toFixed(1)}% WR`;
+    }
+
+    const startersHtml = starters.length > 0 ? `
+      <div class="item-sub-group">
+        <span class="item-sub-title">Starting Items</span>
+        <div class="item-icons-flex">
+          ${(starters[0]?.ids || [1055, 2003]).map(id => {
+            const norm = normalizeItemId(id);
+            return `<img class="item-overlay-thumb" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/${norm}.png" data-tooltip-type="item" data-tooltip-id="${norm}" onerror="this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/1001.png'" />`;
+          }).join('')}
+        </div>
+      </div>
+    ` : '';
+
+    const coreHtml = `
+      <div class="item-sub-group">
+        <span class="item-sub-title">Core Build Path (1st ➔ 2nd ➔ 3rd)</span>
+        <div class="item-icons-flex">
+          ${(core[0]?.ids || [3078, 3053, 3161]).map((id, idx, arr) => {
+            const norm = normalizeItemId(id);
+            return `
+              <img class="item-overlay-thumb" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/${norm}.png" data-tooltip-type="item" data-tooltip-id="${norm}" onerror="this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/1001.png'" />
+              ${idx < arr.length - 1 ? '<span class="item-arrow-divider">›</span>' : ''}
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+
+    const bootsHtml = boots.length > 0 ? `
+      <div class="item-sub-group">
+        <span class="item-sub-title">Recommended Boots</span>
+        <div class="item-icons-flex">
+          ${boots.slice(0, 3).map(b => {
+            const norm = normalizeItemId(b.id || b.ids?.[0] || 3047);
+            return `<img class="item-overlay-thumb" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/${norm}.png" data-tooltip-type="item" data-tooltip-id="${norm}" onerror="this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/3047.png'" />`;
+          }).join('')}
+        </div>
+      </div>
+    ` : '';
+
+    const situationalHtml = situational.length > 0 ? `
+      <div class="item-sub-group">
+        <span class="item-sub-title">Situational Items</span>
+        <div class="item-icons-flex">
+          ${situational.slice(0, 4).map(s => {
+            const norm = normalizeItemId(s.id || s.ids?.[0] || 3026);
+            return `<img class="item-overlay-thumb" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/${norm}.png" data-tooltip-type="item" data-tooltip-id="${norm}" onerror="this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/1001.png'" />`;
+          }).join('')}
+        </div>
+      </div>
+    ` : '';
+
+    itemsContainer.innerHTML = startersHtml + coreHtml + bootsHtml + situationalHtml;
+  }
+}
+
+window.selectOverlayRunePreset = function(presetIdx) {
+  activeOverlayPresetIdx = presetIdx;
+  renderOverlayRunesAndBuild(activeOverlayChampId, activeOverlayMode);
+};
+
+// Quick Champion Search inside Overlay
+const overlayChampSearchInput = document.getElementById('overlayChampSearchInput');
+const overlayChampDropdown = document.getElementById('overlayChampDropdown');
+
+if (overlayChampSearchInput && overlayChampDropdown) {
+  overlayChampSearchInput.addEventListener('input', () => {
+    const q = overlayChampSearchInput.value.trim().toLowerCase();
+    if (!q) {
+      overlayChampDropdown.style.display = 'none';
+      return;
+    }
+    const matches = Object.values(ddragonMap).filter(c => c.name && c.name.toLowerCase().includes(q)).slice(0, 8);
+    if (matches.length === 0) {
+      overlayChampDropdown.style.display = 'none';
+      return;
+    }
+    overlayChampDropdown.style.display = 'block';
+    overlayChampDropdown.innerHTML = matches.map(c => `
+      <div class="overlay-champ-drop-item" onclick="selectOverlayChampion(${c.key}, '${c.name.replace("'", "\\'")}')">
+        <img src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${c.id}.png" />
+        <span>${c.name}</span>
+      </div>
+    `).join('');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!overlayChampSearchInput.contains(e.target) && !overlayChampDropdown.contains(e.target)) {
+      overlayChampDropdown.style.display = 'none';
+    }
+  });
+}
+
+window.selectOverlayChampion = function(champId, champName) {
+  if (overlayChampSearchInput) overlayChampSearchInput.value = '';
+  if (overlayChampDropdown) overlayChampDropdown.style.display = 'none';
+  showOverlayToast(`⚡ Loading OP.GG build for ${champName}...`);
+  renderOverlayRunesAndBuild(Number(champId), activeOverlayMode);
+};
+
+// 1-Click Import Runes Button
+const btnOverlayImportRunes = document.getElementById('btnOverlayImportRunes');
+if (btnOverlayImportRunes) {
+  btnOverlayImportRunes.addEventListener('click', async () => {
+    if (!activeOverlayChampDetail) {
+      showOverlayToast('No active champion build loaded', true);
+      return;
+    }
+    const build = activeOverlayChampDetail.build || {};
+    const runePages = build.rune_pages || (build.runes ? [build.runes[0]] : []);
+    const activePage = runePages[activeOverlayPresetIdx] || runePages[0];
+    if (!activePage) {
+      showOverlayToast('No runes found for this champion', true);
+      return;
+    }
+    const champName = document.getElementById('overlayChampName')?.textContent || 'Champion';
+    const payload = {
+      championName: champName,
+      primaryStyleId: activePage.primary_page_id || 8000,
+      subStyleId: activePage.secondary_page_id || 8400,
+      selectedPerkIds: [
+        ...(activePage.primary_rune_ids || [8010, 9111, 9104, 8299]),
+        ...(activePage.secondary_rune_ids || [8444, 8451]),
+        ...(activePage.stat_mod_ids || [5008, 5008, 5002])
+      ]
+    };
+    try {
+      const res = await window.opgg.lcuApplyRunes(payload);
+      if (res?.success) {
+        showOverlayToast(`⚡ OP.GG Runes imported for ${payload.championName}!`);
+      } else {
+        showOverlayToast(`Rune import failed: ${res?.error || 'League Client not connected'}`, true);
+      }
+    } catch (err) {
+      showOverlayToast(`Rune error: ${err.message}`, true);
+    }
+  });
+}
+
+// 1-Click Import Spells Button
+const btnOverlayImportSpells = document.getElementById('btnOverlayImportSpells');
+if (btnOverlayImportSpells) {
+  btnOverlayImportSpells.addEventListener('click', async () => {
+    const build = activeOverlayChampDetail?.build || {};
+    let s1Key = 'Flash';
+    let s2Key = activeOverlayMode === 'aram' ? 'Mark' : (activeOverlayMode === 'arena' ? 'Flee' : 'Teleport');
+    if (build.spells && build.spells[0]?.ids?.length >= 2) {
+      s1Key = getSpellKeyById(build.spells[0].ids[0]);
+      s2Key = getSpellKeyById(build.spells[0].ids[1]);
+    }
+    const s1Id = getSpellIdByKey(activeOverlayFlashKey === 'D' ? s1Key : s2Key);
+    const s2Id = getSpellIdByKey(activeOverlayFlashKey === 'D' ? s2Key : s1Key);
+
+    try {
+      const res = await window.opgg.lcuApplySpells({ spell1Id: s1Id, spell2Id: s2Id });
+      if (res?.success) {
+        showOverlayToast(`🔮 Summoner Spells (${s1Key} + ${s2Key}) imported!`);
+      } else {
+        showOverlayToast(`Spells import failed: ${res?.error || 'Client not in champ select'}`, true);
+      }
+    } catch (err) {
+      showOverlayToast(`Spells error: ${err.message}`, true);
+    }
+  });
+}
+
+// 1-Click Import Item Set Button
+const btnOverlayImportItems = document.getElementById('btnOverlayImportItems');
+if (btnOverlayImportItems) {
+  btnOverlayImportItems.addEventListener('click', async () => {
+    const champName = document.getElementById('overlayChampName')?.textContent || 'Champion';
+    try {
+      const res = await window.opgg.lcuApplyItemBuild({
+        champId: activeOverlayChampId,
+        champName,
+        mode: activeOverlayMode,
+        position: 'top'
+      });
+      if (res?.success) {
+        showOverlayToast(`🎒 OP.GG Item Set imported to League Client!`);
+      } else {
+        showOverlayToast(`Item set import failed: ${res?.error || 'Client not running'}`, true);
+      }
+    } catch (err) {
+      showOverlayToast(`Item set error: ${err.message}`, true);
+    }
+  });
+}
+
+// Flash Key Toggle (D vs F)
+const btnFlashD = document.getElementById('btnFlashD');
+const btnFlashF = document.getElementById('btnFlashF');
+if (btnFlashD && btnFlashF) {
+  btnFlashD.addEventListener('click', () => {
+    activeOverlayFlashKey = 'D';
+    btnFlashD.classList.add('active');
+    btnFlashF.classList.remove('active');
+    if (window.opgg?.lcuSetFlashKey) window.opgg.lcuSetFlashKey('D');
+    renderOverlayRunesAndBuild(activeOverlayChampId, activeOverlayMode);
+    showOverlayToast('Flash preference set to [D]');
+  });
+  btnFlashF.addEventListener('click', () => {
+    activeOverlayFlashKey = 'F';
+    btnFlashF.classList.add('active');
+    btnFlashD.classList.remove('active');
+    if (window.opgg?.lcuSetFlashKey) window.opgg.lcuSetFlashKey('F');
+    renderOverlayRunesAndBuild(activeOverlayChampId, activeOverlayMode);
+    showOverlayToast('Flash preference set to [F]');
+  });
+}
+
+// Mode Selector Buttons
+const modeButtons = [
+  { btn: document.getElementById('btnOverlayModeRanked'), mode: 'ranked' },
+  { btn: document.getElementById('btnOverlayModeAram'), mode: 'aram' },
+  { btn: document.getElementById('btnOverlayModeArena'), mode: 'arena' }
+];
+modeButtons.forEach(({ btn, mode }) => {
+  btn?.addEventListener('click', () => {
+    modeButtons.forEach(m => m.btn?.classList.remove('active'));
+    btn.classList.add('active');
+    activeOverlayMode = mode;
+    renderOverlayRunesAndBuild(activeOverlayChampId, mode);
+  });
+});
+
+// Auto-Import Runes Toggle
+const overlayAutoRunesCheck = document.getElementById('overlayAutoRunesCheck');
+if (overlayAutoRunesCheck) {
+  overlayAutoRunesCheck.addEventListener('change', (e) => {
+    autoRunesEnabled = e.target.checked;
+    if (window.opgg?.lcuAutoRunes) window.opgg.lcuAutoRunes(autoRunesEnabled);
+    showOverlayToast(autoRunesEnabled ? '⚡ Auto-Import Runes: ON' : 'Auto-Import Runes: OFF');
+  });
+}
+
+// Floating Interactive Tooltip in Overlay
+const overlayGlobalTooltip = document.getElementById('overlayGlobalTooltip');
+
+function showOverlayTooltip(e, contentHtml) {
+  if (!overlayGlobalTooltip || !contentHtml) return;
+  overlayGlobalTooltip.innerHTML = contentHtml;
+  overlayGlobalTooltip.classList.add('show');
+  positionOverlayTooltip(e);
+}
+
+function hideOverlayTooltip() {
+  if (overlayGlobalTooltip) {
+    overlayGlobalTooltip.classList.remove('show');
+  }
+}
+
+function positionOverlayTooltip(e) {
+  if (!overlayGlobalTooltip) return;
+  const padding = 12;
+  const rect = overlayGlobalTooltip.getBoundingClientRect();
+  let x = e.clientX + padding;
+  let y = e.clientY + padding;
+
+  if (x + rect.width > window.innerWidth) {
+    x = e.clientX - rect.width - padding;
+  }
+  if (y + rect.height > window.innerHeight) {
+    y = e.clientY - rect.height - padding;
+  }
+  overlayGlobalTooltip.style.left = `${Math.max(8, x)}px`;
+  overlayGlobalTooltip.style.top = `${Math.max(8, y)}px`;
+}
+
+window.addEventListener('mousemove', (e) => {
+  if (overlayGlobalTooltip && overlayGlobalTooltip.classList.contains('show')) {
+    positionOverlayTooltip(e);
+  }
+});
+
+document.body.addEventListener('mouseover', (e) => {
+  const target = e.target.closest('[data-tooltip-type]');
+  if (!target) return;
+  const type = target.getAttribute('data-tooltip-type');
+  const id = target.getAttribute('data-tooltip-id');
+
+  if (type === 'item') {
+    const item = itemsMap[String(id)] || itemsMap[String(normalizeItemId(id))];
+    if (item) {
+      const statsList = Object.entries(item.stats || {}).map(([k, v]) => {
+        const cleanKey = k.replace('Flat', '').replace('Mod', '').replace('PhysicalDamage', 'Attack Damage').replace('MagicDamage', 'Ability Power');
+        return `<div>+${v} ${cleanKey}</div>`;
+      }).join('');
+      const cleanDesc = (item.description || '').replace(/<[^>]*>/g, ' ');
+      const html = `
+        <div class="tooltip-header">
+          <img class="tooltip-icon" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/${id}.png" onerror="this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/1001.png'" />
+          <div>
+            <div class="tooltip-title">${item.name}</div>
+            <div class="tooltip-cost">🪙 ${item.gold?.total || '3,000'} gold</div>
+          </div>
+        </div>
+        ${statsList ? `<div class="tooltip-stats">${statsList}</div>` : ''}
+        <div class="tooltip-desc">${cleanDesc}</div>
+      `;
+      showOverlayTooltip(e, html);
+    }
+  } else if (type === 'rune') {
+    const r = getRuneDetails(Number(id));
+    const html = `
+      <div class="tooltip-header">
+        <img class="tooltip-icon" src="${r.icon}" />
+        <div>
+          <div class="tooltip-title">${r.name}</div>
+          <div style="font-size: 10px; color: var(--opgg-cyan); font-weight: 700;">Keystone / Rune</div>
+        </div>
+      </div>
+      <div class="tooltip-desc">${r.desc}</div>
+    `;
+    showOverlayTooltip(e, html);
+  } else if (type === 'spell') {
+    const s = SPELL_DATA[id] || { name: id, cd: 300 };
+    const html = `
+      <div class="tooltip-header">
+        <div>
+          <div class="tooltip-title">${s.name}</div>
+          <div style="font-size: 10px; color: #ffaa00; font-weight: 700;">Cooldown: ${s.cd}s</div>
+        </div>
+      </div>
+      <div class="tooltip-desc">Summoner spell tactical advantage.</div>
+    `;
+    showOverlayTooltip(e, html);
+  }
+});
+
+document.body.addEventListener('mouseout', (e) => {
+  if (e.target.closest('[data-tooltip-type]')) {
+    hideOverlayTooltip();
+  }
+});
 
 // ----------------- NAVIGATION TABS -----------------
 navTabs.forEach(tab => {
@@ -98,7 +741,11 @@ navTabs.forEach(tab => {
 });
 
 // ----------------- WINDOW ACTION CONTROLS -----------------
-btnTestDemo.addEventListener('click', () => loadDemoBench());
+btnTestDemo.addEventListener('click', () => {
+  renderOverlayRunesAndBuild(222, 'ranked');
+  loadDemoBench();
+  showOverlayToast('🎲 Demo Champion (Jinx) & Bench Loaded!');
+});
 
 btnToggleCompact.addEventListener('click', () => {
   isCompact = !isCompact;
@@ -660,6 +1307,17 @@ if (window.opgg?.onChampSelectUpdate) {
     if (data.theirTeam && data.theirTeam.length > 0) {
       renderOverlayEnemySpells(data.theirTeam);
     }
+
+    // Auto-update Runes & Build Overlay for locked-in or hovered champion
+    const myChamp = data.myChampionId || (data.myTeam && data.myTeam.find(m => m.cellId === data.localPlayerCellId)?.championId) || 0;
+    if (myChamp && myChamp > 0 && myChamp !== activeOverlayChampId) {
+      activeOverlayChampId = myChamp;
+      renderOverlayRunesAndBuild(myChamp, currentMode);
+      if (autoRunesEnabled) {
+        const champ = getChampDdragon(myChamp);
+        syncMyRunes(myChamp, champ?.name || 'Champion');
+      }
+    }
   });
 }
 
@@ -672,18 +1330,6 @@ if (window.opgg?.onLcuStatus) {
 }
 
 // ----------------- ENEMY SUMMONER SPELL TRACKER (OVERLAY) -----------------
-const SPELL_DATA = {
-  Flash: { name: 'Flash', cd: 300, key: 'SummonerFlash', short: 'f' },
-  Teleport: { name: 'Teleport', cd: 360, key: 'SummonerTeleport', short: 'tp' },
-  Ignite: { name: 'Ignite', cd: 180, key: 'SummonerDot', short: 'ignite' },
-  Cleanse: { name: 'Cleanse', cd: 210, key: 'SummonerBoost', short: 'cleanse' },
-  Ghost: { name: 'Ghost', cd: 240, key: 'SummonerHaste', short: 'ghost' },
-  Heal: { name: 'Heal', cd: 240, key: 'SummonerHeal', short: 'heal' },
-  Barrier: { name: 'Barrier', cd: 180, key: 'SummonerBarrier', short: 'barrier' },
-  Exhaust: { name: 'Exhaust', cd: 210, key: 'SummonerExhaust', short: 'exhaust' },
-  Smite: { name: 'Smite', cd: 90, key: 'SummonerSmite', short: 'smite' }
-};
-
 const overlayEnemyTimers = {};
 const overlayEnemyGrid = document.getElementById('overlayEnemyTimersGrid');
 const btnCopyOverlaySpellTimers = document.getElementById('btnCopyOverlaySpellTimers');
