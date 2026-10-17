@@ -243,7 +243,7 @@
         <div class="panel-header-strip">
           <div class="strip-left">
             <span class="strip-heading">🃏 MAYHEM & ARENA AUGMENT CARD TIER LIST</span>
-            <span class="strip-sub">Official OP.GG Augment Tier Rankings • S+/S/A/B Tiers, Win Rates, Avg Placements & Best Champion Synergies</span>
+            <span class="strip-sub">Official OP.GG Augment Tier Rankings • S+/S/A/B Tiers, Win Rates & Placement ranked per Champion</span>
           </div>
           <div class="strip-right">
             <div class="augment-filters">
@@ -263,14 +263,38 @@
           </div>
         </div>
 
+        <!-- Per-Champion Filter Strip for Overlay -->
+        <div class="overlay-aug-champ-bar" id="overlayAugChampBar">
+          <div class="overlay-aug-champ-info">
+            <img id="overlayAugChampImg" class="overlay-aug-champ-img" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Aatrox.png" alt="Champ" />
+            <div>
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span class="aug-champ-title" id="overlayAugChampName">Aatrox</span>
+                <span class="aug-champ-subtag" id="overlayAugChampRole">ARENA RANKINGS</span>
+              </div>
+              <div style="font-size: 10px; color: var(--text-dim);" id="overlayAugChampDesc">Augment tiers & decision assistant tailored for Aatrox</div>
+            </div>
+          </div>
+          <div class="overlay-champ-quick-pills" id="overlayChampQuickPills">
+            <button class="ov-champ-pill active" data-champ="266">⚔️ Aatrox</button>
+            <button class="ov-champ-pill" data-champ="222">🏹 Jinx</button>
+            <button class="ov-champ-pill" data-champ="238">🗡️ Zed</button>
+            <button class="ov-champ-pill" data-champ="99">🔮 Lux</button>
+            <button class="ov-champ-pill" data-champ="875">🛡️ Sett</button>
+            <button class="ov-champ-pill" data-champ="11">⚔️ Yi</button>
+            <button class="ov-champ-pill" data-champ="31">🛡️ Cho</button>
+            <button class="ov-champ-pill" data-champ="0">🌍 All</button>
+          </div>
+        </div>
+
         <!-- In-Game 3-Choice Augment Decision Assistant -->
         <div class="augment-picker-strip" id="augmentPickerStrip">
           <div class="picker-header">
             <div style="display: flex; align-items: center; gap: 8px;">
               <span class="pulse-dot"></span>
-              <span style="font-weight: 800; font-size: 11px; color: #fff; letter-spacing: 0.5px;">⚔️ 3-CARD IN-GAME PICKER HELPER</span>
+              <span style="font-weight: 800; font-size: 11px; color: #fff; letter-spacing: 0.5px;" id="pickerTitle">⚔️ 3-CARD IN-GAME PICKER HELPER FOR AATROX</span>
             </div>
-            <span style="font-size: 10px; color: var(--text-dim);">Type names of your 3 in-game choices to instantly pick the highest win rate & tier card</span>
+            <span style="font-size: 10px; color: var(--text-dim);">Type names of your 3 in-game choices to instantly pick the highest win rate & tier card for this champion</span>
           </div>
           <div class="picker-inputs-row">
             <input type="text" id="pickerCard1" class="picker-input" placeholder="Card #1 (e.g. Giant Slayer)" />

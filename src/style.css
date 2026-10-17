@@ -421,7 +421,8 @@ body {
   background: transparent;
   border: none;
   color: #7f7f98;
-  width: 34px;
+  min-width: 34px;
+  width: auto;
   height: 32px;
   border-radius: 4px;
   display: flex;
@@ -432,11 +433,11 @@ body {
   font-family: inherit;
   font-size: 11px;
   font-weight: 800;
-  padding: 0;
+  padding: 0 8px;
+  white-space: nowrap;
 }
 
 .role-btn[data-role="all"] {
-  width: auto;
   padding: 0 10px;
 }
 
@@ -2964,6 +2965,231 @@ body {
   color: var(--text-dim);
   display: flex;
   gap: 6px;
+}
+
+/* ================= PER-CHAMPION AUGMENT SELECTOR ================= */
+.augment-champ-selector-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: linear-gradient(135deg, rgba(28, 28, 38, 0.95) 0%, rgba(20, 20, 28, 0.95) 100%);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-top: 14px;
+  margin-bottom: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.augment-active-champ-badge {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.augment-active-champ-img {
+  width: 52px;
+  height: 52px;
+  border-radius: 10px;
+  border: 2px solid var(--opgg-cyan);
+  box-shadow: 0 0 12px rgba(0, 207, 188, 0.35);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.augment-active-champ-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.champ-label-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.aug-mode-pill {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: var(--opgg-cyan);
+  background: rgba(0, 207, 188, 0.12);
+  border: 1px solid rgba(0, 207, 188, 0.3);
+  padding: 1px 7px;
+  border-radius: 4px;
+}
+
+.aug-tag-pill {
+  font-size: 10px;
+  font-weight: 800;
+  color: #ffaa00;
+  background: rgba(255, 170, 0, 0.12);
+  border: 1px solid rgba(255, 170, 0, 0.3);
+  padding: 1px 7px;
+  border-radius: 4px;
+}
+
+.augment-active-champ-meta h3 {
+  font-size: 17px;
+  font-weight: 900;
+  color: #fff;
+  margin: 0;
+}
+
+.augment-active-champ-meta p {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin: 0;
+}
+
+.augment-champ-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.augment-quick-champs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.champ-pill {
+  background: #252532;
+  border: 1px solid var(--border-color);
+  color: #a0a0b8;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 5px 11px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.champ-pill:hover {
+  background: #323245;
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.champ-pill.active {
+  background: linear-gradient(135deg, #5383e8 0%, #3665cc 100%);
+  color: #fff;
+  border-color: #5383e8;
+  box-shadow: 0 2px 8px rgba(83, 131, 232, 0.4);
+}
+
+.augment-champ-search-wrap {
+  position: relative;
+  min-width: 240px;
+}
+
+.augment-champ-search {
+  width: 100%;
+  background: #1c1c24;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 6px 12px;
+  color: #fff;
+  font-size: 12px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.augment-champ-search:focus {
+  border-color: var(--opgg-blue);
+}
+
+.augment-champ-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  max-height: 220px;
+  overflow-y: auto;
+  background: #1e1e28;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  z-index: 100;
+}
+
+.augment-champ-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.augment-champ-dropdown-item:hover {
+  background: #2b2b3a;
+}
+
+.augment-champ-dropdown-item img {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+}
+
+.augment-champ-dropdown-item span {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* Augment Rarity Filter Buttons (replaces squished role-filters) */
+.augment-rarity-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #1e1e26;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 3px;
+}
+
+.augment-rarity-btn {
+  background: transparent;
+  border: none;
+  color: #8b8ba0;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.augment-rarity-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.augment-rarity-btn.active {
+  background: #39345c;
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+.augment-rarity-btn.prismatic {
+  color: #ff3399;
+}
+.augment-rarity-btn.gold {
+  color: #f0c040;
+}
+.augment-rarity-btn.silver {
+  color: #c0d0e0;
 }
 
 /* ================= MAYHEM AUGMENTS TABLE STYLING ================= */

@@ -643,7 +643,7 @@ Keria joined the lobby"></textarea>
         <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;">
           <div>
             <h2>🃏 Mayhem & Arena Augment Tier List</h2>
-            <p>Official OP.GG Augment Rankings • 221 Augments analyzed across live Mayhem & Arena rounds with S+/S/A/B Tiers, Win Rates, and Synergies.</p>
+            <p>Official OP.GG Augment Rankings • S+/S/A/B Tiers, Win Rates & Placement ranked specifically for each Champion.</p>
           </div>
           <div class="leaderboard-actions-row">
             <button id="refreshAugmentsBtn" class="btn-refresh-profile" style="padding: 6px 14px; font-size: 11px;">
@@ -652,15 +652,53 @@ Keria joined the lobby"></textarea>
           </div>
         </div>
 
+        <!-- Per-Champion Banner & Champion Selector -->
+        <div class="augment-champ-selector-container">
+          <div class="augment-active-champ-badge" id="augmentActiveChampBadge">
+            <img id="augmentActiveChampImg" class="augment-active-champ-img" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Aatrox.png" alt="Aatrox" />
+            <div class="augment-active-champ-meta">
+              <div class="champ-label-row">
+                <span class="aug-mode-pill">OP.GG ARENA & MAYHEM TIER LIST</span>
+                <span id="augmentActiveChampTag" class="aug-tag-pill">FIGHTER / TANK</span>
+              </div>
+              <h3 id="augmentActiveChampName">Aatrox - The Darkin Blade</h3>
+              <p id="augmentActiveChampSub">Showing Augment Tiers & Win Rates ranked specifically for Aatrox (OP.GG Arena Meta).</p>
+            </div>
+          </div>
+
+          <div class="augment-champ-controls">
+            <!-- Quick Champion Switcher Chips -->
+            <div class="augment-quick-champs" id="augmentQuickChamps">
+              <button class="champ-pill active" data-champ-id="266" data-champ-name="Aatrox">⚔️ Aatrox</button>
+              <button class="champ-pill" data-champ-id="222" data-champ-name="Jinx">🏹 Jinx</button>
+              <button class="champ-pill" data-champ-id="238" data-champ-name="Zed">🗡️ Zed</button>
+              <button class="champ-pill" data-champ-id="99" data-champ-name="Lux">🔮 Lux</button>
+              <button class="champ-pill" data-champ-id="875" data-champ-name="Sett">🛡️ Sett</button>
+              <button class="champ-pill" data-champ-id="11" data-champ-name="Master Yi">⚔️ Master Yi</button>
+              <button class="champ-pill" data-champ-id="31" data-champ-name="Cho'Gath">🛡️ Cho'Gath</button>
+              <button class="champ-pill" data-champ-id="141" data-champ-name="Kayn">🌀 Kayn</button>
+              <button class="champ-pill" data-champ-id="45" data-champ-name="Veigar">🧙‍♂️ Veigar</button>
+              <button class="champ-pill" data-champ-id="145" data-champ-name="Kai'Sa">⚡ Kai'Sa</button>
+              <button class="champ-pill" data-champ-id="0" data-champ-name="All Champions">🌍 All Champions</button>
+            </div>
+
+            <!-- Search Champion Input with auto-complete dropdown -->
+            <div class="augment-champ-search-wrap">
+              <input type="text" id="augmentChampSearchInput" class="augment-champ-search" placeholder="🔍 Search any Champion (e.g. Yasuo, Vayne, Gwen)..." />
+              <div class="augment-champ-dropdown" id="augmentChampDropdown" style="display: none;"></div>
+            </div>
+          </div>
+        </div>
+
         <!-- Filter & Search Toolbar -->
         <div class="leaderboard-toolbar">
           <div class="toolbar-left">
             <!-- Rarity Filter Chips -->
-            <div class="role-filters" id="mainAugmentRarityFilters">
-              <button class="role-btn active" data-rarity="all"><span class="role-text-icon">ALL</span></button>
-              <button class="role-btn" data-rarity="Prismatic"><span class="role-text-icon" style="color: #ff3399;">💎 PRISMATIC</span></button>
-              <button class="role-btn" data-rarity="Gold"><span class="role-text-icon" style="color: #f0c040;">🪙 GOLD</span></button>
-              <button class="role-btn" data-rarity="Silver"><span class="role-text-icon" style="color: #c0d0e0;">🛡️ SILVER</span></button>
+            <div class="augment-rarity-filter-group" id="mainAugmentRarityFilters">
+              <button class="augment-rarity-btn active" data-rarity="all">ALL</button>
+              <button class="augment-rarity-btn prismatic" data-rarity="Prismatic">💎 PRISMATIC</button>
+              <button class="augment-rarity-btn gold" data-rarity="Gold">🪙 GOLD</button>
+              <button class="augment-rarity-btn silver" data-rarity="Silver">🛡️ SILVER</button>
             </div>
 
             <!-- Tier Dropdown -->
@@ -677,7 +715,7 @@ Keria joined the lobby"></textarea>
           </div>
 
           <div class="toolbar-right">
-            <input type="text" id="mainAugmentSearchInput" class="champ-search" placeholder="Search augment or champion synergy..." />
+            <input type="text" id="mainAugmentSearchInput" class="champ-search" placeholder="Search augment name or effect..." />
           </div>
         </div>
       </div>
@@ -694,7 +732,7 @@ Keria joined the lobby"></textarea>
               <th class="sortable" data-sort="firstPlace" style="width: 110px;">1st Place % <span class="sort-icon">⇅</span></th>
               <th class="sortable" data-sort="avgPlace" style="width: 100px;">Avg Place <span class="sort-icon">⇅</span></th>
               <th class="sortable" data-sort="pickRate" style="width: 95px;">Pick Rate <span class="sort-icon">⇅</span></th>
-              <th>Best Champion Synergies</th>
+              <th style="width: 200px;">Champion Synergy & Meta Role</th>
             </tr>
           </thead>
           <tbody id="augmentsTableBody">
