@@ -83,7 +83,12 @@ async function getLeagueClientBounds() {
           public struct RECT { public int Left; public int Top; public int Right; public int Bottom; }
         }
 "@
-      $hwnd = [WinApi]::FindWindow("RCLIENT", "League of Legends")
+      # 1. Match active League match in-game client window
+      $hwnd = [WinApi]::FindWindow($null, "League of Legends (TM) Client")
+      # 2. Match client / champ select window
+      if ($hwnd -eq [IntPtr]::Zero) {
+        $hwnd = [WinApi]::FindWindow("RCLIENT", "League of Legends")
+      }
       if ($hwnd -eq [IntPtr]::Zero) {
         $hwnd = [WinApi]::FindWindow($null, "League of Legends")
       }
@@ -109,6 +114,14 @@ async function getLeagueClientBounds() {
 async function createOverlayWindow(showImmediately = false) {
   if (overlayWindow && !overlayWindow.isDestroyed()) {
     if (showImmediately) {
+      const bounds = await getLeagueClientBounds();
+      if (bounds) {
+        const curr = overlayWindow.getBounds();
+        const targetW = Math.min(curr.width, bounds.width - 20);
+        const targetX = Math.round(bounds.x + (bounds.width - targetW) / 2);
+        const targetY = Math.round(bounds.y + 15);
+        overlayWindow.setBounds({ x: targetX, y: targetY, width: targetW, height: curr.height });
+      }
       overlayWindow.show();
       overlayWindow.focus();
     }
@@ -156,6 +169,11 @@ async function createOverlayWindow(showImmediately = false) {
       sandbox: false
     }
   });
+
+  if (overlayPinned) {
+    overlayWindow.setAlwaysOnTop(true, 'screen-saver');
+    overlayWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
+  }
 
   overlayWindow.loadFile(path.join(__dirname, 'src', 'overlay.html'));
 
@@ -766,7 +784,7 @@ ipcMain.handle('opgg:champions', async (e, args = {}) => {
   let mode = 'ranked';
   let tier = 'emerald_plus';
   let region = 'GLOBAL';
-  let patch = '14.20';
+  let patch = '16.20';
 
   if (typeof args === 'string') {
     tier = args;
@@ -774,7 +792,7 @@ ipcMain.handle('opgg:champions', async (e, args = {}) => {
     mode = args.mode || 'ranked';
     tier = args.tier || 'emerald_plus';
     region = (args.region || 'GLOBAL').toUpperCase();
-    patch = args.patch || '14.20';
+    patch = args.patch || '16.20';
   }
 
   const normalizedMode = (mode || 'ranked').toLowerCase();
@@ -981,56 +999,7 @@ ipcMain.handle('opgg:multi-search', async (e, { query, region = 'kr' }) => {
   return results;
 });
 
-// TFT Meta Data
-ipcMain.handle('opgg:tft-data', async () => {
-  return {
-    patch: '14.20',
-    comps: [
-      {
-        name: 'Portal Mage Ryze',
-        tier: 'S',
-        avgPlacement: '3.82',
-        top4Rate: '62.4%',
-        winRate: '18.1%',
-        traits: ['8 Portal', '2 Mage', '2 Scholar', '2 Bastion'],
-        coreUnits: [
-          { name: 'Ryze', cost: 4, isCarry: true, items: ['Spear of Shojin', 'Jeweled Gauntlet', 'Nashors Tooth'] },
-          { name: 'Taric', cost: 4, isTank: true, items: ['Gargoyle Stoneplate', 'Warmogs Armor', 'Dragons Claw'] },
-          { name: 'Norra', cost: 5, isCarry: false, items: ['Morellonomicon', 'Statikk Shiv'] },
-          { name: 'Diana', cost: 5, isCarry: false, items: [] }
-        ]
-      },
-      {
-        name: 'Faerie Kalista Reroll',
-        tier: 'S',
-        avgPlacement: '3.95',
-        top4Rate: '59.8%',
-        winRate: '16.5%',
-        traits: ['6 Faerie', '2 Multistriker', '2 Preserver', '2 Bastion'],
-        coreUnits: [
-          { name: 'Kalista', cost: 4, isCarry: true, items: ['Faerie Queene Crown', 'Guinsoos Rageblade', 'Last Whisper'] },
-          { name: 'Rakan', cost: 4, isTank: true, items: ['Faerie Armor', 'Redemption', 'Bramble Vest'] },
-          { name: 'Milio', cost: 5, isCarry: false, items: ['Blue Buff'] }
-        ]
-      },
-      {
-        name: 'Honeymancy KogMaw',
-        tier: 'A',
-        avgPlacement: '4.12',
-        top4Rate: '54.2%',
-        winRate: '14.2%',
-        traits: ['5 Honeymancy', '2 Hunter', '2 Bastion'],
-        coreUnits: [
-          { name: 'KogMaw', cost: 2, isCarry: true, items: ['Blue Buff', 'Nashors Tooth', 'Jeweled Gauntlet'] },
-          { name: 'Blitzcrank', cost: 1, isTank: true, items: ['Warmogs Armor', 'Gargoyle Stoneplate', 'Sunfire Cape'] },
-          { name: 'Nunu', cost: 2, isTank: true, items: ['Crownguard', 'Dragons Claw'] }
-        ]
-      }
-    ]
-  };
-});
-
-// Valorant Data
+// Utility IPC
 ipcMain.on('app:openExternal', (e, url) => shell.openExternal(url));
 ipcMain.handle('app:copyToClipboard', (e, text) => {
   clipboard.writeText(text);
@@ -1056,9 +1025,39 @@ if (!gotTheLock) {
     checkLcuHeartbeat();
     lcuPollInterval = setInterval(checkLcuHeartbeat, 2500);
 
+    // Global shortcut Ctrl+Shift+O to toggle in-game overlay over League
+    try {
+      const { globalShortcut } = require('electron');
+      globalShortcut.register('CommandOrControl+Shift+O', async () => {
+        if (!overlayWindow || overlayWindow.isDestroyed()) {
+          await createOverlayWindow(true);
+        } else if (overlayWindow.isVisible()) {
+          overlayWindow.hide();
+        } else {
+          const bounds = await getLeagueClientBounds();
+          if (bounds) {
+            const curr = overlayWindow.getBounds();
+            const targetW = Math.min(curr.width, bounds.width - 20);
+            const targetX = Math.round(bounds.x + (bounds.width - targetW) / 2);
+            const targetY = Math.round(bounds.y + 15);
+            overlayWindow.setBounds({ x: targetX, y: targetY, width: targetW, height: curr.height });
+          }
+          overlayWindow.show();
+          overlayWindow.focus();
+        }
+      });
+    } catch (e) {}
+
     app.on('activate', () => {
       if (BrowserWindow.getAllWindows().length === 0) createMainWindow();
     });
+  });
+
+  app.on('will-quit', () => {
+    try {
+      const { globalShortcut } = require('electron');
+      globalShortcut.unregisterAll();
+    } catch (e) {}
   });
 
   app.on('window-all-closed', () => {

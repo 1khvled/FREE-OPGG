@@ -1896,3 +1896,448 @@ body {
 .teammate-tag.tilt { background: rgba(232, 64, 87, 0.2); color: #ff7888; border: 1px solid rgba(232, 64, 87, 0.4); }
 .teammate-tag.hot { background: rgba(255, 185, 0, 0.2); color: #ffb900; border: 1px solid rgba(255, 185, 0, 0.4); }
 .teammate-tag.autofill { background: rgba(140, 82, 255, 0.2); color: #c09bff; border: 1px solid rgba(140, 82, 255, 0.4); }
+
+/* ================= AUDIO FEEDBACK BUTTON ================= */
+.audio-feedback-btn {
+  background: #282830;
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.audio-feedback-btn:hover {
+  color: #fff;
+  border-color: #555;
+}
+
+.audio-feedback-btn.active {
+  color: var(--opgg-cyan);
+  border-color: rgba(0, 187, 163, 0.5);
+  background: rgba(0, 187, 163, 0.1);
+}
+
+/* ================= PATCH META TRENDS BANNER ================= */
+.meta-trends-banner {
+  background: linear-gradient(135deg, #1c1c27 0%, #171720 100%);
+  border: 1px solid #2d2d3e;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 14px;
+}
+
+.trends-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.trends-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.trends-badge {
+  background: rgba(255, 185, 0, 0.18);
+  color: #ffb900;
+  border: 1px solid rgba(255, 185, 0, 0.4);
+  font-size: 11px;
+  font-weight: 900;
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+.trends-sub {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.btn-toggle-trends {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 11px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.btn-toggle-trends:hover {
+  color: #fff;
+}
+
+.trends-cards-scroll {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.trends-cards-scroll::-webkit-scrollbar {
+  height: 4px;
+}
+
+.trends-cards-scroll::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 2px;
+}
+
+.trend-card {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #20202c;
+  border: 1px solid #2e2e40;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  min-width: 145px;
+}
+
+.trend-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--opgg-blue);
+  background: #252535;
+}
+
+.trend-champ-img {
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  border: 1px solid #444;
+}
+
+.trend-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.trend-name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.trend-name {
+  font-weight: 800;
+  color: #fff;
+  font-size: 12px;
+}
+
+.trend-badge-spike {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--opgg-cyan);
+}
+
+.trend-badge-nerf {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--opgg-red);
+}
+
+.trend-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
+.trend-wr {
+  color: var(--opgg-cyan);
+  font-weight: 700;
+}
+
+.trend-wr.nerf {
+  color: #ff7888;
+}
+
+/* ================= OBJECTIVE TIMERS HUD ================= */
+.objective-timers-section {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin-bottom: 16px;
+}
+
+.objective-timers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.obj-timer-card {
+  background: #191922;
+  border: 1px solid #2a2a3a;
+  border-radius: 8px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  user-select: none;
+}
+
+.obj-timer-card:hover {
+  border-color: #4a4a62;
+  background: #1f1f2b;
+}
+
+.obj-timer-card.counting {
+  border-color: rgba(255, 185, 0, 0.6);
+  background: rgba(255, 185, 0, 0.08);
+}
+
+.obj-icon-wrap {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.obj-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.obj-name {
+  font-size: 12px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.obj-countdown {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--opgg-cyan);
+}
+
+.obj-timer-card.counting .obj-countdown {
+  color: #ffb900;
+}
+
+.obj-progress-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.obj-progress-fill {
+  height: 100%;
+  background: var(--opgg-cyan);
+  width: 100%;
+  border-radius: 2px;
+  transition: width 1s linear;
+}
+
+.obj-timer-card.counting .obj-progress-fill {
+  background: #ffb900;
+}
+
+/* ================= 1V1 VS MATCHUP ANALYZER ================= */
+.matchup-container {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.matchup-header-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #171720;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 16px 24px;
+}
+
+.vs-side {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.vs-champ-portrait {
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  border: 2px solid var(--opgg-blue);
+  object-fit: cover;
+}
+
+.vs-champ-name {
+  font-size: 18px;
+  font-weight: 900;
+  color: #fff;
+  margin: 0;
+}
+
+.vs-winrate-lead {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.vs-badge-center {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #252536;
+  border: 2px solid #3c3c52;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  color: #fff;
+  font-size: 14px;
+}
+
+.vs-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.vs-stat-box {
+  background: #1c1c24;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.vs-stat-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-dim);
+}
+
+.vs-duel-bar {
+  display: flex;
+  height: 18px;
+  border-radius: 4px;
+  overflow: hidden;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 18px;
+  text-align: center;
+}
+
+.vs-duel-fill.left {
+  background: var(--opgg-blue, #5383e8);
+  color: #fff;
+}
+
+.vs-duel-fill.right {
+  background: var(--opgg-red, #e84057);
+  color: #fff;
+}
+
+.vs-tips-card {
+  background: #1c1c24;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 14px 18px;
+}
+
+.vs-tips-card h3 {
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 10px 0;
+}
+
+.vs-tips-list {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.vs-tips-list strong {
+  color: #fff;
+}
+
+/* ================= OP-SCORE, MVP & ACE BADGES ================= */
+.op-score-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 900;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(83, 131, 232, 0.15);
+  border: 1px solid rgba(83, 131, 232, 0.4);
+  color: var(--opgg-blue);
+}
+
+.mvp-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #ffd700 0%, #ffae00 100%);
+  color: #121217;
+  font-size: 10px;
+  font-weight: 900;
+  padding: 2px 6px;
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+  margin-right: 4px;
+}
+
+.ace-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #9d4edd 0%, #7b2cbf 100%);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 900;
+  padding: 2px 6px;
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(157, 78, 221, 0.5);
+  margin-right: 4px;
+}
+
+.cs-badge {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-top: 2px;
+}
+
+.cs-badge.challenger {
+  background: rgba(0, 187, 163, 0.15);
+  color: var(--opgg-cyan);
+  border: 1px solid rgba(0, 187, 163, 0.4);
+}
+
+.cs-badge.ok {
+  background: rgba(255, 185, 0, 0.15);
+  color: #ffb900;
+  border: 1px solid rgba(255, 185, 0, 0.4);
+}
+
+.cs-badge.low {
+  background: rgba(232, 64, 87, 0.15);
+  color: #ff7888;
+  border: 1px solid rgba(232, 64, 87, 0.4);
+}
+

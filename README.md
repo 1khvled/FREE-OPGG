@@ -7,13 +7,13 @@
 [![Platform](https://img.shields.io/badge/platform-Windows-blue.svg?style=for-the-badge&logo=windows)](https://github.com/1khvled/FREE-OPGG)
 [![Electron](https://img.shields.io/badge/Electron-33.4.11-47848F.svg?style=for-the-badge&logo=electron)](https://www.electronjs.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
-[![League of Legends](https://img.shields.io/badge/League_of_Legends-Patch_14.20+-C89B3C.svg?style=for-the-badge&logo=league-of-legends)](https://www.leagueoflegends.com/)
+[![League of Legends](https://img.shields.io/badge/League_of_Legends-Patch_16.20-C89B3C.svg?style=for-the-badge&logo=league-of-legends)](https://www.leagueoflegends.com/)
 [![Ads](https://img.shields.io/badge/Ads-0%25-red.svg?style=for-the-badge)](#)
 [![Overwolf](https://img.shields.io/badge/Overwolf-REMOVED-critical.svg?style=for-the-badge)](#)
 
 <p align="center">
   <b>A blazing-fast, 100% open-source desktop clone of OP.GG built exclusively for League of Legends.</b><br/>
-  Zero Overwolf bloatware. Zero tracking telemetry. Zero advertisements. Under 180MB RAM usage.
+  Updated for <b>Patch 16.20</b> and live Data Dragon 16.20.1. Zero Overwolf bloatware. Zero tracking telemetry. Zero advertisements. Under 180MB RAM usage.
 </p>
 
 </div>
@@ -24,13 +24,17 @@
 - [Why FREE-OP.GG?](#-why-free-opgg)
 - [Key Features](#-key-features)
   - [1. Interactive Sortable Champion Tier List](#1-interactive-sortable-champion-tier-list)
-  - [2. Live Champ Select & ARAM Bench Cards](#2-live-champ-select--aram-bench-cards)
-  - [3. Team Composition & Damage Profile](#3-team-composition--damage-profile)
-  - [4. In-Game Enemy Spell Cooldown Timers](#4-in-game-enemy-spell-cooldown-timers)
-  - [5. Full In-Game Automations (Runes, Builds, Spells, Ready Check)](#5-full-in-game-automations)
-  - [6. My Profile & Live Match History](#6-my-profile--live-match-history)
-  - [7. Lobby Multi-Search & Dodge Radar](#7-lobby-multi-search--dodge-radar)
-  - [8. Floating Glassmorphism Overlay HUD](#8-floating-glassmorphism-overlay-hud)
+  - [2. Patch 16.20 Meta Trends & Winrate Spikes](#2-patch-1620-meta-trends--winrate-spikes)
+  - [3. 1v1 VS Matchup Analyzer](#3-1v1-vs-matchup-analyzer)
+  - [4. In-Game Jungle Camps & Objective Timers HUD](#4-in-game-jungle-camps--objective-timers-hud)
+  - [5. OP-Score Performance Engine with MVP & ACE Badges](#5-op-score-performance-engine-with-mvp--ace-badges)
+  - [6. Live Champ Select & ARAM Bench Cards](#6-live-champ-select--aram-bench-cards)
+  - [7. Team Composition & Damage Profile](#7-team-composition--damage-profile)
+  - [8. In-Game Enemy Spell Cooldown Timers](#8-in-game-enemy-spell-cooldown-timers)
+  - [9. Full In-Game Automations (Runes, Builds, Spells, Ready Check)](#9-full-in-game-automations)
+  - [10. My Profile & Live Match History](#10-my-profile--live-match-history)
+  - [11. Lobby Multi-Search & Dodge Radar](#11-lobby-multi-search--dodge-radar)
+  - [12. Floating Glassmorphism Overlay HUD](#12-floating-glassmorphism-overlay-hud)
 - [Performance & Compute Optimizations](#-performance--compute-optimizations)
 - [Architecture & Mechanics](#-architecture--mechanics)
 - [Installation & Quickstart](#-installation--quickstart)
@@ -46,6 +50,7 @@ The official OP.GG desktop app has become increasingly bloated: it installs back
 
 **FREE-OP.GG** solves this:
 - **100% League of Legends Focused**: Pure LoL companion experience. No Valorant, no TFT, no unrelated games.
+- **Updated to Live Patch 16.20 / Data Dragon 16.20.1**: Includes 173 champions, latest balance numbers, rune adjustments, and item pools.
 - **0% Ads & 0% Telemetry**: Clean-room implementation with zero third-party tracking or video ads.
 - **Genuine OP.GG Live Data**: Directly consumes the live OP.GG endpoints for Ranked Solo/Duo, ARAM, and Arena/Mayhem.
 - **Ultra-Lightweight**: Aggressive Chromium memory flags, process limits, and fast-path LCU polling keep memory footprint under **180MB RAM**.
@@ -61,7 +66,7 @@ The official OP.GG desktop app has become increasingly bloated: it installs back
   - **Rank & Tier Selector**: Select between `Emerald +` (OP.GG Default), `Diamond +`, `Master +`, `Grandmaster`, `Challenger`, `Platinum +`, `Gold +`, `Silver +`, and `All Tiers`.
   - **Server / Region Selector**: Switch between `🌍 World` (Global), `Korea (KR)`, `North America (NA)`, `Europe West (EUW)`, `Europe Nordic (EUNE)`, `Oceania (OCE)`, `Brazil (BR)`, `Japan (JP)`, `LAN`, and `LAS`.
   - **Queue / Mode Selector**: `Ranked Solo`, `Ranked Flex`, `ARAM`, `Arena / Mayhem`, and `Normal`.
-  - **Patch Selector**: `14.20`, `14.19`, `14.18`.
+  - **Patch Selector**: `16.20`, `16.19`, `16.18`.
   - **Show All Toggle**: When enabled, displays off-meta picks and every champion who has played in the role (e.g. Jungle Karthus, Jungle Morgana, Jungle Sylas, Jungle Teemo, Jungle Twitch, Jungle Brand, Jungle Gwen).
 - **10 Column Interactive Sortable Table**:
   - `RANK` with rank change indicators (`▲2`, `▼1`, `-`).
@@ -76,7 +81,35 @@ The official OP.GG desktop app has become increasingly bloated: it installs back
   - `BUILD & RUNES` 1-click modal for full rune trees and item builds.
 - **Bi-Directional Sorting**: Click any column header (`Rank`, `Champion`, `Tier`, `Win Rate`, `Pick Rate`, `Ban Rate`, `Matches`, `KDA`) to sort ascending or descending with visual indicator arrows (▲ / ▼).
 
-### 2. Live Champ Select & ARAM Bench Cards
+### 2. Patch 16.20 Meta Trends & Winrate Spikes
+- Real-time ticker banner featuring the **Top 5 Meta Gainers** (`▲` rank leaps and winrate spikes) and hardest-falling nerf victims.
+- Click any trending champion card to immediately filter the tier table to that pick.
+
+### 3. 1v1 VS Matchup Analyzer
+- Head-to-Head duel analyzer embedded into the Champion Detail Modal.
+- 3 visual split duel progress bars:
+  - **Head-to-Head Win Rate** %
+  - **Lane Solo Kill Rate** %
+  - **First Tower & Turret Plates Advantage** %
+- Interactive Opponent Dropdown: swap opponents on the fly to inspect lane dynamics.
+- Pro Challenger Tips: level 1-3 power spike strategy, trading around core ability cooldown windows, and item spike timings.
+
+### 4. In-Game Jungle Camps & Objective Timers HUD
+- Interactive objective counters with circular visual countdowns:
+  - **Dragon (Elemental / Elder)**: 5:00 countdown
+  - **Baron Nashor**: 6:00 countdown
+  - **Voidgrubs**: 4:00 countdown
+  - **Rift Scuttler**: 2:30 countdown
+  - **Blue / Red Buffs**: 5:00 countdown
+- Synchronized Web Audio API sound alert at 30 seconds before respawn.
+
+### 5. OP-Score Performance Engine with MVP & ACE Badges
+- Authentic performance evaluation algorithm rated 1.0 to 10.0 based on KDA, CS pacing, kill participation, and match victory state.
+- **👑 MVP Badge**: Gold luminous badge awarded to the highest impact carry on the winning team.
+- **⭐ ACE Badge**: Purple gradient badge awarded to the standout player on the losing team.
+- **CS Pacing Benchmarks**: Visual tag showing `🟢 Challenger Pace` (>=7.5 CS/min) or `🟡 Average` (>=5.0 CS/min).
+
+### 6. Live Champ Select & ARAM Bench Cards
 - **S+, S, A, B Tier Cards**: Automatically identifies champion tiers with animated pulsating glow borders:
   - 🟡 **S+ Tier** (God Tier / Must Pick)
   - 🟣 **S Tier** (OP Pick)
@@ -84,32 +117,35 @@ The official OP.GG desktop app has become increasingly bloated: it installs back
   - 🟢 **B Tier** (Viable)
 - **1-Click ARAM Bench Swap**: Displays every champion currently rolled onto the ARAM bench (`benchChampions`). Click **⚡ Swap** to claim the champion instantly via `POST /lol-champ-select/v1/session/bench/swap/{id}`.
 
-### 3. Team Composition & Damage Profile
+### 7. Team Composition & Damage Profile
 - **Real-Time Damage Split**: Dynamic visual bar calculating Physical % vs Magic % vs True Damage % of your 5 champions.
 - **Damage Alerts**: Warns immediately if your team is `⚠️ Heavy AD Comp` (>80% AD) or `⚠️ Heavy AP Comp` (>80% AP) so players can adjust their picks before locking in.
 - **Frontline & CC Analysis**: Evaluates frontline tank wall and crowd control disruption ratings.
 
-### 4. In-Game Enemy Spell Cooldown Timers
+### 8. In-Game Enemy Spell Cooldown Timers
 - **Tab Tracker HUD**: Interactive cooldown tracker for enemy summoner spells (Flash, Ignite, Teleport, Cleanse, Heal, Ghost).
 - **1-Click Timer**: Click a spell button when an opponent burns a summoner spell to initiate a live countdown timer (`⏱️ 300s`).
 - **Visual & Audio Alert**: Pulsates red during cooldown and alerts you when the enemy flash is back up.
 
-### 5. Full In-Game Automations
+### 9. Full In-Game Automations
 Directly integrates with the local Riot League Client Update (LCU) API:
 - **⚡ Auto-Runes**: Automatically imports and equips the highest win-rate rune page into `/lol-perks/v1/pages` upon champion lock.
 - **📦 Auto-Builds**: Synthesizes mode-specific item sets (Starters, Core, Boots, Situational) and writes directly to `/lol-item-sets/v1/item-sets/{summonerId}/sets` so they appear directly in the in-game shop.
 - **🧙 Auto-Spells (Flash on D or F)**: Automatically equips optimal summoner spells (Smite for Jungle, Teleport for Top, Ignite for Mid/Supp, Snowball for ARAM). Toggle between **Flash on D** and **Flash on F** with 1 click in the titlebar.
 - **✅ Auto-Accept**: Automatically accepts matchmaking ready checks (`POST /lol-matchmaking/v1/ready-check/accept`).
+- **🔊 Web Audio API Feedback**: Programmatic, zero-latency synthesizer chimes for ready checks, rune applications, and timer warnings with a titlebar toggle (`🔊 Sound: ON / OFF`).
 
-### 6. My Profile & Live Match History
+### 10. My Profile & Live Match History
 - **Summoner Profile**: Loads current account icon, summoner level, Solo/Duo rank, division, LP, win rate, and Flex rank directly from LCU.
 - **Recent 20 Matches**:
   - Victory / Defeat outcome banner with match duration and date.
   - Champion portrait and summoner spell icons.
   - KDA ratio (Kills / Deaths / Assists) and kill participation.
   - Complete 6-item build + trinket slot display.
+  - Authentic OP-Score rating with 👑 MVP and ⭐ ACE badges.
+  - CS/min benchmark tags (`🟢 Challenger Pace`).
 
-### 7. Lobby Multi-Search & Dodge Radar
+### 11. Lobby Multi-Search & Dodge Radar
 - **Paste Lobby Chat**: Paste chat lines (e.g. `Player joined the lobby`) or 5 comma-separated summoner names.
 - **1-Click LCU Import**: Directly pulls the 5 teammates from your active Champion Select session.
 - **Dodge Radar**:
@@ -118,7 +154,7 @@ Directly integrates with the local Riot League Client Update (LCU) API:
   - 🛡️ **Autofill Tag**: Flags off-role and autofilled teammates.
   - 🎯 **Lobby Safety Score**: Gives a clear `SAFE TO PLAY`, `PLAY WITH CAUTION`, or `🚨 RECOMMENDED TO DODGE` recommendation.
 
-### 8. Floating Glassmorphism Overlay HUD
+### 12. Floating Glassmorphism Overlay HUD
 - **Transparent Frameless Window**: Dedicated overlay window (`src/overlay.html`) with glassmorphism blur and transparency.
 - **Auto-Docking**: Uses Win32 window metrics to automatically dock above the `LeagueClientUx.exe` window during champion select.
 - **Compact & Full Modes**: Toggle between full card view and a slim bench-only bar.

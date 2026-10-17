@@ -1,6 +1,6 @@
 // ================= ARAM & MAYHEM CARD OVERLAY CONTROLLER =================
 
-const DDRAGON_VER = '14.20.1';
+const DDRAGON_VER = '16.20.1';
 let ddragonMap = {};
 let runesMap = {};
 let augmentsList = [];

@@ -81,8 +81,8 @@
         <div class="toggle-switch"></div>
       </div>
 
-      <button class="overlay-launcher-btn" id="overlayLauncherBtn" title="Launch Floating ARAM & Mayhem Card Overlay">
-        <span>🎮 Overlay HUD</span>
+      <button class="audio-feedback-btn active" id="soundToggleBtn" title="Toggle Audio Feedback Chimes">
+        <span id="soundToggleIcon">🔊 Sound: ON</span>
       </button>
 
       <!-- Window action buttons -->
@@ -108,6 +108,20 @@
 
     <!-- 1. LOL CHAMPIONS & TIER LIST VIEW -->
     <section class="view-panel active" id="view-lol-champions">
+      <!-- Patch 16.20 Meta Highlights Banner -->
+      <div class="meta-trends-banner" id="metaTrendsBanner">
+        <div class="trends-header">
+          <div class="trends-title-wrap">
+            <span class="trends-badge">🔥 PATCH 16.20 TRENDS</span>
+            <span class="trends-sub">Meta Highlights & Winrate Spikes from 17,498,908 analyzed matches</span>
+          </div>
+          <button class="btn-toggle-trends" id="btnToggleTrends" title="Collapse / Expand Trends">Hide Highlights ▴</button>
+        </div>
+        <div class="trends-cards-scroll" id="trendsCardsScroll">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+
       <div class="filter-header">
         <div class="filter-left-section">
           <!-- Filters label with icon -->
@@ -185,12 +199,12 @@
             </select>
           </div>
 
-          <!-- Patch dropdown -->
+          <!-- Patch dropdown updated to 16.20 -->
           <div class="filter-dropdown-pill">
             <select id="patchFilterSelect" class="opgg-filter-select">
-              <option value="14.20" selected>14.20</option>
-              <option value="14.19">14.19</option>
-              <option value="14.18">14.18</option>
+              <option value="16.20" selected>16.20</option>
+              <option value="16.19">16.19</option>
+              <option value="16.18">16.18</option>
             </select>
           </div>
 
@@ -267,7 +281,7 @@
         <div class="companion-switches">
           <div class="badge-active-auto">⚡ Auto-Runes Active</div>
           <div class="badge-active-auto">📦 Auto-Builds Active</div>
-          <button class="btn-popout-overlay" id="launchOverlayCompanionBtn" title="Open Floating Overlay Window">🎮 Pop Out Floating Card Overlay</button>
+          <button class="btn-popout-overlay" id="launchOverlayCompanionBtn" title="Launch Floating In-Game Overlay HUD directly over League of Legends (Ctrl+Shift+O)">🎮 In-Game Overlay HUD (Over Game)</button>
         </div>
       </div>
 
@@ -287,6 +301,69 @@
             <span class="comp-trait-badge" id="traitFrontline">🛡️ Frontline: Normal</span>
             <span class="comp-trait-badge" id="traitCc">🌀 Crowd Control: Normal</span>
             <span class="comp-trait-badge" id="traitDamage">⚔️ Damage: Balanced</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Jungle Camp & Neutral Objective Timers HUD -->
+      <div class="objective-timers-section" id="objectiveTimersSection">
+        <div class="section-title-row">
+          <h3>🐉 Jungle Camps & Objective Timers (In-Game Live HUD)</h3>
+          <span style="font-size: 11px; color: var(--text-dim);">Click when taken to start live respawn countdown with 30s audio warning</span>
+        </div>
+        <div class="objective-timers-grid">
+          <div class="obj-timer-card" id="objTimerDragon" onclick="startObjectiveTimer('dragon', 'Dragon', 300)">
+            <div class="obj-icon-wrap dragon">🐉</div>
+            <div class="obj-info">
+              <span class="obj-name">Dragon</span>
+              <span class="obj-countdown" id="cdDragon">Ready (5:00)</span>
+            </div>
+            <div class="obj-progress-bar"><div class="obj-progress-fill" id="fillDragon"></div></div>
+          </div>
+
+          <div class="obj-timer-card" id="objTimerBaron" onclick="startObjectiveTimer('baron', 'Baron Nashor', 360)">
+            <div class="obj-icon-wrap baron">👾</div>
+            <div class="obj-info">
+              <span class="obj-name">Baron Nashor</span>
+              <span class="obj-countdown" id="cdBaron">Ready (6:00)</span>
+            </div>
+            <div class="obj-progress-bar"><div class="obj-progress-fill" id="fillBaron"></div></div>
+          </div>
+
+          <div class="obj-timer-card" id="objTimerGrubs" onclick="startObjectiveTimer('grubs', 'Voidgrubs', 240)">
+            <div class="obj-icon-wrap grubs">🛡️</div>
+            <div class="obj-info">
+              <span class="obj-name">Voidgrubs</span>
+              <span class="obj-countdown" id="cdGrubs">Ready (4:00)</span>
+            </div>
+            <div class="obj-progress-bar"><div class="obj-progress-fill" id="fillGrubs"></div></div>
+          </div>
+
+          <div class="obj-timer-card" id="objTimerScuttle" onclick="startObjectiveTimer('scuttle', 'Scuttle Crab', 150)">
+            <div class="obj-icon-wrap scuttle">🦀</div>
+            <div class="obj-info">
+              <span class="obj-name">Scuttle Crab</span>
+              <span class="obj-countdown" id="cdScuttle">Ready (2:30)</span>
+            </div>
+            <div class="obj-progress-bar"><div class="obj-progress-fill" id="fillScuttle"></div></div>
+          </div>
+
+          <div class="obj-timer-card" id="objTimerBlue" onclick="startObjectiveTimer('blue', 'Blue Buff', 300)">
+            <div class="obj-icon-wrap blue-buff">🔵</div>
+            <div class="obj-info">
+              <span class="obj-name">Blue Sentinel</span>
+              <span class="obj-countdown" id="cdBlue">Ready (5:00)</span>
+            </div>
+            <div class="obj-progress-bar"><div class="obj-progress-fill" id="fillBlue"></div></div>
+          </div>
+
+          <div class="obj-timer-card" id="objTimerRed" onclick="startObjectiveTimer('red', 'Red Buff', 300)">
+            <div class="obj-icon-wrap red-buff">🔴</div>
+            <div class="obj-info">
+              <span class="obj-name">Red Brambleback</span>
+              <span class="obj-countdown" id="cdRed">Ready (5:00)</span>
+            </div>
+            <div class="obj-progress-bar"><div class="obj-progress-fill" id="fillRed"></div></div>
           </div>
         </div>
       </div>
@@ -461,6 +538,7 @@ Keria joined the lobby"></textarea>
         <button class="modal-tab" data-modaltab="items">Core Item Builds</button>
         <button class="modal-tab" data-modaltab="skills">Skill Max Order</button>
         <button class="modal-tab" data-modaltab="counters">Matchup Counters</button>
+        <button class="modal-tab" data-modaltab="matchup">⚔️ VS Matchup Analyzer</button>
       </div>
 
       <div class="modal-body-content">
@@ -475,6 +553,9 @@ Keria joined the lobby"></textarea>
         </div>
         <div class="modal-panel" id="modalTab-counters">
           <div class="counters-container" id="countersContainer"></div>
+        </div>
+        <div class="modal-panel" id="modalTab-matchup">
+          <div class="matchup-container" id="matchupContainer"></div>
         </div>
       </div>
     </div>

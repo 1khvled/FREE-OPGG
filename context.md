@@ -98,8 +98,8 @@ OP.GG's newest card overlay highlights champions and rerolls:
   - Tier filter dropdown (`Emerald +`, `Diamond +`, `Master +`, `Grandmaster`, `Challenger`, `Platinum +`, `Gold +`, `Silver +`, `All Tiers`).
   - Server / Region dropdown (`🌍 World`, `KR`, `NA`, `EUW`, `EUNE`, `OCE`, `BR`, `JP`, `LAN`, `LAS`).
   - Queue / Mode dropdown (`Ranked Solo`, `Ranked Flex`, `ARAM`, `Arena / Mayhem`, `Normal`).
-  - Patch selector (`14.20`, `14.19`, `14.18`).
-  - `Show All` checkbox toggle for off-meta champions.
+   - Patch selector (`16.20`, `16.19`, `16.18`).
+   - `Show All` checkbox toggle for off-meta champions.
 - **10 Interactively Sortable Columns**:
   - `RANK` (with rank change `▲2`, `▼1`, `-`).
   - `CHAMPION` (portrait, name, role badge, title).
@@ -114,14 +114,47 @@ OP.GG's newest card overlay highlights champions and rerolls:
 - Direction toggle (ascending `▲` / descending `▼`) with active column glow styling and rank tie-breaking.
 - Dynamic instant re-rendering with zero lag.
 
-### E. Rich League Companion Features
+### E. Patch 16.20 Meta Trends & Spikes Banner
+- Top horizontal trending bar highlighting the 5 fastest-rising champions (`▲ Rank Leaps`, `+Winrate Spikes`) and hardest-falling nerf victims.
+- 1-click filter jump: clicking any trending champion card immediately filters the champions list to that pick.
+
+### F. 1v1 VS Matchup Analyzer
+- Head-to-Head duel analyzer embedded into the Champion Detail Modal.
+- Duel meters with visual split bars:
+  - **Head-to-Head Win Rate** %
+  - **Lane Solo Kill Rate** %
+  - **First Tower & Plates Advantage** %
+- Interactive Opponent Dropdown: swap opponents on the fly to inspect lane dynamics.
+- Pro Challenger Tips: level 1-3 power spike strategy, trading around core ability cooldown windows, and item spike timings.
+
+### G. In-Game Jungle Camps & Objective Timers HUD
+- Interactive companion counters with circular progress:
+  - **Dragon (Elemental / Elder)**: 5:00 countdown
+  - **Baron Nashor**: 6:00 countdown
+  - **Voidgrubs**: 4:00 countdown
+  - **Rift Scuttler**: 2:30 countdown
+  - **Blue / Red Buffs**: 5:00 countdown
+- Synchronized Web Audio API sound alerts at 30 seconds before respawn.
+
+### H. Authentic OP-Score, MVP & ACE Engine
+- Accurate performance evaluation rating on a 1.0 - 10.0 scale based on KDA, CS/min pacing, kill participation, and match victory state.
+- **👑 MVP Badge**: Gold luminous badge awarded to the highest impact carry on the winning team.
+- **⭐ ACE Badge**: Purple gradient badge awarded to the standout player on the losing team.
+- **CS Pacing Benchmarks**: Visual tag showing `🟢 Challenger Pace` (>=7.5 CS/min) or `🟡 Average` (>=5.0 CS/min).
+
+### I. Web Audio API Zero-Bloat Sound Engine
+- High-fidelity synthesized audio feedback using pure browser `AudioContext` (no external audio files required, zero disk overhead).
+- Audio chimes for Ready-Check auto-accept, rune injection confirmation, and objective timer warnings.
+- Header `🔊 Sound: ON / OFF` toggle with persistent preference state.
+
+### J. Rich League Companion Features
 1. **Auto-Summoner Spells**:
    - Automatically synchronizes optimal summoner spells (e.g. Flash + Ignite, Flash + Teleport, Smite + Flash) directly to the active champ select session via `/lol-champ-select/v1/session/my-selection`.
    - Dedicated Flash slot preference toggle: **[F]** or **[D]** selectable directly in the titlebar.
 2. **My Profile & 20 Recent Match History**:
    - Pulls live summoner identity from `/lol-summoner/v1/current-summoner`.
    - Displays Ranked Solo and Ranked Flex tier, division, LP, win rate, and games played from `/lol-ranked/v1/current-ranked-stats`.
-   - Renders 20 recent matches from `/lol-match-history/v1/products/lol/current-summoner/matches` with KDA, kill participation, items, keystone runes, CS/min, and victory/defeat gradient bars.
+   - Renders 20 recent matches from `/lol-match-history/v1/products/lol/current-summoner/matches` with KDA, kill participation, items, keystone runes, CS/min, OP-Score, MVP/ACE badges, and victory/defeat gradient bars.
 3. **Live Team Damage Composition Analyzer**:
    - In Champ Select, dynamically tallies the team's damage distribution into Physical %, Magic %, and True Damage %.
    - Analyzes frontline bulk and CC readiness; displays prominent warning alerts for Full AD (>80%) or Full AP (>80%) drafts to help players adjust before game start.
