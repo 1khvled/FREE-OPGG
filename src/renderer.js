@@ -2373,6 +2373,32 @@ pushRunesBtn.addEventListener('click', async () => {
   }
 });
 
+// Push Custom Item Set directly into League In-Game Shop
+const pushItemSetBtn = document.getElementById('pushItemSetBtn');
+if (pushItemSetBtn) {
+  pushItemSetBtn.addEventListener('click', async () => {
+    if (!activeChampionDetail) return;
+    const name = activeChampionDetail.champInfo?.name || 'Champion';
+    const champId = activeChampionDetail.champInfo?.id || 266;
+    const position = activeChampionDetail.position || 'top';
+    const mode = activeChampionDetail.mode || 'ranked';
+
+    const res = await window.opgg.lcuApplyItemBuild({
+      champId,
+      champName: name,
+      mode,
+      position
+    });
+
+    if (res && res.success) {
+      playAudioChime('ready');
+      showToast(`🎒 In-Game Shop Item Set for ${name} (${mode.toUpperCase()}) created successfully!`);
+    } else {
+      showToast(`Item Set push failed: ${res?.error || 'League Client not connected'}`, true);
+    }
+  });
+}
+
 // Copy Champion Build Summary Button
 const btnCopyChampBuildSummary = document.getElementById('btnCopyChampBuildSummary');
 if (btnCopyChampBuildSummary) {
@@ -3500,12 +3526,14 @@ let currentAugmentChampName = 'Aatrox';
 let allRankedAugments = [];
 let augmentFilterRarity = 'all';
 let augmentFilterTier = 'all';
+let augmentFilterArchetype = 'all';
 let augmentSearchQuery = '';
 let augmentSortCol = 'rank';
 let augmentSortOrder = 'asc';
 
 const augmentsTableBody = document.getElementById('augmentsTableBody');
 const mainAugmentRarityFilters = document.getElementById('mainAugmentRarityFilters');
+const mainAugmentArchetypeFilters = document.getElementById('mainAugmentArchetypeFilters');
 const mainAugmentTierSelect = document.getElementById('mainAugmentTierSelect');
 const mainAugmentSearchInput = document.getElementById('mainAugmentSearchInput');
 const refreshAugmentsBtn = document.getElementById('refreshAugmentsBtn');
@@ -3950,6 +3978,15 @@ async function renderAugmentsMainTable() {
     if (augmentFilterTier !== 'all' && a.tier !== augmentFilterTier) {
       return false;
     }
+    if (augmentFilterArchetype !== 'all') {
+      const text = `${a.name} ${a.desc || ''} ${a.description || ''} ${a.synergyNote || ''}`.toLowerCase();
+      if (augmentFilterArchetype === 'ad' && !text.includes('attack damage') && !text.includes(' ad') && !text.includes('crit') && !text.includes('physical') && !text.includes('lethality')) return false;
+      if (augmentFilterArchetype === 'ap' && !text.includes('ability power') && !text.includes(' ap') && !text.includes('magic') && !text.includes('burn') && !text.includes('spell')) return false;
+      if (augmentFilterArchetype === 'tank' && !text.includes('health') && !text.includes('armor') && !text.includes('magic resist') && !text.includes('tank') && !text.includes('shield') && !text.includes('damage reduction')) return false;
+      if (augmentFilterArchetype === 'as' && !text.includes('attack speed') && !text.includes('on-hit') && !text.includes('auto-attack') && !text.includes('strike') && !text.includes('basic attack')) return false;
+      if (augmentFilterArchetype === 'haste' && !text.includes('haste') && !text.includes('cooldown') && !text.includes('cdr') && !text.includes('reset') && !text.includes('ability')) return false;
+      if (augmentFilterArchetype === 'vamp' && !text.includes('vamp') && !text.includes('heal') && !text.includes('lifesteal') && !text.includes('regen') && !text.includes('omnivamp')) return false;
+    }
     if (query) {
       const nameMatch = (a.name || '').toLowerCase().includes(query);
       const descMatch = (a.desc || a.description || '').toLowerCase().includes(query);
@@ -4105,10 +4142,197 @@ if (refreshAugmentsBtn) {
   refreshAugmentsBtn.addEventListener('click', async () => {
     augmentsDatabase = [];
     championAugmentsCache = {};
-    champAugmentsComputedCache.clear();
-    showToast('Refreshing Mayhem Augment rankings...');
     await renderAugmentsMainTable();
     showToast('✅ Mayhem Augment rankings updated!');
+  });
+}
+
+// Attach Mayhem Augment Stat Archetype filter event listeners
+if (mainAugmentArchetypeFilters) {
+  mainAugmentArchetypeFilters.querySelectorAll('.augment-arch-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      mainAugmentArchetypeFilters.querySelectorAll('.augment-arch-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      augmentFilterArchetype = btn.getAttribute('data-arch') || 'all';
+      renderAugmentsMainTable();
+    });
+  });
+}
+
+// ================= SETTINGS & AUTOMATIONS MODAL CONTROLLER =================
+const settingsModalBtn = document.getElementById('settingsModalBtn');
+const settingsModal = document.getElementById('settingsModal');
+const settingsModalCloseBtn = document.getElementById('settingsModalCloseBtn');
+const settingAutoAcceptToggle = document.getElementById('settingAutoAcceptToggle');
+const settingAutoRunesToggle = document.getElementById('settingAutoRunesToggle');
+const settingAutoBuildsToggle = document.getElementById('settingAutoBuildsToggle');
+const settingAutoSpellsToggle = document.getElementById('settingAutoSpellsToggle');
+const settingFlashD = document.getElementById('settingFlashD');
+const settingFlashF = document.getElementById('settingFlashF');
+const settingSmartRerollToggle = document.getElementById('settingSmartRerollToggle');
+const settingOverlayPinToggle = document.getElementById('settingOverlayPinToggle');
+const btnLaunchOverlayFromSettings = document.getElementById('btnLaunchOverlayFromSettings');
+const settingSoundToggle = document.getElementById('settingSoundToggle');
+const settingThemeSelect = document.getElementById('settingThemeSelect');
+const btnClearCacheFromSettings = document.getElementById('btnClearCacheFromSettings');
+
+function openSettingsModal() {
+  if (!settingsModal) return;
+  settingsModal.style.display = 'flex';
+
+  // Sync state from active toggles
+  if (settingAutoAcceptToggle && autoAcceptToggle) {
+    settingAutoAcceptToggle.checked = autoAcceptToggle.classList.contains('active');
+  }
+  if (settingAutoRunesToggle && autoRunesToggle) {
+    settingAutoRunesToggle.checked = autoRunesToggle.classList.contains('active');
+  }
+  if (settingAutoBuildsToggle && autoBuildsToggle) {
+    settingAutoBuildsToggle.checked = autoBuildsToggle.classList.contains('active');
+  }
+  if (settingSoundToggle) {
+    settingSoundToggle.checked = isAudioFeedbackEnabled;
+  }
+  if (settingThemeSelect) {
+    const themeMap = ['classic', 'midnight', 'cyber'];
+    settingThemeSelect.value = themeMap[currentThemeIndex] || 'classic';
+  }
+}
+
+function closeSettingsModal() {
+  if (settingsModal) settingsModal.style.display = 'none';
+}
+
+if (settingsModalBtn) {
+  settingsModalBtn.addEventListener('click', openSettingsModal);
+}
+if (settingsModalCloseBtn) {
+  settingsModalCloseBtn.addEventListener('click', closeSettingsModal);
+}
+if (settingsModal) {
+  settingsModal.addEventListener('click', (e) => {
+    if (e.target === settingsModal) closeSettingsModal();
+  });
+}
+
+// Live setting event handlers
+if (settingAutoAcceptToggle) {
+  settingAutoAcceptToggle.addEventListener('change', async (e) => {
+    const enabled = e.target.checked;
+    if (autoAcceptToggle) autoAcceptToggle.classList.toggle('active', enabled);
+    await window.opgg.lcuAutoAccept(enabled);
+    showToast(`Auto-Accept is now ${enabled ? 'ENABLED' : 'DISABLED'}`);
+  });
+}
+
+if (settingAutoRunesToggle) {
+  settingAutoRunesToggle.addEventListener('change', async (e) => {
+    const enabled = e.target.checked;
+    if (autoRunesToggle) autoRunesToggle.classList.toggle('active', enabled);
+    await window.opgg.lcuAutoRunes(enabled);
+    showToast(`Auto-Runes is now ${enabled ? 'ENABLED' : 'DISABLED'}`);
+  });
+}
+
+if (settingAutoBuildsToggle) {
+  settingAutoBuildsToggle.addEventListener('change', async (e) => {
+    const enabled = e.target.checked;
+    if (autoBuildsToggle) autoBuildsToggle.classList.toggle('active', enabled);
+    await window.opgg.lcuAutoBuilds(enabled);
+    showToast(`Auto-Builds is now ${enabled ? 'ENABLED' : 'DISABLED'}`);
+  });
+}
+
+if (settingAutoSpellsToggle) {
+  settingAutoSpellsToggle.addEventListener('change', async (e) => {
+    const enabled = e.target.checked;
+    await window.opgg.lcuAutoSpells(enabled);
+    showToast(`Auto-Spells is now ${enabled ? 'ENABLED' : 'DISABLED'}`);
+  });
+}
+
+function setFlashKeyUI(key) {
+  if (settingFlashD) settingFlashD.classList.toggle('active', key === 'D');
+  if (settingFlashF) settingFlashF.classList.toggle('active', key === 'F');
+}
+
+if (settingFlashD) {
+  settingFlashD.addEventListener('click', async () => {
+    setFlashKeyUI('D');
+    await window.opgg.lcuSetFlashKey('D');
+    showToast('⚡ Flash assigned to slot [D]');
+  });
+}
+
+if (settingFlashF) {
+  settingFlashF.addEventListener('click', async () => {
+    setFlashKeyUI('F');
+    await window.opgg.lcuSetFlashKey('F');
+    showToast('⚡ Flash assigned to slot [F]');
+  });
+}
+
+if (settingSmartRerollToggle) {
+  settingSmartRerollToggle.addEventListener('change', (e) => {
+    localStorage.setItem('opgg_smart_reroll', e.target.checked ? 'true' : 'false');
+    showToast(`Smart Augment Reroll Advisor ${e.target.checked ? 'ENABLED' : 'DISABLED'}`);
+  });
+}
+
+if (settingOverlayPinToggle) {
+  settingOverlayPinToggle.addEventListener('change', async () => {
+    const pinned = await window.opgg.overlayTogglePin();
+    showToast(`Overlay Always on Top: ${pinned ? 'PINNED' : 'UNPINNED'}`);
+  });
+}
+
+if (btnLaunchOverlayFromSettings) {
+  btnLaunchOverlayFromSettings.addEventListener('click', () => {
+    window.opgg.overlayOpen();
+    showToast('🪟 Companion HUD Overlay opened!');
+  });
+}
+
+if (settingSoundToggle) {
+  settingSoundToggle.addEventListener('change', (e) => {
+    isAudioFeedbackEnabled = e.target.checked;
+    const soundToggleBtn = document.getElementById('soundToggleBtn');
+    const soundToggleIcon = document.getElementById('soundToggleIcon');
+    if (soundToggleBtn) soundToggleBtn.classList.toggle('active', isAudioFeedbackEnabled);
+    if (soundToggleIcon) soundToggleIcon.textContent = isAudioFeedbackEnabled ? '🔊 Sound: ON' : '🔇 Sound: OFF';
+    if (isAudioFeedbackEnabled) playAudioChime('accept');
+    showToast(`Audio feedback ${isAudioFeedbackEnabled ? 'enabled' : 'disabled'}`);
+  });
+}
+
+if (settingThemeSelect) {
+  settingThemeSelect.addEventListener('change', (e) => {
+    const val = e.target.value;
+    const themes = ['classic', 'midnight', 'cyber'];
+    const idx = themes.indexOf(val);
+    if (idx !== -1) {
+      currentThemeIndex = idx;
+      applyTheme(idx);
+      showToast(`Theme switched to ${val.toUpperCase()}`);
+    }
+  });
+}
+
+if (btnClearCacheFromSettings) {
+  btnClearCacheFromSettings.addEventListener('click', async () => {
+    champAugmentsComputedCache.clear();
+    augmentsDatabase = [];
+    championAugmentsCache = {};
+    try {
+      localStorage.clear();
+    } catch (e) {}
+    showToast('Purging memoization caches and refreshing data...');
+    await Promise.all([
+      loadRankedAugmentsData(),
+      renderAugmentsMainTable()
+    ]);
+    playAudioChime('ready');
+    showToast('🚀 Caches cleared! Memory freed and assets updated.');
   });
 }
 

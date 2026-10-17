@@ -1298,8 +1298,41 @@ function runChoiceComparison() {
   const bestAugment = matches[0];
   const champName = document.getElementById('overlayAugChampName')?.textContent || 'This Champ';
 
-  pickerResults.style.display = 'grid';
-  pickerResults.innerHTML = matches.map((m, idx) => {
+  // Smart Reroll Advisor Verdict
+  let rerollBannerHtml = '';
+  if (bestAugment.winRate >= 54.0) {
+    rerollBannerHtml = `
+      <div class="reroll-verdict-banner no-reroll">
+        <span class="verdict-icon">🔥</span>
+        <div class="verdict-text">
+          <strong style="color: #ffb800;">OP.GG VERDICT: DO NOT REROLL!</strong>
+          <span><b>${bestAugment.name}</b> is ${bestAugment.tier} Tier (${bestAugment.winRate}% WR) on ${champName} — instant lock-in!</span>
+        </div>
+      </div>
+    `;
+  } else if (bestAugment.winRate >= 50.0) {
+    rerollBannerHtml = `
+      <div class="reroll-verdict-banner solid">
+        <span class="verdict-icon">✔️</span>
+        <div class="verdict-text">
+          <strong style="color: var(--opgg-cyan);">OP.GG VERDICT: SOLID PICK</strong>
+          <span><b>${bestAugment.name}</b> (${bestAugment.winRate}% WR) is viable. Only reroll if you have spare dice for an S+ Tier high-roll.</span>
+        </div>
+      </div>
+    `;
+  } else {
+    rerollBannerHtml = `
+      <div class="reroll-verdict-banner do-reroll">
+        <span class="verdict-icon">🎲</span>
+        <div class="verdict-text">
+          <strong style="color: #f87171;">OP.GG VERDICT: REROLL RECOMMENDED!</strong>
+          <span>All 3 choices have below-average win rates on ${champName} (< 50% WR). Use a reroll for better odds!</span>
+        </div>
+      </div>
+    `;
+  }
+
+  const cardsHtml = matches.map((m, idx) => {
     const isWinner = m.id === bestAugment.id;
     const iconUrl = m.icon || m.smallIcon || 'https://raw.communitydragon.org/latest/game/assets/ux/cherry/augments/icons/adapt_small.png';
     return `
@@ -1318,6 +1351,12 @@ function runChoiceComparison() {
       </div>
     `;
   }).join('');
+
+  pickerResults.style.display = 'block';
+  pickerResults.innerHTML = `
+    ${rerollBannerHtml}
+    <div class="picker-cards-grid">${cardsHtml}</div>
+  `;
 }
 
 // ----------------- 1-CLICK BENCH SWAP -----------------

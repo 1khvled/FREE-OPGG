@@ -93,6 +93,10 @@
         <span id="themeToggleText">🎨 Theme</span>
       </button>
 
+      <button class="audio-feedback-btn" id="settingsModalBtn" title="Application & In-Game Automation Settings">
+        <span>⚙️ Settings</span>
+      </button>
+
       <!-- Window action buttons -->
       <div class="window-actions">
         <button id="winMinBtn" class="win-btn" title="Minimize">─</button>
@@ -731,6 +735,17 @@ Keria joined the lobby"></textarea>
               <button class="augment-rarity-btn silver" data-rarity="Silver">🛡️ SILVER</button>
             </div>
 
+            <!-- Stat Archetype Filter Chips -->
+            <div class="augment-archetype-filter-group" id="mainAugmentArchetypeFilters">
+              <button class="augment-arch-btn active" data-arch="all">ALL STATS</button>
+              <button class="augment-arch-btn" data-arch="ad">⚔️ AD / Crit</button>
+              <button class="augment-arch-btn" data-arch="ap">🔮 AP / Burn</button>
+              <button class="augment-arch-btn" data-arch="tank">🛡️ Tank / HP</button>
+              <button class="augment-arch-btn" data-arch="as">⚡ Attack Speed</button>
+              <button class="augment-arch-btn" data-arch="haste">🌀 Haste / CD</button>
+              <button class="augment-arch-btn" data-arch="vamp">🩸 Omnivamp</button>
+            </div>
+
             <!-- Tier Dropdown -->
             <div class="filter-dropdown-pill">
               <select id="mainAugmentTierSelect" class="opgg-filter-select">
@@ -794,11 +809,15 @@ Keria joined the lobby"></textarea>
             <span class="stat-pill" id="modalChampPickRate">Pick Rate: 9.2%</span>
             <span class="stat-pill" id="modalChampBanRate">Ban Rate: 6.8%</span>
           </div>
-          <!-- Rune Push & Copy Build Buttons -->
+          <!-- Rune Push, Item Set & Copy Build Buttons -->
           <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 6px;">
             <button id="pushRunesBtn" class="btn-push-runes">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
               <span>⚡ Push Runes to League Client</span>
+            </button>
+            <button id="pushItemSetBtn" class="btn-push-runes" style="background: linear-gradient(135deg, #00bba3 0%, #008775 100%);">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+              <span>🎒 Push Item Set to Shop</span>
             </button>
             <button id="btnCopyChampBuildSummary" class="btn-secondary" style="padding: 10px 16px; font-size: 13px; font-weight: 700; border-radius: 8px;">
               <span>📋 Copy Build Summary</span>
@@ -837,6 +856,167 @@ Keria joined the lobby"></textarea>
         </div>
         <div class="modal-panel" id="modalTab-synergies">
           <div class="arena-synergies-container" id="arenaSynergiesContainer"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= SETTINGS & AUTOMATIONS MODAL ================= -->
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal-card settings-card">
+      <button class="modal-close-btn" id="settingsModalCloseBtn">✕</button>
+
+      <div class="settings-modal-header">
+        <div class="settings-header-icon">⚙️</div>
+        <div>
+          <h2>OP.GG Desktop Preferences</h2>
+          <p>Configure automated client integrations, in-game overlay features, and app performance</p>
+        </div>
+      </div>
+
+      <div class="settings-modal-body">
+        <!-- Section 1: In-Game Automations -->
+        <div class="settings-section">
+          <div class="settings-section-title">
+            <span>⚡ League Client Automations (LCU)</span>
+            <span class="settings-section-badge">Live Sync</span>
+          </div>
+
+          <div class="settings-row">
+            <div class="settings-row-info">
+              <div class="settings-row-title">Auto-Accept Ready Check</div>
+              <div class="settings-row-desc">Automatically accept match matchmaking queue pops when match is found.</div>
+            </div>
+            <label class="settings-toggle">
+              <input type="checkbox" id="settingAutoAcceptToggle" checked />
+              <span class="settings-slider"></span>
+            </label>
+          </div>
+
+          <div class="settings-row">
+            <div class="settings-row-info">
+              <div class="settings-row-title">Auto-Apply OP.GG Runes</div>
+              <div class="settings-row-desc">Instantly inject the #1 highest win rate rune page when locking in a champion.</div>
+            </div>
+            <label class="settings-toggle">
+              <input type="checkbox" id="settingAutoRunesToggle" checked />
+              <span class="settings-slider"></span>
+            </label>
+          </div>
+
+          <div class="settings-row">
+            <div class="settings-row-info">
+              <div class="settings-row-title">Auto-Export Recommended Item Builds</div>
+              <div class="settings-row-desc">Sync core build paths directly into your League in-game shop tabs.</div>
+            </div>
+            <label class="settings-toggle">
+              <input type="checkbox" id="settingAutoBuildsToggle" checked />
+              <span class="settings-slider"></span>
+            </label>
+          </div>
+
+          <div class="settings-row">
+            <div class="settings-row-info">
+              <div class="settings-row-title">Auto-Select Summoner Spells</div>
+              <div class="settings-row-desc">Set optimal summoner spells (Smite for Jungle, Snowball for ARAM, Flee for Arena).</div>
+            </div>
+            <label class="settings-toggle">
+              <input type="checkbox" id="settingAutoSpellsToggle" checked />
+              <span class="settings-slider"></span>
+            </label>
+          </div>
+
+          <div class="settings-row">
+            <div class="settings-row-info">
+              <div class="settings-row-title">Flash Key Binding Slot</div>
+              <div class="settings-row-desc">Select which hotkey Flash should be assigned to by default.</div>
+            </div>
+            <div class="flash-key-selector">
+              <button class="flash-key-btn active" data-key="D" id="settingFlashD">D</button>
+              <button class="flash-key-btn" data-key="F" id="settingFlashF">F</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2: In-Game Overlay & Mayhem Advisor -->
+        <div class="settings-section">
+          <div class="settings-section-title">
+            <span>🃏 In-Game Overlay & Augment Advisor</span>
+            <span class="settings-section-badge">Pro HUD</span>
+          </div>
+
+          <div class="settings-row">
+            <div class="settings-row-info">
+              <div class="settings-row-title">Smart Augment Reroll Advisor</div>
+              <div class="settings-row-desc">Displays real-time mathematical synergy badges and reroll recommendations in Mayhem/Arena.</div>
+            </div>
+            <label class="settings-toggle">
+              <input type="checkbox" id="settingSmartRerollToggle" checked />
+              <span class="settings-slider"></span>
+            </label>
+          </div>
+
+          <div class="settings-row">
+            <div class="settings-row-info">
+              <div class="settings-row-title">Pin Overlay Always on Top</div>
+              <div class="settings-row-desc">Keep the transparent companion overlay floating over fullscreen windowed League client.</div>
+            </div>
+            <label class="settings-toggle">
+              <input type="checkbox" id="settingOverlayPinToggle" checked />
+              <span class="settings-slider"></span>
+            </label>
+          </div>
+
+          <div class="settings-row">
+            <div class="settings-row-info">
+              <div class="settings-row-title">Open Companion Overlay</div>
+              <div class="settings-row-desc">Launch or bring the floating HUD overlay to front right now.</div>
+            </div>
+            <button class="btn-secondary" id="btnLaunchOverlayFromSettings" style="padding: 6px 14px; font-size: 12px; font-weight: 700; border-radius: 6px;">
+              <span>🪟 Launch HUD</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Section 3: Performance, Themes & Cache -->
+        <div class="settings-section">
+          <div class="settings-section-title">
+            <span>⚡ App Appearance & Performance</span>
+            <span class="settings-section-badge">0ms Engine</span>
+          </div>
+
+          <div class="settings-row">
+            <div class="settings-row-info">
+              <div class="settings-row-title">Sound Effects & Audio Feedback</div>
+              <div class="settings-row-desc">Play chime sounds on spell timer resets, ready checks, and rune applications.</div>
+            </div>
+            <label class="settings-toggle">
+              <input type="checkbox" id="settingSoundToggle" checked />
+              <span class="settings-slider"></span>
+            </label>
+          </div>
+
+          <div class="settings-row">
+            <div class="settings-row-info">
+              <div class="settings-row-title">Color Palette Theme</div>
+              <div class="settings-row-desc">Choose your preferred dark mode theme aesthetic.</div>
+            </div>
+            <select id="settingThemeSelect" class="opgg-filter-select" style="min-width: 140px;">
+              <option value="classic">OP.GG Classic</option>
+              <option value="midnight">Deep Midnight</option>
+              <option value="cyber">Cyber Void</option>
+            </select>
+          </div>
+
+          <div class="settings-row">
+            <div class="settings-row-info">
+              <div class="settings-row-title">Purge Memoization & App Cache</div>
+              <div class="settings-row-desc">Clear 0ms champion augment tier caches and force-refresh all live Data Dragon assets.</div>
+            </div>
+            <button class="btn-secondary" id="btnClearCacheFromSettings" style="padding: 6px 14px; font-size: 12px; font-weight: 700; border-radius: 6px; border-color: #ff4757; color: #ff6b81;">
+              <span>🗑️ Clear Cache</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
