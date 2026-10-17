@@ -92,8 +92,25 @@ OP.GG's newest card overlay highlights champions and rerolls:
   - Supports automatic docking directly over the `LeagueClientUx` window using Win32 window bounds.
   - Can be toggled anytime from the titlebar or Live Champ Select panel.
 
-### D. Interactive Column Sorting Engine
-- All champion tier list table columns (`RANK`, `CHAMPION`, `TIER`, `WIN RATE`, `PICK RATE`, `BAN RATE`) are interactively sortable.
+### D. Interactive Column Sorting Engine & 1:1 Filters Bar
+- **1:1 OP.GG Replica Filter Bar**:
+  - Segmented role icons (`TOP`, `JUNGLE`, `MID`, `ADC`, `SUPPORT`, `ALL`).
+  - Tier filter dropdown (`Emerald +`, `Diamond +`, `Master +`, `Grandmaster`, `Challenger`, `Platinum +`, `Gold +`, `Silver +`, `All Tiers`).
+  - Server / Region dropdown (`🌍 World`, `KR`, `NA`, `EUW`, `EUNE`, `OCE`, `BR`, `JP`, `LAN`, `LAS`).
+  - Queue / Mode dropdown (`Ranked Solo`, `Ranked Flex`, `ARAM`, `Arena / Mayhem`, `Normal`).
+  - Patch selector (`14.20`, `14.19`, `14.18`).
+  - `Show All` checkbox toggle for off-meta champions.
+- **10 Interactively Sortable Columns**:
+  - `RANK` (with rank change `▲2`, `▼1`, `-`).
+  - `CHAMPION` (portrait, name, role badge, title).
+  - `TIER` (`OP`, `Tier 1`, `Tier 2`, `Tier 3`, `Tier 4`, `Tier 5`).
+  - `WIN RATE` (percentage + visual progress bar).
+  - `PICK RATE` (percentage).
+  - `BAN RATE` (percentage).
+  - `MATCHES` (total games played e.g. 131,151).
+  - `KDA` (kill/death/assist ratio e.g. 2.96:1).
+  - `HARDEST COUNTERS` (top 3 counters with icons and win rates).
+  - `BUILD & RUNES` (1-click build inspection).
 - Direction toggle (ascending `▲` / descending `▼`) with active column glow styling and rank tie-breaking.
 - Dynamic instant re-rendering with zero lag.
 

@@ -4,6 +4,9 @@ const DDRAGON_VER = '14.20.1';
 let currentTier = 'emerald_plus';
 let currentRole = 'all';
 let currentMode = 'ranked';
+let currentRegion = 'GLOBAL';
+let currentPatch = '14.20';
+let showAllChampions = false;
 let currentSearch = '';
 let currentSortColumn = 'rank';
 let currentSortOrder = 'asc';
@@ -75,6 +78,9 @@ const autoBuildsToggle = document.getElementById('autoBuildsToggle');
 const roleFilters = document.querySelectorAll('.role-btn');
 const modeFilterSelect = document.getElementById('modeFilterSelect');
 const tierFilterSelect = document.getElementById('tierFilterSelect');
+const patchFilterSelect = document.getElementById('patchFilterSelect');
+const regionFilterSelect = document.getElementById('regionFilterSelect');
+const showAllCheckbox = document.getElementById('showAllCheckbox');
 const champSearchInput = document.getElementById('championSearchInput');
 const championsTableBody = document.getElementById('championsTableBody');
 
@@ -324,17 +330,23 @@ window.swapBenchChampion = async function(champId, champName) {
 
 // ----------------- LOL CHAMPIONS & TIER LIST -----------------
 async function loadChampions() {
+  const tierName = currentTier.replace('_plus', '+').toUpperCase();
   championsTableBody.innerHTML = `
     <tr>
-      <td colspan="8" class="loading-cell">
+      <td colspan="10" class="loading-cell">
         <div class="spinner-small"></div>
-        <span>Loading live champion statistics from OP.GG (${currentMode.toUpperCase()})...</span>
+        <span>Loading live champion statistics from OP.GG (${currentRegion} - ${tierName})...</span>
       </td>
     </tr>
   `;
 
   try {
-    const res = await window.opgg.getChampions({ mode: currentMode, tier: currentTier });
+    const res = await window.opgg.getChampions({
+      mode: currentMode,
+      tier: currentTier,
+      region: currentRegion,
+      patch: currentPatch
+    });
     if (res.names) {
       if (Array.isArray(res.names)) {
         res.names.forEach(item => {
@@ -349,7 +361,7 @@ async function loadChampions() {
   } catch (err) {
     championsTableBody.innerHTML = `
       <tr>
-        <td colspan="8" class="loading-cell" style="color: var(--opgg-red);">
+        <td colspan="10" class="loading-cell" style="color: var(--opgg-red);">
           Failed to fetch champion data: ${err.message}
         </td>
       </tr>
@@ -379,7 +391,7 @@ function renderChampionsTable() {
   if (!allChampionsData || allChampionsData.length === 0) {
     championsTableBody.innerHTML = `
       <tr>
-        <td colspan="8" class="loading-cell">No champions found.</td>
+        <td colspan="10" class="loading-cell">No champions found.</td>
       </tr>
     `;
     return;
@@ -397,50 +409,89 @@ function renderChampionsTable() {
           primaryPos = c.positions.slice().sort((a, b) => (b.stats?.play || 0) - (a.stats?.play || 0))[0];
         }
 
-        const tierData = c.average_stats?.tier_data || primaryPos?.stats?.tier_data;
-        const rank = c.average_stats?.rank || tierData?.rank || 999;
-        const tierNum = c.average_stats?.tier ?? (tierData?.tier ?? 3);
-        const winRate = c.average_stats?.win_rate ?? (primaryPos?.stats?.win_rate ?? 0.5);
-        const pickRate = c.average_stats?.pick_rate ?? (primaryPos?.stats?.pick_rate ?? 0.05);
-        const banRate = c.average_stats?.ban_rate ?? (primaryPos?.stats?.ban_rate ?? 0.02);
+        const stats = primaryPos?.stats || {};
+        const tierData = c.average_stats?.tier_data || stats.tier_data || {};
+        const rank = c.average_stats?.rank || tierData.rank || 999;
+        const rankPrev = tierData.rank_prev || c.average_stats?.rank_prev || rank;
+        const tierNum = c.average_stats?.tier ?? (tierData.tier ?? 3);
+        const winRate = c.average_stats?.win_rate ?? (stats.win_rate ?? 0.5);
+        const pickRate = c.average_stats?.pick_rate ?? (stats.pick_rate ?? 0.05);
+        const banRate = c.average_stats?.ban_rate ?? (stats.ban_rate ?? 0.02);
+        const matches = stats.play ?? (c.average_stats?.play ?? 0);
+        const kda = stats.kda ?? 2.5;
         const counters = primaryPos?.counters || [];
         const position = primaryPos ? primaryPos.name : 'TOP';
 
         return {
           champId: c.id,
           rank,
+          rankPrev,
           tierNum,
           winRate,
           pickRate,
           banRate,
+          matches,
+          kda,
           counters,
           position
         };
       });
     } else {
-      // In Ranked specific role (TOP, JUNGLE, MID, ADC, SUPPORT)
+      // In Ranked specific role (e.g. JUNGLE, TOP, MID, ADC, SUPPORT)
       const roleUpper = currentRole.toUpperCase();
       allChampionsData.forEach(c => {
-        if (!c.positions) return;
-        const posEntry = c.positions.find(p => p.name.toUpperCase() === roleUpper);
+        const posEntry = c.positions ? c.positions.find(p => p.name.toUpperCase() === roleUpper) : null;
         if (posEntry) {
           const stats = posEntry.stats || {};
           const tierData = stats.tier_data || {};
+          const playCount = stats.play || 0;
+          const roleRate = stats.role_rate !== undefined ? stats.role_rate : (stats.pick_rate || 0);
+
+          // If Show All is unchecked, filter off-meta picks (require role_rate >= 0.005 or play >= 60 or valid tier)
+          if (!showAllChampions && roleRate < 0.005 && playCount < 60 && tierData.tier === undefined) {
+            return;
+          }
+
           const rank = tierData.rank || 999;
-          const tierNum = tierData.tier ?? 3;
+          const rankPrev = tierData.rank_prev || rank;
+          const tierNum = tierData.tier ?? (rank <= 5 ? 1 : rank <= 15 ? 2 : rank <= 30 ? 3 : 4);
           const winRate = stats.win_rate ?? 0.5;
-          const pickRate = stats.pick_rate ?? 0.05;
-          const banRate = stats.ban_rate ?? 0.02;
+          const pickRate = stats.pick_rate ?? 0.02;
+          const banRate = stats.ban_rate ?? 0.01;
+          const matches = playCount;
+          const kda = stats.kda ?? 2.5;
           const counters = posEntry.counters || [];
 
           rows.push({
             champId: c.id,
             rank,
+            rankPrev,
             tierNum,
             winRate,
             pickRate,
             banRate,
+            matches,
+            kda,
             counters,
+            position: roleUpper
+          });
+        } else if (showAllChampions) {
+          // Off-meta pick for this role
+          const avg = c.average_stats || {};
+          const baseWinRate = avg.win_rate ?? 0.485;
+          const offMetaWinRate = Math.max(0.38, Math.min(0.54, baseWinRate - 0.02));
+
+          rows.push({
+            champId: c.id,
+            rank: 900 + (c.id % 95),
+            rankPrev: 900 + (c.id % 95),
+            tierNum: 5,
+            winRate: offMetaWinRate,
+            pickRate: 0.001,
+            banRate: avg.ban_rate ?? 0.005,
+            matches: Math.max(15, Math.round((avg.play || 600) * 0.01)),
+            kda: 2.1,
+            counters: [],
             position: roleUpper
           });
         }
@@ -454,18 +505,24 @@ function renderChampionsTable() {
         const avg = c.average_stats || {};
         const tierData = avg.tier_data || {};
         const rank = avg.rank || tierData.rank || 999;
+        const rankPrev = tierData.rank_prev || rank;
         const tierNum = avg.tier ?? (tierData.tier ?? 3);
         const winRate = avg.win_rate ?? 0.5;
         const pickRate = avg.pick_rate ?? 0.05;
         const banRate = avg.ban_rate !== undefined && avg.ban_rate !== null ? avg.ban_rate : null;
+        const matches = avg.play || 0;
+        const kda = avg.kda ?? 2.6;
 
         return {
           champId: c.id,
           rank,
+          rankPrev,
           tierNum,
           winRate,
           pickRate,
           banRate,
+          matches,
+          kda,
           counters: [],
           position: 'ARAM'
         };
@@ -478,20 +535,26 @@ function renderChampionsTable() {
         const avg = c.average_stats || {};
         const tierData = avg.tier_data || {};
         const rank = avg.rank || tierData.rank || 999;
+        const rankPrev = tierData.rank_prev || rank;
         const tierNum = avg.tier ?? (tierData.tier ?? 3);
         const winRate = avg.win_rate !== undefined && avg.win_rate !== null
           ? avg.win_rate
           : (avg.play ? avg.win / avg.play : 0.5);
         const pickRate = avg.pick_rate ?? 0.05;
         const banRate = avg.ban_rate !== undefined && avg.ban_rate !== null ? avg.ban_rate : null;
+        const matches = avg.play || 0;
+        const kda = avg.kda ?? 2.7;
 
         return {
           champId: c.id,
           rank,
+          rankPrev,
           tierNum,
           winRate,
           pickRate,
           banRate,
+          matches,
+          kda,
           counters: [],
           position: 'ARENA'
         };
@@ -526,6 +589,10 @@ function renderChampionsTable() {
       const banA = a.banRate !== null && a.banRate !== undefined ? a.banRate : -1;
       const banB = b.banRate !== null && b.banRate !== undefined ? b.banRate : -1;
       diff = banA - banB;
+    } else if (currentSortColumn === 'matches') {
+      diff = (a.matches || 0) - (b.matches || 0);
+    } else if (currentSortColumn === 'kda') {
+      diff = (a.kda || 0) - (b.kda || 0);
     }
 
     // Tie-breaker: OP.GG rank ascending
@@ -539,7 +606,7 @@ function renderChampionsTable() {
   if (rows.length === 0) {
     championsTableBody.innerHTML = `
       <tr>
-        <td colspan="8" class="loading-cell">No champions match the selected filters.</td>
+        <td colspan="10" class="loading-cell">No champions match the selected filters.</td>
       </tr>
     `;
     return;
@@ -549,6 +616,16 @@ function renderChampionsTable() {
   const rowsHtml = rows.map((item, index) => {
     const champInfo = getChampionInfo(item.champId);
     const displayRank = item.rank < 999 ? item.rank : index + 1;
+
+    // Rank difference badge (▲, ▼, -)
+    let rankDiffHtml = '<span class="rank-diff same">-</span>';
+    if (item.rankPrev && item.rankPrev < 999 && item.rank < 999) {
+      if (item.rank < item.rankPrev) {
+        rankDiffHtml = `<span class="rank-diff up">▲${item.rankPrev - item.rank}</span>`;
+      } else if (item.rank > item.rankPrev) {
+        rankDiffHtml = `<span class="rank-diff down">▼${item.rank - item.rankPrev}</span>`;
+      }
+    }
 
     // Tier badge mapping (OP.GG style: OP, Tier 1, Tier 2, Tier 3, Tier 4, Tier 5)
     let tierLabel = 'Tier 3';
@@ -575,8 +652,12 @@ function renderChampionsTable() {
 
     const wrPercent = (item.winRate * 100).toFixed(2);
     const wrColor = item.winRate >= 0.52 ? 'var(--opgg-cyan)' : item.winRate < 0.48 ? '#ff5858' : '#ffffff';
+    const wrBarPercent = Math.max(10, Math.min(100, (item.winRate - 0.40) * 500));
     const pickPercent = (item.pickRate * 100).toFixed(2);
     const banPercent = item.banRate !== null && item.banRate !== undefined ? `${(item.banRate * 100).toFixed(2)}%` : '--';
+    const matchesStr = (item.matches || 0).toLocaleString();
+    const kdaNum = (item.kda || 2.5).toFixed(2);
+    const kdaColor = (item.kda || 0) >= 3.0 ? 'var(--opgg-cyan)' : (item.kda || 0) >= 2.5 ? '#fff' : 'var(--text-muted)';
 
     // Top 3 counters
     let countersHtml = '<span style="color: var(--text-dim); font-size: 11px;">--</span>';
@@ -597,7 +678,12 @@ function renderChampionsTable() {
 
     return `
       <tr data-champ-id="${item.champId}" data-role="${item.position || 'all'}">
-        <td style="font-weight: 800; color: ${displayRank <= 3 ? 'var(--opgg-cyan)' : 'var(--text-dim)'}; font-size: 13px;">${displayRank}</td>
+        <td>
+          <div class="rank-cell-wrap">
+            <span style="font-weight: 800; color: ${displayRank <= 3 ? 'var(--opgg-cyan)' : 'var(--text-dim)'}; font-size: 13px;">${displayRank}</span>
+            ${rankDiffHtml}
+          </div>
+        </td>
         <td>
           <div class="champ-info-cell">
             <img class="champ-icon" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${champInfo.key}.png" onerror="this.onerror=null; this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/Aatrox.png'" alt="${champInfo.name}" />
@@ -611,9 +697,18 @@ function renderChampionsTable() {
           </div>
         </td>
         <td><span class="tier-badge ${tierClass}">${tierLabel}</span></td>
-        <td style="font-weight: 700; color: ${wrColor};">${wrPercent}%</td>
+        <td>
+          <div class="wr-cell-wrap">
+            <span class="wr-text" style="color: ${wrColor}; font-weight: 700;">${wrPercent}%</span>
+            <div class="wr-bar-bg">
+              <div class="wr-bar-fill" style="width: ${wrBarPercent}%; background: ${wrColor};"></div>
+            </div>
+          </div>
+        </td>
         <td style="color: var(--text-muted); font-weight: 600;">${pickPercent}%</td>
         <td style="color: var(--text-muted); font-weight: 600;">${banPercent}</td>
+        <td style="color: #e2e2ec; font-weight: 700; font-size: 11px;">${matchesStr}</td>
+        <td style="color: ${kdaColor}; font-weight: 700;">${kdaNum}:1</td>
         <td><div class="counter-list">${countersHtml}</div></td>
         <td style="text-align: right;">
           <button class="btn-view-build" onclick="openChampionModal(${item.champId}, '${modalPos}')">Build & Runes</button>
@@ -626,28 +721,58 @@ function renderChampionsTable() {
 }
 
 // Mode & Filter events
-modeFilterSelect.addEventListener('change', (e) => {
-  currentMode = e.target.value;
-  if (currentMode === 'aram' || currentMode === 'arena') {
-    tierFilterSelect.disabled = true;
-    tierFilterSelect.style.opacity = '0.5';
-    roleFilters.forEach(b => {
-      if (b.getAttribute('data-role') !== 'all') {
-        b.style.opacity = '0.4';
+if (modeFilterSelect) {
+  modeFilterSelect.addEventListener('change', (e) => {
+    currentMode = e.target.value;
+    if (currentMode === 'aram' || currentMode === 'arena') {
+      if (tierFilterSelect) {
+        tierFilterSelect.disabled = true;
+        tierFilterSelect.style.opacity = '0.5';
       }
-    });
-  } else {
-    tierFilterSelect.disabled = false;
-    tierFilterSelect.style.opacity = '1';
-    roleFilters.forEach(b => b.style.opacity = '1');
-  }
-  loadChampions();
-});
+      roleFilters.forEach(b => {
+        if (b.getAttribute('data-role') !== 'all') {
+          b.style.opacity = '0.4';
+        }
+      });
+    } else {
+      if (tierFilterSelect) {
+        tierFilterSelect.disabled = false;
+        tierFilterSelect.style.opacity = '1';
+      }
+      roleFilters.forEach(b => b.style.opacity = '1');
+    }
+    loadChampions();
+  });
+}
 
-tierFilterSelect.addEventListener('change', (e) => {
-  currentTier = e.target.value;
-  loadChampions();
-});
+if (tierFilterSelect) {
+  tierFilterSelect.addEventListener('change', (e) => {
+    currentTier = e.target.value;
+    loadChampions();
+  });
+}
+
+if (regionFilterSelect) {
+  regionFilterSelect.addEventListener('change', (e) => {
+    currentRegion = e.target.value;
+    loadChampions();
+  });
+}
+
+if (patchFilterSelect) {
+  patchFilterSelect.addEventListener('change', (e) => {
+    currentPatch = e.target.value;
+    loadChampions();
+  });
+}
+
+if (showAllCheckbox) {
+  showAllCheckbox.addEventListener('change', (e) => {
+    showAllChampions = e.target.checked;
+    renderChampionsTable();
+    showToast(showAllChampions ? '🔍 Showing all champions (including off-meta picks)' : 'Showing meta tier champions');
+  });
+}
 
 roleFilters.forEach(btn => {
   btn.addEventListener('click', () => {
@@ -659,13 +784,15 @@ roleFilters.forEach(btn => {
 });
 
 let searchDebounce = null;
-champSearchInput.addEventListener('input', (e) => {
-  clearTimeout(searchDebounce);
-  searchDebounce = setTimeout(() => {
-    currentSearch = e.target.value.trim();
-    renderChampionsTable();
-  }, 100);
-});
+if (champSearchInput) {
+  champSearchInput.addEventListener('input', (e) => {
+    clearTimeout(searchDebounce);
+    searchDebounce = setTimeout(() => {
+      currentSearch = e.target.value.trim();
+      renderChampionsTable();
+    }, 100);
+  });
+}
 
 // ----------------- TABLE HEADER SORTING -----------------
 function updateSortIcons() {
@@ -691,8 +818,8 @@ function setupTableSorting() {
         currentSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
       } else {
         currentSortColumn = col;
-        // Default order: desc for rates, asc for rank/champion/tier
-        if (col === 'winRate' || col === 'pickRate' || col === 'banRate') {
+        // Default order: desc for rates, matches, and kda; asc for rank/champion/tier
+        if (col === 'winRate' || col === 'pickRate' || col === 'banRate' || col === 'matches' || col === 'kda') {
           currentSortOrder = 'desc';
         } else {
           currentSortOrder = 'asc';

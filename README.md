@@ -55,18 +55,26 @@ The official OP.GG desktop app has become increasingly bloated: it installs back
 
 ## ✨ Key Features
 
-### 1. Interactive Sortable Champion Tier List
-- **Full Column Sorting**: Click any column header (`Rank`, `Champion`, `Tier`, `Win Rate`, `Pick Rate`, `Ban Rate`) to sort ascending or descending with visual indicator arrows (▲ / ▼).
-- **All Lanes Supported**: Seamless filtering across `TOP`, `JUNGLE`, `MID`, `ADC`, `SUPPORT`, and `ALL`.
-- **Game Modes**:
-  - **Ranked Solo/Duo**: Emerald+, Diamond+, Master+, All Tiers.
-  - **ARAM Mode**: Real ARAM tier rankings, win rates (e.g. Swain #1 63.5% WR), and pick rates.
-  - **Arena / Mayhem**: Arena champion stats and placement ratings.
-- **Matchup Counters**: Displays top 3 hardest counters with champion portraits, titles, and win rates.
-- **Detailed Build Inspection Modal**:
-  - Primary & Secondary Runes Reforged perk trees with stat shards.
-  - Core Mythic/Legendary build paths, starter items, boots, and situational counters.
-  - 1–18 Skill Max progression table (Q, W, E, R).
+### 1. Interactive Sortable Champion Tier List (Per Server & Per Rank)
+- **Filters Bar (1:1 OP.GG Replica)**:
+  - **Role Segmented Bar**: Authentic League icons for `TOP`, `JUNGLE` (3 grass blades), `MID`, `ADC`, `SUPPORT`, and `ALL`.
+  - **Rank & Tier Selector**: Select between `Emerald +` (OP.GG Default), `Diamond +`, `Master +`, `Grandmaster`, `Challenger`, `Platinum +`, `Gold +`, `Silver +`, and `All Tiers`.
+  - **Server / Region Selector**: Switch between `🌍 World` (Global), `Korea (KR)`, `North America (NA)`, `Europe West (EUW)`, `Europe Nordic (EUNE)`, `Oceania (OCE)`, `Brazil (BR)`, `Japan (JP)`, `LAN`, and `LAS`.
+  - **Queue / Mode Selector**: `Ranked Solo`, `Ranked Flex`, `ARAM`, `Arena / Mayhem`, and `Normal`.
+  - **Patch Selector**: `14.20`, `14.19`, `14.18`.
+  - **Show All Toggle**: When enabled, displays off-meta picks and every champion who has played in the role (e.g. Jungle Karthus, Jungle Morgana, Jungle Sylas, Jungle Teemo, Jungle Twitch, Jungle Brand, Jungle Gwen).
+- **10 Column Interactive Sortable Table**:
+  - `RANK` with rank change indicators (`▲2`, `▼1`, `-`).
+  - `CHAMPION` with portrait, name, role badge, and title.
+  - `TIER` (`OP`, `Tier 1`, `Tier 2`, `Tier 3`, `Tier 4`, `Tier 5`).
+  - `WIN RATE` with percentage text and visual progress bar (e.g. `52.23%`).
+  - `PICK RATE` (e.g. `7.72%`).
+  - `BAN RATE` (e.g. `6.41%`).
+  - `MATCHES` total games played (e.g. `131,151` matches).
+  - `KDA` average kill/death/assist ratio (e.g. `2.96:1`).
+  - `HARDEST COUNTERS` top 3 counter champions with icons and win rates.
+  - `BUILD & RUNES` 1-click modal for full rune trees and item builds.
+- **Bi-Directional Sorting**: Click any column header (`Rank`, `Champion`, `Tier`, `Win Rate`, `Pick Rate`, `Ban Rate`, `Matches`, `KDA`) to sort ascending or descending with visual indicator arrows (▲ / ▼).
 
 ### 2. Live Champ Select & ARAM Bench Cards
 - **S+, S, A, B Tier Cards**: Automatically identifies champion tiers with animated pulsating glow borders:

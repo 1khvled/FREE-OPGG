@@ -761,16 +761,34 @@ ipcMain.handle('opgg:static-data', async () => {
   return { ddragon, runes };
 });
 
-// OP.GG Champion Tier List (Ranked, ARAM, Arena/Mayhem) with resilient offline fallback
+// OP.GG Champion Tier List (Ranked, ARAM, Arena/Mayhem) with per-server & per-tier live endpoints
 ipcMain.handle('opgg:champions', async (e, args = {}) => {
   let mode = 'ranked';
   let tier = 'emerald_plus';
+  let region = 'GLOBAL';
+  let patch = '14.20';
 
   if (typeof args === 'string') {
     tier = args;
   } else if (args && typeof args === 'object') {
     mode = args.mode || 'ranked';
     tier = args.tier || 'emerald_plus';
+    region = (args.region || 'GLOBAL').toUpperCase();
+    patch = args.patch || '14.20';
+  }
+
+  const normalizedMode = (mode || 'ranked').toLowerCase();
+  const cacheKey = `champs_${region}_${tier}_${normalizedMode}`;
+  if (cache[cacheKey]) {
+    return {
+      mode: normalizedMode,
+      tier,
+      region,
+      patch,
+      names: cache.championNames || [],
+      data: cache[cacheKey],
+      cached: true
+    };
   }
 
   const assetsDir = path.join(__dirname, 'src', 'assets');
@@ -799,25 +817,27 @@ ipcMain.handle('opgg:champions', async (e, args = {}) => {
   // 2. Determine target API URL and fallback file
   let apiUrl = '';
   let fallbackFile = '';
-  const normalizedMode = (mode || 'ranked').toLowerCase();
 
   if (normalizedMode === 'aram') {
-    apiUrl = 'https://lol-api-champion.op.gg/api/GLOBAL/champions/aram/';
+    apiUrl = `https://lol-api-champion.op.gg/api/${region}/champions/aram/`;
     fallbackFile = 'aram_champions_cache.json';
   } else if (normalizedMode === 'arena' || normalizedMode === 'mayhem') {
-    apiUrl = 'https://lol-api-champion.op.gg/api/GLOBAL/champions/arena/';
+    apiUrl = `https://lol-api-champion.op.gg/api/${region}/champions/arena/`;
     fallbackFile = 'arena_champions_cache.json';
   } else {
-    apiUrl = `https://lol-api-champion.op.gg/api/GLOBAL/champions/ranked?tier=${tier}`;
+    apiUrl = `https://lol-api-champion.op.gg/api/${region}/champions/ranked?tier=${tier}`;
     fallbackFile = 'ranked_champions_cache.json';
   }
 
   try {
     const res = await fetchHttpsJson(apiUrl);
     if (res && Array.isArray(res.data) && res.data.length > 0) {
+      cache[cacheKey] = res.data;
       return {
         mode: normalizedMode,
         tier,
+        region,
+        patch,
         names: cache.championNames || [],
         data: res.data
       };
@@ -831,9 +851,12 @@ ipcMain.handle('opgg:champions', async (e, args = {}) => {
     const fallbackPath = path.join(assetsDir, fallbackFile);
     if (fs.existsSync(fallbackPath)) {
       const cachedData = JSON.parse(fs.readFileSync(fallbackPath, 'utf8'));
+      cache[cacheKey] = cachedData;
       return {
         mode: normalizedMode,
         tier,
+        region,
+        patch,
         names: cache.championNames || [],
         data: cachedData,
         isFallback: true
@@ -844,6 +867,8 @@ ipcMain.handle('opgg:champions', async (e, args = {}) => {
   return {
     mode: normalizedMode,
     tier,
+    region,
+    patch,
     names: cache.championNames || [],
     data: [],
     error: 'Failed to fetch live OP.GG data and no local cache was found'

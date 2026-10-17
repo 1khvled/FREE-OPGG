@@ -378,64 +378,248 @@ body {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 16px;
-  background: var(--bg-surface);
-  padding: 8px 14px;
+  background: #17171e;
+  padding: 8px 12px;
   border-radius: 8px;
-  border: 1px solid var(--border-color);
+  border: 1px solid #282836;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.filter-left-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-title-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+  margin-right: 4px;
+}
+
+.filter-icon {
+  color: var(--opgg-purple, #5383e8);
 }
 
 .role-filters {
   display: flex;
   align-items: center;
-  gap: 6px;
+  background: #1f1f28;
+  border: 1px solid #2d2d3c;
+  border-radius: 6px;
+  padding: 2px;
+  gap: 2px;
 }
 
 .role-btn {
   background: transparent;
-  border: 1px solid transparent;
-  color: var(--text-muted);
-  font-family: inherit;
-  font-size: 11px;
-  font-weight: 700;
+  border: none;
+  color: #7f7f98;
+  width: 34px;
+  height: 32px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border-radius: 6px;
+  justify-content: center;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all 0.15s ease;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 0;
+}
+
+.role-btn[data-role="all"] {
+  width: auto;
+  padding: 0 10px;
 }
 
 .role-btn:hover {
   color: #fff;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .role-btn.active {
-  background: #393948;
-  color: #fff;
-  border-color: #4d4d62;
+  background: #3c3666;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
 }
 
-.filter-controls {
+.role-btn svg {
+  display: block;
+}
+
+.filter-dropdown-pill {
   display: flex;
   align-items: center;
-  gap: 10px;
+  background: #1f1f28;
+  border: 1px solid #2d2d3c;
+  border-radius: 6px;
+  padding: 0 8px 0 10px;
+  height: 34px;
+  gap: 6px;
+  transition: border-color 0.15s ease;
 }
 
-.tier-select, .champ-search {
-  background: #1c1c1f;
-  border: 1px solid var(--border-color);
+.filter-dropdown-pill:hover {
+  border-color: #4b4b63;
+}
+
+.opgg-filter-select {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: inherit;
+  outline: none;
+  cursor: pointer;
+  padding-right: 4px;
+}
+
+.opgg-filter-select option {
+  background: #1c1c24;
+  color: #fff;
+  padding: 8px;
+}
+
+.tier-crest-badge.emerald {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  background: #00ba7c;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  box-shadow: 0 0 6px rgba(0, 186, 124, 0.6);
+}
+
+.globe-icon {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.show-all-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 12px;
+  font-weight: 700;
+  color: #c4c4d6;
+  padding: 0 10px;
+  border-radius: 6px;
+  background: #1f1f28;
+  border: 1px solid #2d2d3c;
+  height: 34px;
+  box-sizing: border-box;
+  transition: all 0.15s ease;
+}
+
+.show-all-toggle:hover {
+  border-color: #4b4b63;
+  color: #fff;
+}
+
+.show-all-toggle input {
+  display: none;
+}
+
+.show-all-box {
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid #575773;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #171720;
+  transition: all 0.15s ease;
+}
+
+.show-all-toggle input:checked + .show-all-box {
+  background: var(--opgg-cyan, #00bba3);
+  border-color: var(--opgg-cyan, #00bba3);
+}
+
+.show-all-toggle input:checked + .show-all-box::after {
+  content: '✓';
+  color: #0f1015;
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.filter-right-section {
+  display: flex;
+  align-items: center;
+}
+
+.champ-search {
+  background: #1f1f28;
+  border: 1px solid #2d2d3c;
   color: #fff;
   font-family: inherit;
   font-size: 12px;
-  padding: 6px 10px;
+  padding: 7px 12px;
   border-radius: 6px;
   outline: none;
+  min-width: 160px;
+  transition: border-color 0.15s;
 }
 
-.champ-search:focus, .tier-select:focus {
-  border-color: var(--opgg-purple);
+.champ-search:focus {
+  border-color: var(--opgg-purple, #5383e8);
+}
+
+/* Win rate progress bar cell */
+.wr-cell-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.wr-bar-bg {
+  width: 75px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.wr-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.25s ease;
+}
+
+/* Rank difference */
+.rank-cell-wrap {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.rank-diff {
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.rank-diff.up {
+  color: #00bba3;
+}
+
+.rank-diff.down {
+  color: #ff5858;
+}
+
+.rank-diff.same {
+  color: #666;
 }
 
 /* ================= OP.GG TABLE ================= */
