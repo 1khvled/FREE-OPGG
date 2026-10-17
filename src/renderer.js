@@ -18,13 +18,29 @@ let runesReforgedMap = {};
 let activeChampionDetail = null;
 let currentLcuStatus = { connected: false };
 
+let allLeagueChampions = [];
+
 // Populate DDragon map helper
 function populateDDragonMap(data) {
   if (data && data.data) {
+    const list = [];
     Object.values(data.data).forEach(c => {
       ddragonChampionsMap[c.key] = c;
       ddragonChampionsMap[c.id.toLowerCase()] = c;
+      ddragonChampionsMap[String(c.key)] = c;
+      list.push({
+        id: Number(c.key),
+        key: c.id,
+        name: c.name,
+        title: c.title,
+        tags: c.tags || []
+      });
     });
+    list.sort((a, b) => a.name.localeCompare(b.name));
+    allLeagueChampions = list;
+    if (typeof initChampionPickerGrid === 'function') {
+      initChampionPickerGrid();
+    }
   }
 }
 
@@ -3475,9 +3491,10 @@ globalSearchInput.addEventListener('keydown', (e) => {
   }
 });
 
-// ----------------- MAYHEM & ARENA AUGMENTS TABLE (PER-CHAMPION RANKINGS) -----------------
+// ----------------- MAYHEM & ARENA AUGMENTS TABLE (PER-CHAMPION RANKINGS & TOGGLE SELECTOR) -----------------
 let augmentsDatabase = [];
 let championAugmentsCache = {};
+const champAugmentsComputedCache = new Map(); // 0ms memoization cache
 let currentAugmentChampId = 266; // Default to Aatrox
 let currentAugmentChampName = 'Aatrox';
 let allRankedAugments = [];
@@ -3493,8 +3510,18 @@ const mainAugmentTierSelect = document.getElementById('mainAugmentTierSelect');
 const mainAugmentSearchInput = document.getElementById('mainAugmentSearchInput');
 const refreshAugmentsBtn = document.getElementById('refreshAugmentsBtn');
 const augmentQuickChamps = document.getElementById('augmentQuickChamps');
-const augmentChampSearchInput = document.getElementById('augmentChampSearchInput');
-const augmentChampDropdown = document.getElementById('augmentChampDropdown');
+const btnToggleChampPicker = document.getElementById('btnToggleChampPicker');
+const btnToggleChampModal = document.getElementById('btnToggleChampModal');
+const btnOpenFullPicker = document.getElementById('btnOpenFullPicker');
+const champPickerFlyout = document.getElementById('champPickerFlyout');
+const flyoutChampSearchInput = document.getElementById('flyoutChampSearchInput');
+const btnClearFlyoutSearch = document.getElementById('btnClearFlyoutSearch');
+const flyoutRoleTabs = document.getElementById('flyoutRoleTabs');
+const pickerChampionsGrid = document.getElementById('pickerChampionsGrid');
+
+let isPickerFlyoutOpen = false;
+let currentFlyoutRole = 'all';
+let isPickerGridInitialized = false;
 
 async function loadRankedAugmentsData() {
   if (augmentsDatabase.length > 0 && Object.keys(championAugmentsCache).length > 0) {
@@ -3520,8 +3547,13 @@ async function loadRankedAugmentsData() {
   return augmentsDatabase;
 }
 
-// Compute per-champion augment rankings and win rates
+// Compute per-champion augment rankings with 0ms memoization
 async function computeAugmentsForChampion(champId) {
+  // Check fast memoized cache first
+  if (champAugmentsComputedCache.has(champId)) {
+    return champAugmentsComputedCache.get(champId);
+  }
+
   await loadRankedAugmentsData();
   if (augmentsDatabase.length === 0) return [];
 
@@ -3543,6 +3575,7 @@ async function computeAugmentsForChampion(champId) {
     });
     list.sort((a, b) => b.winRate - a.winRate);
     list.forEach((a, i) => { a.rank = i + 1; });
+    champAugmentsComputedCache.set(0, list);
     return list;
   }
 
@@ -3577,7 +3610,7 @@ async function computeAugmentsForChampion(champId) {
   const isAd = tags.includes('fighter') || tags.includes('marksman') || tags.includes('assassin');
   const isAp = tags.includes('mage') || tags.includes('support');
   const isTank = tags.includes('tank') || tags.includes('fighter');
-  const isAtkSpeed = tags.includes('marksman') || champInfo.key === 'MasterYi' || champInfo.key === 'Yasuo' || champInfo.key === 'Yone';
+  const isAtkSpeed = tags.includes('marksman') || champInfo.key === 'MasterYi' || champInfo.key === 'Yasuo' || champInfo.key === 'Yone' || champInfo.key === 'Kindred';
 
   const result = augmentsDatabase.map(a => {
     const tracked = trackedMap[a.id];
@@ -3648,6 +3681,9 @@ async function computeAugmentsForChampion(champId) {
 
   result.sort((a, b) => b.winRate - a.winRate);
   result.forEach((a, i) => { a.rank = i + 1; });
+
+  // Store in 0ms memoized cache
+  champAugmentsComputedCache.set(champId, result);
   return result;
 }
 
@@ -3656,6 +3692,7 @@ function updateAugmentActiveChampBadge(champId) {
   const nameEl = document.getElementById('augmentActiveChampName');
   const tagEl = document.getElementById('augmentActiveChampTag');
   const subEl = document.getElementById('augmentActiveChampSub');
+  const toggleBtnText = document.getElementById('toggleBtnChampText');
 
   if (!imgEl || !nameEl) return;
 
@@ -3664,14 +3701,191 @@ function updateAugmentActiveChampBadge(champId) {
     nameEl.textContent = 'All Champions Overview';
     if (tagEl) tagEl.textContent = 'GLOBAL ARENA META';
     if (subEl) subEl.textContent = 'Showing global average augment win rates across all League champions.';
+    if (toggleBtnText) toggleBtnText.textContent = '🔁 Choose Champion';
   } else {
     const champ = getChampionInfo(champId);
     imgEl.src = `https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${champ.key || 'Aatrox'}.png`;
     nameEl.textContent = `${champ.name} - ${champ.title || 'Champion'}`;
     if (tagEl) tagEl.textContent = (champ.tags || ['Fighter']).join(' / ').toUpperCase();
     if (subEl) subEl.textContent = `Showing Augment Tiers & Win Rates ranked specifically for ${champ.name} (OP.GG Arena Meta).`;
+    if (toggleBtnText) toggleBtnText.textContent = `🔁 Change (${champ.name})`;
   }
 }
+
+// ================= TOGGLE CHAMPION PICKER FLYOUT =================
+function toggleChampPickerFlyout(forceState) {
+  if (!champPickerFlyout) return;
+  isPickerFlyoutOpen = typeof forceState === 'boolean' ? forceState : !isPickerFlyoutOpen;
+
+  if (isPickerFlyoutOpen) {
+    champPickerFlyout.style.display = 'block';
+    if (btnToggleChampPicker) btnToggleChampPicker.classList.add('open');
+    initChampionPickerGrid();
+    if (flyoutChampSearchInput) {
+      flyoutChampSearchInput.focus();
+    }
+  } else {
+    champPickerFlyout.style.display = 'none';
+    if (btnToggleChampPicker) btnToggleChampPicker.classList.remove('open');
+  }
+}
+
+function initChampionPickerGrid() {
+  if (!pickerChampionsGrid) return;
+
+  // Make sure allLeagueChampions list is populated
+  if (allLeagueChampions.length === 0 && ddragonChampionsMap) {
+    Object.values(ddragonChampionsMap).forEach(c => {
+      if (c && c.name && !allLeagueChampions.some(x => x.id === Number(c.key))) {
+        allLeagueChampions.push({
+          id: Number(c.key),
+          key: c.id,
+          name: c.name,
+          title: c.title,
+          tags: c.tags || []
+        });
+      }
+    });
+    allLeagueChampions.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  if (allLeagueChampions.length === 0) return;
+
+  // Render cards once for ultra-fast performance
+  if (!isPickerGridInitialized) {
+    pickerChampionsGrid.innerHTML = allLeagueChampions.map(c => {
+      const tagsStr = (c.tags || []).join(',').toLowerCase();
+      return `
+        <div class="picker-champ-card ${c.id === currentAugmentChampId ? 'active' : ''}" 
+             data-id="${c.id}" 
+             data-name="${c.name.toLowerCase()}" 
+             data-key="${(c.key || '').toLowerCase()}"
+             data-tags="${tagsStr}"
+             title="${c.name} - ${c.title || ''}">
+          <img loading="lazy" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${c.key}.png" alt="${c.name}" onerror="this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/Aatrox.png'" />
+          <span>${c.name}</span>
+        </div>
+      `;
+    }).join('');
+
+    // Attach click listeners
+    pickerChampionsGrid.querySelectorAll('.picker-champ-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const champId = Number(card.getAttribute('data-id'));
+        selectAugmentChampion(champId);
+        toggleChampPickerFlyout(false);
+      });
+    });
+
+    isPickerGridInitialized = true;
+  } else {
+    // Just update active styling
+    pickerChampionsGrid.querySelectorAll('.picker-champ-card').forEach(card => {
+      if (Number(card.getAttribute('data-id')) === currentAugmentChampId) {
+        card.classList.add('active');
+      } else {
+        card.classList.remove('active');
+      }
+    });
+  }
+}
+
+function filterChampionPickerGrid() {
+  if (!pickerChampionsGrid) return;
+  const q = (flyoutChampSearchInput?.value || '').trim().toLowerCase();
+
+  pickerChampionsGrid.querySelectorAll('.picker-champ-card').forEach(card => {
+    const name = card.getAttribute('data-name') || '';
+    const key = card.getAttribute('data-key') || '';
+    const tags = card.getAttribute('data-tags') || '';
+
+    const matchesQuery = !q || name.includes(q) || key.includes(q);
+    const matchesRole = currentFlyoutRole === 'all' || tags.includes(currentFlyoutRole);
+
+    if (matchesQuery && matchesRole) {
+      card.classList.remove('is-hidden');
+    } else {
+      card.classList.add('is-hidden');
+    }
+  });
+}
+
+function selectAugmentChampion(champId) {
+  currentAugmentChampId = champId;
+  if (champId === 0) {
+    currentAugmentChampName = 'All Champions';
+  } else {
+    const champ = getChampionInfo(champId);
+    currentAugmentChampName = champ.name || 'Champion';
+  }
+
+  // Update quick pills
+  if (augmentQuickChamps) {
+    augmentQuickChamps.querySelectorAll('.champ-pill').forEach(b => {
+      if (Number(b.getAttribute('data-champ-id')) === currentAugmentChampId) {
+        b.classList.add('active');
+      } else {
+        b.classList.remove('active');
+      }
+    });
+  }
+
+  renderAugmentsMainTable();
+}
+
+// Hook toggle triggers
+if (btnToggleChampPicker) {
+  btnToggleChampPicker.addEventListener('click', () => toggleChampPickerFlyout());
+}
+if (btnToggleChampModal) {
+  btnToggleChampModal.addEventListener('click', () => toggleChampPickerFlyout());
+}
+if (btnOpenFullPicker) {
+  btnOpenFullPicker.addEventListener('click', () => toggleChampPickerFlyout());
+}
+
+if (flyoutChampSearchInput) {
+  flyoutChampSearchInput.addEventListener('input', () => {
+    const q = flyoutChampSearchInput.value.trim();
+    if (btnClearFlyoutSearch) btnClearFlyoutSearch.style.display = q ? 'block' : 'none';
+    filterChampionPickerGrid();
+  });
+}
+
+if (btnClearFlyoutSearch) {
+  btnClearFlyoutSearch.addEventListener('click', () => {
+    if (flyoutChampSearchInput) {
+      flyoutChampSearchInput.value = '';
+      btnClearFlyoutSearch.style.display = 'none';
+      filterChampionPickerGrid();
+      flyoutChampSearchInput.focus();
+    }
+  });
+}
+
+if (flyoutRoleTabs) {
+  flyoutRoleTabs.querySelectorAll('.picker-role-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      flyoutRoleTabs.querySelectorAll('.picker-role-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFlyoutRole = btn.getAttribute('data-role') || 'all';
+      filterChampionPickerGrid();
+    });
+  });
+}
+
+// Close flyout on click outside
+document.addEventListener('click', (e) => {
+  if (isPickerFlyoutOpen && champPickerFlyout) {
+    const isInsideFlyout = champPickerFlyout.contains(e.target);
+    const isTrigger = btnToggleChampPicker?.contains(e.target) || 
+                      btnToggleChampModal?.contains(e.target) || 
+                      btnOpenFullPicker?.contains(e.target);
+    if (!isInsideFlyout && !isTrigger) {
+      toggleChampPickerFlyout(false);
+    }
+  }
+});
 
 function updateAugmentSortIcons() {
   document.querySelectorAll('#augmentsTable th.sortable').forEach(th => {
@@ -3712,15 +3926,6 @@ async function renderAugmentsMainTable() {
   if (!augmentsTableBody) return;
 
   updateAugmentActiveChampBadge(currentAugmentChampId);
-
-  augmentsTableBody.innerHTML = `
-    <tr>
-      <td colspan="9" class="loading-cell">
-        <div class="spinner-small"></div>
-        <span>Calculating OP.GG live Augment tier rankings for ${currentAugmentChampName}...</span>
-      </td>
-    </tr>
-  `;
 
   allRankedAugments = await computeAugmentsForChampion(currentAugmentChampId);
 
@@ -3860,70 +4065,9 @@ async function renderAugmentsMainTable() {
 if (augmentQuickChamps) {
   augmentQuickChamps.querySelectorAll('.champ-pill').forEach(btn => {
     btn.addEventListener('click', () => {
-      augmentQuickChamps.querySelectorAll('.champ-pill').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      currentAugmentChampId = Number(btn.getAttribute('data-champ-id'));
-      currentAugmentChampName = btn.getAttribute('data-champ-name') || 'Champion';
-      renderAugmentsMainTable();
+      const champId = Number(btn.getAttribute('data-champ-id'));
+      selectAugmentChampion(champId);
     });
-  });
-}
-
-// Champion Search Input & Auto-Complete Dropdown
-if (augmentChampSearchInput && augmentChampDropdown) {
-  augmentChampSearchInput.addEventListener('input', (e) => {
-    const q = e.target.value.trim().toLowerCase();
-    if (!q) {
-      augmentChampDropdown.style.display = 'none';
-      return;
-    }
-
-    const matches = allChampionsList.filter(c => 
-      c.name.toLowerCase().includes(q) || (c.key && c.key.toLowerCase().includes(q))
-    ).slice(0, 10);
-
-    if (matches.length === 0) {
-      augmentChampDropdown.style.display = 'none';
-      return;
-    }
-
-    augmentChampDropdown.innerHTML = matches.map(c => `
-      <div class="augment-champ-dropdown-item" data-id="${c.id}" data-name="${c.name}">
-        <img src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${c.key}.png" alt="${c.name}" onerror="this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/Aatrox.png'" />
-        <span>${c.name}</span>
-      </div>
-    `).join('');
-
-    augmentChampDropdown.style.display = 'block';
-
-    augmentChampDropdown.querySelectorAll('.augment-champ-dropdown-item').forEach(item => {
-      item.addEventListener('click', () => {
-        currentAugmentChampId = Number(item.getAttribute('data-id'));
-        currentAugmentChampName = item.getAttribute('data-name');
-        augmentChampSearchInput.value = '';
-        augmentChampDropdown.style.display = 'none';
-
-        // Update active quick pill
-        if (augmentQuickChamps) {
-          augmentQuickChamps.querySelectorAll('.champ-pill').forEach(b => {
-            if (Number(b.getAttribute('data-champ-id')) === currentAugmentChampId) {
-              b.classList.add('active');
-            } else {
-              b.classList.remove('active');
-            }
-          });
-        }
-
-        renderAugmentsMainTable();
-      });
-    });
-  });
-
-  // Close dropdown on outside click
-  document.addEventListener('click', (e) => {
-    if (!augmentChampSearchInput.contains(e.target) && !augmentChampDropdown.contains(e.target)) {
-      augmentChampDropdown.style.display = 'none';
-    }
   });
 }
 
@@ -3953,7 +4097,7 @@ if (mainAugmentSearchInput) {
     augmentSearchDebounce = setTimeout(() => {
       augmentSearchQuery = e.target.value;
       renderAugmentsMainTable();
-    }, 120);
+    }, 60);
   });
 }
 
@@ -3961,6 +4105,7 @@ if (refreshAugmentsBtn) {
   refreshAugmentsBtn.addEventListener('click', async () => {
     augmentsDatabase = [];
     championAugmentsCache = {};
+    champAugmentsComputedCache.clear();
     showToast('Refreshing Mayhem Augment rankings...');
     await renderAugmentsMainTable();
     showToast('✅ Mayhem Augment rankings updated!');
@@ -3972,12 +4117,7 @@ if (window.opgg?.onChampSelectUpdate) {
   window.opgg.onChampSelectUpdate((data) => {
     const lockedChamp = data.myChampionId || (data.myTeam && data.myTeam.find(m => m.cellId === data.localPlayerCellId)?.championId) || 0;
     if (lockedChamp && lockedChamp > 0 && lockedChamp !== currentAugmentChampId) {
-      currentAugmentChampId = lockedChamp;
-      const champ = getChampionInfo(lockedChamp);
-      currentAugmentChampName = champ.name || 'Champion';
-      if (document.getElementById('view-lol-augments')?.classList.contains('active')) {
-        renderAugmentsMainTable();
-      }
+      selectAugmentChampion(lockedChamp);
     }
   });
 }
@@ -3988,5 +4128,6 @@ setupAugmentTableSorting();
 loadRankedAugmentsData();
 loadChampions();
 loadLeaderboards(1);
+
 
 

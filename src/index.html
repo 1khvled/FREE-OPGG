@@ -652,41 +652,71 @@ Keria joined the lobby"></textarea>
           </div>
         </div>
 
-        <!-- Per-Champion Banner & Champion Selector -->
+        <!-- Per-Champion Banner & Toggle Champion Selector -->
         <div class="augment-champ-selector-container">
           <div class="augment-active-champ-badge" id="augmentActiveChampBadge">
-            <img id="augmentActiveChampImg" class="augment-active-champ-img" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Aatrox.png" alt="Aatrox" />
+            <div class="augment-champ-avatar-wrap" id="btnToggleChampModal" title="Click to choose champion">
+              <img id="augmentActiveChampImg" class="augment-active-champ-img" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Aatrox.png" alt="Aatrox" />
+              <span class="champ-avatar-change-hint">Change</span>
+            </div>
             <div class="augment-active-champ-meta">
               <div class="champ-label-row">
-                <span class="aug-mode-pill">OP.GG ARENA & MAYHEM TIER LIST</span>
+                <span class="aug-mode-pill">OP.GG ARENA & MAYHEM META</span>
                 <span id="augmentActiveChampTag" class="aug-tag-pill">FIGHTER / TANK</span>
               </div>
-              <h3 id="augmentActiveChampName">Aatrox - The Darkin Blade</h3>
+              <div class="champ-title-with-toggle">
+                <h3 id="augmentActiveChampName">Aatrox - The Darkin Blade</h3>
+                <!-- Toggle Button to Choose Champion -->
+                <button class="btn-toggle-champ-picker" id="btnToggleChampPicker">
+                  <span id="toggleBtnChampText">🔁 Choose Champion</span>
+                  <span class="toggle-arrow" id="toggleArrow">▾</span>
+                </button>
+              </div>
               <p id="augmentActiveChampSub">Showing Augment Tiers & Win Rates ranked specifically for Aatrox (OP.GG Arena Meta).</p>
             </div>
           </div>
 
+          <!-- Quick Selector Strip & Full Browser Toggle Button -->
           <div class="augment-champ-controls">
-            <!-- Quick Champion Switcher Chips -->
             <div class="augment-quick-champs" id="augmentQuickChamps">
-              <button class="champ-pill active" data-champ-id="266" data-champ-name="Aatrox">⚔️ Aatrox</button>
-              <button class="champ-pill" data-champ-id="222" data-champ-name="Jinx">🏹 Jinx</button>
-              <button class="champ-pill" data-champ-id="238" data-champ-name="Zed">🗡️ Zed</button>
-              <button class="champ-pill" data-champ-id="99" data-champ-name="Lux">🔮 Lux</button>
-              <button class="champ-pill" data-champ-id="875" data-champ-name="Sett">🛡️ Sett</button>
-              <button class="champ-pill" data-champ-id="11" data-champ-name="Master Yi">⚔️ Master Yi</button>
-              <button class="champ-pill" data-champ-id="31" data-champ-name="Cho'Gath">🛡️ Cho'Gath</button>
-              <button class="champ-pill" data-champ-id="141" data-champ-name="Kayn">🌀 Kayn</button>
-              <button class="champ-pill" data-champ-id="45" data-champ-name="Veigar">🧙‍♂️ Veigar</button>
-              <button class="champ-pill" data-champ-id="145" data-champ-name="Kai'Sa">⚡ Kai'Sa</button>
+              <button class="champ-pill active" data-champ-id="266" data-champ-name="Aatrox"><img class="pill-thumb" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Aatrox.png" alt=""/> Aatrox</button>
+              <button class="champ-pill" data-champ-id="203" data-champ-name="Kindred"><img class="pill-thumb" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Kindred.png" alt=""/> Kindred</button>
+              <button class="champ-pill" data-champ-id="222" data-champ-name="Jinx"><img class="pill-thumb" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Jinx.png" alt=""/> Jinx</button>
+              <button class="champ-pill" data-champ-id="238" data-champ-name="Zed"><img class="pill-thumb" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Zed.png" alt=""/> Zed</button>
+              <button class="champ-pill" data-champ-id="99" data-champ-name="Lux"><img class="pill-thumb" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Lux.png" alt=""/> Lux</button>
+              <button class="champ-pill" data-champ-id="875" data-champ-name="Sett"><img class="pill-thumb" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Sett.png" alt=""/> Sett</button>
+              <button class="champ-pill" data-champ-id="11" data-champ-name="Master Yi"><img class="pill-thumb" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/MasterYi.png" alt=""/> Master Yi</button>
+              <button class="champ-pill" data-champ-id="31" data-champ-name="Cho'Gath"><img class="pill-thumb" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Chogath.png" alt=""/> Cho'Gath</button>
+              <button class="champ-pill" data-champ-id="141" data-champ-name="Kayn"><img class="pill-thumb" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Kayn.png" alt=""/> Kayn</button>
               <button class="champ-pill" data-champ-id="0" data-champ-name="All Champions">🌍 All Champions</button>
             </div>
 
-            <!-- Search Champion Input with auto-complete dropdown -->
-            <div class="augment-champ-search-wrap">
-              <input type="text" id="augmentChampSearchInput" class="augment-champ-search" placeholder="🔍 Search any Champion (e.g. Yasuo, Vayne, Gwen)..." />
-              <div class="augment-champ-dropdown" id="augmentChampDropdown" style="display: none;"></div>
+            <!-- Toggle Open 173-Champion Picker -->
+            <button class="btn-open-full-picker" id="btnOpenFullPicker">
+              🔍 Toggle All 173 Champions ▾
+            </button>
+          </div>
+
+          <!-- SLICK OP.GG TOGGLE CHAMPION PICKER FLYOUT (Search + Roles + 173 Champion Grid) -->
+          <div class="champ-picker-flyout" id="champPickerFlyout" style="display: none;">
+            <div class="picker-flyout-header">
+              <div class="picker-search-bar">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="flyoutChampSearchInput" placeholder="Type champion name (e.g. Kindred, Yasuo, Gwen, Vayne)..." />
+                <button class="btn-clear-search" id="btnClearFlyoutSearch" style="display: none;">✕</button>
+              </div>
+              <div class="picker-role-tabs" id="flyoutRoleTabs">
+                <button class="picker-role-btn active" data-role="all">ALL</button>
+                <button class="picker-role-btn" data-role="fighter">FIGHTER</button>
+                <button class="picker-role-btn" data-role="marksman">MARKSMAN</button>
+                <button class="picker-role-btn" data-role="assassin">ASSASSIN</button>
+                <button class="picker-role-btn" data-role="mage">MAGE</button>
+                <button class="picker-role-btn" data-role="tank">TANK</button>
+                <button class="picker-role-btn" data-role="support">SUPPORT</button>
+              </div>
             </div>
+            <!-- Scrollable Champion Grid (173 champions rendered once, instant 0ms search) -->
+            <div class="picker-champions-grid" id="pickerChampionsGrid"></div>
           </div>
         </div>
 

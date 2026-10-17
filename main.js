@@ -57,7 +57,9 @@ function createMainWindow() {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
       contextIsolation: true,
-      sandbox: false
+      sandbox: false,
+      spellcheck: false,
+      backgroundThrottling: false
     }
   });
 
@@ -191,7 +193,9 @@ async function createOverlayWindow(showImmediately = false) {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
       contextIsolation: true,
-      sandbox: false
+      sandbox: false,
+      spellcheck: false,
+      backgroundThrottling: false
     }
   });
 

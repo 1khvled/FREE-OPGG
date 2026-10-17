@@ -2967,7 +2967,7 @@ body {
   gap: 6px;
 }
 
-/* ================= PER-CHAMPION AUGMENT SELECTOR ================= */
+/* ================= PER-CHAMPION AUGMENT SELECTOR WITH TOGGLE ================= */
 .augment-champ-selector-container {
   display: flex;
   flex-direction: column;
@@ -2979,6 +2979,7 @@ body {
   margin-top: 14px;
   margin-bottom: 8px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  position: relative;
 }
 
 .augment-active-champ-badge {
@@ -2987,14 +2988,46 @@ body {
   gap: 14px;
 }
 
+.augment-champ-avatar-wrap {
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
 .augment-active-champ-img {
-  width: 52px;
-  height: 52px;
+  width: 54px;
+  height: 54px;
   border-radius: 10px;
   border: 2px solid var(--opgg-cyan);
   box-shadow: 0 0 12px rgba(0, 207, 188, 0.35);
   object-fit: cover;
-  flex-shrink: 0;
+  display: block;
+  transition: transform 0.15s ease;
+}
+
+.augment-champ-avatar-wrap:hover .augment-active-champ-img {
+  transform: scale(1.05);
+}
+
+.champ-avatar-change-hint {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.75);
+  color: var(--opgg-cyan);
+  font-size: 9px;
+  font-weight: 800;
+  text-align: center;
+  padding: 2px 0;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.augment-champ-avatar-wrap:hover .champ-avatar-change-hint {
+  opacity: 1;
 }
 
 .augment-active-champ-meta {
@@ -3002,6 +3035,7 @@ body {
   flex-direction: column;
   gap: 3px;
   min-width: 0;
+  flex: 1;
 }
 
 .champ-label-row {
@@ -3031,11 +3065,50 @@ body {
   border-radius: 4px;
 }
 
-.augment-active-champ-meta h3 {
+.champ-title-with-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.champ-title-with-toggle h3 {
   font-size: 17px;
   font-weight: 900;
   color: #fff;
   margin: 0;
+}
+
+.btn-toggle-champ-picker {
+  background: rgba(83, 131, 236, 0.18);
+  border: 1px solid rgba(83, 131, 236, 0.45);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.btn-toggle-champ-picker:hover {
+  background: var(--opgg-blue);
+  color: #fff;
+  border-color: var(--opgg-blue);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(83, 131, 236, 0.4);
+}
+
+.toggle-arrow {
+  font-size: 10px;
+  transition: transform 0.2s ease;
+}
+
+.btn-toggle-champ-picker.open .toggle-arrow {
+  transform: rotate(180deg);
 }
 
 .augment-active-champ-meta p {
@@ -3072,6 +3145,8 @@ body {
   cursor: pointer;
   transition: all 0.15s ease;
   white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
 }
 
 .champ-pill:hover {
@@ -3087,64 +3162,191 @@ body {
   box-shadow: 0 2px 8px rgba(83, 131, 232, 0.4);
 }
 
-.augment-champ-search-wrap {
-  position: relative;
-  min-width: 240px;
+.pill-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  vertical-align: middle;
+  margin-right: 5px;
 }
 
-.augment-champ-search {
-  width: 100%;
-  background: #1c1c24;
+.btn-open-full-picker {
+  background: #252534;
   border: 1px solid var(--border-color);
+  color: var(--opgg-cyan);
+  font-size: 11px;
+  font-weight: 800;
+  padding: 6px 14px;
   border-radius: 6px;
-  padding: 6px 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.btn-open-full-picker:hover {
+  background: #323246;
+  border-color: var(--opgg-cyan);
   color: #fff;
-  font-size: 12px;
-  outline: none;
-  transition: border-color 0.15s;
 }
 
-.augment-champ-search:focus {
-  border-color: var(--opgg-blue);
+/* ================= SLICK TOGGLE CHAMPION PICKER FLYOUT ================= */
+.champ-picker-flyout {
+  background: #171822;
+  border: 1px solid rgba(83, 131, 236, 0.4);
+  border-radius: 10px;
+  padding: 14px;
+  margin-top: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+  animation: fadeInDown 0.18s ease-out;
 }
 
-.augment-champ-dropdown {
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0;
-  right: 0;
-  max-height: 220px;
-  overflow-y: auto;
-  background: #1e1e28;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
-  z-index: 100;
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.augment-champ-dropdown-item {
+.picker-flyout-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.picker-search-bar {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 10px;
-  cursor: pointer;
-  transition: background 0.1s;
+  background: #101118;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 6px 12px;
+  flex: 1;
+  min-width: 260px;
 }
 
-.augment-champ-dropdown-item:hover {
-  background: #2b2b3a;
+.picker-search-bar:focus-within {
+  border-color: var(--opgg-blue);
+  box-shadow: 0 0 8px rgba(83, 131, 236, 0.3);
 }
 
-.augment-champ-dropdown-item img {
-  width: 24px;
-  height: 24px;
-  border-radius: 4px;
-}
-
-.augment-champ-dropdown-item span {
-  font-size: 12px;
-  font-weight: 700;
+.picker-search-bar input {
+  background: transparent;
+  border: none;
+  outline: none;
   color: #fff;
+  font-size: 13px;
+  font-family: inherit;
+  width: 100%;
+}
+
+.btn-clear-search {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.picker-role-tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #101118;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 2px;
+}
+
+.picker-role-btn {
+  background: transparent;
+  border: none;
+  color: #7f7f98;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.picker-role-btn:hover {
+  color: #fff;
+}
+
+.picker-role-btn.active {
+  background: #3c3666;
+  color: #fff;
+}
+
+.picker-champions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+  gap: 8px;
+  max-height: 280px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.picker-champ-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 4px;
+  border-radius: 8px;
+  background: #1b1c28;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  user-select: none;
+}
+
+.picker-champ-card:hover {
+  background: #27283c;
+  border-color: var(--opgg-blue);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.picker-champ-card.active {
+  background: rgba(83, 131, 236, 0.25);
+  border-color: var(--opgg-blue);
+  box-shadow: 0 0 10px rgba(83, 131, 236, 0.4);
+}
+
+.picker-champ-card img {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: #0d0e14;
+}
+
+.picker-champ-card span {
+  font-size: 11px;
+  font-weight: 700;
+  color: #cbd5e1;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.picker-champ-card.is-hidden {
+  display: none !important;
 }
 
 /* Augment Rarity Filter Buttons (replaces squished role-filters) */
