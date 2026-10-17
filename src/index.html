@@ -81,6 +81,10 @@
         <div class="toggle-switch"></div>
       </div>
 
+      <button class="audio-feedback-btn" id="patchUpdateBtn" title="Check Riot DDragon for New Patch (Auto-Updates)">
+        <span id="patchUpdateText">⚡ Patch 16.20</span>
+      </button>
+
       <button class="audio-feedback-btn active" id="soundToggleBtn" title="Toggle Audio Feedback Chimes">
         <span id="soundToggleIcon">🔊 Sound: ON</span>
       </button>
@@ -403,18 +407,35 @@
       </div>
     </section>
 
-    <!-- 3. MY PROFILE & RECENT MATCH HISTORY VIEW -->
+    <!-- 3. SUMMONER PROFILE & RECENT MATCH HISTORY VIEW -->
     <section class="view-panel" id="view-lol-profile">
+      <!-- Profile Search & Navigation Strip -->
+      <div class="profile-nav-strip">
+        <button id="btnBackToLeaderboard" class="btn-back-nav" style="display: none;">
+          ◀ Back to Leaderboard
+        </button>
+        <div class="profile-search-bar">
+          <input type="text" id="profileSearchInput" placeholder="Inspect any Summoner Profile (e.g. Odysseus#KR131, Kaori#EUW33, Hide on bush#KR1)..." />
+          <button id="profileSearchBtn" class="btn-search-profile">Inspect Profile</button>
+        </div>
+        <button id="btnMyOwnProfile" class="btn-my-profile" title="Switch to my connected League Client account">
+          👤 My Account
+        </button>
+      </div>
+
+      <!-- Main Profile Header Card -->
       <div class="profile-header-card" id="profileHeaderCard">
         <div class="profile-main-info">
           <div class="profile-avatar-wrap">
-            <img id="profileIconImg" class="profile-icon-img" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/profileicon/29.png" alt="Icon" />
+            <img id="profileIconImg" class="profile-icon-img" src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/profileicon/29.png" alt="Icon" loading="lazy" />
             <span class="profile-level-badge" id="profileLevelText">LVL 0</span>
           </div>
           <div>
             <div class="profile-name-row">
               <h1 id="profileSummonerName">Summoner</h1>
               <span id="profileSummonerTag" class="profile-tag-pill">#TAG</span>
+              <span id="profileLadderRankBadge" class="profile-tag-pill rank-pill" style="display: none;">Rank #1</span>
+              <span id="profileProTeamBadge" class="profile-tag-pill pro-team" style="display: none;">PRO</span>
             </div>
             <div class="profile-ranks-summary">
               <div class="rank-badge-box">
@@ -430,18 +451,27 @@
             </div>
           </div>
         </div>
-        <button id="refreshProfileBtn" class="btn-refresh-profile" title="Refresh Profile & Match History from League Client">
+        <button id="refreshProfileBtn" class="btn-refresh-profile" title="Refresh Profile & Match History">
           🔄 Refresh
         </button>
       </div>
 
+      <!-- Most Played Champions Summary -->
+      <div class="profile-most-champs-section" id="profileMostChampsSection" style="display: none;">
+        <div class="section-title-row">
+          <h3>👑 Most Played Champions This Season</h3>
+        </div>
+        <div class="most-champs-grid" id="profileMostChampsGrid"></div>
+      </div>
+
+      <!-- Match History Section -->
       <div class="match-history-section">
         <div class="section-title-row">
-          <h3>📜 Recent 20 Match History (Live LCU)</h3>
-          <span style="font-size: 12px; color: var(--text-dim);" id="matchHistoryCount">Loaded from League Client</span>
+          <h3>📜 Recent Match History</h3>
+          <span style="font-size: 12px; color: var(--text-dim);" id="matchHistoryCount">Loaded</span>
         </div>
         <div class="match-history-list" id="matchHistoryList">
-          <div class="empty-bench">Log in to League of Legends to load your real-time match history and stats.</div>
+          <div class="empty-bench">Search a summoner above or connect to League Client to load match history.</div>
         </div>
       </div>
     </section>
@@ -485,22 +515,77 @@ Keria joined the lobby"></textarea>
       </div>
     </section>
 
-    <!-- 4. LOL LEADERBOARDS VIEW -->
+    <!-- 5. LOL LEADERBOARDS VIEW -->
     <section class="view-panel" id="view-lol-leaderboards">
       <div class="leaderboard-header">
-        <h2>Ranked Solo/Duo Challenger Leaderboard</h2>
-        <p>Top ranked players across the globe, updated in real time.</p>
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <h2>🏆 Ranked Solo/Duo Challenger & Pro Leaderboard</h2>
+            <p>Live official OP.GG ranking ladder with pro players, LP, win rates, and 1-click profile inspector.</p>
+          </div>
+          <div class="leaderboard-actions-row">
+            <button id="refreshLeaderboardBtn" class="btn-refresh-profile" style="padding: 6px 14px; font-size: 11px;">
+              🔄 Refresh Ladder
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter & Search Toolbar -->
+        <div class="leaderboard-toolbar">
+          <div class="toolbar-left">
+            <!-- Region Selector -->
+            <div class="filter-dropdown-pill">
+              <span class="globe-icon">🌍</span>
+              <select id="leaderboardRegionSelect" class="opgg-filter-select">
+                <option value="kr" selected>Korea (KR)</option>
+                <option value="na">North America (NA)</option>
+                <option value="euw">Europe West (EUW)</option>
+                <option value="eune">Europe Nordic (EUNE)</option>
+                <option value="oce">Oceania (OCE)</option>
+                <option value="br">Brazil (BR)</option>
+                <option value="jp">Japan (JP)</option>
+                <option value="lan">Latin America N (LAN)</option>
+                <option value="las">Latin America S (LAS)</option>
+              </select>
+            </div>
+
+            <!-- Tier Selector -->
+            <div class="filter-dropdown-pill">
+              <select id="leaderboardTierSelect" class="opgg-filter-select">
+                <option value="all" selected>All Tiers</option>
+                <option value="challenger">Challenger (Top LP)</option>
+                <option value="grandmaster">Grandmaster</option>
+                <option value="master">Master</option>
+              </select>
+            </div>
+
+            <!-- Page Navigation -->
+            <div class="leaderboard-pagination">
+              <button id="leaderboardPrevBtn" class="page-nav-btn" title="Previous 100 Players">◀</button>
+              <span id="leaderboardPageText" class="page-number-display">Page 1</span>
+              <button id="leaderboardNextBtn" class="page-nav-btn" title="Next 100 Players">▶</button>
+            </div>
+          </div>
+
+          <div class="toolbar-right">
+            <div class="search-box-pill">
+              <input type="text" id="leaderboardSearchInput" placeholder="Filter summoner or pro team in ladder..." />
+            </div>
+          </div>
+        </div>
       </div>
+
       <div class="table-container">
-        <table class="opgg-table">
+        <table class="opgg-table" id="leaderboardTable">
           <thead>
             <tr>
-              <th style="width: 70px;">Rank</th>
-              <th>Summoner</th>
-              <th style="width: 120px;">Tier</th>
-              <th style="width: 120px;">LP</th>
-              <th style="width: 140px;">Win Rate</th>
-              <th>Most Played</th>
+              <th style="width: 75px;">Rank</th>
+              <th>Summoner & Pro Team</th>
+              <th style="width: 140px;">Tier</th>
+              <th style="width: 110px;">LP</th>
+              <th style="width: 170px;">Win Rate & Record</th>
+              <th style="width: 180px;">Most Played Champions</th>
+              <th style="width: 130px; text-align: center;">Profile</th>
             </tr>
           </thead>
           <tbody id="leaderboardTableBody"></tbody>

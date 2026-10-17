@@ -2341,3 +2341,273 @@ body {
   border: 1px solid rgba(232, 64, 87, 0.4);
 }
 
+/* ================= UPGRADED LEADERBOARD & PROFILE INSPECTION ================= */
+.leaderboard-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 14px;
+  padding: 10px 14px;
+  background: #1c1c24;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.toolbar-left, .toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.leaderboard-pagination {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #252530;
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+}
+
+.page-nav-btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+
+.page-nav-btn:hover {
+  background: rgba(83, 131, 236, 0.3);
+  color: var(--opgg-blue);
+}
+
+.page-number-display {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-dim);
+  min-width: 48px;
+  text-align: center;
+}
+
+.search-box-pill input {
+  background: #252530;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: #fff;
+  font-size: 12px;
+  padding: 6px 12px;
+  width: 260px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.search-box-pill input:focus {
+  border-color: var(--opgg-blue);
+}
+
+.medal-rank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  font-weight: 900;
+  font-size: 12px;
+}
+
+.medal-rank.gold {
+  background: linear-gradient(135deg, #ffd700 0%, #ffae00 100%);
+  color: #121217;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+}
+
+.medal-rank.silver {
+  background: linear-gradient(135deg, #e0e0e0 0%, #b0b0b0 100%);
+  color: #121217;
+  box-shadow: 0 0 8px rgba(200, 200, 200, 0.4);
+}
+
+.medal-rank.bronze {
+  background: linear-gradient(135deg, #cd7f32 0%, #a05a2c 100%);
+  color: #fff;
+  box-shadow: 0 0 8px rgba(205, 127, 50, 0.4);
+}
+
+.pro-team-pill {
+  display: inline-block;
+  background: rgba(83, 131, 236, 0.18);
+  border: 1px solid rgba(83, 131, 236, 0.4);
+  color: var(--opgg-blue);
+  font-size: 10px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 4px;
+  margin-top: 2px;
+}
+
+.btn-inspect-profile {
+  background: rgba(83, 131, 236, 0.15);
+  border: 1px solid rgba(83, 131, 236, 0.4);
+  color: var(--opgg-blue);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-inspect-profile:hover {
+  background: var(--opgg-blue);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* Profile Navigation Strip */
+.profile-nav-strip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-back-nav {
+  background: #252532;
+  border: 1px solid var(--border-color);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-back-nav:hover {
+  background: #333345;
+  border-color: var(--opgg-blue);
+}
+
+.profile-search-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.profile-search-bar input {
+  flex: 1;
+  background: #23232c;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 8px 14px;
+  color: #fff;
+  font-size: 12px;
+  outline: none;
+}
+
+.profile-search-bar input:focus {
+  border-color: var(--opgg-blue);
+}
+
+.btn-search-profile {
+  background: var(--opgg-blue);
+  border: none;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-search-profile:hover {
+  background: #3d6fd9;
+}
+
+.btn-my-profile {
+  background: #252530;
+  border: 1px solid var(--border-color);
+  color: var(--text-dim);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-my-profile:hover {
+  color: #fff;
+  border-color: var(--opgg-cyan);
+}
+
+/* Most Played Champions Cards */
+.profile-most-champs-section {
+  margin-top: 18px;
+  margin-bottom: 18px;
+  background: #23232c;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.most-champs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.most-champ-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.most-champ-card img {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+}
+
+.most-champ-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.most-champ-name {
+  font-size: 12px;
+  font-weight: 800;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.most-champ-stats {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.most-champ-wr {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--opgg-cyan);
+}
+
+

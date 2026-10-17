@@ -4,12 +4,14 @@ const fs = require('fs');
 const https = require('https');
 const { exec } = require('child_process');
 
-// ================= MEMORY & COMPUTE OPTIMIZATION SWITCHES =================
-app.commandLine.appendSwitch('js-flags', '--max-old-space-size=192');
+// ================= ULTRA-LOW MEMORY & COMPUTE OPTIMIZATION SWITCHES =================
+app.commandLine.appendSwitch('js-flags', '--max-old-space-size=128');
 app.commandLine.appendSwitch('disable-site-isolation-trials');
-app.commandLine.appendSwitch('renderer-process-limit', '2');
+app.commandLine.appendSwitch('renderer-process-limit', '1');
 app.commandLine.appendSwitch('disable-breakpad');
 app.commandLine.appendSwitch('disable-component-update');
+app.commandLine.appendSwitch('disable-speech-api');
+app.commandLine.appendSwitch('disable-notifications');
 app.commandLine.appendSwitch('disable-background-timer-throttling', 'false');
 app.commandLine.appendSwitch('disable-backgrounding-occluded-windows', 'true');
 app.commandLine.appendSwitch('disable-gpu-memory-buffer-video-frames');
@@ -17,6 +19,10 @@ app.commandLine.appendSwitch('disable-gpu-memory-buffer-video-frames');
 let mainWindow = null;
 let overlayWindow = null;
 let overlayPinned = true;
+
+let activeDDragonVersion = '16.20.1';
+let activePatch = '16.20';
+let patchCheckInterval = null;
 
 let lcuState = {
   connected: false,
@@ -60,6 +66,25 @@ function createMainWindow() {
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     shell.openExternal(url);
     return { action: 'deny' };
+  });
+
+  mainWindow.on('minimize', () => {
+    // Ultra-low RAM & CPU throttling when minimized
+    if (lcuPollInterval) {
+      clearInterval(lcuPollInterval);
+      lcuPollInterval = setInterval(checkLcuHeartbeat, 15000);
+    }
+    if (global.gc) {
+      try { global.gc(); } catch (e) {}
+    }
+  });
+
+  mainWindow.on('restore', () => {
+    if (lcuPollInterval) {
+      clearInterval(lcuPollInterval);
+      lcuPollInterval = setInterval(checkLcuHeartbeat, 2500);
+      checkLcuHeartbeat();
+    }
   });
 
   mainWindow.on('closed', () => {
@@ -621,6 +646,69 @@ const cache = {
   championDetails: {}
 };
 
+// ----------------- PATCH AUTO-UPDATE ENGINE -----------------
+
+async function checkPatchAutoUpdate(isManual = false) {
+  try {
+    const versions = await fetchHttpsJson('https://ddragon.leagueoflegends.com/api/versions.json');
+    if (Array.isArray(versions) && versions.length > 0) {
+      const latestVer = versions[0];
+      const latestPatch = latestVer.split('.').slice(0, 2).join('.');
+
+      const isNew = latestVer !== activeDDragonVersion || isManual;
+      if (isNew) {
+        console.log(`[Auto-Patch] Detected DDragon version: ${latestVer} (Patch ${latestPatch})`);
+        activeDDragonVersion = latestVer;
+        activePatch = latestPatch;
+
+        // Download updated champions and runes in background
+        const assetsDir = path.join(__dirname, 'src', 'assets');
+        try {
+          const newChamps = await fetchHttpsJson(`https://ddragon.leagueoflegends.com/cdn/${latestVer}/data/en_US/champion.json`);
+          if (newChamps && newChamps.data) {
+            fs.writeFileSync(path.join(assetsDir, 'champions_ddragon.json'), JSON.stringify(newChamps));
+          }
+        } catch (e) {}
+
+        try {
+          const newRunes = await fetchHttpsJson(`https://ddragon.leagueoflegends.com/cdn/${latestVer}/data/en_US/runesReforged.json`);
+          if (Array.isArray(newRunes) && newRunes.length > 0) {
+            fs.writeFileSync(path.join(assetsDir, 'runes.json'), JSON.stringify(newRunes));
+          }
+        } catch (e) {}
+
+        // Invalidate memory caches
+        cache.championNames = null;
+        cache.championDetails = {};
+
+        const payload = {
+          version: activeDDragonVersion,
+          patch: activePatch,
+          patches: [
+            latestPatch,
+            versions[1] ? versions[1].split('.').slice(0, 2).join('.') : '16.19',
+            versions[2] ? versions[2].split('.').slice(0, 2).join('.') : '16.18'
+          ],
+          isNewPatch: latestVer !== activeDDragonVersion
+        };
+
+        if (mainWindow && !mainWindow.isDestroyed()) {
+          mainWindow.webContents.send('patch:auto-updated', payload);
+        }
+        if (overlayWindow && !overlayWindow.isDestroyed() && overlayWindow.webContents) {
+          overlayWindow.webContents.send('patch:auto-updated', payload);
+        }
+
+        return { success: true, updated: true, ...payload };
+      }
+      return { success: true, updated: false, version: activeDDragonVersion, patch: activePatch };
+    }
+  } catch (err) {
+    console.warn('[Auto-Patch] Check failed:', err.message);
+    return { success: false, error: err.message, version: activeDDragonVersion, patch: activePatch };
+  }
+}
+
 // ----------------- IPC HANDLERS -----------------
 
 // Main Window controls
@@ -999,6 +1087,137 @@ ipcMain.handle('opgg:multi-search', async (e, { query, region = 'kr' }) => {
   return results;
 });
 
+// ----------------- RANKED LEADERBOARD & SUMMONER PROFILES -----------------
+
+const leaderboardCache = {};
+ipcMain.handle('opgg:get-leaderboard', async (e, { region = 'kr', page = 1 } = {}) => {
+  const normRegion = (region || 'kr').toLowerCase();
+  const cacheKey = `${normRegion}_p${page}`;
+  const now = Date.now();
+  if (leaderboardCache[cacheKey] && (now - leaderboardCache[cacheKey].timestamp < 180000)) {
+    return leaderboardCache[cacheKey].data;
+  }
+
+  try {
+    const url = `https://lol-api-summoner.op.gg/api/${normRegion}/rankings/ladder?page=${page}`;
+    const res = await fetchHttpsJson(url);
+    if (res && Array.isArray(res.data)) {
+      const result = {
+        success: true,
+        region: normRegion,
+        page,
+        total: res.meta?.total || 1000,
+        list: res.data
+      };
+      leaderboardCache[cacheKey] = { timestamp: now, data: result };
+      return result;
+    }
+  } catch (err) {
+    console.warn(`Leaderboard fetch error for ${normRegion}:`, err.message);
+  }
+
+  return {
+    success: false,
+    region: normRegion,
+    page,
+    list: []
+  };
+});
+
+const profileCache = {};
+ipcMain.handle('opgg:get-summoner-profile', async (e, { summonerId, gameName, tagline, region = 'kr' } = {}) => {
+  const normRegion = (region || 'kr').toLowerCase();
+  const cacheKey = `${normRegion}_${summonerId || `${gameName}#${tagline}`}`;
+  const now = Date.now();
+  if (profileCache[cacheKey] && (now - profileCache[cacheKey].timestamp < 120000)) {
+    return profileCache[cacheKey].data;
+  }
+
+  try {
+    let targetId = summonerId;
+    let targetProfile = null;
+
+    if (targetId) {
+      const [pRes, gRes] = await Promise.all([
+        fetchHttpsJson(`https://lol-api-summoner.op.gg/api/${normRegion}/summoners/${targetId}`).catch(() => null),
+        fetchHttpsJson(`https://lol-api-summoner.op.gg/api/${normRegion}/summoners/${targetId}/games`).catch(() => null)
+      ]);
+      if (pRes && pRes.data) {
+        const result = {
+          success: true,
+          profile: pRes.data,
+          games: gRes?.data || []
+        };
+        profileCache[cacheKey] = { timestamp: now, data: result };
+        return result;
+      }
+    }
+
+    // Search in current ladder if gameName provided
+    const ladderUrl = `https://lol-api-summoner.op.gg/api/${normRegion}/rankings/ladder?page=1`;
+    const ladderRes = await fetchHttpsJson(ladderUrl).catch(() => null);
+    if (ladderRes && Array.isArray(ladderRes.data)) {
+      const searchLower = (gameName || '').toLowerCase().trim();
+      const match = ladderRes.data.find(item => {
+        const s = item.summoner || {};
+        const gName = (s.game_name || '').toLowerCase();
+        const sName = (s.name || '').toLowerCase();
+        return gName === searchLower || sName === searchLower || gName.includes(searchLower);
+      });
+
+      if (match && match.summoner) {
+        targetProfile = match.summoner;
+        targetId = targetProfile.summoner_id;
+        let games = [];
+        if (targetId) {
+          const gRes = await fetchHttpsJson(`https://lol-api-summoner.op.gg/api/${normRegion}/summoners/${targetId}/games`).catch(() => null);
+          games = gRes?.data || [];
+        }
+        const result = {
+          success: true,
+          profile: targetProfile,
+          ladderRank: match.rank,
+          games
+        };
+        profileCache[cacheKey] = { timestamp: now, data: result };
+        return result;
+      }
+    }
+
+    // Check LCU if locally connected summoner matches
+    if (lcuState.connected && lcuState.summoner) {
+      const localName = (lcuState.summoner.displayName || lcuState.summoner.gameName || '').toLowerCase();
+      if (!gameName || localName.includes((gameName || '').toLowerCase())) {
+        const [summoner, ranked, matchHistory] = await Promise.all([
+          lcuApiCall('GET', '/lol-summoner/v1/current-summoner').catch(() => null),
+          lcuApiCall('GET', '/lol-ranked/v1/current-ranked-stats').catch(() => null),
+          lcuApiCall('GET', '/lol-match-history/v1/products/lol/current-summoner/matches?begIndex=0&endIndex=20').catch(() => null)
+        ]);
+        const result = {
+          success: true,
+          isLocalLcu: true,
+          summoner,
+          ranked,
+          matchHistory: matchHistory?.games?.games || []
+        };
+        return result;
+      }
+    }
+  } catch (err) {
+    console.warn('Summoner profile fetch error:', err.message);
+  }
+
+  return { success: false, error: 'Summoner not found on OP.GG or in client' };
+});
+
+// Patch Auto-Update IPC
+ipcMain.handle('opgg:check-patch-update', async () => {
+  return await checkPatchAutoUpdate(true);
+});
+ipcMain.handle('opgg:get-current-patch', () => {
+  return { version: activeDDragonVersion, patch: activePatch };
+});
+
 // Utility IPC
 ipcMain.on('app:openExternal', (e, url) => shell.openExternal(url));
 ipcMain.handle('app:copyToClipboard', (e, text) => {
@@ -1024,6 +1243,10 @@ if (!gotTheLock) {
 
     checkLcuHeartbeat();
     lcuPollInterval = setInterval(checkLcuHeartbeat, 2500);
+
+    // Initial check for patch update and 30-min periodic check
+    checkPatchAutoUpdate(false);
+    patchCheckInterval = setInterval(() => checkPatchAutoUpdate(false), 30 * 60 * 1000);
 
     // Global shortcut Ctrl+Shift+O to toggle in-game overlay over League
     try {
@@ -1062,6 +1285,7 @@ if (!gotTheLock) {
 
   app.on('window-all-closed', () => {
     if (lcuPollInterval) clearInterval(lcuPollInterval);
+    if (patchCheckInterval) clearInterval(patchCheckInterval);
     if (process.platform !== 'darwin') app.quit();
   });
 }

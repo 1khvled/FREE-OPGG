@@ -44,6 +44,16 @@ contextBridge.exposeInMainWorld('opgg', {
   getModeTierList: (mode) => ipcRenderer.invoke('opgg:mode-tierlist', mode),
   getStaticData: () => ipcRenderer.invoke('opgg:static-data'),
   multiSearch: (query, region) => ipcRenderer.invoke('opgg:multi-search', { query, region }),
+  getLeaderboard: (opts) => ipcRenderer.invoke('opgg:get-leaderboard', opts),
+  getSummonerProfile: (opts) => ipcRenderer.invoke('opgg:get-summoner-profile', opts),
+  checkPatchUpdate: () => ipcRenderer.invoke('opgg:check-patch-update'),
+  getCurrentPatch: () => ipcRenderer.invoke('opgg:get-current-patch'),
+
+  onPatchUpdated: (callback) => {
+    const handler = (event, data) => callback(data);
+    ipcRenderer.on('patch:auto-updated', handler);
+    return () => ipcRenderer.removeListener('patch:auto-updated', handler);
+  },
 
   // Utilities
   openExternal: (url) => ipcRenderer.send('app:openExternal', url),

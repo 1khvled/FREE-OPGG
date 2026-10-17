@@ -32,9 +32,12 @@
   - [7. Team Composition & Damage Profile](#7-team-composition--damage-profile)
   - [8. In-Game Enemy Spell Cooldown Timers](#8-in-game-enemy-spell-cooldown-timers)
   - [9. Full In-Game Automations (Runes, Builds, Spells, Ready Check)](#9-full-in-game-automations)
-  - [10. My Profile & Live Match History](#10-my-profile--live-match-history)
-  - [11. Lobby Multi-Search & Dodge Radar](#11-lobby-multi-search--dodge-radar)
-  - [12. Floating Glassmorphism Overlay HUD](#12-floating-glassmorphism-overlay-hud)
+  - [10. Official OP.GG Live Ranked Leaderboard](#10-official-opgg-live-ranked-leaderboard)
+  - [11. Live Summoner Profile Viewer & Search](#11-live-summoner-profile-viewer--search)
+  - [12. Dynamic Patch Auto-Update Engine](#12-dynamic-patch-auto-update-engine)
+  - [13. My Profile & Live Match History](#13-my-profile--live-match-history)
+  - [14. Lobby Multi-Search & Dodge Radar](#14-lobby-multi-search--dodge-radar)
+  - [15. In-Game Floating Overlay HUD (Over Actual Match Window)](#15-in-game-floating-overlay-hud-over-actual-match-window)
 - [Performance & Compute Optimizations](#-performance--compute-optimizations)
 - [Architecture & Mechanics](#-architecture--mechanics)
 - [Installation & Quickstart](#-installation--quickstart)
@@ -135,17 +138,35 @@ Directly integrates with the local Riot League Client Update (LCU) API:
 - **✅ Auto-Accept**: Automatically accepts matchmaking ready checks (`POST /lol-matchmaking/v1/ready-check/accept`).
 - **🔊 Web Audio API Feedback**: Programmatic, zero-latency synthesizer chimes for ready checks, rune applications, and timer warnings with a titlebar toggle (`🔊 Sound: ON / OFF`).
 
-### 10. My Profile & Live Match History
-- **Summoner Profile**: Loads current account icon, summoner level, Solo/Duo rank, division, LP, win rate, and Flex rank directly from LCU.
-- **Recent 20 Matches**:
-  - Victory / Defeat outcome banner with match duration and date.
-  - Champion portrait and summoner spell icons.
+### 10. Official OP.GG Live Ranked Leaderboard
+- **100% Real OP.GG API Integration**: Powered directly by `https://lol-api-summoner.op.gg/api/{region}/rankings/ladder?page={page}`.
+- **Server Selection**: Select across **KR, NA, EUW, EUNE, OCE, BR, JP, LAN, LAS**.
+- **Tier & Ladder Filters**: Filter by `Challenger`, `Grandmaster`, `Master`, or `All Ranks`.
+- **Pro Team Tags & Real Data**: Inspect real pro players (T1, Gen.G, HLE, C9, G2, etc.), current LP, total wins/losses, win rates, and their top 3 most-played champions with games and winrates.
+- **Instant Search by Name**: Live filter or query any summoner on the ladder by typing into the integrated search box.
+- **Full Pagination**: Seamless page navigation with prefetching and 3-minute in-memory caching.
+
+### 11. Live Summoner Profile Viewer & Search
+- **Inspect Anyone's Profile**: Click any player on the Ranked Leaderboard or search by summoner name anywhere in the app to open their full OP.GG profile.
+- **Top 5 Champions Bar**: Displays their most-played champions, winrates, and games played.
+- **Recent 20 Match History Cards**:
+  - Victory / Defeat styling with match duration, queue type, and date.
+  - Champion portrait, summoner spell icons, and rune keystones.
   - KDA ratio (Kills / Deaths / Assists) and kill participation.
   - Complete 6-item build + trinket slot display.
   - Authentic OP-Score rating with 👑 MVP and ⭐ ACE badges.
-  - CS/min benchmark tags (`🟢 Challenger Pace`).
+  - CS/min benchmark tags (`🟢 Challenger Pace`, `🟡 Master Pace`, `Average`).
 
-### 11. Lobby Multi-Search & Dodge Radar
+### 12. Dynamic Patch Auto-Update Engine
+- **Riot Version API Listener**: Automatically queries Riot's official version endpoint `https://ddragon.leagueoflegends.com/api/versions.json` on startup and in a background heartbeat every 30 minutes.
+- **Auto-Sync Assets**: When Riot releases a new patch (e.g. 16.21+), the app automatically downloads the latest `champions_ddragon.json` and `runes.json`, clears memory caches, hot-swaps the UI dropdowns, and notifies the user with a titlebar update indicator.
+- **Manual 1-Click Check**: Click the patch version pill in the titlebar to instantly poll Riot for new patches on demand.
+
+### 13. My Profile & Live Match History
+- **Summoner Profile**: Loads current account icon, summoner level, Solo/Duo rank, division, LP, win rate, and Flex rank directly from LCU.
+- **Interactive Match History**: Deep inspect your own local match history with the same OP-Score and performance breakdown.
+
+### 14. Lobby Multi-Search & Dodge Radar
 - **Paste Lobby Chat**: Paste chat lines (e.g. `Player joined the lobby`) or 5 comma-separated summoner names.
 - **1-Click LCU Import**: Directly pulls the 5 teammates from your active Champion Select session.
 - **Dodge Radar**:
@@ -154,22 +175,23 @@ Directly integrates with the local Riot League Client Update (LCU) API:
   - 🛡️ **Autofill Tag**: Flags off-role and autofilled teammates.
   - 🎯 **Lobby Safety Score**: Gives a clear `SAFE TO PLAY`, `PLAY WITH CAUTION`, or `🚨 RECOMMENDED TO DODGE` recommendation.
 
-### 12. Floating Glassmorphism Overlay HUD
-- **Transparent Frameless Window**: Dedicated overlay window (`src/overlay.html`) with glassmorphism blur and transparency.
-- **Auto-Docking**: Uses Win32 window metrics to automatically dock above the `LeagueClientUx.exe` window during champion select.
-- **Compact & Full Modes**: Toggle between full card view and a slim bench-only bar.
+### 15. In-Game Floating Overlay HUD (Over Actual Match Window)
+- **Over the Game Window**: The overlay HUD is built to float directly over the actual League in-game match window (`League of Legends (TM) Client`) as well as the champ select client.
+- **Screen-Saver Always-On-Top**: Configured with `overlayWindow.setAlwaysOnTop(true, 'screen-saver')` so it stays seamlessly visible over borderless/fullscreen windowed game clients.
+- **Global Toggle Hotkey**: Toggle the in-game HUD at any second using `Ctrl + Shift + O` (or `Cmd + Shift + O` on macOS).
+- **Clean Titlebar**: Removed clutter from the main application titlebar—the overlay automatically docks and activates when your game starts.
 
 ---
 
 ## ⚡ Performance & Compute Optimizations
 
-Unlike electron apps that consume gigabytes of memory, FREE-OP.GG is strictly optimized:
-1. **Chromium Memory Cap**: `--max-old-space-size=192` limits V8 garbage collection heap.
-2. **Process Limit**: `renderer-process-limit=2` prevents Chromium from spawning unnecessary utility sub-processes.
-3. **Zero WMIC Process Spawning**: Completely removed heavy WMIC CLI polling. LCU discovery runs via instantaneous native filesystem syscalls (`fs.existsSync`).
-4. **Fast-Path In-Memory Heartbeat**: Once connected to the League client, heartbeat checks run directly against memory sockets rather than hitting disk.
-5. **Debounced UI Rendering**: Champion search input is debounced with zero layout thrashing.
-6. **Background Occlusion & Throttling**: Memory is automatically pruned when the window is minimized or occluded.
+Unlike bloated desktop apps that consume 800MB–1.2GB of RAM and significant CPU, FREE-OP.GG is strictly optimized:
+1. **Aggressive V8 Heap Hard-Cap**: `--max-old-space-size=128` limits Electron V8 memory footprint to under 128MB.
+2. **Single Renderer Process Limit**: `--renderer-process-limit=1` prevents Chromium from spawning runaway helper sub-processes.
+3. **Background Occlusion & Polling Throttle**: When the window is minimized or hidden, LCU polling drops from 2.5s down to 15s and immediately triggers `global.gc()` to reclaim unused RAM.
+4. **Native Image Lazy-Loading**: All champion portraits, items, spells, and runes use `loading="lazy"` to prevent GPU/DOM thrashing.
+5. **Zero WMIC Process Spawning**: Completely removed heavy WMIC CLI polling. LCU discovery runs via instantaneous native filesystem syscalls (`fs.existsSync`).
+6. **In-Memory TTL Caches**: OP.GG ladder and tier queries are cached in-memory with strict time-to-live policies to eliminate redundant network requests.
 
 ---
 
