@@ -852,6 +852,7 @@ ipcMain.handle('opgg:static-data', async () => {
   const assetsDir = path.join(__dirname, 'src', 'assets');
   let ddragon = null;
   let runes = null;
+  let augments = null;
   try {
     const ddPath = path.join(assetsDir, 'champions_ddragon.json');
     if (fs.existsSync(ddPath)) {
@@ -864,7 +865,14 @@ ipcMain.handle('opgg:static-data', async () => {
       runes = JSON.parse(fs.readFileSync(runesPath, 'utf8'));
     }
   } catch (e) {}
-  return { ddragon, runes };
+  try {
+    const augPath = path.join(assetsDir, 'meta_augments.json');
+    if (fs.existsSync(augPath)) {
+      const parsed = JSON.parse(fs.readFileSync(augPath, 'utf8'));
+      augments = parsed.data || parsed;
+    }
+  } catch (e) {}
+  return { ddragon, runes, augments };
 });
 
 // OP.GG Champion Tier List (Ranked, ARAM, Arena/Mayhem) with per-server & per-tier live endpoints
@@ -1015,23 +1023,45 @@ ipcMain.handle('opgg:champion-detail', async (e, { champId, position = 'top', ti
   }
 
   try {
+    if (mode === 'arena' || mode === 'mayhem') {
+      try {
+        const arenaRes = await fetchHttpsJson(`https://lol-api-champion.op.gg/api/GLOBAL/champions/arena/${champId}`);
+        if (arenaRes && arenaRes.data) {
+          const d = arenaRes.data;
+          const result = {
+            mode: 'arena',
+            summary: d.summary || {},
+            build: {
+              core_items: d.core_items || [],
+              starter_items: d.starter_items || [],
+              boots: d.boots || [],
+              last_items: d.last_items || [],
+              prism_items: d.prism_items || [],
+              augment_group: d.augment_group || {},
+              synergies: d.synergies || [],
+              skills: d.skills || [],
+              skill_masteries: d.skill_masteries || []
+            },
+            arenaData: d
+          };
+          cache.championDetails[cacheKey] = result;
+          return result;
+        }
+      } catch (err) {
+        console.warn(`Arena detail fetch error for ${champId}, falling back:`, err.message);
+      }
+    }
+
     const isSpecialMode = mode === 'aram' || mode === 'arena' || mode === 'mayhem';
     const lane = isSpecialMode ? 'none' : (position || 'top').toLowerCase();
 
-    let buildPromise;
-    if (mode === 'arena' || mode === 'mayhem') {
-      // Arena doesn't have a lane build endpoint, fallback to ranked top lane
-      buildPromise = fetchHttpsJson(`https://lol-api-champion.op.gg/api/GLOBAL/champions/ranked/${champId}/top?tier=${tier}&is_more=true`);
-    } else {
-      buildPromise = fetchHttpsJson(`https://lol-api-champion.op.gg/api/GLOBAL/champions/${mode}/${champId}/${lane}?tier=${tier}&is_more=true`);
-    }
-
     const [summary, build] = await Promise.all([
       fetchHttpsJson(`https://lol-api-champion.op.gg/api/GLOBAL/champions/${mode}/${champId}/summaries?tier=${tier}`),
-      buildPromise
+      fetchHttpsJson(`https://lol-api-champion.op.gg/api/GLOBAL/champions/${mode === 'arena' || mode === 'mayhem' ? 'ranked' : mode}/${champId}/${mode === 'arena' || mode === 'mayhem' ? 'top' : lane}?tier=${tier}&is_more=true`)
     ]);
 
     const result = {
+      mode,
       summary: summary.data || {},
       build: build.data || {}
     };

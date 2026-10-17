@@ -84,6 +84,31 @@ The official OP.GG desktop app has become increasingly bloated: it installs back
   - `BUILD & RUNES` 1-click modal for full rune trees and item builds.
 - **Bi-Directional Sorting**: Click any column header (`Rank`, `Champion`, `Tier`, `Win Rate`, `Pick Rate`, `Ban Rate`, `Matches`, `KDA`) to sort ascending or descending with visual indicator arrows (▲ / ▼).
 
+### 1.1 Optimized Arena & Mayhem Mode Tier List (1:1 OP.GG Replica)
+- **Dedicated Arena / Mayhem Columns**:
+  - `Rank` with rank change indicators (`▲`, `▼`, `-`).
+  - `Champion` with portrait, name, and Arena archetype pill (`Fighter`, `Tank`, `Mage`, `Marksman`, `Support`).
+  - `Tier` (`OP`, `Tier 1`, `Tier 2`, `Tier 3`, `Tier 4`, `Tier 5`).
+  - `👑 1st Place %` (e.g. `18.2%`) sorted descending by default.
+  - `Top 4 Rate` (Win Rate) with percentage and OP.GG visual progress bar.
+  - `Avg Place` badge (`#2.84`, `#3.15`, `#4.12`) color-coded cyan for top contenders.
+  - `Pick Rate` & `Ban Rate` percentages.
+  - `Matches` total games played.
+  - `Top Augments`: 3 interactive mini chips with glowing rarity borders (Prismatic, Gold, Silver) and tooltips.
+  - `Arena Build`: 1-click modal for complete Arena setup.
+- **Archetype / Class Filtering**: When Arena mode is selected, the role filter bar automatically maps to champion classes:
+  - `TOP` ➔ **Fighters**
+  - `JUNGLE` ➔ **Tanks**
+  - `MID` ➔ **Mages**
+  - `ADC` ➔ **Marksmen**
+  - `SUPPORT` ➔ **Supports & Assassins**
+  - `ALL` ➔ **All Champions**
+- **Arena-Specific Champion Modal**:
+  - **Prismatic Items**: Glowing cards for recommended prismatic items with win rate, pick rate, and 1st place finish rates.
+  - **Tiered Augments**: Prismatic, Gold, and Silver augments with icons, descriptions, and win rates.
+  - **2v2 Duo Synergies**: Top 8 best 2v2 partner champions with duo win rates, 1st place finishes, and match counts.
+  - **Normalized Item IDs**: Automatically maps Arena internal item IDs (e.g. `223031` ➔ `3031`) to ensure seamless Data Dragon item icon loading.
+
 ### 2. Patch 16.20 Meta Trends & Winrate Spikes
 - Real-time ticker banner featuring the **Top 5 Meta Gainers** (`▲` rank leaps and winrate spikes) and hardest-falling nerf victims.
 - Click any trending champion card to immediately filter the tier table to that pick.

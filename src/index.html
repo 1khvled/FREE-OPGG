@@ -244,7 +244,7 @@
 
       <div class="table-container">
         <table class="opgg-table" id="championsTable">
-          <thead>
+          <thead id="championsTableHead">
             <tr>
               <th class="sortable active" data-sort="rank" style="width: 75px;">Rank <span class="sort-icon">▲</span></th>
               <th class="sortable" data-sort="champion">Champion <span class="sort-icon">⇅</span></th>
@@ -618,7 +618,7 @@ Keria joined the lobby"></textarea>
         </div>
       </div>
 
-      <div class="modal-body-tabs">
+      <div class="modal-body-tabs" id="modalBodyTabs">
         <button class="modal-tab active" data-modaltab="runes">Runes & Perks</button>
         <button class="modal-tab" data-modaltab="items">Core Item Builds</button>
         <button class="modal-tab" data-modaltab="skills">Skill Max Order</button>
@@ -641,6 +641,13 @@ Keria joined the lobby"></textarea>
         </div>
         <div class="modal-panel" id="modalTab-matchup">
           <div class="matchup-container" id="matchupContainer"></div>
+        </div>
+        <!-- Arena & Mayhem Specific Panels -->
+        <div class="modal-panel" id="modalTab-augments">
+          <div class="arena-augments-container" id="arenaAugmentsContainer"></div>
+        </div>
+        <div class="modal-panel" id="modalTab-synergies">
+          <div class="arena-synergies-container" id="arenaSynergiesContainer"></div>
         </div>
       </div>
     </div>

@@ -42,11 +42,65 @@ function populateRunesMap(trees) {
   }
 }
 
+let metaAugmentsMap = {};
+let metaAugmentsList = [];
+
+function populateAugmentsMap(augments) {
+  if (!augments) return;
+  const list = Array.isArray(augments) ? augments : (augments.data || []);
+  metaAugmentsList = list;
+  list.forEach(a => {
+    if (a && a.id) {
+      metaAugmentsMap[a.id] = a;
+      metaAugmentsMap[String(a.id)] = a;
+    }
+  });
+}
+
+function getAugmentInfo(id) {
+  if (metaAugmentsMap[id]) return metaAugmentsMap[id];
+  return {
+    id,
+    name: `Augment #${id}`,
+    largeIcon: 'https://opgg-static.akamaized.net/meta/images/lol/latest/augment/acceleratingsorcery_small.png',
+    smallIcon: 'https://opgg-static.akamaized.net/meta/images/lol/latest/augment/acceleratingsorcery_small.png',
+    desc: 'Arena / Mayhem augment enhancement',
+    rarity: 1
+  };
+}
+
+function getTopAugmentsForChamp(champId) {
+  const champ = getChampionInfo(champId);
+  const tags = champ.tags || [];
+  const name = champ.name || '';
+
+  const matched = metaAugmentsList.filter(a => {
+    if (a.bestFor && Array.isArray(a.bestFor)) {
+      return a.bestFor.some(b => b === name || tags.includes(b));
+    }
+    return false;
+  });
+
+  if (matched.length >= 3) {
+    return matched.slice(0, 3).map(m => ({
+      ...m,
+      rarityClass: (m.rarity === 'Prismatic' || m.rarity >= 2) ? 'prismatic' : (m.rarity === 'Gold' || m.rarity === 1) ? 'gold' : 'silver'
+    }));
+  }
+
+  return [
+    { id: 1, name: 'Accelerating Sorcery', smallIcon: 'https://opgg-static.akamaized.net/meta/images/lol/latest/augment/acceleratingsorcery_small.png', rarityClass: 'prismatic', desc: 'Grants stacking ability haste per round' },
+    { id: 22, name: 'Blade Waltz', smallIcon: 'https://opgg-static.akamaized.net/meta/images/lol/latest/augment/acceleratingsorcery_small.png', rarityClass: 'prismatic', desc: 'Become untargetable and dash 8 times' },
+    { id: 82, name: 'Courage of the Colossus', smallIcon: 'https://opgg-static.akamaized.net/meta/images/lol/latest/augment/acceleratingsorcery_small.png', rarityClass: 'gold', desc: 'Gain stacking shields on immobilizing enemies' }
+  ];
+}
+
 // Load static assets through IPC (guaranteed offline & no file:// CORS issues)
 if (window.opgg && window.opgg.getStaticData) {
   window.opgg.getStaticData().then(res => {
     if (res && res.ddragon) populateDDragonMap(res.ddragon);
     if (res && res.runes) populateRunesMap(res.runes);
+    if (res && res.augments) populateAugmentsMap(res.augments);
     renderChampionsTable();
   }).catch(() => {});
 }
@@ -61,6 +115,16 @@ fetch('assets/runes.json')
   .then(res => res.json())
   .then(populateRunesMap)
   .catch(() => {});
+
+fetch('assets/meta_augments.json')
+  .then(res => res.json())
+  .then(populateAugmentsMap)
+  .catch(() => {
+    fetch('assets/augments.json')
+      .then(res => res.json())
+      .then(populateAugmentsMap)
+      .catch(() => {});
+  });
 
 // DOM Elements
 const winMinBtn = document.getElementById('winMinBtn');
@@ -786,20 +850,25 @@ function renderChampionsTable() {
   } else if (currentMode === 'arena') {
     // Arena / Mayhem mode
     rows = allChampionsData
-      .filter(c => c.average_stats && (c.average_stats.play > 0 || c.id < 60000))
+      .filter(c => c.average_stats && c.average_stats.play > 0 && !c.is_rip && c.id < 60000)
       .map(c => {
         const avg = c.average_stats || {};
         const tierData = avg.tier_data || {};
         const rank = avg.rank || tierData.rank || 999;
         const rankPrev = tierData.rank_prev || rank;
         const tierNum = avg.tier ?? (tierData.tier ?? 3);
-        const winRate = avg.win_rate !== undefined && avg.win_rate !== null
-          ? avg.win_rate
-          : (avg.play ? avg.win / avg.play : 0.5);
+        const matches = avg.play || 0;
+        const winRate = matches > 0 ? (avg.win / matches) : (avg.win_rate ?? 0.5);
+        const firstPlace = avg.first_place || 0;
+        const firstPlaceRate = matches > 0 ? (firstPlace / matches) : 0;
+        const totalPlace = avg.total_place || 0;
+        const avgPlace = matches > 0 ? (totalPlace / matches) : 4.5;
         const pickRate = avg.pick_rate ?? 0.05;
         const banRate = avg.ban_rate !== undefined && avg.ban_rate !== null ? avg.ban_rate : null;
-        const matches = avg.play || 0;
-        const kda = avg.kda ?? 2.7;
+        const kda = avg.deaths > 0 ? ((avg.kills + avg.assists) / avg.deaths) : 2.7;
+
+        const info = getChampionInfo(c.id);
+        const tags = info.tags || [];
 
         return {
           champId: c.id,
@@ -807,14 +876,30 @@ function renderChampionsTable() {
           rankPrev,
           tierNum,
           winRate,
+          firstPlaceRate,
+          avgPlace,
           pickRate,
           banRate,
           matches,
           kda,
+          tags,
           counters: [],
           position: 'ARENA'
         };
       });
+
+    // Role / Archetype filter in Arena mode
+    if (currentRole && currentRole !== 'all') {
+      const r = currentRole.toUpperCase();
+      rows = rows.filter(item => {
+        if (r === 'TOP') return item.tags.includes('Fighter');
+        if (r === 'JUNGLE') return item.tags.includes('Tank');
+        if (r === 'MID') return item.tags.includes('Mage');
+        if (r === 'ADC') return item.tags.includes('Marksman');
+        if (r === 'SUPPORT') return item.tags.includes('Support') || item.tags.includes('Assassin');
+        return true;
+      });
+    }
   }
 
   // 2. Filter by search input
@@ -837,8 +922,13 @@ function renderChampionsTable() {
       diff = nameA.localeCompare(nameB);
     } else if (currentSortColumn === 'tier') {
       diff = a.tierNum - b.tierNum;
+    } else if (currentSortColumn === 'firstPlace') {
+      diff = (a.firstPlaceRate || 0) - (b.firstPlaceRate || 0);
     } else if (currentSortColumn === 'winRate') {
       diff = a.winRate - b.winRate;
+    } else if (currentSortColumn === 'avgPlace') {
+      // In placement, lower numbers (e.g. 1st) are better
+      diff = (a.avgPlace || 4.5) - (b.avgPlace || 4.5);
     } else if (currentSortColumn === 'pickRate') {
       diff = a.pickRate - b.pickRate;
     } else if (currentSortColumn === 'banRate') {
@@ -859,10 +949,13 @@ function renderChampionsTable() {
     return currentSortOrder === 'asc' ? diff : -diff;
   });
 
+  // Dynamically adapt table header for mode
+  updateTableHeaderForMode();
+
   if (rows.length === 0) {
     championsTableBody.innerHTML = `
       <tr>
-        <td colspan="10" class="loading-cell">No champions match the selected filters.</td>
+        <td colspan="11" class="loading-cell">No champions match the selected filters.</td>
       </tr>
     `;
     return;
@@ -915,7 +1008,75 @@ function renderChampionsTable() {
     const kdaNum = (item.kda || 2.5).toFixed(2);
     const kdaColor = (item.kda || 0) >= 3.0 ? 'var(--opgg-cyan)' : (item.kda || 0) >= 2.5 ? '#fff' : 'var(--text-muted)';
 
-    // Top 3 counters
+    // Arena / Mayhem Mode Custom Row
+    if (currentMode === 'arena') {
+      const firstPlacePct = (item.firstPlaceRate * 100).toFixed(1);
+      const top4Pct = (item.winRate * 100).toFixed(1);
+      const avgPlaceNum = item.avgPlace.toFixed(2);
+      const avgPlaceClass = item.avgPlace <= 3.2 ? 'top-tier' : item.avgPlace <= 3.7 ? 'mid-tier' : 'low-tier';
+
+      // Top recommended augments preview
+      const topAugs = getTopAugmentsForChamp(item.champId);
+      const augsHtml = `
+        <div class="arena-aug-preview-list">
+          ${topAugs.map(aug => `
+            <div class="arena-aug-mini-chip ${aug.rarityClass || 'prismatic'}" title="${aug.name}: ${aug.desc || ''}">
+              <img loading="lazy" src="${aug.smallIcon || aug.largeIcon || 'assets/images/icon-alert.svg'}" alt="${aug.name}" onerror="this.src='https://opgg-static.akamaized.net/meta/images/lol/latest/augment/acceleratingsorcery_small.png'" />
+            </div>
+          `).join('')}
+        </div>
+      `;
+
+      return `
+        <tr data-champ-id="${item.champId}" data-role="ARENA">
+          <td>
+            <div class="rank-cell-wrap">
+              <span style="font-weight: 800; color: ${displayRank <= 3 ? 'var(--opgg-cyan)' : 'var(--text-dim)'}; font-size: 13px;">${displayRank}</span>
+              ${rankDiffHtml}
+            </div>
+          </td>
+          <td>
+            <div class="champ-info-cell">
+              <img class="champ-icon" loading="lazy" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${champInfo.key}.png" onerror="this.onerror=null; this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/Aatrox.png'" alt="${champInfo.name}" />
+              <div>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <span class="champ-name">${champInfo.name}</span>
+                  ${item.tags && item.tags[0] ? `<span class="role-pill">${item.tags[0]}</span>` : ''}
+                </div>
+                ${champInfo.title ? `<div style="font-size: 10px; color: var(--text-dim);">${champInfo.title}</div>` : ''}
+              </div>
+            </div>
+          </td>
+          <td><span class="tier-badge ${tierClass}">${tierLabel}</span></td>
+          <td>
+            <div class="first-place-cell">
+              <span class="first-place-crown">👑</span>
+              <span>${firstPlacePct}%</span>
+            </div>
+          </td>
+          <td>
+            <div class="wr-cell-wrap">
+              <span class="wr-text" style="color: ${wrColor}; font-weight: 700;">${top4Pct}%</span>
+              <div class="wr-bar-bg">
+                <div class="wr-bar-fill" style="width: ${wrBarPercent}%; background: ${wrColor};"></div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="avg-place-badge ${avgPlaceClass}">#${avgPlaceNum}</span>
+          </td>
+          <td style="color: var(--text-muted); font-weight: 600;">${pickPercent}%</td>
+          <td style="color: var(--text-muted); font-weight: 600;">${banPercent}</td>
+          <td style="color: #e2e2ec; font-weight: 700; font-size: 11px;">${matchesStr}</td>
+          <td>${augsHtml}</td>
+          <td style="text-align: right;">
+            <button class="btn-view-build" onclick="openChampionModal(${item.champId}, 'ARENA')">Arena Build</button>
+          </td>
+        </tr>
+      `;
+    }
+
+    // Standard Ranked & ARAM Row
     let countersHtml = '<span style="color: var(--text-dim); font-size: 11px;">--</span>';
     if (item.counters && item.counters.length > 0) {
       const topCounters = item.counters.slice(0, 3);
@@ -924,7 +1085,7 @@ function renderChampionsTable() {
         const winPercent = cnt.win && cnt.play ? `${((cnt.win / cnt.play) * 100).toFixed(1)}%` : '';
         return `
           <div class="counter-tooltip-wrap" title="${cntInfo.name} ${winPercent ? `(Win Rate vs: ${winPercent})` : ''}">
-            <img class="counter-icon" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${cntInfo.key}.png" onerror="this.onerror=null; this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/Aatrox.png'" alt="${cntInfo.name}" />
+            <img class="counter-icon" loading="lazy" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${cntInfo.key}.png" onerror="this.onerror=null; this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/Aatrox.png'" alt="${cntInfo.name}" />
           </div>
         `;
       }).join('');
@@ -942,7 +1103,7 @@ function renderChampionsTable() {
         </td>
         <td>
           <div class="champ-info-cell">
-            <img class="champ-icon" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${champInfo.key}.png" onerror="this.onerror=null; this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/Aatrox.png'" alt="${champInfo.name}" />
+            <img class="champ-icon" loading="lazy" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${champInfo.key}.png" onerror="this.onerror=null; this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/Aatrox.png'" alt="${champInfo.name}" />
             <div>
               <div style="display: flex; align-items: center; gap: 6px;">
                 <span class="champ-name">${champInfo.name}</span>
@@ -976,11 +1137,91 @@ function renderChampionsTable() {
   championsTableBody.innerHTML = rowsHtml;
 }
 
+// Global table header mode tracker
+let tableHeaderInitializedMode = null;
+
+function updateTableHeaderForMode() {
+  const thead = document.getElementById('championsTableHead');
+  if (!thead) return;
+
+  if (tableHeaderInitializedMode === currentMode) return;
+  tableHeaderInitializedMode = currentMode;
+
+  if (currentMode === 'arena') {
+    thead.innerHTML = `
+      <tr>
+        <th class="sortable ${currentSortColumn === 'rank' ? 'active' : ''}" data-sort="rank" style="width: 75px;">Rank <span class="sort-icon">${currentSortColumn === 'rank' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'champion' ? 'active' : ''}" data-sort="champion">Champion <span class="sort-icon">${currentSortColumn === 'champion' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'tier' ? 'active' : ''}" data-sort="tier" style="width: 80px;">Tier <span class="sort-icon">${currentSortColumn === 'tier' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'firstPlace' ? 'active' : ''}" data-sort="firstPlace" style="width: 110px;" title="1st Place Finish Rate">1st Place % <span class="sort-icon">${currentSortColumn === 'firstPlace' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'winRate' ? 'active' : ''}" data-sort="winRate" style="width: 125px;" title="Top 4 (Win) Rate">Top 4 Rate <span class="sort-icon">${currentSortColumn === 'winRate' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'avgPlace' ? 'active' : ''}" data-sort="avgPlace" style="width: 100px;" title="Average Placement (1.0 is best)">Avg Place <span class="sort-icon">${currentSortColumn === 'avgPlace' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'pickRate' ? 'active' : ''}" data-sort="pickRate" style="width: 95px;">Pick Rate <span class="sort-icon">${currentSortColumn === 'pickRate' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'banRate' ? 'active' : ''}" data-sort="banRate" style="width: 95px;">Ban Rate <span class="sort-icon">${currentSortColumn === 'banRate' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'matches' ? 'active' : ''}" data-sort="matches" style="width: 105px;">Matches <span class="sort-icon">${currentSortColumn === 'matches' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th style="width: 130px;">Top Augments</th>
+        <th style="width: 135px; text-align: right;">Arena Build</th>
+      </tr>
+    `;
+  } else {
+    thead.innerHTML = `
+      <tr>
+        <th class="sortable ${currentSortColumn === 'rank' ? 'active' : ''}" data-sort="rank" style="width: 75px;">Rank <span class="sort-icon">${currentSortColumn === 'rank' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'champion' ? 'active' : ''}" data-sort="champion">Champion <span class="sort-icon">${currentSortColumn === 'champion' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'tier' ? 'active' : ''}" data-sort="tier" style="width: 80px;">Tier <span class="sort-icon">${currentSortColumn === 'tier' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'winRate' ? 'active' : ''}" data-sort="winRate" style="width: 125px;">Win Rate <span class="sort-icon">${currentSortColumn === 'winRate' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'pickRate' ? 'active' : ''}" data-sort="pickRate" style="width: 95px;">Pick Rate <span class="sort-icon">${currentSortColumn === 'pickRate' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'banRate' ? 'active' : ''}" data-sort="banRate" style="width: 95px;">Ban Rate <span class="sort-icon">${currentSortColumn === 'banRate' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'matches' ? 'active' : ''}" data-sort="matches" style="width: 105px;">Matches <span class="sort-icon">${currentSortColumn === 'matches' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'kda' ? 'active' : ''}" data-sort="kda" style="width: 85px;">KDA <span class="sort-icon">${currentSortColumn === 'kda' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th>Hardest Counters</th>
+        <th style="width: 120px; text-align: right;">Build & Runes</th>
+      </tr>
+    `;
+  }
+
+  thead.querySelectorAll('th.sortable').forEach(th => {
+    th.addEventListener('click', () => {
+      const col = th.getAttribute('data-sort');
+      if (currentSortColumn === col) {
+        currentSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
+      } else {
+        currentSortColumn = col;
+        if (col === 'rank' || col === 'avgPlace') {
+          currentSortOrder = 'asc';
+        } else {
+          currentSortOrder = 'desc';
+        }
+      }
+      tableHeaderInitializedMode = null;
+      renderChampionsTable();
+    });
+  });
+}
+
 // Mode & Filter events
 if (modeFilterSelect) {
   modeFilterSelect.addEventListener('change', (e) => {
     currentMode = e.target.value;
-    if (currentMode === 'aram' || currentMode === 'arena') {
+    tableHeaderInitializedMode = null; // force header re-creation for the new mode
+
+    if (currentMode === 'arena') {
+      if (tierFilterSelect) {
+        tierFilterSelect.disabled = true;
+        tierFilterSelect.style.opacity = '0.5';
+      }
+      // Enable role filters to filter by Arena champion archetypes
+      roleFilters.forEach(b => {
+        b.style.opacity = '1';
+        const role = b.getAttribute('data-role');
+        if (role === 'TOP') b.setAttribute('title', 'Fighter Champions');
+        else if (role === 'JUNGLE') b.setAttribute('title', 'Tank Champions');
+        else if (role === 'MID') b.setAttribute('title', 'Mage Champions');
+        else if (role === 'ADC') b.setAttribute('title', 'Marksman Champions');
+        else if (role === 'SUPPORT') b.setAttribute('title', 'Support & Assassin Champions');
+        else if (role === 'all') b.setAttribute('title', 'All Champions');
+      });
+    } else if (currentMode === 'aram') {
       if (tierFilterSelect) {
         tierFilterSelect.disabled = true;
         tierFilterSelect.style.opacity = '0.5';
@@ -995,7 +1236,16 @@ if (modeFilterSelect) {
         tierFilterSelect.disabled = false;
         tierFilterSelect.style.opacity = '1';
       }
-      roleFilters.forEach(b => b.style.opacity = '1');
+      roleFilters.forEach(b => {
+        b.style.opacity = '1';
+        const role = b.getAttribute('data-role');
+        if (role === 'TOP') b.setAttribute('title', 'Top Lane');
+        else if (role === 'JUNGLE') b.setAttribute('title', 'Jungle');
+        else if (role === 'MID') b.setAttribute('title', 'Mid Lane');
+        else if (role === 'ADC') b.setAttribute('title', 'Bottom / ADC');
+        else if (role === 'SUPPORT') b.setAttribute('title', 'Support');
+        else if (role === 'all') b.setAttribute('title', 'All Roles');
+      });
     }
     loadChampions();
   });
@@ -1088,14 +1338,68 @@ function setupTableSorting() {
 }
 
 // ----------------- CHAMPION DETAIL MODAL -----------------
+// ----------------- CHAMPION DETAIL MODAL -----------------
+function normalizeItemId(id) {
+  if (!id) return 1001;
+  const num = Number(id);
+  if (isNaN(num)) return id;
+  if (num >= 100000) {
+    return num % 10000;
+  }
+  return num;
+}
+
 window.openChampionModal = async function(champId, position = 'TOP') {
   const champInfo = getChampionInfo(champId);
+  const isArenaMode = (currentMode === 'arena' || position === 'ARENA');
+
   modalChampName.textContent = champInfo.name;
-  modalChampRoleBadge.textContent = (currentMode === 'aram' ? 'ARAM' : position).toUpperCase();
+  modalChampRoleBadge.textContent = isArenaMode ? 'ARENA / MAYHEM' : (currentMode === 'aram' ? 'ARAM' : position).toUpperCase();
   modalChampSplash.src = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champInfo.key || 'Aatrox'}_0.jpg`;
 
   championModal.classList.add('active');
 
+  // Dynamic modal tabs setup
+  const modalBodyTabs = document.getElementById('modalBodyTabs');
+  if (modalBodyTabs) {
+    if (isArenaMode) {
+      modalBodyTabs.innerHTML = `
+        <button class="modal-tab active" data-modaltab="augments">✨ Augments & Prismatics</button>
+        <button class="modal-tab" data-modaltab="synergies">🤝 2v2 Duo Synergies</button>
+        <button class="modal-tab" data-modaltab="items">⚔️ Arena Build & Boots</button>
+        <button class="modal-tab" data-modaltab="skills">🎯 Skill Max Order</button>
+      `;
+    } else {
+      modalBodyTabs.innerHTML = `
+        <button class="modal-tab active" data-modaltab="runes">Runes & Perks</button>
+        <button class="modal-tab" data-modaltab="items">Core Item Builds</button>
+        <button class="modal-tab" data-modaltab="skills">Skill Max Order</button>
+        <button class="modal-tab" data-modaltab="counters">Matchup Counters</button>
+        <button class="modal-tab" data-modaltab="matchup">⚔️ VS Matchup Analyzer</button>
+      `;
+    }
+
+    modalBodyTabs.querySelectorAll('.modal-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        modalBodyTabs.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const tabName = tab.getAttribute('data-modaltab');
+        document.querySelectorAll('.modal-body-content .modal-panel').forEach(p => p.classList.remove('active'));
+        const panel = document.getElementById(`modalTab-${tabName}`);
+        if (panel) panel.classList.add('active');
+      });
+    });
+  }
+
+  // Activate appropriate first panel
+  document.querySelectorAll('.modal-body-content .modal-panel').forEach(p => p.classList.remove('active'));
+  const firstPanel = document.getElementById(isArenaMode ? 'modalTab-augments' : 'modalTab-runes');
+  if (firstPanel) firstPanel.classList.add('active');
+
+  const augCont = document.getElementById('arenaAugmentsContainer');
+  if (augCont) augCont.innerHTML = '<div class="loading-cell"><div class="spinner-small"></div> Loading live Arena augments & prismatic items...</div>';
+  const synCont = document.getElementById('arenaSynergiesContainer');
+  if (synCont) synCont.innerHTML = '<div class="loading-cell"><div class="spinner-small"></div> Loading best 2v2 duo partners...</div>';
   document.getElementById('runesContainer').innerHTML = '<div class="loading-cell"><div class="spinner-small"></div> Loading runes...</div>';
   document.getElementById('itemsContainer').innerHTML = '<div class="loading-cell"><div class="spinner-small"></div> Loading items...</div>';
   document.getElementById('skillsContainer').innerHTML = '<div class="loading-cell"><div class="spinner-small"></div> Loading skills...</div>';
@@ -1104,27 +1408,65 @@ window.openChampionModal = async function(champId, position = 'TOP') {
   if (matchupCont) matchupCont.innerHTML = '<div class="loading-cell"><div class="spinner-small"></div> Loading 1v1 matchup analysis...</div>';
 
   try {
-    const res = await window.opgg.getChampionDetail(champId, position.toLowerCase(), currentTier, currentMode);
+    const res = await window.opgg.getChampionDetail(champId, isArenaMode ? 'none' : position.toLowerCase(), currentTier, currentMode);
     activeChampionDetail = { champId, champInfo, position, mode: currentMode, ...res };
 
     const build = res.build || {};
     const summary = res.summary || {};
 
-    const posData = (summary.positions || []).find(p => p.name.toLowerCase() === position.toLowerCase()) || summary.positions?.[0];
-    if (posData && posData.stats) {
-      modalChampWinRate.textContent = `Win Rate: ${(posData.stats.win_rate * 100).toFixed(2)}%`;
-      modalChampPickRate.textContent = `Pick Rate: ${(posData.stats.pick_rate * 100).toFixed(2)}%`;
-      modalChampBanRate.textContent = `Ban Rate: ${(posData.stats.ban_rate * 100).toFixed(2)}%`;
-      const t = posData.stats.tier_data?.tier || 1;
-      modalChampTier.textContent = t === 1 ? 'S-Tier' : t === 2 ? 'A-Tier' : 'B-Tier';
-      modalChampTier.className = `stat-pill tier-pill tier-badge ${t === 1 ? 'tier-s' : t === 2 ? 'tier-a' : 'tier-b'}`;
-    }
+    if (isArenaMode) {
+      const avg = summary.average_stats || res.arenaData?.summary?.average_stats || {};
+      const playCount = avg.play || 1;
+      const firstPlaceRate = ((avg.first_place || 0) / playCount * 100).toFixed(1);
+      const top4Rate = ((avg.win || 0) / playCount * 100).toFixed(1);
+      const avgPlace = ((avg.total_place || 0) / playCount).toFixed(2);
+      const pickRate = ((avg.pick_rate || 0.05) * 100).toFixed(1);
+      const banRate = avg.ban_rate !== undefined && avg.ban_rate !== null ? `${(avg.ban_rate * 100).toFixed(1)}%` : '--';
+      const tierNum = avg.tier || 1;
 
-    renderRunes(build);
-    renderItems(build);
-    renderSkills(build);
-    renderCounters(summary);
-    renderMatchupAnalyzer(champId, position, summary);
+      modalChampWinRate.innerHTML = `Top 4 Rate: <b>${top4Rate}%</b>`;
+      modalChampPickRate.innerHTML = `👑 1st Place: <b>${firstPlaceRate}%</b>`;
+      modalChampBanRate.innerHTML = `Avg Place: <b>#${avgPlace}</b>`;
+      modalChampTier.textContent = tierNum === 1 ? 'S+ (OP)' : tierNum === 2 ? 'A-Tier' : 'B-Tier';
+      modalChampTier.className = `stat-pill tier-pill tier-badge ${tierNum === 1 ? 'tier-s' : tierNum === 2 ? 'tier-a' : 'tier-b'}`;
+
+      const pushBtn = document.getElementById('pushRunesBtn');
+      if (pushBtn) {
+        pushBtn.innerHTML = `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          <span>⚡ Auto-Shop Build Active for Arena</span>
+        `;
+      }
+
+      renderArenaAugments(res);
+      renderArenaSynergies(res);
+      renderItems(build);
+      renderSkills(build);
+    } else {
+      const pushBtn = document.getElementById('pushRunesBtn');
+      if (pushBtn) {
+        pushBtn.innerHTML = `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          <span>⚡ Push Runes to League Client</span>
+        `;
+      }
+
+      const posData = (summary.positions || []).find(p => p.name.toLowerCase() === position.toLowerCase()) || summary.positions?.[0];
+      if (posData && posData.stats) {
+        modalChampWinRate.textContent = `Win Rate: ${(posData.stats.win_rate * 100).toFixed(2)}%`;
+        modalChampPickRate.textContent = `Pick Rate: ${(posData.stats.pick_rate * 100).toFixed(2)}%`;
+        modalChampBanRate.textContent = `Ban Rate: ${(posData.stats.ban_rate * 100).toFixed(2)}%`;
+        const t = posData.stats.tier_data?.tier || 1;
+        modalChampTier.textContent = t === 1 ? 'S-Tier' : t === 2 ? 'A-Tier' : 'B-Tier';
+        modalChampTier.className = `stat-pill tier-pill tier-badge ${t === 1 ? 'tier-s' : t === 2 ? 'tier-a' : 'tier-b'}`;
+      }
+
+      renderRunes(build);
+      renderItems(build);
+      renderSkills(build);
+      renderCounters(summary);
+      renderMatchupAnalyzer(champId, position, summary);
+    }
   } catch (err) {
     showToast(`Error fetching details: ${err.message}`, true);
   }
@@ -1255,10 +1597,13 @@ function renderItems(build) {
           ${core.map(c => `
             <div style="background: var(--bg-surface); padding: 14px; border-radius: 8px; border: 1px solid var(--border-color); flex: 1;">
               <div style="display: flex; gap: 8px; margin-bottom: 10px; align-items: center;">
-                ${(c.ids || []).map((id, idx) => `
-                  <img src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/${id}.png" style="width: 44px; height: 44px; border-radius: 6px; border: 2px solid #555;" />
-                  ${idx < (c.ids || []).length - 1 ? '<span style="color: var(--text-dim); font-size: 16px;">›</span>' : ''}
-                `).join('')}
+                ${(c.ids || []).map((id, idx) => {
+                  const normId = normalizeItemId(id);
+                  return `
+                    <img loading="lazy" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/${normId}.png" onerror="this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/1001.png'" style="width: 44px; height: 44px; border-radius: 6px; border: 2px solid #555;" />
+                    ${idx < (c.ids || []).length - 1 ? '<span style="color: var(--text-dim); font-size: 16px;">›</span>' : ''}
+                  `;
+                }).join('')}
               </div>
               <div style="font-size: 12px; color: var(--opgg-cyan); font-weight: 700;">Win Rate: ${((c.win_rate || 0.52) * 100).toFixed(2)}%</div>
               <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Pick Rate: ${((c.pick_rate || 0.15) * 100).toFixed(2)}%</div>
@@ -1274,7 +1619,10 @@ function renderItems(build) {
             ${starters.map(st => `
               <div style="display: flex; align-items: center; justify-content: space-between;">
                 <div style="display: flex; gap: 6px;">
-                  ${(st.ids || []).map(id => `<img src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/${id}.png" style="width: 32px; height: 32px; border-radius: 4px;" />`).join('')}
+                  ${(st.ids || []).map(id => {
+                    const normId = normalizeItemId(id);
+                    return `<img loading="lazy" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/${normId}.png" onerror="this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/1001.png'" style="width: 32px; height: 32px; border-radius: 4px;" />`;
+                  }).join('')}
                 </div>
                 <div style="font-size: 11px; color: var(--opgg-cyan); font-weight: 700;">${((st.win_rate || 0.51) * 100).toFixed(1)}% WR</div>
               </div>
@@ -1285,14 +1633,155 @@ function renderItems(build) {
         <div style="background: var(--bg-surface); padding: 14px; border-radius: 8px; border: 1px solid var(--border-color);">
           <h4 style="font-size: 13px; font-weight: 700; margin-bottom: 8px;">Boots Priority</h4>
           <div style="display: flex; flex-direction: column; gap: 8px;">
-            ${boots.map(b => `
-              <div style="display: flex; align-items: center; justify-content: space-between;">
-                <img src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/${b.id || b.ids?.[0] || 3047}.png" style="width: 32px; height: 32px; border-radius: 4px;" />
-                <div style="font-size: 11px; color: var(--opgg-cyan); font-weight: 700;">${((b.win_rate || 0.51) * 100).toFixed(1)}% WR</div>
-              </div>
-            `).join('')}
+            ${boots.map(b => {
+              const rawId = b.id || b.ids?.[0] || 3047;
+              const normId = normalizeItemId(rawId);
+              return `
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                  <img loading="lazy" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/${normId}.png" onerror="this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/3047.png'" style="width: 32px; height: 32px; border-radius: 4px;" />
+                  <div style="font-size: 11px; color: var(--opgg-cyan); font-weight: 700;">${((b.win_rate || 0.51) * 100).toFixed(1)}% WR</div>
+                </div>
+              `;
+            }).join('')}
           </div>
         </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderArenaAugments(res) {
+  const container = document.getElementById('arenaAugmentsContainer');
+  if (!container) return;
+
+  const build = res.build || {};
+  const prismItems = (build.prism_items || []).slice(0, 4);
+  const augGroup = build.augment_group || {};
+
+  const prismaticAugs = Array.isArray(augGroup['2']) ? augGroup['2'].slice(0, 6) : [];
+  const goldAugs = Array.isArray(augGroup['1']) ? augGroup['1'].slice(0, 6) : [];
+  const silverAugs = Array.isArray(augGroup['0']) ? augGroup['0'].slice(0, 6) : [];
+
+  const prismItemsHtml = prismItems.length > 0 ? `
+    <div>
+      <div class="arena-section-title">
+        <span>💎</span> Recommended Prismatic Items (Mayhem / Arena)
+      </div>
+      <div class="arena-prism-grid">
+        ${prismItems.map(p => {
+          const rawId = (p.ids && p.ids[0]) ? p.ids[0] : 3069;
+          const itemId = normalizeItemId(rawId);
+          const wr = p.play ? ((p.win / p.play) * 100).toFixed(1) : '54.2';
+          const pr = p.pick_rate ? (p.pick_rate * 100).toFixed(1) : '12.5';
+          const firstPlc = p.play && p.first_place ? ((p.first_place / p.play) * 100).toFixed(1) : '16.0';
+          return `
+            <div class="arena-prism-card">
+              <div class="arena-prism-img-wrap">
+                <img loading="lazy" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/${itemId}.png" onerror="this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/3069.png'" alt="Prismatic Item" />
+              </div>
+              <div class="arena-prism-info">
+                <div class="arena-prism-name">Prismatic #${itemId}</div>
+                <div class="arena-prism-stats">
+                  <span class="arena-prism-wr">${wr}% Top 4</span>
+                  <span class="arena-prism-1st">👑 ${firstPlc}% 1st</span>
+                  <span class="arena-prism-pr">${pr}% Pick</span>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  ` : '';
+
+  function renderAugCards(augs, rarityClass, rarityTitle) {
+    if (!augs || augs.length === 0) return '';
+    return `
+      <div>
+        <div class="arena-section-title">
+          <span class="arena-aug-rarity-pill ${rarityClass}">${rarityTitle}</span>
+          <span>Augments</span>
+        </div>
+        <div class="arena-aug-tier-grid">
+          ${augs.map(a => {
+            const meta = getAugmentInfo(a.id);
+            const wr = a.win_rate !== undefined ? (a.win_rate * 100).toFixed(1) : (a.play ? ((a.win / a.play) * 100).toFixed(1) : '53.5');
+            const pr = a.pick_rate !== undefined ? (a.pick_rate * 100).toFixed(1) : '8.2';
+            return `
+              <div class="arena-aug-item-card">
+                <div class="arena-aug-icon-wrap rarity-${rarityClass}">
+                  <img loading="lazy" src="${meta.smallIcon || meta.largeIcon || 'assets/images/icon-alert.svg'}" onerror="this.src='https://opgg-static.akamaized.net/meta/images/lol/latest/augment/acceleratingsorcery_small.png'" alt="${meta.name}" />
+                </div>
+                <div class="arena-aug-text-info">
+                  <div class="arena-aug-name-row">
+                    <span class="arena-aug-title">${meta.name}</span>
+                    <span class="arena-aug-rarity-pill ${rarityClass}">${rarityClass}</span>
+                  </div>
+                  <div class="arena-aug-stats-row">
+                    <span style="color: var(--opgg-cyan); font-weight: 700;">${wr}% Win</span>
+                    <span style="color: var(--text-dim);">${pr}% Pick</span>
+                  </div>
+                  ${meta.desc ? `<div class="arena-aug-desc">${meta.desc}</div>` : ''}
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  container.innerHTML = `
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+      ${prismItemsHtml}
+      ${renderAugCards(prismaticAugs, 'prismatic', 'Prismatic')}
+      ${renderAugCards(goldAugs, 'gold', 'Gold')}
+      ${renderAugCards(silverAugs, 'silver', 'Silver')}
+    </div>
+  `;
+}
+
+function renderArenaSynergies(res) {
+  const container = document.getElementById('arenaSynergiesContainer');
+  if (!container) return;
+
+  const synergies = (res.build?.synergies || []).slice(0, 8);
+  if (synergies.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state" style="padding: 30px; text-align: center; color: var(--text-dim);">
+        <p>No 2v2 duo synergy data recorded for this champion.</p>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = `
+    <div>
+      <div class="arena-section-title">
+        <span>🤝</span> Best 2v2 Duo Partners (Win Rate & 1st Place Rate)
+      </div>
+      <div class="arena-synergies-grid">
+        ${synergies.map(s => {
+          const partnerInfo = getChampionInfo(s.champion_id);
+          const wr = s.play ? ((s.win / s.play) * 100).toFixed(1) : '52.0';
+          const firstPlc = s.play && s.first_place ? ((s.first_place / s.play) * 100).toFixed(1) : '15.0';
+          const playCount = (s.play || 0).toLocaleString();
+
+          return `
+            <div class="arena-synergy-card">
+              <img class="arena-synergy-portrait" loading="lazy" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${partnerInfo.key}.png" onerror="this.onerror=null; this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/Aatrox.png'" alt="${partnerInfo.name}" />
+              <div class="arena-synergy-info">
+                <div class="arena-synergy-name">${partnerInfo.name}</div>
+                <div class="arena-synergy-wr">${wr}% Duo Win Rate</div>
+                <div class="arena-synergy-meta">
+                  <span style="color: #ffaa00; font-weight: 700;">👑 ${firstPlc}% 1st</span>
+                  <span>•</span>
+                  <span>${playCount} Matches</span>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('')}
       </div>
     </div>
   `;

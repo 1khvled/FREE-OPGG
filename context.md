@@ -61,6 +61,10 @@ The app queries official live OP.GG endpoints with robust fallback to real pre-c
   `https://lol-api-champion.op.gg/api/GLOBAL/champions/aram/`
 - **Arena / Mayhem Tiers**:
   `https://lol-api-champion.op.gg/api/GLOBAL/champions/arena/`
+- **Arena Champion Detail (Augments, Prismatics & Synergies)**:
+  `https://lol-api-champion.op.gg/api/GLOBAL/champions/arena/{champId}`
+- **Arena Meta Augments Catalog**:
+  `https://lol-api-champion.op.gg/api/meta/augments`
 - **Champion Builds & Runes Detail**:
   `https://lol-api-champion.op.gg/api/GLOBAL/champions/{mode}/{champId}/{position}?tier={tier}&is_more=true`
 
