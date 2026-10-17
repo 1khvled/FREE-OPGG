@@ -89,6 +89,10 @@
         <span id="soundToggleIcon">🔊 Sound: ON</span>
       </button>
 
+      <button class="audio-feedback-btn" id="themeToggleBtn" title="Switch Theme (OP.GG Classic, Deep Midnight, Cyber Void)">
+        <span id="themeToggleText">🎨 Theme</span>
+      </button>
+
       <!-- Window action buttons -->
       <div class="window-actions">
         <button id="winMinBtn" class="win-btn" title="Minimize">─</button>
@@ -375,9 +379,15 @@
 
       <!-- Enemy Live Spell Cooldown Timers (In-Game / Tab Tracker) -->
       <div class="enemy-spell-timers-section" id="enemySpellTimersSection">
-        <div class="section-title-row">
-          <h3>⏱️ Enemy Summoner Spell Cooldown Timers (Live Match Tracker)</h3>
-          <span style="font-size: 11px; color: var(--text-dim);">Click any spell when an enemy casts it to start live cooldown timer</span>
+        <div class="section-title-row" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+          <div>
+            <h3>⏱️ Enemy Summoner Spell Cooldown Timers (Live Match Tracker)</h3>
+            <span style="font-size: 11px; color: var(--text-dim);">Click any spell when an enemy casts it to start live cooldown timer</span>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button id="btnCopyMainSpellTimers" class="btn-refresh-profile" style="padding: 4px 10px; font-size: 11px;">📋 Copy Timers to Chat</button>
+            <button id="btnResetMainSpellTimers" class="btn-refresh-profile" style="padding: 4px 10px; font-size: 11px;">🔄 Reset</button>
+          </div>
         </div>
         <div class="enemy-timers-grid" id="enemyTimersGrid">
           <div class="empty-bench">Enemy summoner spell timers will be active once in champion select / live match.</div>
@@ -498,6 +508,9 @@ Keria joined the lobby"></textarea>
             </button>
             <button id="fetchFromLcuBtn" class="btn-secondary">
               <span>Import from Active Champ Select</span>
+            </button>
+            <button id="btnCopyMultiSearchSummary" class="btn-secondary" style="display: none;">
+              <span>📋 Copy Scout to Chat</span>
             </button>
           </div>
         </div>

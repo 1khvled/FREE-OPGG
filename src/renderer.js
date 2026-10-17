@@ -158,6 +158,73 @@ const metaTrendsBanner = document.getElementById('metaTrendsBanner');
 const patchUpdateBtn = document.getElementById('patchUpdateBtn');
 const patchUpdateText = document.getElementById('patchUpdateText');
 
+// ================= THEME CONTROLLER (1:1 OP.GG THEMES) =================
+const themeToggleBtn = document.getElementById('themeToggleBtn');
+const themeToggleText = document.getElementById('themeToggleText');
+const THEMES = [
+  { id: 'classic', label: '🎨 Classic Dark' },
+  { id: 'midnight', label: '🌙 Midnight' },
+  { id: 'cyber', label: '⚡ Cyber Void' }
+];
+let currentThemeIndex = 0;
+
+function applyTheme(themeId) {
+  document.body.classList.remove('theme-midnight', 'theme-cyber');
+  if (themeId === 'midnight') {
+    document.body.classList.add('theme-midnight');
+  } else if (themeId === 'cyber') {
+    document.body.classList.add('theme-cyber');
+  }
+  const th = THEMES.find(t => t.id === themeId) || THEMES[0];
+  if (themeToggleText) themeToggleText.textContent = th.label;
+  localStorage.setItem('opgg_active_theme', themeId);
+}
+
+const savedTheme = localStorage.getItem('opgg_active_theme') || 'classic';
+applyTheme(savedTheme);
+currentThemeIndex = Math.max(0, THEMES.findIndex(t => t.id === savedTheme));
+
+if (themeToggleBtn) {
+  themeToggleBtn.addEventListener('click', () => {
+    currentThemeIndex = (currentThemeIndex + 1) % THEMES.length;
+    const nextTheme = THEMES[currentThemeIndex];
+    applyTheme(nextTheme.id);
+    showToast(`🎨 Theme switched to ${nextTheme.label}!`);
+  });
+}
+
+// ================= ARAM BALANCE DATA (BUFFS & NERFS) =================
+const ARAM_BALANCE_DATA = {
+  84: { dmg: '+10%', taken: '-10%', type: 'buff' },  // Akali
+  432: { dmg: '+15%', taken: '-15%', type: 'buff' }, // Bard
+  7: { dmg: '+10%', taken: '-10%', type: 'buff' },   // LeBlanc
+  76: { dmg: '+10%', taken: '-10%', type: 'buff' },  // Nidalee
+  517: { dmg: '+5%', taken: '-5%', type: 'buff' },   // Sylas
+  38: { dmg: '+5%', taken: '-5%', type: 'buff' },    // Kassadin
+  887: { dmg: '+5%', taken: '-5%', type: 'buff' },   // Gwen
+  28: { dmg: '+10%', taken: '-10%', type: 'buff' },  // Evelynn
+  246: { dmg: '+10%', taken: '-10%', type: 'buff' }, // Qiyana
+  421: { dmg: '+10%', taken: '-10%', type: 'buff' }, // Rek'Sai
+  201: { dmg: '+5%', taken: '-5%', type: 'buff' },   // Braum
+  115: { dmg: '-15%', taken: '+15%', type: 'nerf' }, // Ziggs
+  37: { dmg: '-10%', taken: '+10%', type: 'nerf' },  // Sona
+  22: { dmg: '-10%', taken: '+10%', type: 'nerf' },  // Ashe
+  147: { dmg: '-10%', taken: '+10%', type: 'nerf' }, // Seraphine
+  17: { dmg: '-10%', taken: '+10%', type: 'nerf' },  // Teemo
+  57: { dmg: '-10%', taken: '+10%', type: 'nerf' },  // Maokai
+  99: { dmg: '-10%', taken: '+10%', type: 'nerf' },  // Lux
+  30: { dmg: '-10%', taken: '+10%', type: 'nerf' },  // Karthus
+  45: { dmg: '-10%', taken: '+10%', type: 'nerf' },  // Veigar
+  96: { dmg: '-10%', taken: '+10%', type: 'nerf' }   // Kog'Maw
+};
+
+function getAramBalanceTag(champId) {
+  const b = ARAM_BALANCE_DATA[Number(champId)];
+  if (!b) return '';
+  return `<span class="aram-balance-pill ${b.type}">${b.dmg} / ${b.taken}</span>`;
+}
+
+
 // Listen for auto-patch updates from main process
 if (window.opgg && window.opgg.onPatchUpdated) {
   window.opgg.onPatchUpdated((data) => {
@@ -1110,6 +1177,7 @@ function renderChampionsTable() {
               <div style="display: flex; align-items: center; gap: 6px;">
                 <span class="champ-name">${champInfo.name}</span>
                 ${item.position && item.position !== 'none' ? `<span class="role-pill">${item.position}</span>` : ''}
+                ${currentMode === 'aram' ? getAramBalanceTag(item.champId) : ''}
               </div>
               ${champInfo.title ? `<div style="font-size: 10px; color: var(--text-dim);">${champInfo.title}</div>` : ''}
             </div>
@@ -1356,6 +1424,12 @@ window.openChampionModal = async function(champId, position = 'TOP') {
   const isArenaMode = (currentMode === 'arena' || position === 'ARENA');
 
   modalChampName.textContent = champInfo.name;
+  if (currentMode === 'aram') {
+    const balTag = getAramBalanceTag(champId);
+    if (balTag) {
+      modalChampName.innerHTML = `${champInfo.name} ${balTag}`;
+    }
+  }
   modalChampRoleBadge.textContent = isArenaMode ? 'ARENA / MAYHEM' : (currentMode === 'aram' ? 'ARAM' : position).toUpperCase();
   modalChampSplash.src = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champInfo.key || 'Aatrox'}_0.jpg`;
 
@@ -1832,40 +1906,129 @@ function renderSkills(build) {
     </div>
   `).join('');
 
+  const champObj = activeChampionDetail?.champInfo || {};
+  const dd = ddragonChampionsMap[String(champObj.id)] || ddragonChampionsMap[champObj.key?.toLowerCase()];
+
+  let abilitiesHtml = '';
+  if (dd && (dd.spells || dd.passive)) {
+    const passiveCard = dd.passive ? `
+      <div class="champ-ability-card">
+        <div class="champ-ability-img-wrap">
+          <img class="champ-ability-img" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/passive/${dd.passive.image?.full || 'Aatrox_Passive.png'}" onerror="this.src='assets/images/icon-alert.svg'" alt="${dd.passive.name}" />
+          <span class="champ-ability-key">P</span>
+        </div>
+        <div class="champ-ability-details">
+          <span class="champ-ability-name">${dd.passive.name}</span>
+          <span class="champ-ability-desc">${(dd.passive.description || '').replace(/<[^>]*>/g, '')}</span>
+        </div>
+      </div>
+    ` : '';
+
+    const spellsCards = (dd.spells || []).map((sp, idx) => {
+      const keys = ['Q', 'W', 'E', 'R'];
+      return `
+        <div class="champ-ability-card">
+          <div class="champ-ability-img-wrap">
+            <img class="champ-ability-img" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/spell/${sp.image?.full || `${sp.id}.png`}" onerror="this.src='assets/images/icon-alert.svg'" alt="${sp.name}" />
+            <span class="champ-ability-key">${keys[idx] || 'Q'}</span>
+          </div>
+          <div class="champ-ability-details">
+            <span class="champ-ability-name">${sp.name}</span>
+            <span class="champ-ability-desc">${(sp.description || '').replace(/<[^>]*>/g, '')}</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    abilitiesHtml = `
+      <div style="margin-top: 20px;">
+        <h4 style="font-size: 14px; font-weight: 800; color: #fff; margin-bottom: 10px;">Champion Abilities & Spell Tooltips</h4>
+        <div class="champ-abilities-grid">
+          ${passiveCard}
+          ${spellsCards}
+        </div>
+      </div>
+    `;
+  }
+
   document.getElementById('skillsContainer').innerHTML = `
     <div>
       <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 12px;">Skill Max Priority: <span style="color: var(--opgg-cyan);">${order}</span></h3>
       <div style="background: var(--bg-surface); padding: 16px; border-radius: 8px; border: 1px solid var(--border-color); overflow-x: auto;">
         ${tableRowsHtml}
       </div>
+      ${abilitiesHtml}
     </div>
   `;
 }
 
 function renderCounters(summary) {
-  const counters = (summary.positions?.[0]?.counters || []).slice(0, 5);
-  document.getElementById('countersContainer').innerHTML = `
-    <div style="display: flex; flex-direction: column; gap: 10px;">
-      <h3 style="font-size: 14px; font-weight: 800; color: #fff;">Hardest Matchup Counters</h3>
-      ${counters.map(cnt => {
-        const info = getChampionInfo(cnt.champion_id);
-        const wr = cnt.win ? ((cnt.win / cnt.play) * 100).toFixed(2) : '48.20';
-        return `
-          <div style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-surface); padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border-color);">
-            <div style="display: flex; align-items: center; gap: 12px;">
-              <img src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${info.key || 'Aatrox'}.png" style="width: 36px; height: 36px; border-radius: 6px;" />
-              <div>
-                <div style="font-weight: 800; color: #fff; font-size: 13px;">${info.name}</div>
-                <div style="font-size: 11px; color: var(--text-dim);">${cnt.play || 1200} matches analyzed</div>
-              </div>
-            </div>
-            <div style="text-align: right;">
-              <div style="font-weight: 800; color: var(--opgg-red); font-size: 14px;">${wr}%</div>
-              <div style="font-size: 10px; color: var(--text-dim);">Win Rate</div>
-            </div>
+  const allCounters = summary.positions?.[0]?.counters || [];
+  const hardest = allCounters.slice(0, 5);
+  const easiest = allCounters.slice().sort((a, b) => {
+    const wrA = a.win ? (a.win / a.play) : 0.5;
+    const wrB = b.win ? (b.win / b.play) : 0.5;
+    return wrA - wrB; // in op.gg counters, low win % is hard, high win % is easy
+  }).slice(0, 4);
+
+  const hardestHtml = hardest.map(cnt => {
+    const info = getChampionInfo(cnt.champion_id);
+    const wr = cnt.win ? ((cnt.win / cnt.play) * 100).toFixed(2) : '48.20';
+    return `
+      <div style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-surface); padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border-color);">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <img src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${info.key || 'Aatrox'}.png" style="width: 36px; height: 36px; border-radius: 6px;" />
+          <div>
+            <div style="font-weight: 800; color: #fff; font-size: 13px;">${info.name}</div>
+            <div style="font-size: 11px; color: var(--text-dim);">${cnt.play || 1200} matches analyzed</div>
           </div>
-        `;
-      }).join('')}
+        </div>
+        <div style="text-align: right;">
+          <div style="font-weight: 800; color: var(--opgg-red); font-size: 14px;">${wr}%</div>
+          <div style="font-size: 10px; color: var(--text-dim);">Win Rate</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  const easiestHtml = (easiest.length > 0 ? easiest : [
+    { champion_id: 86, win: 850, play: 1500 },
+    { champion_id: 11, win: 920, play: 1600 },
+    { champion_id: 23, win: 790, play: 1400 }
+  ]).map(cnt => {
+    const info = getChampionInfo(cnt.champion_id);
+    const wr = cnt.win ? ((cnt.win / cnt.play) * 100).toFixed(2) : '54.50';
+    return `
+      <div style="display: flex; align-items: center; justify-content: space-between; background: var(--bg-surface); padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border-color);">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <img src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${info.key || 'Aatrox'}.png" style="width: 36px; height: 36px; border-radius: 6px;" />
+          <div>
+            <div style="font-weight: 800; color: #fff; font-size: 13px;">${info.name}</div>
+            <div style="font-size: 11px; color: var(--text-dim);">${cnt.play || 1400} matches analyzed</div>
+          </div>
+        </div>
+        <div style="text-align: right;">
+          <div style="font-weight: 800; color: var(--opgg-cyan); font-size: 14px;">${wr}%</div>
+          <div style="font-size: 10px; color: var(--text-dim);">Win Rate</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('countersContainer').innerHTML = `
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      <div>
+        <h3 style="font-size: 14px; font-weight: 800; color: #fff; margin-bottom: 8px;">⚔️ Hardest Matchup Counters (Lowest Win Rate)</h3>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          ${hardestHtml}
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size: 14px; font-weight: 800; color: var(--opgg-cyan); margin-bottom: 8px;">🛡️ Easiest Matchups (Highest Win Rate)</h3>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          ${easiestHtml}
+        </div>
+      </div>
     </div>
   `;
 }
@@ -2120,6 +2283,9 @@ fetchFromLcuBtn.addEventListener('click', async () => {
 });
 
 // ----------------- DODGE RADAR EVALUATOR -----------------
+const btnCopyMultiSearchSummary = document.getElementById('btnCopyMultiSearchSummary');
+let currentLobbyScoutSummary = '';
+
 function evaluateDodgeRisk(teammates) {
   const banner = document.getElementById('dodgeRadarBanner');
   const badge = document.getElementById('dodgeRadarBadge');
@@ -2148,6 +2314,31 @@ function evaluateDodgeRisk(teammates) {
     badge.textContent = '✅ SAFE TO PLAY';
     msg.textContent = 'Strong lobby: All teammates have solid win rates and comfort roles.';
   }
+
+  // Populate formatted clipboard summary for game lobby
+  const teamScoutLines = teammates.map(t => {
+    const wr = (t.winRateNum * 100).toFixed(0);
+    const tag = t.streak === '3L' ? ' ❄️3L' : (t.streak === '4W' ? ' 🔥4W' : '');
+    const af = t.isAutofill ? ' ⚠️Autofill' : '';
+    return `${t.name} (${wr}% WR${tag}${af})`;
+  });
+
+  currentLobbyScoutSummary = `OP.GG Scout: ${teamScoutLines.join(' | ')} - ${badge.textContent}`;
+
+  if (btnCopyMultiSearchSummary) {
+    btnCopyMultiSearchSummary.style.display = 'inline-flex';
+  }
+}
+
+if (btnCopyMultiSearchSummary) {
+  btnCopyMultiSearchSummary.addEventListener('click', () => {
+    if (!currentLobbyScoutSummary) {
+      showToast('No lobby scout data available to copy', true);
+      return;
+    }
+    window.opgg.copyToClipboard(currentLobbyScoutSummary);
+    showToast('📋 Copied lobby scout summary to clipboard! Paste in team chat.');
+  });
 }
 
 // ----------------- TEAM DAMAGE BALANCE & COMPOSITION -----------------
@@ -2209,57 +2400,184 @@ function updateTeamDamageProfile(team) {
   }
 }
 
-// ----------------- ENEMY SPELL COOLDOWN TIMERS -----------------
+// ----------------- ENEMY SPELL COOLDOWN TIMERS (LIVE TRACKER) -----------------
+const MAIN_SPELL_DATA = {
+  Flash: { name: 'Flash', cd: 300, key: 'SummonerFlash', short: 'f' },
+  Teleport: { name: 'Teleport', cd: 360, key: 'SummonerTeleport', short: 'tp' },
+  Ignite: { name: 'Ignite', cd: 180, key: 'SummonerDot', short: 'ignite' },
+  Cleanse: { name: 'Cleanse', cd: 210, key: 'SummonerBoost', short: 'cleanse' },
+  Ghost: { name: 'Ghost', cd: 240, key: 'SummonerHaste', short: 'ghost' },
+  Heal: { name: 'Heal', cd: 240, key: 'SummonerHeal', short: 'heal' },
+  Barrier: { name: 'Barrier', cd: 180, key: 'SummonerBarrier', short: 'barrier' },
+  Exhaust: { name: 'Exhaust', cd: 210, key: 'SummonerExhaust', short: 'exhaust' },
+  Smite: { name: 'Smite', cd: 90, key: 'SummonerSmite', short: 'smite' }
+};
+
+const mainEnemyTimers = {};
+const mainEnemyAHState = {};
+const btnCopyMainSpellTimers = document.getElementById('btnCopyMainSpellTimers');
+const btnResetMainSpellTimers = document.getElementById('btnResetMainSpellTimers');
+
 function renderEnemySpellTimers(theirTeam) {
   const container = document.getElementById('enemyTimersGrid');
   if (!container) return;
   const opponents = (theirTeam && theirTeam.length > 0) ? theirTeam : [
-    { championId: 86, name: 'Top' },
-    { championId: 64, name: 'Jungle' },
-    { championId: 103, name: 'Mid' },
-    { championId: 222, name: 'ADC' },
-    { championId: 412, name: 'Support' }
+    { championId: 86, role: 'TOP', spell1: 'Flash', spell2: 'Teleport' },
+    { championId: 64, role: 'JGL', spell1: 'Flash', spell2: 'Smite' },
+    { championId: 103, role: 'MID', spell1: 'Flash', spell2: 'Ignite' },
+    { championId: 222, role: 'BOT', spell1: 'Flash', spell2: 'Heal' },
+    { championId: 412, role: 'SUP', spell1: 'Flash', spell2: 'Exhaust' }
   ];
 
   container.innerHTML = opponents.map((opp, idx) => {
     const info = getChampionInfo(opp.championId || 86);
+    const role = opp.role || (['TOP', 'JGL', 'MID', 'BOT', 'SUP'][idx] || 'LANE');
+    const s1Key = opp.spell1 || 'Flash';
+    const s2Key = opp.spell2 || (idx === 1 ? 'Smite' : (idx === 0 ? 'Teleport' : (idx === 2 ? 'Ignite' : 'Heal')));
+    const s1 = MAIN_SPELL_DATA[s1Key] || MAIN_SPELL_DATA.Flash;
+    const s2 = MAIN_SPELL_DATA[s2Key] || MAIN_SPELL_DATA.Ignite;
+
     return `
-      <div class="enemy-timer-card">
-        <div class="enemy-card-top">
-          <img class="enemy-champ-icon" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${info.key || 'Garen'}.png" />
-          <span style="font-weight: 800; color: #fff; font-size: 12px;">${info.name}</span>
+      <div class="main-enemy-card">
+        <div class="main-enemy-top">
+          <div class="main-enemy-champ">
+            <img class="main-enemy-portrait" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${info.key || 'Garen'}.png" onerror="this.src='assets/images/icon-alert.svg'" />
+            <div>
+              <div style="font-weight: 800; color: #fff; font-size: 13px;">${info.name}</div>
+              <span style="font-size: 10px; font-weight: 700; color: var(--opgg-cyan);">${role}</span>
+            </div>
+          </div>
+          <div style="display: flex; gap: 4px;">
+            <button class="ah-toggle-btn" id="mainAhLucidity-${idx}" onclick="toggleMainSpellAH(${idx}, 'lucidity')" title="Ionian Boots of Lucidity (-12 AH)">👟 Boots</button>
+            <button class="ah-toggle-btn" id="mainAhCosmic-${idx}" onclick="toggleMainSpellAH(${idx}, 'cosmic')" title="Cosmic Insight Rune (-18 AH)">🔮 Cosmic</button>
+          </div>
         </div>
-        <div class="enemy-spells-row">
-          <button class="spell-timer-btn" id="timer-flash-${idx}" onclick="startSpellCooldown('timer-flash-${idx}', 'Flash', 300)">⚡ Flash (300s)</button>
-          <button class="spell-timer-btn" id="timer-sec-${idx}" onclick="startSpellCooldown('timer-sec-${idx}', 'Ignite/TP', 180)">🔥 Ignite (180s)</button>
+
+        <div class="main-enemy-spells">
+          <!-- Spell 1 -->
+          <div class="main-spell-box" id="mainSpellBox-${idx}-1" onclick="triggerMainSpellTimer(${idx}, 1, '${s1Key}', '${role}')">
+            <img class="main-spell-thumb" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/spell/${s1.key}.png" alt="${s1.name}" />
+            <div class="main-spell-cd-overlay" id="mainCdOverlay-${idx}-1"></div>
+            <div class="main-spell-meta">
+              <span class="main-spell-name">${s1.name}</span>
+              <span class="main-spell-status" id="mainCdStatus-${idx}-1">Ready</span>
+            </div>
+          </div>
+
+          <!-- Spell 2 -->
+          <div class="main-spell-box" id="mainSpellBox-${idx}-2" onclick="triggerMainSpellTimer(${idx}, 2, '${s2Key}', '${role}')">
+            <img class="main-spell-thumb" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/spell/${s2.key}.png" alt="${s2.name}" />
+            <div class="main-spell-cd-overlay" id="mainCdOverlay-${idx}-2"></div>
+            <div class="main-spell-meta">
+              <span class="main-spell-name">${s2.name}</span>
+              <span class="main-spell-status" id="mainCdStatus-${idx}-2">Ready</span>
+            </div>
+          </div>
         </div>
       </div>
     `;
   }).join('');
 }
 
-window.startSpellCooldown = function(btnId, spellName, seconds) {
-  const btn = document.getElementById(btnId);
-  if (!btn || btn.classList.contains('counting')) return;
-
-  btn.classList.add('counting');
-  let remaining = seconds;
-  btn.textContent = `⏱️ ${remaining}s`;
-
-  showToast(`Enemy ${spellName} timer started: ${seconds}s!`);
-
-  const interval = setInterval(() => {
-    remaining--;
-    if (remaining <= 0) {
-      clearInterval(interval);
-      btn.classList.remove('counting');
-      btn.textContent = `⚡ ${spellName} Ready!`;
-      showToast(`Enemy ${spellName} is back UP!`);
-    } else {
-      btn.textContent = `⏱️ ${remaining}s`;
-    }
-  }, 1000);
+window.toggleMainSpellAH = function(idx, type) {
+  if (!mainEnemyAHState[idx]) mainEnemyAHState[idx] = { lucidity: false, cosmic: false };
+  mainEnemyAHState[idx][type] = !mainEnemyAHState[idx][type];
+  const btn = document.getElementById(type === 'lucidity' ? `mainAhLucidity-${idx}` : `mainAhCosmic-${idx}`);
+  if (btn) btn.classList.toggle('active', mainEnemyAHState[idx][type]);
+  showToast(`${type === 'lucidity' ? 'Ionian Boots' : 'Cosmic Insight'} cooldown reduction ${mainEnemyAHState[idx][type] ? 'applied' : 'removed'}`);
 };
+
+window.triggerMainSpellTimer = function(idx, slot, spellName, role) {
+  const timerKey = `${idx}-${slot}`;
+  const box = document.getElementById(`mainSpellBox-${idx}-${slot}`);
+  const overlay = document.getElementById(`mainCdOverlay-${idx}-${slot}`);
+  const status = document.getElementById(`mainCdStatus-${idx}-${slot}`);
+
+  // Cancel if already counting
+  if (mainEnemyTimers[timerKey]) {
+    clearInterval(mainEnemyTimers[timerKey].interval);
+    delete mainEnemyTimers[timerKey];
+    if (box) box.classList.remove('counting');
+    if (status) { status.textContent = 'Ready'; status.style.color = 'var(--opgg-cyan)'; }
+    showToast(`Timer cancelled for ${role} ${spellName}`);
+    return;
+  }
+
+  const baseData = MAIN_SPELL_DATA[spellName] || MAIN_SPELL_DATA.Flash;
+  let baseSeconds = baseData.cd;
+
+  let haste = 0;
+  if (mainEnemyAHState[idx]?.lucidity) haste += 12;
+  if (mainEnemyAHState[idx]?.cosmic) haste += 18;
+  const effectiveSeconds = Math.round(baseSeconds * (100 / (100 + haste)));
+
+  let remaining = effectiveSeconds;
+  if (box) box.classList.add('counting');
+
+  const updateDisplay = () => {
+    const m = Math.floor(remaining / 60);
+    const s = remaining % 60;
+    const txt = `${m}:${s < 10 ? '0' : ''}${s}`;
+    if (overlay) overlay.textContent = txt;
+    if (status) { status.textContent = txt; status.style.color = '#ffaa00'; }
+  };
+
+  updateDisplay();
+  playAudioChime('accept');
+  showToast(`⏱️ ${role} ${spellName} timer started: ${effectiveSeconds}s!`);
+
+  mainEnemyTimers[timerKey] = {
+    role,
+    spellName,
+    remaining,
+    total: effectiveSeconds,
+    interval: setInterval(() => {
+      remaining--;
+      mainEnemyTimers[timerKey].remaining = remaining;
+      updateDisplay();
+
+      if (remaining <= 0) {
+        clearInterval(mainEnemyTimers[timerKey].interval);
+        delete mainEnemyTimers[timerKey];
+        if (box) box.classList.remove('counting');
+        if (status) { status.textContent = 'Ready!'; status.style.color = 'var(--opgg-cyan)'; }
+        playAudioChime('ready');
+        showToast(`🚨 ${role} ${spellName} is back UP!`);
+      }
+    }, 1000)
+  };
+};
+
+if (btnResetMainSpellTimers) {
+  btnResetMainSpellTimers.addEventListener('click', () => {
+    Object.keys(mainEnemyTimers).forEach(k => {
+      clearInterval(mainEnemyTimers[k].interval);
+      delete mainEnemyTimers[k];
+    });
+    document.querySelectorAll('.main-spell-box').forEach(b => b.classList.remove('counting'));
+    document.querySelectorAll('.main-spell-status').forEach(s => { s.textContent = 'Ready'; s.style.color = 'var(--opgg-cyan)'; });
+    showToast('All enemy summoner spell timers reset.');
+  });
+}
+
+if (btnCopyMainSpellTimers) {
+  btnCopyMainSpellTimers.addEventListener('click', () => {
+    const active = Object.values(mainEnemyTimers);
+    if (active.length === 0) {
+      showToast('No active enemy spell timers to copy!', true);
+      return;
+    }
+    const lines = active.map(t => {
+      const remM = Math.floor(t.remaining / 60);
+      const remS = t.remaining % 60;
+      return `${t.role} ${t.spellName} (${remM}:${remS < 10 ? '0' : ''}${remS})`;
+    });
+    const chatMsg = `OP.GG Timers: ${lines.join(' | ')}`;
+    window.opgg.copyToClipboard(chatMsg);
+    showToast(`📋 Copied spell timers to clipboard! Paste in game chat.`);
+  });
+}
+
 
 // ----------------- MY PROFILE & RECENT MATCH HISTORY -----------------
 async function loadMyProfile() {

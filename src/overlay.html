@@ -49,6 +49,10 @@
           <span class="tab-icon">🃏</span>
           <span>Mayhem Augments</span>
         </button>
+        <button class="nav-tab" data-tab="spells" id="tabSpells">
+          <span class="tab-icon">⏱️</span>
+          <span>Enemy Spells</span>
+        </button>
       </nav>
 
       <!-- Window Action Controls -->
@@ -164,6 +168,26 @@
         </div>
 
         <div class="augments-cards-grid" id="augmentsGrid"></div>
+      </section>
+
+      <!-- 4. ENEMY SUMMONER SPELL COOLDOWN TRACKER (IN-GAME HUD) -->
+      <section class="tab-panel" id="panel-spells">
+        <div class="panel-header-strip">
+          <div class="strip-left">
+            <span class="strip-heading">⏱️ ENEMY SUMMONER SPELL TRACKER</span>
+            <span class="strip-sub">Click any enemy spell when cast to start countdown timer • Auto-calculates AH reductions</span>
+          </div>
+          <div class="strip-right">
+            <button class="btn-sync-all" id="btnCopyOverlaySpellTimers" title="Copy active enemy timers to clipboard for game chat">
+              📋 Copy Timers to Chat
+            </button>
+            <button class="action-btn" id="btnResetSpellTimers" style="font-size: 11px; padding: 4px 10px;" title="Reset all timers">
+              🔄 Reset
+            </button>
+          </div>
+        </div>
+
+        <div class="enemy-tracker-container" id="overlayEnemyTimersGrid"></div>
       </section>
 
     </main>

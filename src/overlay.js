@@ -655,6 +655,11 @@ if (window.opgg?.onChampSelectUpdate) {
     if (data.myTeam && data.myTeam.length > 0) {
       renderTeamCards(data.myTeam, data.myChampionId, currentMode);
     }
+
+    // Update enemy spells
+    if (data.theirTeam && data.theirTeam.length > 0) {
+      renderOverlayEnemySpells(data.theirTeam);
+    }
   });
 }
 
@@ -666,5 +671,191 @@ if (window.opgg?.onLcuStatus) {
   });
 }
 
+// ----------------- ENEMY SUMMONER SPELL TRACKER (OVERLAY) -----------------
+const SPELL_DATA = {
+  Flash: { name: 'Flash', cd: 300, key: 'SummonerFlash', short: 'f' },
+  Teleport: { name: 'Teleport', cd: 360, key: 'SummonerTeleport', short: 'tp' },
+  Ignite: { name: 'Ignite', cd: 180, key: 'SummonerDot', short: 'ignite' },
+  Cleanse: { name: 'Cleanse', cd: 210, key: 'SummonerBoost', short: 'cleanse' },
+  Ghost: { name: 'Ghost', cd: 240, key: 'SummonerHaste', short: 'ghost' },
+  Heal: { name: 'Heal', cd: 240, key: 'SummonerHeal', short: 'heal' },
+  Barrier: { name: 'Barrier', cd: 180, key: 'SummonerBarrier', short: 'barrier' },
+  Exhaust: { name: 'Exhaust', cd: 210, key: 'SummonerExhaust', short: 'exhaust' },
+  Smite: { name: 'Smite', cd: 90, key: 'SummonerSmite', short: 'smite' }
+};
+
+const overlayEnemyTimers = {};
+const overlayEnemyGrid = document.getElementById('overlayEnemyTimersGrid');
+const btnCopyOverlaySpellTimers = document.getElementById('btnCopyOverlaySpellTimers');
+const btnResetSpellTimers = document.getElementById('btnResetSpellTimers');
+
+function renderOverlayEnemySpells(theirTeam) {
+  if (!overlayEnemyGrid) return;
+  const opponents = (theirTeam && theirTeam.length > 0) ? theirTeam : [
+    { championId: 86, role: 'TOP', spell1: 'Flash', spell2: 'Teleport' },
+    { championId: 64, role: 'JGL', spell1: 'Flash', spell2: 'Smite' },
+    { championId: 103, role: 'MID', spell1: 'Flash', spell2: 'Ignite' },
+    { championId: 222, role: 'BOT', spell1: 'Flash', spell2: 'Heal' },
+    { championId: 412, role: 'SUP', spell1: 'Flash', spell2: 'Exhaust' }
+  ];
+
+  overlayEnemyGrid.innerHTML = opponents.map((opp, idx) => {
+    const champ = getChampDdragon(opp.championId || 86) || { name: opp.name || 'Enemy', id: 'Garen' };
+    const role = opp.role || (['TOP', 'JGL', 'MID', 'BOT', 'SUP'][idx] || 'LANE');
+    const s1Key = opp.spell1 || 'Flash';
+    const s2Key = opp.spell2 || (idx === 1 ? 'Smite' : (idx === 0 ? 'Teleport' : (idx === 2 ? 'Ignite' : 'Heal')));
+    const s1 = SPELL_DATA[s1Key] || SPELL_DATA.Flash;
+    const s2 = SPELL_DATA[s2Key] || SPELL_DATA.Ignite;
+
+    return `
+      <div class="enemy-tracker-row" id="enemyRow-${idx}">
+        <div class="enemy-tracker-champ">
+          <img class="enemy-tracker-portrait" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${champ.id || 'Aatrox'}.png" onerror="this.src='assets/images/icon-alert.svg'" />
+          <div class="enemy-tracker-info">
+            <span class="enemy-tracker-name">${champ.name}</span>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span class="enemy-tracker-role">${role}</span>
+              <button class="ah-toggle-btn" id="ahLucidity-${idx}" onclick="toggleSpellAH(${idx}, 'lucidity')" title="Ionian Boots of Lucidity (-12 AH)">👟 Boots</button>
+              <button class="ah-toggle-btn" id="ahCosmic-${idx}" onclick="toggleSpellAH(${idx}, 'cosmic')" title="Cosmic Insight Rune (-18 AH)">🔮 Cosmic</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="enemy-tracker-spells">
+          <!-- Spell 1 -->
+          <div class="enemy-spell-box" id="spellBox-${idx}-1" onclick="triggerOverlaySpellTimer(${idx}, 1, '${s1Key}', '${role}')">
+            <div class="enemy-spell-img-wrap">
+              <img class="enemy-spell-img" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/spell/${s1.key}.png" alt="${s1.name}" />
+              <div class="enemy-spell-cd-overlay" id="cdOverlay-${idx}-1"></div>
+            </div>
+            <div class="enemy-spell-label-wrap">
+              <span class="enemy-spell-name">${s1.name}</span>
+              <span class="enemy-spell-status" id="cdStatus-${idx}-1">Ready</span>
+            </div>
+          </div>
+
+          <!-- Spell 2 -->
+          <div class="enemy-spell-box" id="spellBox-${idx}-2" onclick="triggerOverlaySpellTimer(${idx}, 2, '${s2Key}', '${role}')">
+            <div class="enemy-spell-img-wrap">
+              <img class="enemy-spell-img" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/spell/${s2.key}.png" alt="${s2.name}" />
+              <div class="enemy-spell-cd-overlay" id="cdOverlay-${idx}-2"></div>
+            </div>
+            <div class="enemy-spell-label-wrap">
+              <span class="enemy-spell-name">${s2.name}</span>
+              <span class="enemy-spell-status" id="cdStatus-${idx}-2">Ready</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+const enemyAHState = {};
+window.toggleSpellAH = function(idx, type) {
+  if (!enemyAHState[idx]) enemyAHState[idx] = { lucidity: false, cosmic: false };
+  enemyAHState[idx][type] = !enemyAHState[idx][type];
+  const btn = document.getElementById(type === 'lucidity' ? `ahLucidity-${idx}` : `ahCosmic-${idx}`);
+  if (btn) btn.classList.toggle('active', enemyAHState[idx][type]);
+  showOverlayToast(`${type === 'lucidity' ? 'Ionian Boots' : 'Cosmic Insight'} reduction ${enemyAHState[idx][type] ? 'applied' : 'removed'}`);
+};
+
+window.triggerOverlaySpellTimer = function(idx, slot, spellName, role) {
+  const timerKey = `${idx}-${slot}`;
+  const box = document.getElementById(`spellBox-${idx}-${slot}`);
+  const overlay = document.getElementById(`cdOverlay-${idx}-${slot}`);
+  const status = document.getElementById(`cdStatus-${idx}-${slot}`);
+
+  // If already counting, clicking cancels/resets it
+  if (overlayEnemyTimers[timerKey]) {
+    clearInterval(overlayEnemyTimers[timerKey].interval);
+    delete overlayEnemyTimers[timerKey];
+    if (box) box.classList.remove('counting');
+    if (status) { status.textContent = 'Ready'; status.style.color = 'var(--opgg-cyan)'; }
+    showOverlayToast(`Timer cancelled for ${role} ${spellName}`);
+    return;
+  }
+
+  const baseData = SPELL_DATA[spellName] || SPELL_DATA.Flash;
+  let baseSeconds = baseData.cd;
+
+  // Apply Haste
+  let haste = 0;
+  if (enemyAHState[idx]?.lucidity) haste += 12;
+  if (enemyAHState[idx]?.cosmic) haste += 18;
+  const effectiveSeconds = Math.round(baseSeconds * (100 / (100 + haste)));
+
+  let remaining = effectiveSeconds;
+  if (box) box.classList.add('counting');
+
+  const updateDisplay = () => {
+    const m = Math.floor(remaining / 60);
+    const s = remaining % 60;
+    const txt = `${m}:${s < 10 ? '0' : ''}${s}`;
+    if (overlay) overlay.textContent = txt;
+    if (status) { status.textContent = txt; status.style.color = '#ffaa00'; }
+  };
+
+  updateDisplay();
+  showOverlayToast(`⏱️ ${role} ${spellName} timer started: ${effectiveSeconds}s!`);
+
+  overlayEnemyTimers[timerKey] = {
+    role,
+    spellName,
+    remaining,
+    total: effectiveSeconds,
+    startedAt: Date.now(),
+    interval: setInterval(() => {
+      remaining--;
+      overlayEnemyTimers[timerKey].remaining = remaining;
+      updateDisplay();
+
+      if (remaining <= 0) {
+        clearInterval(overlayEnemyTimers[timerKey].interval);
+        delete overlayEnemyTimers[timerKey];
+        if (box) box.classList.remove('counting');
+        if (status) { status.textContent = 'Ready!'; status.style.color = 'var(--opgg-cyan)'; }
+        showOverlayToast(`🚨 ${role} ${spellName} is back UP!`);
+      }
+    }, 1000)
+  };
+};
+
+if (btnResetSpellTimers) {
+  btnResetSpellTimers.addEventListener('click', () => {
+    Object.keys(overlayEnemyTimers).forEach(k => {
+      clearInterval(overlayEnemyTimers[k].interval);
+      delete overlayEnemyTimers[k];
+    });
+    document.querySelectorAll('.enemy-spell-box').forEach(b => b.classList.remove('counting'));
+    document.querySelectorAll('.enemy-spell-status').forEach(s => { s.textContent = 'Ready'; s.style.color = 'var(--opgg-cyan)'; });
+    showOverlayToast('All enemy spell cooldown timers reset.');
+  });
+}
+
+if (btnCopyOverlaySpellTimers) {
+  btnCopyOverlaySpellTimers.addEventListener('click', () => {
+    const active = Object.values(overlayEnemyTimers);
+    if (active.length === 0) {
+      showOverlayToast('No active enemy spell timers to copy!', true);
+      return;
+    }
+    const lines = active.map(t => {
+      const remM = Math.floor(t.remaining / 60);
+      const remS = t.remaining % 60;
+      return `${t.role} ${t.spellName} (${remM}:${remS < 10 ? '0' : ''}${remS})`;
+    });
+    const chatMsg = `OP.GG Timers: ${lines.join(' | ')}`;
+    if (window.opgg?.copyToClipboard) {
+      window.opgg.copyToClipboard(chatMsg);
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(chatMsg);
+    }
+    showOverlayToast(`📋 Copied spell timers to clipboard! Paste in game chat.`);
+  });
+}
+
 // Initialize
 initStaticData();
+renderOverlayEnemySpells();
+
