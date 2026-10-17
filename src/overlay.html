@@ -28,16 +28,14 @@
     <!-- In-Game Feature Toggles -->
     <div class="hud-nav-buttons">
       <button class="hud-btn active" id="btnToggleAugments" title="Toggle Mayhem / Arena Augment Advisor">
-        <span>🃏 Augments</span>
+        <span>Augments</span>
       </button>
-      <button class="hud-btn active" id="btnToggleBench" title="Toggle ARAM Bench Cards">
-        <span>🎲 Bench (<span id="benchBadgeCount">0</span>)</span>
-      </button>
+
       <button class="hud-btn active" id="btnToggleBuild" title="Toggle Build & Skill Order HUD">
-        <span>🛡️ Build & Skills</span>
+        <span>Build & Skills</span>
       </button>
       <button class="hud-btn active" id="btnToggleTimers" title="Toggle ARAM Health Relic & Spell Timers">
-        <span>⏱️ Timers</span>
+        <span>Timers</span>
       </button>
     </div>
 
@@ -47,7 +45,7 @@
         <span class="key-combo">Shift + Tab</span>
         <span id="hudLockStateText">Unlock</span>
       </div>
-      <button class="hud-mini-btn" id="btnHudDemo" title="Cycle Demo Data">🎲</button>
+      <button class="hud-mini-btn" id="btnHudDemo" title="Cycle Demo Data">↻</button>
       <button class="hud-mini-btn" id="btnHudClose" title="Hide In-Game HUD (Press Ctrl+G to restore)">✕</button>
     </div>
   </header>
@@ -57,19 +55,19 @@
     <div class="augment-widget-header">
       <div class="augment-header-left">
         <span class="pulse-indicator"></span>
-        <span class="widget-title">🃏 OP.GG MAYHEM AUGMENT ADVISOR</span>
+        <span class="widget-title">OP.GG MAYHEM AUGMENT ADVISOR</span>
         <span class="widget-champ-badge" id="augmentChampBadge">Aatrox • Fighter</span>
       </div>
       <div class="augment-header-right">
-        <button class="widget-action-btn" id="btnRerollDemoOffers" title="Roll 3 Augment Choices">🎲 Test Offers</button>
-        <button class="widget-action-btn" id="btnToggleAugmentSearch" title="Search Any Augment">🔍 Search All</button>
+        <button class="widget-action-btn" id="btnRerollDemoOffers" title="Roll 3 Augment Choices">Test Offers</button>
+        <button class="widget-action-btn" id="btnToggleAugmentSearch" title="Search Any Augment">Search All</button>
         <button class="widget-action-btn" id="btnMinimizeAugments" title="Minimize Augment Advisor">─</button>
       </div>
     </div>
 
     <!-- Smart Verdict Banner -->
     <div class="smart-verdict-banner" id="smartVerdictBanner">
-      <div class="verdict-icon">🔥</div>
+      <div class="verdict-icon">◆</div>
       <div class="verdict-content">
         <div class="verdict-headline" id="verdictHeadline">OP.GG VERDICT: DO NOT REROLL! High-Roll S+ Augment Available</div>
         <div class="verdict-subtext" id="verdictSubtext">Goliath gives Aatrox massive AD and size scaling on World Ender.</div>
@@ -91,28 +89,12 @@
     </div>
   </div>
 
-  <!-- ================= 3. ARAM BENCH OVERLAY CARDS (Docked in Champ Select) ================= -->
-  <div class="hud-widget hud-bench-widget hud-interactive" id="hudBenchWidget">
-    <div class="bench-widget-header">
-      <div class="bench-header-left">
-        <span class="widget-title">🎲 ARAM BENCH CHAMPIONS</span>
-        <span class="bench-subtext">Click any card to instantly swap champion</span>
-      </div>
-      <div class="bench-header-right">
-        <button class="widget-action-btn" id="btnMinimizeBench">─</button>
-      </div>
-    </div>
-
-    <div class="bench-cards-container" id="benchCardsRow">
-      <!-- Dynamically populated with glowing bench champion cards -->
-    </div>
-  </div>
 
   <!-- ================= 4. IN-GAME RECOMMENDED BUILD & SKILL MAX HUD (Left Dock) ================= -->
   <div class="hud-widget hud-build-widget hud-interactive" id="hudBuildWidget">
     <div class="build-widget-header">
       <div class="build-header-left">
-        <span class="widget-title">🛡️ BUILD & SKILLS</span>
+        <span class="widget-title">BUILD & SKILLS</span>
         <span class="build-wr-badge" id="buildWrBadge">52.8% WR</span>
       </div>
       <button class="widget-action-btn" id="btnMinimizeBuild">─</button>
@@ -120,7 +102,7 @@
 
     <!-- Skill Max Order -->
     <div class="skill-order-section">
-      <div class="section-label">SKILL MAX ORDER: <strong id="skillMaxText">Q > E > W</strong></div>
+      <div class="section-label">SKILL MAX ORDER:<strong id="skillMaxText">Q >E >W</strong></div>
       <div class="skill-progression-bar" id="skillProgressionBar"></div>
     </div>
 
@@ -140,7 +122,7 @@
   <!-- ================= 5. ARAM HEALTH RELIC & SPELL TIMERS (Right Dock) ================= -->
   <div class="hud-widget hud-timers-widget hud-interactive" id="hudTimersWidget">
     <div class="timers-widget-header">
-      <span class="widget-title">⏱️ RELIC & SPELL TIMERS</span>
+      <span class="widget-title">RELIC & SPELL TIMERS</span>
       <button class="widget-action-btn" id="btnMinimizeTimers">─</button>
     </div>
 
@@ -149,19 +131,19 @@
       <div class="section-label">HOWLING ABYSS HEALTH RELICS (60s)</div>
       <div class="relic-grid">
         <button class="relic-timer-btn" data-relic="ally1">
-          <span>🔵 Ally 1</span>
+          <span><i class="dot dot-ally"></i>Ally 1</span>
           <span class="timer-countdown" id="relicAlly1">Ready</span>
         </button>
         <button class="relic-timer-btn" data-relic="ally2">
-          <span>🔵 Ally 2</span>
+          <span><i class="dot dot-ally"></i>Ally 2</span>
           <span class="timer-countdown" id="relicAlly2">Ready</span>
         </button>
         <button class="relic-timer-btn" data-relic="enemy1">
-          <span>🔴 Enemy 1</span>
+          <span><i class="dot dot-enemy"></i>Enemy 1</span>
           <span class="timer-countdown" id="relicEnemy1">Ready</span>
         </button>
         <button class="relic-timer-btn" data-relic="enemy2">
-          <span>🔴 Enemy 2</span>
+          <span><i class="dot dot-enemy"></i>Enemy 2</span>
           <span class="timer-countdown" id="relicEnemy2">Ready</span>
         </button>
       </div>

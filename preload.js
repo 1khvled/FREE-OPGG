@@ -32,8 +32,17 @@ contextBridge.exposeInMainWorld('opgg', {
   lcuAutoBuilds: (enabled) => ipcRenderer.invoke('lcu:auto-builds', enabled),
   lcuAutoSpells: (enabled) => ipcRenderer.invoke('lcu:auto-spells', enabled),
   lcuSetFlashKey: (key) => ipcRenderer.invoke('lcu:set-flash-key', key),
-  lcuSwapBench: (championId) => ipcRenderer.invoke('lcu:swap-bench', championId),
   getMyProfile: () => ipcRenderer.invoke('lcu:my-profile'),
+
+  // Display Scale & Resolution
+  getDisplayState: () => ipcRenderer.invoke('display:get'),
+  setDisplayScale: (percent) => ipcRenderer.invoke('display:set-scale', percent),
+  setDisplayResolution: (resolution) => ipcRenderer.invoke('display:set-resolution', resolution),
+  onDisplayState: (callback) => {
+    const handler = (event, data) => callback(data);
+    ipcRenderer.on('display:state', handler);
+    return () => ipcRenderer.removeListener('display:state', handler);
+  },
 
   onLcuStatus: (callback) => {
     const handler = (event, status) => callback(status);
@@ -44,6 +53,13 @@ contextBridge.exposeInMainWorld('opgg', {
     const handler = (event, data) => callback(data);
     ipcRenderer.on('lcu:champ-select-update', handler);
     return () => ipcRenderer.removeListener('lcu:champ-select-update', handler);
+  },
+
+  // Live in-match state (clock, score, queue, your champion)
+  onInGameUpdate: (callback) => {
+    const handler = (event, data) => callback(data);
+    ipcRenderer.on('lcu:ingame-update', handler);
+    return () => ipcRenderer.removeListener('lcu:ingame-update', handler);
   },
 
   // OP.GG Data APIs

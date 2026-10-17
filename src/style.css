@@ -14,35 +14,37 @@
 
 /* ================= RESET & VARIABLES ================= */
 :root {
-  --bg-app: #1c1c1f;
-  --bg-sidebar: #18181b;
-  --bg-surface: #282830;
-  --bg-surface-hover: #31313c;
-  --bg-subnav: #222228;
-  --border-color: #363644;
-  --text-main: #ffffff;
-  --text-muted: #9e9eb1;
-  --text-dim: #7b7a8e;
+  /* Flat, neutral dark palette. Single restrained accent; state is carried by
+     borders and text weight rather than by glow, gradient or hue. */
+  --bg-app: #14161a;
+  --bg-sidebar: #171a1f;
+  --bg-surface: #1d2026;
+  --bg-surface-hover: #252931;
+  --bg-subnav: #191c21;
+  --border-color: #2c313a;
+  --text-main: #f4f6f8;
+  --text-muted: #aab2bf;
+  --text-dim: #858d9a;
 
-  --opgg-purple: #5f32e6;
-  --opgg-purple-hover: #7146f3;
-  --opgg-blue: #5383e8;
-  --opgg-cyan: #00bba3;
-  --opgg-red: #e84057;
-  --opgg-gold: #ffb900;
+  --opgg-purple: #6c63c4;
+  --opgg-purple-hover: #7d75d4;
+  --opgg-blue: #4c8bf5;
+  --opgg-cyan: #2f9e8f;
+  --opgg-red: #e05252;
+  --opgg-gold: #d9a441;
 
-  --tier-s: #e84057;
-  --tier-a: #00bba3;
-  --tier-b: #5383e8;
-  --tier-c: #9e9eb1;
-  --tier-d: #626274;
+  --tier-s: #e05252;
+  --tier-a: #2f9e8f;
+  --tier-b: #4c8bf5;
+  --tier-c: #aab2bf;
+  --tier-d: #858d9a;
 
-  --tier-op: #e84057;
-  --tier-1: #00bba3;
-  --tier-2: #5383e8;
-  --tier-3: #9e9eb1;
-  --tier-4: #626274;
-  --tier-5: #474756;
+  --tier-op: #e05252;
+  --tier-1: #2f9e8f;
+  --tier-2: #4c8bf5;
+  --tier-3: #aab2bf;
+  --tier-4: #858d9a;
+  --tier-5: #6b7280;
 }
 
 * {
@@ -741,20 +743,22 @@ body {
 }
 
 .btn-view-build {
-  background: var(--opgg-purple);
-  border: none;
-  color: #fff;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
   font-family: inherit;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 600;
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
-  transition: background 0.15s;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
 }
 
 .btn-view-build:hover {
-  background: var(--opgg-purple-hover);
+  border-color: var(--opgg-blue);
+  color: var(--text-main);
+  background: rgba(76, 139, 245, 0.08);
 }
 
 .role-pill {
@@ -881,20 +885,7 @@ body {
   color: #fff;
 }
 
-/* ARAM Bench Grid */
-.aram-bench-section {
-  background: #23232c;
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 16px;
-  margin-bottom: 20px;
-}
 
-.aram-bench-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-  gap: 12px;
-}
 
 .empty-bench {
   background: var(--bg-surface);
@@ -907,68 +898,13 @@ body {
   grid-column: 1 / -1;
 }
 
-.aram-bench-card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  position: relative;
-  transition: transform 0.15s, border-color 0.15s;
-}
 
-.aram-bench-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--opgg-purple);
-}
 
-.aram-bench-card.tier-s {
-  border-color: rgba(232, 64, 87, 0.6);
-  box-shadow: 0 0 10px rgba(232, 64, 87, 0.2);
-}
 
-.aram-bench-card.tier-a {
-  border-color: rgba(0, 187, 163, 0.6);
-  box-shadow: 0 0 10px rgba(0, 187, 163, 0.2);
-}
 
-.aram-bench-card img {
-  width: 48px;
-  height: 48px;
-  border-radius: 8px;
-  border: 2px solid #555;
-}
 
-.aram-bench-card .champ-name {
-  font-size: 11px;
-  font-weight: 700;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 100%;
-}
 
-.btn-swap-bench {
-  background: var(--opgg-purple);
-  border: none;
-  color: #fff;
-  font-family: inherit;
-  font-weight: 800;
-  font-size: 10px;
-  padding: 4px 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  width: 100%;
-  margin-top: 4px;
-}
 
-.btn-swap-bench:hover {
-  background: var(--opgg-purple-hover);
-}
 
 /* Team Cards Grid */
 .team-cards-grid {
@@ -1283,7 +1219,7 @@ body {
   position: absolute;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, #5F32E6, #00BBA3);
+  background-color: #24406b;
   border: none;
   color: #fff;
   font-family: inherit;
@@ -4222,7 +4158,7 @@ body.theme-cyber {
   gap: 6px;
 }
 
-.flash-key-btn {
+.flash-key-selector .flash-key-btn {
   width: 32px;
   height: 32px;
   border-radius: 6px;
@@ -4235,13 +4171,494 @@ body.theme-cyber {
   transition: all 0.15s ease;
 }
 
-.flash-key-btn:hover {
+.flash-key-selector .flash-key-btn:hover {
   background: #363644;
 }
 
-.flash-key-btn.active {
+.flash-key-selector .flash-key-btn.active {
   background: var(--opgg-cyan);
   border-color: var(--opgg-cyan);
   color: #fff;
   box-shadow: 0 0 10px rgba(83, 131, 232, 0.4);
+}
+
+/* ================= TEXT FITTING LAYER =================
+   1. `.table-container` used `overflow: hidden`, so any table wider than its
+      container had text silently clipped away and made unreachable. Scroll
+      horizontally instead so nothing is ever lost.
+   2. Keep the portraits from being squashed by a long name.
+   3. Truncate a champion name that genuinely cannot fit its cell.
+
+   Deliberately NOT using `table-layout: fixed` here: the declared <th> widths
+   already sum to almost the full container width, so fixed layout would hand the
+   remaining few pixels to the auto-width columns (Champion, Hardest Counters),
+   collapsing them to a couple of dozen pixels and wrapping every row to a huge
+   height. The default auto layout plus horizontal scroll keeps all columns
+   readable at any window size. */
+
+.table-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* Flex children default to min-width:auto and refuse to shrink, which is what
+   lets a long champion name widen its column instead of ellipsising. */
+.champ-info-cell {
+  min-width: 0;
+}
+
+.champ-icon {
+  flex: 0 0 36px;
+  width: 36px;
+}
+
+.champ-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Break only genuinely unbreakable strings (URLs / very long tokens) rather
+   than every cell, which would shred normal words into one letter per line. */
+.opgg-table td .breakable {
+  overflow-wrap: anywhere;
+}
+
+/* ================= FLAT DESIGN LAYER =================
+   Applied last so it wins on equal specificity without editing the 42 component
+   rules above. Goal: remove the neon/glow/gradient treatment, keep every colour
+   cue readable, and prioritise legibility over decoration.
+   - Glows are replaced by a 1px border in the same hue, which reads as state
+     without bleeding light into the surrounding panel.
+   - Gradients collapse to a single flat fill.
+   - Blur/backdrop-filter is dropped (it also costs GPU for no readability gain).
+   - Radii are reduced so the UI stops reading as a wall of pills. */
+
+body {
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- State indicators: border instead of glow --- */
+.lcu-pill.connected .status-dot,
+.status-indicator-dot {
+  box-shadow: none;
+}
+
+.tier-crest-badge.emerald,
+.overlay-launcher-btn:hover,
+.picker-search-bar:focus-within,
+.arch-chip.active,
+.augment-arch-btn.active,
+.flash-key-btn.active,
+.picker-champ-card.active,
+.augment-tier-pill.splus {
+  box-shadow: none;
+}
+
+.team-card-item.is-me {
+  box-shadow: none;
+  outline: 2px solid var(--opgg-blue);
+  outline-offset: -2px;
+}
+
+/* --- Cards: colour stays, glow does not --- */
+.mvp-badge,
+.ace-badge,
+.medal-rank.gold,
+.medal-rank.silver,
+.medal-rank.bronze,
+.arena-aug-mini-chip:hover,
+.arena-aug-mini-chip.prismatic,
+.arena-aug-mini-chip.gold,
+.arena-aug-mini-chip.silver,
+.arena-aug-icon-wrap.rarity-prismatic,
+.arena-aug-icon-wrap.rarity-gold,
+.augment-active-champ-img,
+.augment-cell-icon.prismatic,
+.augment-cell-icon.gold,
+.augment-cell-icon.silver {
+  box-shadow: none;
+}
+
+.arena-aug-mini-chip:hover {
+  border-color: var(--opgg-gold);
+}
+
+/* --- Gradients collapse to flat fills --- */
+.btn-popout-overlay,
+.btn-push-runes,
+.meta-trends-banner,
+.mvp-badge,
+.ace-badge,
+.medal-rank.gold,
+.medal-rank.silver,
+.medal-rank.bronze,
+.arena-prism-card,
+.augment-champ-selector-container,
+.champ-pill.active {
+  background-image: none;
+}
+
+.btn-popout-overlay,
+.btn-push-runes {
+  background-color: #24406b;
+  border: 1px solid #3a5f96;
+}
+
+.mvp-badge {
+  background-color: #5c4a12;
+  color: #f2d99b;
+  border: 1px solid #8a6f22;
+}
+
+.ace-badge {
+  background-color: #3a2f57;
+  color: #d9d1f2;
+  border: 1px solid #57497f;
+}
+
+.medal-rank.gold {
+  background-color: #5c4a12;
+  color: #f2d99b;
+  border: 1px solid #8a6f22;
+}
+
+.medal-rank.silver {
+  background-color: #3a3f47;
+  color: #dfe4ea;
+  border: 1px solid #5b6270;
+}
+
+.medal-rank.bronze {
+  background-color: #4a3524;
+  color: #e8c4a0;
+  border: 1px solid #6d4d33;
+}
+
+.meta-trends-banner,
+.augment-champ-selector-container {
+  background-color: var(--bg-surface);
+}
+
+.arena-prism-card {
+  background-color: #23262e;
+  border: 1px solid var(--border-color);
+}
+
+.champ-pill.active {
+  background-color: #24406b;
+  border-color: #3a5f96;
+}
+
+/* --- Blur removed --- */
+.modal-overlay {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: rgba(10, 11, 14, 0.82);
+}
+
+/* --- Kill the pulsing glow ring animation --- */
+@keyframes pulse-border {
+  0%, 100% { border-color: var(--opgg-red); }
+  50% { border-color: var(--border-color); }
+}
+
+/* --- Moderated radii: squarer, less bubbly --- */
+.subnav-tab,
+.role-btn,
+.arch-chip,
+.augment-rarity-btn,
+.augment-arch-btn,
+.champ-pill,
+.auto-accept-pill,
+.audio-feedback-btn,
+.lcu-pill,
+.filter-dropdown-pill,
+.btn-primary,
+.btn-secondary,
+.stat-pill,
+.tier-badge,
+.profile-tag-pill,
+.toast {
+  border-radius: 6px;
+}
+
+.opgg-table th,
+.opgg-table td {
+  padding: 11px 14px;
+}
+
+/* Table readability: clearer header separation, roomier rows */
+.opgg-table th {
+  background: #1a1d23;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+.opgg-table tbody tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.opgg-table td {
+  font-size: 13px;
+}
+
+/* --- Ally / enemy dots (replaced the removed colour emoji) --- */
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+  flex: 0 0 auto;
+}
+
+.dot-ally { background: #4c8bf5; }
+.dot-enemy { background: #e05252; }
+
+/* Objective slots: these previously held large emoji that merely duplicated the
+   label printed next to them. A flat colour dot carries the same identity,
+   stays aligned with the text, and costs no glyph lookup. */
+.obj-icon-wrap {
+  width: 12px;
+  height: 12px;
+  min-width: 12px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  flex: 0 0 auto;
+}
+
+.obj-icon-wrap.dragon { background: #c2683a; }
+.obj-icon-wrap.baron { background: #7a4fb5; }
+.obj-icon-wrap.grubs { background: #8d8f96; }
+.obj-icon-wrap.scuttle { background: #3f8fa8; }
+.obj-icon-wrap.blue-buff { background: #4c8bf5; }
+.obj-icon-wrap.red-buff { background: #e05252; }
+
+/* Search / globe / gear slots now hold inline SVGs - line them up with text */
+.globe-icon,
+.search-icon,
+.settings-header-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  color: var(--text-dim);
+}
+
+/* --- Focus visibility: keyboard users can see where they are --- */
+:focus-visible {
+  outline: 2px solid var(--opgg-blue);
+  outline-offset: 1px;
+}
+
+/* ================= TITLEBAR LAYOUT INTEGRITY =================
+   The titlebar packs many controls into a fixed 48px row. Two rules were being
+   violated and the row crumbled: controls had no `white-space: nowrap` so labels
+   wrapped to two lines ("Auto-" / "Runes"), and flex children defaulted to
+   `flex-shrink: 1` so pills squeezed each other and the Flash key button escaped
+   its pill entirely. Nothing here may wrap or shrink. */
+
+.app-titlebar {
+  flex-wrap: nowrap;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.titlebar-left,
+.titlebar-right,
+.window-actions,
+.lcu-pill,
+.auto-accept-pill,
+.audio-feedback-btn,
+.flash-key-btn {
+  flex: 0 0 auto;
+}
+
+.titlebar-right {
+  flex-wrap: nowrap;
+}
+
+/* Single-line controls: labels must never break across lines */
+.lcu-pill,
+.auto-accept-pill,
+.auto-accept-pill > span,
+.audio-feedback-btn,
+.audio-feedback-btn > span,
+.flash-key-btn,
+.patch-update-btn,
+.subnav-tab,
+.role-btn,
+.arch-chip {
+  white-space: nowrap;
+}
+
+/* Flash key button sits inside the Auto-Spells pill - keep it inline and small */
+.auto-accept-pill .flash-key-btn {
+  margin-left: 4px;
+  padding: 1px 6px;
+  font-size: 10px;
+  line-height: 1.4;
+  height: auto;
+  width: auto;
+  min-width: 0;
+}
+
+/* The status pill is the only control allowed to shrink, and it truncates */
+.lcu-pill {
+  max-width: 190px;
+  overflow: hidden;
+}
+
+.lcu-pill #lcuStatusText {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lcu-pill .status-dot {
+  flex: 0 0 auto;
+}
+
+/* Toggle switches never distort */
+.toggle-switch {
+  flex: 0 0 auto;
+}
+
+/* Below ~1200px the row cannot hold everything; drop the least critical
+   labels rather than letting controls overlap. */
+@media (max-width: 1200px) {
+  .titlebar-center {
+    max-width: 220px;
+  }
+  .audio-feedback-btn#soundToggleBtn,
+  .audio-feedback-btn#patchUpdateBtn {
+    display: none;
+  }
+}
+
+@media (max-width: 1000px) {
+  .titlebar-center {
+    display: none;
+  }
+}
+
+/* ================= DISPLAY SCALE & RESOLUTION CONTROLS ================= */
+.scale-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+.scale-control input[type='range'] {
+  width: 150px;
+  accent-color: var(--opgg-blue);
+  cursor: pointer;
+}
+
+.scale-step {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 auto;
+  background: var(--bg-surface-hover);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.scale-step:hover {
+  border-color: var(--opgg-blue);
+  background: rgba(76, 139, 245, 0.12);
+}
+
+.scale-step:active {
+  background: rgba(76, 139, 245, 0.22);
+}
+
+.scale-readout {
+  min-width: 46px;
+  text-align: right;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Keep the settings rows from wrapping when zoomed up */
+.settings-row {
+  flex-wrap: wrap;
+  row-gap: 10px;
+}
+
+.settings-row-info {
+  min-width: 0;
+  flex: 1 1 240px;
+}
+
+/* ================= LIVE IN-GAME MATCH STRIP ================= */
+.live-match-strip {
+  display: flex;
+  align-items: stretch;
+  gap: 1px;
+  flex-wrap: wrap;
+  margin: 12px 0 16px;
+  background: var(--border-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.lms-block {
+  flex: 1 1 130px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 14px;
+  background: var(--bg-surface);
+}
+
+.lms-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+.lms-value {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-variant-numeric: tabular-nums;
+}
+
+.lms-score .lms-value {
+  font-size: 17px;
+}
+
+.lms-sep {
+  margin: 0 7px;
+  color: var(--text-dim);
+  font-size: 12px;
+  font-weight: 600;
 }

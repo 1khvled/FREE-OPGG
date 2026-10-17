@@ -1,0 +1,11 @@
+# Normalise line endings so diffs stay readable.
+# Without this, editing files on Windows rewrites the whole file as LF -> CRLF
+# and every line shows as changed, burying the real edits.
+* text=auto eol=lf
+
+# Binary assets stay binary.
+*.ico binary
+*.woff2 binary
+*.png binary
+*.jpg binary
+*.webp binary

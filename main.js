@@ -24,20 +24,113 @@ let activeDDragonVersion = '16.20.1';
 let activePatch = '16.20';
 let patchCheckInterval = null;
 
+// ----------------- DISPLAY SCALE & RESOLUTION PREFERENCES -----------------
+// Persisted to disk so the choice survives restarts. Deliberately app-scoped:
+// this changes the Electron UI scale and window size only, never the OS
+// display settings or the game's own resolution.
+const DISPLAY_DEFAULTS = { scalePercent: 100, resolution: 'fit' };
+let displayPrefs = { ...DISPLAY_DEFAULTS };
+
+function displayPrefsPath() {
+  return path.join(app.getPath('userData'), 'display-prefs.json');
+}
+
+function loadDisplayPrefs() {
+  try {
+    const raw = fs.readFileSync(displayPrefsPath(), 'utf8');
+    const parsed = JSON.parse(raw);
+    displayPrefs = {
+      scalePercent: Number(parsed.scalePercent) || DISPLAY_DEFAULTS.scalePercent,
+      resolution: typeof parsed.resolution === 'string' ? parsed.resolution : DISPLAY_DEFAULTS.resolution
+    };
+  } catch (e) {
+    displayPrefs = { ...DISPLAY_DEFAULTS };
+  }
+  return displayPrefs;
+}
+
+function saveDisplayPrefs() {
+  try {
+    fs.writeFileSync(displayPrefsPath(), JSON.stringify(displayPrefs, null, 2), 'utf8');
+  } catch (e) {}
+}
+
+// Clamp to a range Electron handles sanely; below ~50% text becomes unreadable
+// and above 200% fixed-position HUD panels start overflowing the screen.
+function clampScale(pct) {
+  const n = Number(pct);
+  if (!Number.isFinite(n)) return DISPLAY_DEFAULTS.scalePercent;
+  return Math.min(200, Math.max(50, Math.round(n)));
+}
+
+function getEachWindow() {
+  return [mainWindow, overlayWindow].filter((w) => w && !w.isDestroyed());
+}
+
+function applyDisplayScale(percent) {
+  displayPrefs.scalePercent = clampScale(percent);
+  const factor = displayPrefs.scalePercent / 100;
+  for (const w of getEachWindow()) {
+    try { w.webContents.setZoomFactor(factor); } catch (e) {}
+  }
+  saveDisplayPrefs();
+  return displayPrefs.scalePercent;
+}
+
+function applyDisplayResolution(resolution) {
+  const workArea = screen.getPrimaryDisplay().workAreaSize;
+
+  if (resolution === 'fit' || !/^\d+x\d+$/.test(String(resolution))) {
+    displayPrefs.resolution = 'fit';
+  } else {
+    const [w, h] = String(resolution).split('x').map(Number);
+    // Never make the window larger than the work area (taskbar excluded).
+    const width = Math.max(900, Math.min(w, workArea.width));
+    const height = Math.max(600, Math.min(h, workArea.height));
+    displayPrefs.resolution = String(resolution);
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      try {
+        mainWindow.setBounds({ width, height });
+        mainWindow.center();
+      } catch (e) {}
+    }
+  }
+  saveDisplayPrefs();
+  return displayPrefs.resolution;
+}
+
+function getDisplayState() {
+  const bounds = mainWindow && !mainWindow.isDestroyed() ? mainWindow.getBounds() : null;
+  const work = screen.getPrimaryDisplay().workAreaSize;
+  return {
+    scalePercent: displayPrefs.scalePercent,
+    resolution: displayPrefs.resolution,
+    windowSize: bounds ? { width: bounds.width, height: bounds.height } : null,
+    screenSize: { width: work.width, height: work.height }
+  };
+}
+
 let lcuState = {
   connected: false,
   port: null,
   token: null,
   summoner: null,
   gameflow: 'None',
-  autoAccept: true,
-  autoRunes: true,
-  autoBuilds: true,
-  autoSpells: true,
+  // Automation defaults OFF (Riot ToS safety). Toggle on manually in the UI if desired.
+  autoAccept: false,
+  autoRunes: false,
+  autoBuilds: false,
+  autoSpells: false,
   flashKey: 'F', // 'D' or 'F'
   lastAutoRuneChamp: null,
   lastAutoBuildChamp: null,
-  lastAutoSpellChamp: null
+  lastAutoSpellChamp: null,
+  // Last gameflow phase pushed to the renderers. The phase changes many times
+  // per session (Lobby -> Matchmaking -> ChampSelect -> InProgress -> ...), and
+  // without this the UI only ever learns about connect/disconnect, never about
+  // the game actually starting.
+  lastBroadcastGameflow: null,
+  inGame: null
 };
 let lcuPollInterval = null;
 
@@ -207,6 +300,34 @@ async function createOverlayWindow(showImmediately = false) {
   });
 
   return overlayWindow;
+}
+
+// ----------------- IN-GAME ONLY OVERLAY VISIBILITY -----------------
+// LoL gameflow phases: None | Lobby | Matchmaking | ReadyCheck | ChampSelect |
+//                       GameStart | InProgress | WaitingForStats |
+//                       PreEndOfGame | EndOfGame | TerminatingInGame
+// The overlay is restricted to the actual in-game phase only.
+const IN_GAME_PHASES = ['InProgress'];
+
+function isInGame() {
+  return IN_GAME_PHASES.includes(lcuState.gameflow);
+}
+
+// Single authority for overlay visibility: created and shown ONLY while a match is
+// running, and force-hidden on every other phase (lobby, champ select, post-game).
+async function syncOverlayVisibility() {
+  if (!isInGame()) {
+    if (overlayWindow && !overlayWindow.isDestroyed() && overlayWindow.isVisible()) {
+      overlayWindow.hide();
+    }
+    return;
+  }
+
+  if (!overlayWindow || overlayWindow.isDestroyed()) {
+    await createOverlayWindow(true);
+  } else if (!overlayWindow.isVisible()) {
+    overlayWindow.showInactive();
+  }
 }
 
 // ----------------- LCU CONNECTOR & AUTO-HOOKS -----------------
@@ -445,10 +566,86 @@ async function executeAutoSpells(champId, mode = 'ranked', position = 'top') {
 
 // ----------------- HEARTBEAT LOOP (OPTIMIZED LOW-CPU) -----------------
 
+// Push connection + current gameflow to every renderer window.
+function broadcastStatus() {
+  if (mainWindow && !mainWindow.isDestroyed()) {
+    mainWindow.webContents.send('lcu:status-change', lcuState);
+  }
+  if (overlayWindow && !overlayWindow.isDestroyed() && overlayWindow.webContents) {
+    overlayWindow.webContents.send('lcu:status-change', lcuState);
+  }
+}
+
+// Poll the running match so the Live Game view shows real state.
+//
+// IMPORTANT: the LCU deliberately does NOT expose the in-game clock or the
+// scoreboard through /lol-gameflow/v1/session (verified on patch 16.20 - the
+// payload has no gameTime/gameLength and no per-team scores). Reporting those
+// would mean printing fabricated zeros, so this reports only fields that the
+// client actually returns.
+async function publishInGameState() {
+  try {
+    const gs = await lcuApiCall('GET', '/lol-gameflow/v1/session');
+    if (!gs || gs.phase !== 'InProgress') return null;
+
+    const gd = gs.gameData || {};
+    const teamOne = Array.isArray(gd.teamOne) ? gd.teamOne : [];
+    const teamTwo = Array.isArray(gd.teamTwo) ? gd.teamTwo : [];
+    const selections = Array.isArray(gd.playerChampionSelections) ? gd.playerChampionSelections : [];
+    const myPuuid = lcuState.summoner?.puuid || null;
+
+    const me =
+      teamOne.find((m) => m.puuid === myPuuid) ||
+      teamTwo.find((m) => m.puuid === myPuuid) ||
+      selections.find((s) => s.puuid === myPuuid) ||
+      null;
+
+    const payload = {
+      phase: gs.phase,
+      gameId: gd.gameId ?? null,
+      queueName: gd.queue?.name || 'Unknown Queue',
+      queueId: gd.queue?.id ?? null,
+      mapName: gs.map?.gameModeShortName || gs.map?.name || 'Unknown',
+      championId: me?.championId ?? 0,
+      // ARAM keeps both rosters on the same page, so we report counts neutrally
+      // rather than labelling one side "allies".
+      rosterOne: teamOne.length,
+      rosterTwo: teamTwo.length,
+      playerCount: teamOne.length + teamTwo.length,
+      spells: selections.find((s) => s.puuid === myPuuid)
+        ? {
+            spell1: selections.find((s) => s.puuid === myPuuid).spell1Id ?? null,
+            spell2: selections.find((s) => s.puuid === myPuuid).spell2Id ?? null
+          }
+        : null
+    };
+
+    lcuState.inGame = payload;
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.webContents.send('lcu:ingame-update', payload);
+    }
+    return payload;
+  } catch (err) {
+    return null;
+  }
+}
+
 async function processActiveGameflow() {
   try {
     const gameflow = await lcuApiCall('GET', '/lol-gameflow/v1/gameflow-phase');
+    const previousGameflow = lcuState.gameflow;
     lcuState.gameflow = gameflow || 'None';
+
+    // Overlay visibility is reconciled FIRST for every gameflow phase, so the HUD can
+    // never linger on screen after leaving a match (lobby, champ select, post-game).
+    await syncOverlayVisibility();
+
+    // Push the new phase to the renderers whenever it actually changes. This is
+    // what makes the Live Game view react to a match starting/ending.
+    if (lcuState.gameflow !== previousGameflow) {
+      lcuState.inGame = null;
+      broadcastStatus();
+    }
 
     // 1. Auto Accept Ready Check
     if (lcuState.autoAccept && lcuState.gameflow === 'ReadyCheck') {
@@ -500,16 +697,8 @@ async function processActiveGameflow() {
           await executeAutoSpells(champId, mode, assignedPos);
         }
 
-        const isAramOrMayhem = (mode === 'aram' || mode === 'mayhem' || session.benchEnabled);
-
-        // Auto-activate Overlay Window if in ARAM or Mayhem champ select
-        if (isAramOrMayhem) {
-          if (!overlayWindow || overlayWindow.isDestroyed()) {
-            createOverlayWindow(true);
-          } else if (!overlayWindow.isVisible()) {
-            overlayWindow.show();
-          }
-        }
+        // NOTE: Overlay is deliberately NOT shown during champ select.
+        // It is restricted to the in-game phase only (see syncOverlayVisibility).
 
         // Broadcast live champ select update with ARAM bench and team cards to BOTH windows
         const champSelectPayload = {
@@ -530,12 +719,9 @@ async function processActiveGameflow() {
         }
       }
     } else if (lcuState.gameflow === 'InProgress') {
-      // Auto-activate In-Game HUD Overlay when League match is running
-      if (!overlayWindow || overlayWindow.isDestroyed()) {
-        createOverlayWindow(true);
-      } else if (!overlayWindow.isVisible()) {
-        overlayWindow.showInactive();
-      }
+      // In-game HUD is already shown by syncOverlayVisibility() above.
+      // Keep the Live Game view fed with the running match state.
+      await publishInGameState();
     } else {
       lcuState.lastAutoRuneChamp = null;
       lcuState.lastAutoBuildChamp = null;
@@ -726,7 +912,11 @@ ipcMain.on('window:close', () => mainWindow?.close());
 ipcMain.handle('window:isMaximized', () => mainWindow?.isMaximized() || false);
 
 // Overlay Window controls
-ipcMain.on('overlay:open', () => createOverlayWindow(true));
+// NOTE: the overlay is in-game only. Manual open attempts outside a live match are
+// ignored; the heartbeat will reveal it automatically at gameflow === 'InProgress'.
+ipcMain.on('overlay:open', () => {
+  if (isInGame()) createOverlayWindow(true);
+});
 ipcMain.on('overlay:close', () => {
   if (overlayWindow && !overlayWindow.isDestroyed()) overlayWindow.hide();
 });
@@ -806,14 +996,17 @@ ipcMain.handle('lcu:my-profile', async () => {
   }
 });
 
-// ARAM Bench Swap
-ipcMain.handle('lcu:swap-bench', async (e, championId) => {
-  try {
-    await lcuApiCall('POST', `/lol-champ-select/v1/session/bench/swap/${championId}`);
-    return { success: true };
-  } catch (err) {
-    return { success: false, error: err.message };
-  }
+// ----------------- DISPLAY SCALE & RESOLUTION IPC -----------------
+ipcMain.handle('display:get', () => getDisplayState());
+
+ipcMain.handle('display:set-scale', (e, percent) => {
+  applyDisplayScale(percent);
+  return getDisplayState();
+});
+
+ipcMain.handle('display:set-resolution', (e, resolution) => {
+  applyDisplayResolution(resolution);
+  return getDisplayState();
 });
 
 // Apply runes manually
@@ -1304,9 +1497,20 @@ if (!gotTheLock) {
     checkPatchAutoUpdate(false);
     patchCheckInterval = setInterval(() => checkPatchAutoUpdate(false), 30 * 60 * 1000);
 
-    // Global shortcuts: Shift+Tab (Unlock/Lock OP.GG in-game HUD) & Ctrl+G (Toggle HUD visibility)
+    // Restore saved display scale / resolution, then tell the renderer so the
+    // settings controls reflect reality on open.
+    loadDisplayPrefs();
+    applyDisplayScale(displayPrefs.scalePercent);
+    applyDisplayResolution(displayPrefs.resolution);
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.webContents.send('display:state', getDisplayState());
+    }
+
+    // Global shortcuts: Shift+Tab (Unlock/Lock OP.GG in-game HUD) & Ctrl+G / Ctrl+Shift+O (Toggle HUD visibility)
+    // All shortcuts are inert outside an active match (overlay is in-game only).
     try {
       globalShortcut.register('Shift+Tab', async () => {
+        if (!isInGame()) return;
         if (!overlayWindow || overlayWindow.isDestroyed()) {
           await createOverlayWindow(true);
         } else {
@@ -1317,7 +1521,8 @@ if (!gotTheLock) {
         }
       });
 
-      globalShortcut.register('CommandOrControl+G', async () => {
+      const toggleOverlay = async () => {
+        if (!isInGame()) return;
         if (!overlayWindow || overlayWindow.isDestroyed()) {
           await createOverlayWindow(true);
         } else if (overlayWindow.isVisible()) {
@@ -1329,21 +1534,10 @@ if (!gotTheLock) {
           }
           overlayWindow.showInactive();
         }
-      });
+      };
 
-      globalShortcut.register('CommandOrControl+Shift+O', async () => {
-        if (!overlayWindow || overlayWindow.isDestroyed()) {
-          await createOverlayWindow(true);
-        } else if (overlayWindow.isVisible()) {
-          overlayWindow.hide();
-        } else {
-          const bounds = await getLeagueClientBounds();
-          if (bounds) {
-            overlayWindow.setBounds({ x: bounds.x, y: bounds.y, width: bounds.width, height: bounds.height });
-          }
-          overlayWindow.showInactive();
-        }
-      });
+      globalShortcut.register('CommandOrControl+G', toggleOverlay);
+      globalShortcut.register('CommandOrControl+Shift+O', toggleOverlay);
     } catch (e) {}
 
     app.on('activate', () => {

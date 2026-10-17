@@ -24,7 +24,7 @@ let allLeagueChampions = [];
 function populateDDragonMap(data) {
   if (data && data.data) {
     const list = [];
-    Object.values(data.data).forEach(c => {
+    Object.values(data.data).forEach(c =>{
       ddragonChampionsMap[c.key] = c;
       ddragonChampionsMap[c.id.toLowerCase()] = c;
       ddragonChampionsMap[String(c.key)] = c;
@@ -36,7 +36,7 @@ function populateDDragonMap(data) {
         tags: c.tags || []
       });
     });
-    list.sort((a, b) => a.name.localeCompare(b.name));
+    list.sort((a, b) =>a.name.localeCompare(b.name));
     allLeagueChampions = list;
     if (typeof initChampionPickerGrid === 'function') {
       initChampionPickerGrid();
@@ -47,10 +47,10 @@ function populateDDragonMap(data) {
 // Populate Runes map helper
 function populateRunesMap(trees) {
   if (Array.isArray(trees)) {
-    trees.forEach(tree => {
+    trees.forEach(tree =>{
       runesReforgedMap[tree.id] = tree;
-      tree.slots?.forEach(slot => {
-        slot.runes?.forEach(rune => {
+      tree.slots?.forEach(slot =>{
+        slot.runes?.forEach(rune =>{
           runesReforgedMap[rune.id] = rune;
         });
       });
@@ -71,7 +71,7 @@ function populateAugmentsMap(augments) {
   if (!augments) return;
   const list = Array.isArray(augments) ? augments : (augments.data || []);
   metaAugmentsList = list;
-  list.forEach(a => {
+  list.forEach(a =>{
     if (a && a.id) {
       metaAugmentsMap[a.id] = a;
       metaAugmentsMap[String(a.id)] = a;
@@ -96,15 +96,15 @@ function getTopAugmentsForChamp(champId) {
   const tags = champ.tags || [];
   const name = champ.name || '';
 
-  const matched = metaAugmentsList.filter(a => {
+  const matched = metaAugmentsList.filter(a =>{
     if (a.bestFor && Array.isArray(a.bestFor)) {
-      return a.bestFor.some(b => b === name || tags.includes(b));
+      return a.bestFor.some(b =>b === name || tags.includes(b));
     }
     return false;
   });
 
   if (matched.length >= 3) {
-    return matched.slice(0, 3).map(m => ({
+    return matched.slice(0, 3).map(m =>({
       ...m,
       rarityClass: (m.rarity === 'Prismatic' || m.rarity >= 2) ? 'prismatic' : (m.rarity === 'Gold' || m.rarity === 1) ? 'gold' : 'silver'
     }));
@@ -119,39 +119,39 @@ function getTopAugmentsForChamp(champId) {
 
 // Load static assets through IPC (guaranteed offline & no file:// CORS issues)
 if (window.opgg && window.opgg.getStaticData) {
-  window.opgg.getStaticData().then(res => {
+  window.opgg.getStaticData().then(res =>{
     if (res && res.ddragon) populateDDragonMap(res.ddragon);
     if (res && res.runes) populateRunesMap(res.runes);
     if (res && res.augments) populateAugmentsMap(res.augments);
     if (res && res.items) populateItemsMap(res.items);
     renderChampionsTable();
-  }).catch(() => {});
+  }).catch(() =>{});
 }
 
 // Fallback fetch
 fetch('assets/champions_ddragon.json')
-  .then(res => res.json())
+  .then(res =>res.json())
   .then(populateDDragonMap)
-  .catch(() => {});
+  .catch(() =>{});
 
 fetch('assets/runes.json')
-  .then(res => res.json())
+  .then(res =>res.json())
   .then(populateRunesMap)
-  .catch(() => {});
+  .catch(() =>{});
 
 fetch('assets/items.json')
-  .then(res => res.json())
+  .then(res =>res.json())
   .then(populateItemsMap)
-  .catch(() => {});
+  .catch(() =>{});
 
 fetch('assets/meta_augments.json')
-  .then(res => res.json())
+  .then(res =>res.json())
   .then(populateAugmentsMap)
-  .catch(() => {
+  .catch(() =>{
     fetch('assets/augments.json')
-      .then(res => res.json())
+      .then(res =>res.json())
       .then(populateAugmentsMap)
-      .catch(() => {});
+      .catch(() =>{});
   });
 
 // DOM Elements
@@ -190,9 +190,9 @@ const patchUpdateText = document.getElementById('patchUpdateText');
 const themeToggleBtn = document.getElementById('themeToggleBtn');
 const themeToggleText = document.getElementById('themeToggleText');
 const THEMES = [
-  { id: 'classic', label: '🎨 Classic Dark' },
-  { id: 'midnight', label: '🌙 Midnight' },
-  { id: 'cyber', label: '⚡ Cyber Void' }
+  { id: 'classic', label: 'Classic Dark' },
+  { id: 'midnight', label: 'Midnight' },
+  { id: 'cyber', label: 'Cyber Void' }
 ];
 let currentThemeIndex = 0;
 
@@ -203,21 +203,21 @@ function applyTheme(themeId) {
   } else if (themeId === 'cyber') {
     document.body.classList.add('theme-cyber');
   }
-  const th = THEMES.find(t => t.id === themeId) || THEMES[0];
+  const th = THEMES.find(t =>t.id === themeId) || THEMES[0];
   if (themeToggleText) themeToggleText.textContent = th.label;
   localStorage.setItem('opgg_active_theme', themeId);
 }
 
 const savedTheme = localStorage.getItem('opgg_active_theme') || 'classic';
 applyTheme(savedTheme);
-currentThemeIndex = Math.max(0, THEMES.findIndex(t => t.id === savedTheme));
+currentThemeIndex = Math.max(0, THEMES.findIndex(t =>t.id === savedTheme));
 
 if (themeToggleBtn) {
-  themeToggleBtn.addEventListener('click', () => {
+  themeToggleBtn.addEventListener('click', () =>{
     currentThemeIndex = (currentThemeIndex + 1) % THEMES.length;
     const nextTheme = THEMES[currentThemeIndex];
     applyTheme(nextTheme.id);
-    showToast(`🎨 Theme switched to ${nextTheme.label}!`);
+    showToast(`Theme switched to ${nextTheme.label}!`);
   });
 }
 
@@ -252,7 +252,7 @@ function getAramBalanceTag(champId) {
   return `<span class="aram-balance-pill ${b.type}">${b.dmg} / ${b.taken}</span>`;
 }
 
-// ================= CHAMPION FAVORITES & PINNING (⭐ MY POOL) =================
+// ================= CHAMPION FAVORITES & PINNING (MY POOL) =================
 let favoriteChampIds = new Set();
 try {
   const savedFavs = JSON.parse(localStorage.getItem('opgg_fav_champs') || '[]');
@@ -276,7 +276,7 @@ window.toggleChampionFavorite = function(champId, event) {
   if (isNowFav) {
     favoriteChampIds.add(id);
     playAudioChime('accept');
-    showToast(`⭐ Pinned to My Pool favorites!`);
+    showToast(`Pinned to My Pool favorites!`);
   } else {
     favoriteChampIds.delete(id);
     showToast(`Removed from favorites.`);
@@ -291,9 +291,9 @@ window.toggleChampionFavorite = function(champId, event) {
 let currentArchetype = 'all';
 const archetypeChips = document.querySelectorAll('.arch-chip');
 if (archetypeChips) {
-  archetypeChips.forEach(chip => {
-    chip.addEventListener('click', () => {
-      archetypeChips.forEach(c => c.classList.remove('active'));
+  archetypeChips.forEach(chip =>{
+    chip.addEventListener('click', () =>{
+      archetypeChips.forEach(c =>c.classList.remove('active'));
       chip.classList.add('active');
       currentArchetype = chip.getAttribute('data-tag') || 'all';
       playAudioChime('accept');
@@ -325,24 +325,24 @@ function positionTooltip(e) {
   let x = e.clientX + padding;
   let y = e.clientY + padding;
 
-  if (x + tooltipRect.width > window.innerWidth) {
+  if (x + tooltipRect.width >window.innerWidth) {
     x = e.clientX - tooltipRect.width - padding;
   }
-  if (y + tooltipRect.height > window.innerHeight) {
+  if (y + tooltipRect.height >window.innerHeight) {
     y = e.clientY - tooltipRect.height - padding;
   }
   globalTooltip.style.left = `${Math.max(10, x)}px`;
   globalTooltip.style.top = `${Math.max(10, y)}px`;
 }
 
-window.addEventListener('mousemove', (e) => {
+window.addEventListener('mousemove', (e) =>{
   if (globalTooltip && globalTooltip.classList.contains('show')) {
     positionTooltip(e);
   }
 });
 
 // Delegated hover listener for items, runes, and spells
-document.body.addEventListener('mouseover', (e) => {
+document.body.addEventListener('mouseover', (e) =>{
   const target = e.target.closest('[data-tooltip-type]');
   if (!target) return;
   const type = target.getAttribute('data-tooltip-type');
@@ -351,7 +351,7 @@ document.body.addEventListener('mouseover', (e) => {
   if (type === 'item') {
     const item = itemsDataMap[String(id)] || itemsDataMap[String(normalizeItemId(id))];
     if (item) {
-      const statsList = Object.entries(item.stats || {}).map(([k, v]) => {
+      const statsList = Object.entries(item.stats || {}).map(([k, v]) =>{
         const cleanKey = k.replace('Flat', '').replace('Mod', '').replace('PhysicalDamage', 'Attack Damage').replace('MagicDamage', 'Ability Power');
         return `<div>+${v} ${cleanKey}</div>`;
       }).join('');
@@ -361,7 +361,7 @@ document.body.addEventListener('mouseover', (e) => {
           <img class="tooltip-icon" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/${id}.png" onerror="this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/1001.png'" />
           <div>
             <div class="tooltip-title">${item.name}</div>
-            <div class="tooltip-cost">🪙 ${item.gold?.total || '3,000'} gold (${item.gold?.sell || '2,100'} sell)</div>
+            <div class="tooltip-cost">${item.gold?.total || '3,000'} gold (${item.gold?.sell || '2,100'} sell)</div>
           </div>
         </div>
         ${statsList ? `<div class="tooltip-stats">${statsList}</div>` : ''}
@@ -387,7 +387,7 @@ document.body.addEventListener('mouseover', (e) => {
   }
 });
 
-document.body.addEventListener('mouseout', (e) => {
+document.body.addEventListener('mouseout', (e) =>{
   if (e.target.closest('[data-tooltip-type]')) {
     hideGlobalTooltip();
   }
@@ -397,33 +397,34 @@ document.body.addEventListener('mouseout', (e) => {
 
 // Listen for auto-patch updates from main process
 if (window.opgg && window.opgg.onPatchUpdated) {
-  window.opgg.onPatchUpdated((data) => {
+  window.opgg.onPatchUpdated((data) =>{
     if (data.version) DDRAGON_VER = data.version;
+  syncDDragonImages();
     if (data.patch) {
       currentPatch = data.patch;
-      if (patchUpdateText) patchUpdateText.textContent = `⚡ Patch ${data.patch}`;
+      if (patchUpdateText) patchUpdateText.textContent = `Patch ${data.patch}`;
 
       if (patchFilterSelect && Array.isArray(data.patches)) {
-        patchFilterSelect.innerHTML = data.patches.map((p, idx) => `
+        patchFilterSelect.innerHTML = data.patches.map((p, idx) =>`
           <option value="${p}" ${idx === 0 ? 'selected' : ''}>${p}</option>
         `).join('');
       }
       playAudioChime('ready');
-      showToast(`🚀 New Patch ${data.patch} detected! Live stats & DDragon auto-updated.`);
+      showToast(`New Patch ${data.patch} detected! Live stats & DDragon auto-updated.`);
       loadChampions();
     }
   });
 }
 
 if (patchUpdateBtn) {
-  patchUpdateBtn.addEventListener('click', async () => {
+  patchUpdateBtn.addEventListener('click', async () =>{
     showToast('Checking Riot DDragon for new patch...');
     const res = await window.opgg.checkPatchUpdate();
     if (res.updated) {
       playAudioChime('accept');
-      showToast(`🚀 Auto-updated to Patch ${res.patch} (${res.version})!`);
+      showToast(`Auto-updated to Patch ${res.patch} (${res.version})!`);
     } else {
-      showToast(`✅ You are on the latest Patch ${res.patch || currentPatch}!`);
+      showToast(`You are on the latest Patch ${res.patch || currentPatch}!`);
     }
   });
 }
@@ -494,13 +495,13 @@ function playAudioChime(type = 'accept') {
 }
 
 if (soundToggleBtn) {
-  soundToggleBtn.addEventListener('click', () => {
+  soundToggleBtn.addEventListener('click', () =>{
     audioFeedbackEnabled = !audioFeedbackEnabled;
     soundToggleBtn.classList.toggle('active', audioFeedbackEnabled);
     if (soundToggleIcon) {
-      soundToggleIcon.textContent = audioFeedbackEnabled ? '🔊 Sound: ON' : '🔇 Sound: OFF';
+      soundToggleIcon.textContent = audioFeedbackEnabled ? 'Sound: On' : 'Sound: Off';
     }
-    showToast(audioFeedbackEnabled ? '🔊 Audio feedback chimes enabled' : '🔇 Audio feedback muted');
+    showToast(audioFeedbackEnabled ? 'Audio feedback chimes enabled' : 'Audio feedback muted');
     if (audioFeedbackEnabled) playAudioChime('accept');
   });
 }
@@ -510,9 +511,9 @@ function renderMetaTrends(data) {
   if (!trendsCardsScroll || !data || data.length === 0) return;
 
   const candidates = [];
-  data.forEach(c => {
+  data.forEach(c =>{
     const stats = c.average_stats || (c.positions && c.positions[0]?.stats);
-    if (!stats || !stats.play || stats.play < 400) return;
+    if (!stats || !stats.play || stats.play< 400) return;
     const wr = stats.win_rate || 0.5;
     const rank = stats.tier_data?.rank || 999;
     const rankPrev = stats.tier_data?.rank_prev_patch || stats.tier_data?.rank_prev || rank;
@@ -529,13 +530,13 @@ function renderMetaTrends(data) {
     });
   });
 
-  const rising = candidates.slice().sort((a, b) => b.rankDiff - a.rankDiff || b.winRate - a.winRate).slice(0, 4);
-  const falling = candidates.slice().sort((a, b) => a.rankDiff - b.rankDiff || a.winRate - b.winRate).slice(0, 3);
+  const rising = candidates.slice().sort((a, b) =>b.rankDiff - a.rankDiff || b.winRate - a.winRate).slice(0, 4);
+  const falling = candidates.slice().sort((a, b) =>a.rankDiff - b.rankDiff || a.winRate - b.winRate).slice(0, 3);
 
-  const risingHtml = rising.map(item => {
+  const risingHtml = rising.map(item =>{
     const info = getChampionInfo(item.champId);
     const wr = (item.winRate * 100).toFixed(1);
-    const diff = item.rankDiff > 0 ? `+${item.rankDiff}` : (item.rankDiff < 0 ? `${item.rankDiff}` : '+1');
+    const diff = item.rankDiff >0 ? `+${item.rankDiff}` : (item.rankDiff< 0 ? `${item.rankDiff}` : '+1');
     return `
       <div class="trend-card rising" onclick="filterByChampion('${info.name}')">
         <img class="trend-champ-img" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${info.key}.png" alt="${info.name}" />
@@ -553,10 +554,10 @@ function renderMetaTrends(data) {
     `;
   }).join('');
 
-  const fallingHtml = falling.map(item => {
+  const fallingHtml = falling.map(item =>{
     const info = getChampionInfo(item.champId);
     const wr = (item.winRate * 100).toFixed(1);
-    const diff = item.rankDiff < 0 ? `${item.rankDiff}` : '-2';
+    const diff = item.rankDiff< 0 ? `${item.rankDiff}` : '-2';
     return `
       <div class="trend-card falling" onclick="filterByChampion('${info.name}')">
         <img class="trend-champ-img" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${info.key}.png" alt="${info.name}" />
@@ -586,7 +587,7 @@ window.filterByChampion = function(name) {
 };
 
 if (btnToggleTrends) {
-  btnToggleTrends.addEventListener('click', () => {
+  btnToggleTrends.addEventListener('click', () =>{
     const isHidden = trendsCardsScroll.style.display === 'none';
     trendsCardsScroll.style.display = isHidden ? 'flex' : 'none';
     btnToggleTrends.textContent = isHidden ? 'Hide Highlights ▴' : 'Show Highlights ▾';
@@ -608,16 +609,16 @@ window.startObjectiveTimer = function(objKey, objName, seconds) {
   }
 
   playAudioChime('accept');
-  showToast(`⏱️ ${objName} respawn timer started!`);
+  showToast(`${objName} respawn timer started!`);
 
   let remaining = seconds;
   if (cardEl) cardEl.classList.add('counting');
 
-  const updateDisplay = () => {
+  const updateDisplay = () =>{
     if (cdEl) {
       const m = Math.floor(remaining / 60);
       const s = remaining % 60;
-      cdEl.textContent = `${m}:${s < 10 ? '0' : ''}${s}`;
+      cdEl.textContent = `${m}:${s< 10 ? '0' : ''}${s}`;
     }
     if (fillEl) {
       const pct = Math.max(0, Math.min(100, ((seconds - remaining) / seconds) * 100));
@@ -627,23 +628,23 @@ window.startObjectiveTimer = function(objKey, objName, seconds) {
 
   updateDisplay();
 
-  activeObjectiveTimers[objKey] = setInterval(() => {
+  activeObjectiveTimers[objKey] = setInterval(() =>{
     remaining--;
     updateDisplay();
 
     if (remaining === 30) {
       playAudioChime('warn');
-      showToast(`⚠️ 30s remaining until ${objName} spawns! Prepare vision.`);
+      showToast(` 30s remaining until ${objName} spawns! Prepare vision.`);
     }
 
-    if (remaining <= 0) {
+    if (remaining<= 0) {
       clearInterval(activeObjectiveTimers[objKey]);
       delete activeObjectiveTimers[objKey];
       if (cardEl) cardEl.classList.remove('counting');
       if (cdEl) cdEl.textContent = 'SPAWNED!';
       if (fillEl) fillEl.style.width = '100%';
       playAudioChime('ready');
-      showToast(`🚨 ${objName} has SPAWNED! Contest objective now!`);
+      showToast(`${objName} has SPAWNED! Contest objective now!`);
     }
   }, 1000);
 };
@@ -666,8 +667,6 @@ const modalPanels = document.querySelectorAll('.modal-panel');
 const companionDot = document.getElementById('companionDot');
 const companionPhaseTitle = document.getElementById('companionPhaseTitle');
 const companionPhaseDesc = document.getElementById('companionPhaseDesc');
-const aramBenchSection = document.getElementById('aramBenchSection');
-const aramBenchGrid = document.getElementById('aramBenchGrid');
 const teamCardsGrid = document.getElementById('teamCardsGrid');
 const activeModeLabel = document.getElementById('activeModeLabel');
 
@@ -689,18 +688,18 @@ function showToast(message, isError = false) {
   toast.textContent = message;
   toast.style.borderColor = isError ? 'var(--opgg-red)' : 'var(--opgg-cyan)';
   toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 3500);
+  setTimeout(() =>toast.classList.remove('show'), 3500);
 }
 
 // ----------------- WINDOW CONTROLS -----------------
-winMinBtn.addEventListener('click', () => window.opgg.minimize());
-winMaxBtn.addEventListener('click', () => window.opgg.maximize());
-winCloseBtn.addEventListener('click', () => window.opgg.close());
+winMinBtn.addEventListener('click', () =>window.opgg.minimize());
+winMaxBtn.addEventListener('click', () =>window.opgg.maximize());
+winCloseBtn.addEventListener('click', () =>window.opgg.close());
 
 // ----------------- SUB-NAVIGATION -----------------
-subNavTabs.forEach(tab => {
-  tab.addEventListener('click', () => {
-    subNavTabs.forEach(t => t.classList.remove('active'));
+subNavTabs.forEach(tab =>{
+  tab.addEventListener('click', () =>{
+    subNavTabs.forEach(t =>t.classList.remove('active'));
     tab.classList.add('active');
 
     const viewId = tab.getAttribute('data-view');
@@ -709,7 +708,7 @@ subNavTabs.forEach(tab => {
 });
 
 function switchView(viewId) {
-  viewPanels.forEach(p => p.classList.remove('active'));
+  viewPanels.forEach(p =>p.classList.remove('active'));
   const target = document.getElementById(`view-${viewId}`);
   if (target) {
     target.classList.add('active');
@@ -722,22 +721,22 @@ function switchView(viewId) {
 }
 
 // ----------------- LCU AUTOMATION TOGGLES -----------------
-autoAcceptToggle.addEventListener('click', async () => {
+autoAcceptToggle.addEventListener('click', async () =>{
   const active = autoAcceptToggle.classList.toggle('active');
   await window.opgg.lcuAutoAccept(active);
   showToast(active ? 'Auto-Accept Match enabled' : 'Auto-Accept disabled');
 });
 
-autoRunesToggle.addEventListener('click', async () => {
+autoRunesToggle.addEventListener('click', async () =>{
   const active = autoRunesToggle.classList.toggle('active');
   await window.opgg.lcuAutoRunes(active);
-  showToast(active ? '⚡ Auto-Runes enabled (Syncs on champ lock)' : 'Auto-Runes disabled');
+  showToast(active ? 'Auto-Runes enabled (Syncs on champ lock)' : 'Auto-Runes disabled');
 });
 
-autoBuildsToggle.addEventListener('click', async () => {
+autoBuildsToggle.addEventListener('click', async () =>{
   const active = autoBuildsToggle.classList.toggle('active');
   await window.opgg.lcuAutoBuilds(active);
-  showToast(active ? '📦 Auto-Builds enabled (Injects into shop)' : 'Auto-Builds disabled');
+  showToast(active ? 'Auto-Builds enabled (Injects into shop)' : 'Auto-Builds disabled');
 });
 
 const autoSpellsToggle = document.getElementById('autoSpellsToggle');
@@ -745,21 +744,21 @@ const flashKeyBtn = document.getElementById('flashKeyBtn');
 let currentFlashKey = 'F';
 
 if (autoSpellsToggle) {
-  autoSpellsToggle.addEventListener('click', async (e) => {
+  autoSpellsToggle.addEventListener('click', async (e) =>{
     if (e.target === flashKeyBtn || e.target.closest('#flashKeyBtn')) return;
     const active = autoSpellsToggle.classList.toggle('active');
     await window.opgg.lcuAutoSpells(active);
-    showToast(active ? '⚡ Auto-Spells enabled (Flash + Role spell)' : 'Auto-Spells disabled');
+    showToast(active ? 'Auto-Spells enabled (Flash + Role spell)' : 'Auto-Spells disabled');
   });
 }
 
 if (flashKeyBtn) {
-  flashKeyBtn.addEventListener('click', async (e) => {
+  flashKeyBtn.addEventListener('click', async (e) =>{
     e.stopPropagation();
     currentFlashKey = currentFlashKey === 'F' ? 'D' : 'F';
     flashKeyBtn.textContent = `Flash: ${currentFlashKey}`;
     await window.opgg.lcuSetFlashKey(currentFlashKey);
-    showToast(`⚡ Flash assigned to [${currentFlashKey}] key!`);
+    showToast(`Flash assigned to [${currentFlashKey}] key!`);
   });
 }
 
@@ -767,9 +766,9 @@ if (flashKeyBtn) {
 const launchOverlayCompanionBtn = document.getElementById('launchOverlayCompanionBtn');
 
 if (launchOverlayCompanionBtn) {
-  launchOverlayCompanionBtn.addEventListener('click', () => {
+  launchOverlayCompanionBtn.addEventListener('click', () =>{
     window.opgg.overlayOpen();
-    showToast('🎮 In-Game Overlay HUD docked over League of Legends! (Ctrl+Shift+O)');
+    showToast('In-Game Overlay HUD docked over League of Legends! (Ctrl+Shift+O)');
   });
 }
 
@@ -785,11 +784,11 @@ function updateLcuUi(status) {
 
     if (status.gameflow === 'ChampSelect') {
       companionDot.style.background = 'var(--opgg-cyan)';
-      companionPhaseTitle.textContent = '⚡ Champion Select Active';
-      companionPhaseDesc.textContent = 'Auto-Runes and Auto-Builds are actively monitoring your champion. Check the team cards and ARAM bench below.';
+      companionPhaseTitle.textContent = 'Champion Select Active';
+      companionPhaseDesc.textContent = 'Auto-Runes and Auto-Builds are actively monitoring your champion. Check the team cards below.';
     } else if (status.gameflow === 'InProgress') {
       companionDot.style.background = '#ffb900';
-      companionPhaseTitle.textContent = '⚔️ Match In Progress';
+      companionPhaseTitle.textContent = 'Match In Progress';
       companionPhaseDesc.textContent = 'Good luck! Recommended OP.GG Item Builds have been imported directly into your in-game shop.';
     } else {
       companionDot.style.background = '#777';
@@ -806,54 +805,87 @@ function updateLcuUi(status) {
   }
 }
 
-window.opgg.onLcuStatus(updateLcuUi);
+// Any element tagged with data-cd="champion/Foo.png" is rewritten to the current
+// Data Dragon version. Without this, statically-authored image URLs stay pinned
+// to whatever patch the HTML was written against and show stale or missing
+// champion art after Riot moves on.
+function syncDDragonImages() {
+  document.querySelectorAll('img[data-cd]').forEach((img) => {
+    const asset = img.getAttribute('data-cd');
+    if (!asset) return;
+    const next = `https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/${asset}`;
+    if (img.getAttribute('src') !== next) img.setAttribute('src', next);
+  });
+}
+
+syncDDragonImages();
+
+// ----------------- LIVE IN-GAME MATCH STATE -----------------
+const liveMatchStrip = document.getElementById('liveMatchStrip');
+const lmsStatus = document.getElementById('lmsStatus');
+const lmsQueue = document.getElementById('lmsQueue');
+const lmsMap = document.getElementById('lmsMap');
+const lmsChampion = document.getElementById('lmsChampion');
+const lmsPlayers = document.getElementById('lmsPlayers');
+
+function renderInGame(data) {
+  if (!data) {
+    if (liveMatchStrip) liveMatchStrip.style.display = 'none';
+    return;
+  }
+  if (liveMatchStrip) liveMatchStrip.style.display = 'flex';
+  if (lmsStatus) lmsStatus.textContent = 'Match In Progress';
+  if (lmsQueue) lmsQueue.textContent = data.queueName || '-';
+  if (lmsMap) lmsMap.textContent = data.mapName || '-';
+  if (lmsChampion) {
+    const champ = data.championId ? getChampionInfo(data.championId) : null;
+    lmsChampion.textContent = champ ? champ.name : 'Unknown';
+  }
+  if (lmsPlayers) {
+    lmsPlayers.textContent = data.playerCount
+      ? `${data.playerCount} (${data.rosterOne || 0} / ${data.rosterTwo || 0})`
+      : '-';
+  }
+}
+
+window.opgg.onInGameUpdate(renderInGame);
+
+// Wraps the status handler so the in-game strip clears the moment the phase
+// leaves a running match.
+function updateLcuUiAndStrip(status) {
+  updateLcuUi(status);
+  if (!status || status.gameflow !== 'InProgress') {
+    if (liveMatchStrip) liveMatchStrip.style.display = 'none';
+  }
+}
+
+window.opgg.onLcuStatus(updateLcuUiAndStrip);
 window.opgg.lcuStatus().then(updateLcuUi);
 
 // ----------------- LIVE CHAMP SELECT & ARAM BENCH CARDS -----------------
-window.opgg.onChampSelectUpdate((data) => {
+window.opgg.onChampSelectUpdate((data) =>{
   const mode = data.mode || 'ranked';
   activeModeLabel.textContent = `MODE: ${mode.toUpperCase()} (AUTO-HOOK ACTIVE)`;
 
-  // 1. Render ARAM Bench (Reroll Pool)
-  if (data.benchChampions && data.benchChampions.length > 0) {
-    aramBenchSection.style.display = 'block';
-    const benchHtml = data.benchChampions.map(b => {
-      const champInfo = getChampionInfo(b.championId);
-      const tierBadge = getChampTierBadge(b.championId);
-
-      return `
-        <div class="aram-bench-card ${tierBadge.class}">
-          <img src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${champInfo.key || 'Aatrox'}.png" />
-          <div class="champ-name">${champInfo.name}</div>
-          <span class="tier-badge ${tierBadge.class}">${tierBadge.label}</span>
-          <button class="btn-swap-bench" onclick="swapBenchChampion(${b.championId}, '${champInfo.name}')">⚡ Swap</button>
-        </div>
-      `;
-    }).join('');
-    aramBenchGrid.innerHTML = benchHtml;
-  } else {
-    aramBenchGrid.innerHTML = '<div class="empty-bench">No champions on the ARAM bench currently. When teammates reroll, champions appear here with Tier rankings.</div>';
-  }
-
   // 2. Render Team Cards with S-Tier & A-Tier Badges
-  if (data.myTeam && data.myTeam.length > 0) {
-    const teamHtml = data.myTeam.map(member => {
+  if (data.myTeam && data.myTeam.length >0) {
+    const teamHtml = data.myTeam.map(member =>{
       const cId = member.championId || member.championPickIntent || 0;
       const champInfo = getChampionInfo(cId);
-      const isMe = cId === data.myChampionId && cId > 0;
-      const tierBadge = cId > 0 ? getChampTierBadge(cId) : { label: 'PICKING...', class: 't3' };
+      const isMe = cId === data.myChampionId && cId >0;
+      const tierBadge = cId >0 ? getChampTierBadge(cId) : { label: 'PICKING...', class: 't3' };
 
       return `
         <div class="team-card-item ${isMe ? 'is-me' : ''}">
           <div class="team-card-top">
-            <img class="team-card-icon" src="${cId > 0 ? `https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${champInfo.key || 'Aatrox'}.png` : 'assets/images/icon-alert.svg'}" />
+            <img class="team-card-icon" src="${cId >0 ? `https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${champInfo.key || 'Aatrox'}.png` : 'assets/images/icon-alert.svg'}" />
             <div>
-              <div style="font-weight: 800; color: #fff; font-size: 13px;">${cId > 0 ? champInfo.name : 'Selecting Champion'}</div>
+              <div style="font-weight: 800; color: #fff; font-size: 13px;">${cId >0 ? champInfo.name : 'Selecting Champion'}</div>
               <span class="tier-badge ${tierBadge.class}" style="margin-top: 4px;">${tierBadge.label}</span>
             </div>
           </div>
-          ${isMe ? '<div style="font-size: 11px; color: var(--opgg-cyan); font-weight: 700;">⚡ Your Champion (Auto-Runes & Builds Synced)</div>' : ''}
-          <button class="btn-view-build" style="margin-top: 4px;" onclick="${cId > 0 ? `openChampionModal(${cId}, 'TOP')` : ''}">View OP.GG Build</button>
+          ${isMe ? '<div style="font-size: 11px; color: var(--opgg-cyan); font-weight: 700;">Your Champion (Auto-Runes & Builds Synced)</div>' : ''}
+          <button class="btn-view-build" style="margin-top: 4px;" onclick="${cId >0 ? `openChampionModal(${cId}, 'TOP')` : ''}">View OP.GG Build</button>
         </div>
       `;
     }).join('');
@@ -868,7 +900,7 @@ window.opgg.onChampSelectUpdate((data) => {
 });
 
 function getChampTierBadge(champId) {
-  const item = allChampionsData.find(c => c.id === champId);
+  const item = allChampionsData.find(c =>c.id === champId);
   const tierNum = item?.average_stats?.tier ?? item?.tier ?? item?.stats?.tier_data?.tier ?? 2;
   if (tierNum === 0 || tierNum === 1) return { label: 'S-TIER (OP)', class: 'tier-s' };
   if (tierNum === 2) return { label: 'A-TIER', class: 'tier-a' };
@@ -877,14 +909,6 @@ function getChampTierBadge(champId) {
   return { label: 'D-TIER', class: 'tier-d' };
 }
 
-window.swapBenchChampion = async function(champId, champName) {
-  const res = await window.opgg.lcuSwapBench(champId);
-  if (res.success) {
-    showToast(`⚡ Swapped to ${champName} from ARAM bench!`);
-  } else {
-    showToast(`Swap failed: ${res.error || 'Champion may have been taken'}`, true);
-  }
-};
 
 // ----------------- LOL CHAMPIONS & TIER LIST -----------------
 async function loadChampions() {
@@ -907,7 +931,7 @@ async function loadChampions() {
     });
     if (res.names) {
       if (Array.isArray(res.names)) {
-        res.names.forEach(item => {
+        res.names.forEach(item =>{
           championNamesMap[item.id] = item.name;
         });
       } else if (typeof res.names === 'object') {
@@ -930,7 +954,7 @@ async function loadChampions() {
 
 function getChampionInfo(champId) {
   const numId = Number(champId);
-  const baseId = numId > 60000 ? (numId - 60000) : numId;
+  const baseId = numId >60000 ? (numId - 60000) : numId;
 
   // Search local DDragon by key
   const dd = ddragonChampionsMap[String(baseId)] || ddragonChampionsMap[String(numId)];
@@ -963,10 +987,10 @@ function renderChampionsTable() {
   if (currentMode === 'ranked') {
     if (currentRole === 'all') {
       // In Ranked ALL: show all champions with their primary position
-      rows = allChampionsData.map(c => {
+      rows = allChampionsData.map(c =>{
         let primaryPos = null;
-        if (c.positions && c.positions.length > 0) {
-          primaryPos = c.positions.slice().sort((a, b) => (b.stats?.play || 0) - (a.stats?.play || 0))[0];
+        if (c.positions && c.positions.length >0) {
+          primaryPos = c.positions.slice().sort((a, b) =>(b.stats?.play || 0) - (a.stats?.play || 0))[0];
         }
 
         const stats = primaryPos?.stats || {};
@@ -999,8 +1023,8 @@ function renderChampionsTable() {
     } else {
       // In Ranked specific role (e.g. JUNGLE, TOP, MID, ADC, SUPPORT)
       const roleUpper = currentRole.toUpperCase();
-      allChampionsData.forEach(c => {
-        const posEntry = c.positions ? c.positions.find(p => p.name.toUpperCase() === roleUpper) : null;
+      allChampionsData.forEach(c =>{
+        const posEntry = c.positions ? c.positions.find(p =>p.name.toUpperCase() === roleUpper) : null;
         if (posEntry) {
           const stats = posEntry.stats || {};
           const tierData = stats.tier_data || {};
@@ -1008,13 +1032,13 @@ function renderChampionsTable() {
           const roleRate = stats.role_rate !== undefined ? stats.role_rate : (stats.pick_rate || 0);
 
           // If Show All is unchecked, filter off-meta picks (require role_rate >= 0.005 or play >= 60 or valid tier)
-          if (!showAllChampions && roleRate < 0.005 && playCount < 60 && tierData.tier === undefined) {
+          if (!showAllChampions && roleRate< 0.005 && playCount< 60 && tierData.tier === undefined) {
             return;
           }
 
           const rank = tierData.rank || 999;
           const rankPrev = tierData.rank_prev || rank;
-          const tierNum = tierData.tier ?? (rank <= 5 ? 1 : rank <= 15 ? 2 : rank <= 30 ? 3 : 4);
+          const tierNum = tierData.tier ?? (rank<= 5 ? 1 : rank<= 15 ? 2 : rank<= 30 ? 3 : 4);
           const winRate = stats.win_rate ?? 0.5;
           const pickRate = stats.pick_rate ?? 0.02;
           const banRate = stats.ban_rate ?? 0.01;
@@ -1060,8 +1084,8 @@ function renderChampionsTable() {
   } else if (currentMode === 'aram') {
     // ARAM mode
     rows = allChampionsData
-      .filter(c => c.average_stats && (c.average_stats.play > 0 || c.id < 60000))
-      .map(c => {
+      .filter(c =>c.average_stats && (c.average_stats.play >0 || c.id< 60000))
+      .map(c =>{
         const avg = c.average_stats || {};
         const tierData = avg.tier_data || {};
         const rank = avg.rank || tierData.rank || 999;
@@ -1090,22 +1114,22 @@ function renderChampionsTable() {
   } else if (currentMode === 'arena') {
     // Arena / Mayhem mode
     rows = allChampionsData
-      .filter(c => c.average_stats && c.average_stats.play > 0 && !c.is_rip && c.id < 60000)
-      .map(c => {
+      .filter(c =>c.average_stats && c.average_stats.play >0 && !c.is_rip && c.id< 60000)
+      .map(c =>{
         const avg = c.average_stats || {};
         const tierData = avg.tier_data || {};
         const rank = avg.rank || tierData.rank || 999;
         const rankPrev = tierData.rank_prev || rank;
         const tierNum = avg.tier ?? (tierData.tier ?? 3);
         const matches = avg.play || 0;
-        const winRate = matches > 0 ? (avg.win / matches) : (avg.win_rate ?? 0.5);
+        const winRate = matches >0 ? (avg.win / matches) : (avg.win_rate ?? 0.5);
         const firstPlace = avg.first_place || 0;
-        const firstPlaceRate = matches > 0 ? (firstPlace / matches) : 0;
+        const firstPlaceRate = matches >0 ? (firstPlace / matches) : 0;
         const totalPlace = avg.total_place || 0;
-        const avgPlace = matches > 0 ? (totalPlace / matches) : 4.5;
+        const avgPlace = matches >0 ? (totalPlace / matches) : 4.5;
         const pickRate = avg.pick_rate ?? 0.05;
         const banRate = avg.ban_rate !== undefined && avg.ban_rate !== null ? avg.ban_rate : null;
-        const kda = avg.deaths > 0 ? ((avg.kills + avg.assists) / avg.deaths) : 2.7;
+        const kda = avg.deaths >0 ? ((avg.kills + avg.assists) / avg.deaths) : 2.7;
 
         const info = getChampionInfo(c.id);
         const tags = info.tags || [];
@@ -1131,7 +1155,7 @@ function renderChampionsTable() {
     // Role / Archetype filter in Arena mode
     if (currentRole && currentRole !== 'all') {
       const r = currentRole.toUpperCase();
-      rows = rows.filter(item => {
+      rows = rows.filter(item =>{
         if (r === 'TOP') return item.tags.includes('Fighter');
         if (r === 'JUNGLE') return item.tags.includes('Tank');
         if (r === 'MID') return item.tags.includes('Mage');
@@ -1144,12 +1168,12 @@ function renderChampionsTable() {
 
   // Archetype & Starred Favorites (My Pool) Filter
   if (currentArchetype === 'favorites') {
-    rows = rows.filter(item => favoriteChampIds.has(Number(item.champId)));
+    rows = rows.filter(item =>favoriteChampIds.has(Number(item.champId)));
   } else if (currentArchetype && currentArchetype !== 'all') {
     const archLower = currentArchetype.toLowerCase();
-    rows = rows.filter(item => {
+    rows = rows.filter(item =>{
       const info = getChampionInfo(item.champId);
-      const tags = (info.tags || []).map(t => t.toLowerCase());
+      const tags = (info.tags || []).map(t =>t.toLowerCase());
       return tags.includes(archLower);
     });
   }
@@ -1157,14 +1181,14 @@ function renderChampionsTable() {
   // 2. Filter by search input
   if (currentSearch) {
     const searchLower = currentSearch.toLowerCase();
-    rows = rows.filter(item => {
+    rows = rows.filter(item =>{
       const info = getChampionInfo(item.champId);
       return info.name.toLowerCase().includes(searchLower);
     });
   }
 
   // 3. Dynamic sorting by active column and direction
-  rows.sort((a, b) => {
+  rows.sort((a, b) =>{
     let diff = 0;
     if (currentSortColumn === 'rank') {
       diff = a.rank - b.rank;
@@ -1214,17 +1238,17 @@ function renderChampionsTable() {
   }
 
   // 4. Render HTML table rows
-  const rowsHtml = rows.map((item, index) => {
+  const rowsHtml = rows.map((item, index) =>{
     const champInfo = getChampionInfo(item.champId);
-    const displayRank = item.rank < 999 ? item.rank : index + 1;
+    const displayRank = item.rank< 999 ? item.rank : index + 1;
     const isFav = favoriteChampIds.has(Number(item.champId));
 
     // Rank difference badge (▲, ▼, -)
     let rankDiffHtml = '<span class="rank-diff same">-</span>';
-    if (item.rankPrev && item.rankPrev < 999 && item.rank < 999) {
-      if (item.rank < item.rankPrev) {
+    if (item.rankPrev && item.rankPrev< 999 && item.rank< 999) {
+      if (item.rank< item.rankPrev) {
         rankDiffHtml = `<span class="rank-diff up">▲${item.rankPrev - item.rank}</span>`;
-      } else if (item.rank > item.rankPrev) {
+      } else if (item.rank >item.rankPrev) {
         rankDiffHtml = `<span class="rank-diff down">▼${item.rank - item.rankPrev}</span>`;
       }
     }
@@ -1232,7 +1256,7 @@ function renderChampionsTable() {
     // Tier badge mapping (OP.GG style: OP, Tier 1, Tier 2, Tier 3, Tier 4, Tier 5)
     let tierLabel = 'Tier 3';
     let tierClass = 't3';
-    if (item.tierNum === 0 || (item.tierNum === 1 && item.rank <= 3)) {
+    if (item.tierNum === 0 || (item.tierNum === 1 && item.rank<= 3)) {
       tierLabel = 'OP';
       tierClass = 'op';
     } else if (item.tierNum === 1) {
@@ -1253,7 +1277,7 @@ function renderChampionsTable() {
     }
 
     const wrPercent = (item.winRate * 100).toFixed(2);
-    const wrColor = item.winRate >= 0.52 ? 'var(--opgg-cyan)' : item.winRate < 0.48 ? '#ff5858' : '#ffffff';
+    const wrColor = item.winRate >= 0.52 ? 'var(--opgg-cyan)' : item.winRate< 0.48 ? '#ff5858' : '#ffffff';
     const wrBarPercent = Math.max(10, Math.min(100, (item.winRate - 0.40) * 500));
     const pickPercent = (item.pickRate * 100).toFixed(2);
     const banPercent = item.banRate !== null && item.banRate !== undefined ? `${(item.banRate * 100).toFixed(2)}%` : '--';
@@ -1266,13 +1290,13 @@ function renderChampionsTable() {
       const firstPlacePct = (item.firstPlaceRate * 100).toFixed(1);
       const top4Pct = (item.winRate * 100).toFixed(1);
       const avgPlaceNum = item.avgPlace.toFixed(2);
-      const avgPlaceClass = item.avgPlace <= 3.2 ? 'top-tier' : item.avgPlace <= 3.7 ? 'mid-tier' : 'low-tier';
+      const avgPlaceClass = item.avgPlace<= 3.2 ? 'top-tier' : item.avgPlace<= 3.7 ? 'mid-tier' : 'low-tier';
 
       // Top recommended augments preview
       const topAugs = getTopAugmentsForChamp(item.champId);
       const augsHtml = `
         <div class="arena-aug-preview-list">
-          ${topAugs.map(aug => `
+          ${topAugs.map(aug =>`
             <div class="arena-aug-mini-chip ${aug.rarityClass || 'prismatic'}" title="${aug.name}: ${aug.desc || ''}">
               <img loading="lazy" src="${aug.smallIcon || aug.largeIcon || 'assets/images/icon-alert.svg'}" alt="${aug.name}" onerror="this.src='https://opgg-static.akamaized.net/meta/images/lol/latest/augment/acceleratingsorcery_small.png'" />
             </div>
@@ -1283,11 +1307,11 @@ function renderChampionsTable() {
       return `
         <tr data-champ-id="${item.champId}" data-role="ARENA">
           <td style="text-align: center;">
-            <button class="btn-fav-star ${isFav ? 'active' : ''}" onclick="toggleChampionFavorite(${item.champId}, event)" title="${isFav ? 'Unpin favorite' : 'Pin to My Pool'}">⭐</button>
+            <button class="btn-fav-star ${isFav ? 'active' : ''}" onclick="toggleChampionFavorite(${item.champId}, event)" title="${isFav ? 'Unpin favorite' : 'Pin to My Pool'}"></button>
           </td>
           <td>
             <div class="rank-cell-wrap">
-              <span style="font-weight: 800; color: ${displayRank <= 3 ? 'var(--opgg-cyan)' : 'var(--text-dim)'}; font-size: 13px;">${displayRank}</span>
+              <span style="font-weight: 800; color: ${displayRank<= 3 ? 'var(--opgg-cyan)' : 'var(--text-dim)'}; font-size: 13px;">${displayRank}</span>
               ${rankDiffHtml}
             </div>
           </td>
@@ -1306,7 +1330,7 @@ function renderChampionsTable() {
           <td><span class="tier-badge ${tierClass}">${tierLabel}</span></td>
           <td>
             <div class="first-place-cell">
-              <span class="first-place-crown">👑</span>
+              <span class="first-place-crown"></span>
               <span>${firstPlacePct}%</span>
             </div>
           </td>
@@ -1334,9 +1358,9 @@ function renderChampionsTable() {
 
     // Standard Ranked & ARAM Row
     let countersHtml = '<span style="color: var(--text-dim); font-size: 11px;">--</span>';
-    if (item.counters && item.counters.length > 0) {
+    if (item.counters && item.counters.length >0) {
       const topCounters = item.counters.slice(0, 3);
-      countersHtml = topCounters.map(cnt => {
+      countersHtml = topCounters.map(cnt =>{
         const cntInfo = getChampionInfo(cnt.champion_id);
         const winPercent = cnt.win && cnt.play ? `${((cnt.win / cnt.play) * 100).toFixed(1)}%` : '';
         return `
@@ -1352,11 +1376,11 @@ function renderChampionsTable() {
     return `
       <tr data-champ-id="${item.champId}" data-role="${item.position || 'all'}">
         <td style="text-align: center;">
-          <button class="btn-fav-star ${isFav ? 'active' : ''}" onclick="toggleChampionFavorite(${item.champId}, event)" title="${isFav ? 'Unpin favorite' : 'Pin to My Pool'}">⭐</button>
+          <button class="btn-fav-star ${isFav ? 'active' : ''}" onclick="toggleChampionFavorite(${item.champId}, event)" title="${isFav ? 'Unpin favorite' : 'Pin to My Pool'}"></button>
         </td>
         <td>
           <div class="rank-cell-wrap">
-            <span style="font-weight: 800; color: ${displayRank <= 3 ? 'var(--opgg-cyan)' : 'var(--text-dim)'}; font-size: 13px;">${displayRank}</span>
+            <span style="font-weight: 800; color: ${displayRank<= 3 ? 'var(--opgg-cyan)' : 'var(--text-dim)'}; font-size: 13px;">${displayRank}</span>
             ${rankDiffHtml}
           </div>
         </td>
@@ -1410,16 +1434,16 @@ function updateTableHeaderForMode() {
   if (currentMode === 'arena') {
     thead.innerHTML = `
       <tr>
-        <th style="width: 42px; text-align: center;" title="Favorite Pin">⭐</th>
-        <th class="sortable ${currentSortColumn === 'rank' ? 'active' : ''}" data-sort="rank" style="width: 75px;">Rank <span class="sort-icon">${currentSortColumn === 'rank' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
-        <th class="sortable ${currentSortColumn === 'champion' ? 'active' : ''}" data-sort="champion">Champion <span class="sort-icon">${currentSortColumn === 'champion' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
-        <th class="sortable ${currentSortColumn === 'tier' ? 'active' : ''}" data-sort="tier" style="width: 80px;">Tier <span class="sort-icon">${currentSortColumn === 'tier' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
-        <th class="sortable ${currentSortColumn === 'firstPlace' ? 'active' : ''}" data-sort="firstPlace" style="width: 110px;" title="1st Place Finish Rate">1st Place % <span class="sort-icon">${currentSortColumn === 'firstPlace' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
-        <th class="sortable ${currentSortColumn === 'winRate' ? 'active' : ''}" data-sort="winRate" style="width: 125px;" title="Top 4 (Win) Rate">Top 4 Rate <span class="sort-icon">${currentSortColumn === 'winRate' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
-        <th class="sortable ${currentSortColumn === 'avgPlace' ? 'active' : ''}" data-sort="avgPlace" style="width: 100px;" title="Average Placement (1.0 is best)">Avg Place <span class="sort-icon">${currentSortColumn === 'avgPlace' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
-        <th class="sortable ${currentSortColumn === 'pickRate' ? 'active' : ''}" data-sort="pickRate" style="width: 95px;">Pick Rate <span class="sort-icon">${currentSortColumn === 'pickRate' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
-        <th class="sortable ${currentSortColumn === 'banRate' ? 'active' : ''}" data-sort="banRate" style="width: 95px;">Ban Rate <span class="sort-icon">${currentSortColumn === 'banRate' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
-        <th class="sortable ${currentSortColumn === 'matches' ? 'active' : ''}" data-sort="matches" style="width: 105px;">Matches <span class="sort-icon">${currentSortColumn === 'matches' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th style="width: 42px; text-align: center;" title="Favorite Pin"></th>
+        <th class="sortable ${currentSortColumn === 'rank' ? 'active' : ''}" data-sort="rank" style="width: 75px;">Rank<span class="sort-icon">${currentSortColumn === 'rank' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'champion' ? 'active' : ''}" data-sort="champion">Champion<span class="sort-icon">${currentSortColumn === 'champion' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'tier' ? 'active' : ''}" data-sort="tier" style="width: 80px;">Tier<span class="sort-icon">${currentSortColumn === 'tier' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'firstPlace' ? 'active' : ''}" data-sort="firstPlace" style="width: 110px;" title="1st Place Finish Rate">1st Place %<span class="sort-icon">${currentSortColumn === 'firstPlace' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'winRate' ? 'active' : ''}" data-sort="winRate" style="width: 125px;" title="Top 4 (Win) Rate">Top 4 Rate<span class="sort-icon">${currentSortColumn === 'winRate' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'avgPlace' ? 'active' : ''}" data-sort="avgPlace" style="width: 100px;" title="Average Placement (1.0 is best)">Avg Place<span class="sort-icon">${currentSortColumn === 'avgPlace' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'pickRate' ? 'active' : ''}" data-sort="pickRate" style="width: 95px;">Pick Rate<span class="sort-icon">${currentSortColumn === 'pickRate' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'banRate' ? 'active' : ''}" data-sort="banRate" style="width: 95px;">Ban Rate<span class="sort-icon">${currentSortColumn === 'banRate' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'matches' ? 'active' : ''}" data-sort="matches" style="width: 105px;">Matches<span class="sort-icon">${currentSortColumn === 'matches' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
         <th style="width: 130px;">Top Augments</th>
         <th style="width: 135px; text-align: right;">Arena Build</th>
       </tr>
@@ -1427,23 +1451,23 @@ function updateTableHeaderForMode() {
   } else {
     thead.innerHTML = `
       <tr>
-        <th style="width: 42px; text-align: center;" title="Favorite Pin">⭐</th>
-        <th class="sortable ${currentSortColumn === 'rank' ? 'active' : ''}" data-sort="rank" style="width: 75px;">Rank <span class="sort-icon">${currentSortColumn === 'rank' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
-        <th class="sortable ${currentSortColumn === 'champion' ? 'active' : ''}" data-sort="champion">Champion <span class="sort-icon">${currentSortColumn === 'champion' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
-        <th class="sortable ${currentSortColumn === 'tier' ? 'active' : ''}" data-sort="tier" style="width: 80px;">Tier <span class="sort-icon">${currentSortColumn === 'tier' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
-        <th class="sortable ${currentSortColumn === 'winRate' ? 'active' : ''}" data-sort="winRate" style="width: 125px;">Win Rate <span class="sort-icon">${currentSortColumn === 'winRate' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
-        <th class="sortable ${currentSortColumn === 'pickRate' ? 'active' : ''}" data-sort="pickRate" style="width: 95px;">Pick Rate <span class="sort-icon">${currentSortColumn === 'pickRate' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
-        <th class="sortable ${currentSortColumn === 'banRate' ? 'active' : ''}" data-sort="banRate" style="width: 95px;">Ban Rate <span class="sort-icon">${currentSortColumn === 'banRate' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
-        <th class="sortable ${currentSortColumn === 'matches' ? 'active' : ''}" data-sort="matches" style="width: 105px;">Matches <span class="sort-icon">${currentSortColumn === 'matches' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
-        <th class="sortable ${currentSortColumn === 'kda' ? 'active' : ''}" data-sort="kda" style="width: 85px;">KDA <span class="sort-icon">${currentSortColumn === 'kda' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th style="width: 42px; text-align: center;" title="Favorite Pin"></th>
+        <th class="sortable ${currentSortColumn === 'rank' ? 'active' : ''}" data-sort="rank" style="width: 75px;">Rank<span class="sort-icon">${currentSortColumn === 'rank' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'champion' ? 'active' : ''}" data-sort="champion">Champion<span class="sort-icon">${currentSortColumn === 'champion' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'tier' ? 'active' : ''}" data-sort="tier" style="width: 80px;">Tier<span class="sort-icon">${currentSortColumn === 'tier' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'winRate' ? 'active' : ''}" data-sort="winRate" style="width: 125px;">Win Rate<span class="sort-icon">${currentSortColumn === 'winRate' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'pickRate' ? 'active' : ''}" data-sort="pickRate" style="width: 95px;">Pick Rate<span class="sort-icon">${currentSortColumn === 'pickRate' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'banRate' ? 'active' : ''}" data-sort="banRate" style="width: 95px;">Ban Rate<span class="sort-icon">${currentSortColumn === 'banRate' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'matches' ? 'active' : ''}" data-sort="matches" style="width: 105px;">Matches<span class="sort-icon">${currentSortColumn === 'matches' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
+        <th class="sortable ${currentSortColumn === 'kda' ? 'active' : ''}" data-sort="kda" style="width: 85px;">KDA<span class="sort-icon">${currentSortColumn === 'kda' ? (currentSortOrder === 'asc' ? '▲' : '▼') : '⇅'}</span></th>
         <th>Hardest Counters</th>
         <th style="width: 120px; text-align: right;">Build & Runes</th>
       </tr>
     `;
   }
 
-  thead.querySelectorAll('th.sortable').forEach(th => {
-    th.addEventListener('click', () => {
+  thead.querySelectorAll('th.sortable').forEach(th =>{
+    th.addEventListener('click', () =>{
       const col = th.getAttribute('data-sort');
       if (currentSortColumn === col) {
         currentSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
@@ -1463,7 +1487,7 @@ function updateTableHeaderForMode() {
 
 // Mode & Filter events
 if (modeFilterSelect) {
-  modeFilterSelect.addEventListener('change', (e) => {
+  modeFilterSelect.addEventListener('change', (e) =>{
     currentMode = e.target.value;
     tableHeaderInitializedMode = null; // force header re-creation for the new mode
 
@@ -1473,7 +1497,7 @@ if (modeFilterSelect) {
         tierFilterSelect.style.opacity = '0.5';
       }
       // Enable role filters to filter by Arena champion archetypes
-      roleFilters.forEach(b => {
+      roleFilters.forEach(b =>{
         b.style.opacity = '1';
         const role = b.getAttribute('data-role');
         if (role === 'TOP') b.setAttribute('title', 'Fighter Champions');
@@ -1488,7 +1512,7 @@ if (modeFilterSelect) {
         tierFilterSelect.disabled = true;
         tierFilterSelect.style.opacity = '0.5';
       }
-      roleFilters.forEach(b => {
+      roleFilters.forEach(b =>{
         if (b.getAttribute('data-role') !== 'all') {
           b.style.opacity = '0.4';
         }
@@ -1498,7 +1522,7 @@ if (modeFilterSelect) {
         tierFilterSelect.disabled = false;
         tierFilterSelect.style.opacity = '1';
       }
-      roleFilters.forEach(b => {
+      roleFilters.forEach(b =>{
         b.style.opacity = '1';
         const role = b.getAttribute('data-role');
         if (role === 'TOP') b.setAttribute('title', 'Top Lane');
@@ -1514,37 +1538,37 @@ if (modeFilterSelect) {
 }
 
 if (tierFilterSelect) {
-  tierFilterSelect.addEventListener('change', (e) => {
+  tierFilterSelect.addEventListener('change', (e) =>{
     currentTier = e.target.value;
     loadChampions();
   });
 }
 
 if (regionFilterSelect) {
-  regionFilterSelect.addEventListener('change', (e) => {
+  regionFilterSelect.addEventListener('change', (e) =>{
     currentRegion = e.target.value;
     loadChampions();
   });
 }
 
 if (patchFilterSelect) {
-  patchFilterSelect.addEventListener('change', (e) => {
+  patchFilterSelect.addEventListener('change', (e) =>{
     currentPatch = e.target.value;
     loadChampions();
   });
 }
 
 if (showAllCheckbox) {
-  showAllCheckbox.addEventListener('change', (e) => {
+  showAllCheckbox.addEventListener('change', (e) =>{
     showAllChampions = e.target.checked;
     renderChampionsTable();
-    showToast(showAllChampions ? '🔍 Showing all champions (including off-meta picks)' : 'Showing meta tier champions');
+    showToast(showAllChampions ? 'Showing all champions (including off-meta picks)' : 'Showing meta tier champions');
   });
 }
 
-roleFilters.forEach(btn => {
-  btn.addEventListener('click', () => {
-    roleFilters.forEach(b => b.classList.remove('active'));
+roleFilters.forEach(btn =>{
+  btn.addEventListener('click', () =>{
+    roleFilters.forEach(b =>b.classList.remove('active'));
     btn.classList.add('active');
     currentRole = btn.getAttribute('data-role');
     renderChampionsTable();
@@ -1553,9 +1577,9 @@ roleFilters.forEach(btn => {
 
 let searchDebounce = null;
 if (champSearchInput) {
-  champSearchInput.addEventListener('input', (e) => {
+  champSearchInput.addEventListener('input', (e) =>{
     clearTimeout(searchDebounce);
-    searchDebounce = setTimeout(() => {
+    searchDebounce = setTimeout(() =>{
       currentSearch = e.target.value.trim();
       renderChampionsTable();
     }, 100);
@@ -1564,7 +1588,7 @@ if (champSearchInput) {
 
 // ----------------- TABLE HEADER SORTING -----------------
 function updateSortIcons() {
-  document.querySelectorAll('#championsTable th.sortable').forEach(th => {
+  document.querySelectorAll('#championsTable th.sortable').forEach(th =>{
     const col = th.getAttribute('data-sort');
     const icon = th.querySelector('.sort-icon');
     if (col === currentSortColumn) {
@@ -1578,8 +1602,8 @@ function updateSortIcons() {
 }
 
 function setupTableSorting() {
-  document.querySelectorAll('#championsTable th.sortable').forEach(th => {
-    th.addEventListener('click', () => {
+  document.querySelectorAll('#championsTable th.sortable').forEach(th =>{
+    th.addEventListener('click', () =>{
       const col = th.getAttribute('data-sort');
       if (!col) return;
       if (currentSortColumn === col) {
@@ -1632,10 +1656,10 @@ window.openChampionModal = async function(champId, position = 'TOP') {
   if (modalBodyTabs) {
     if (isArenaMode) {
       modalBodyTabs.innerHTML = `
-        <button class="modal-tab active" data-modaltab="augments">✨ Augments & Prismatics</button>
-        <button class="modal-tab" data-modaltab="synergies">🤝 2v2 Duo Synergies</button>
-        <button class="modal-tab" data-modaltab="items">⚔️ Arena Build & Boots</button>
-        <button class="modal-tab" data-modaltab="skills">🎯 Skill Max Order</button>
+        <button class="modal-tab active" data-modaltab="augments">Augments & Prismatics</button>
+        <button class="modal-tab" data-modaltab="synergies">2v2 Duo Synergies</button>
+        <button class="modal-tab" data-modaltab="items">Arena Build & Boots</button>
+        <button class="modal-tab" data-modaltab="skills">Skill Max Order</button>
       `;
     } else {
       modalBodyTabs.innerHTML = `
@@ -1643,16 +1667,16 @@ window.openChampionModal = async function(champId, position = 'TOP') {
         <button class="modal-tab" data-modaltab="items">Core Item Builds</button>
         <button class="modal-tab" data-modaltab="skills">Skill Max Order</button>
         <button class="modal-tab" data-modaltab="counters">Matchup Counters</button>
-        <button class="modal-tab" data-modaltab="matchup">⚔️ VS Matchup Analyzer</button>
+        <button class="modal-tab" data-modaltab="matchup">VS Matchup Analyzer</button>
       `;
     }
 
-    modalBodyTabs.querySelectorAll('.modal-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        modalBodyTabs.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+    modalBodyTabs.querySelectorAll('.modal-tab').forEach(tab =>{
+      tab.addEventListener('click', () =>{
+        modalBodyTabs.querySelectorAll('.modal-tab').forEach(t =>t.classList.remove('active'));
         tab.classList.add('active');
         const tabName = tab.getAttribute('data-modaltab');
-        document.querySelectorAll('.modal-body-content .modal-panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.modal-body-content .modal-panel').forEach(p =>p.classList.remove('active'));
         const panel = document.getElementById(`modalTab-${tabName}`);
         if (panel) panel.classList.add('active');
       });
@@ -1660,20 +1684,20 @@ window.openChampionModal = async function(champId, position = 'TOP') {
   }
 
   // Activate appropriate first panel
-  document.querySelectorAll('.modal-body-content .modal-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.modal-body-content .modal-panel').forEach(p =>p.classList.remove('active'));
   const firstPanel = document.getElementById(isArenaMode ? 'modalTab-augments' : 'modalTab-runes');
   if (firstPanel) firstPanel.classList.add('active');
 
   const augCont = document.getElementById('arenaAugmentsContainer');
-  if (augCont) augCont.innerHTML = '<div class="loading-cell"><div class="spinner-small"></div> Loading live Arena augments & prismatic items...</div>';
+  if (augCont) augCont.innerHTML = '<div class="loading-cell"><div class="spinner-small"></div>Loading live Arena augments & prismatic items...</div>';
   const synCont = document.getElementById('arenaSynergiesContainer');
-  if (synCont) synCont.innerHTML = '<div class="loading-cell"><div class="spinner-small"></div> Loading best 2v2 duo partners...</div>';
-  document.getElementById('runesContainer').innerHTML = '<div class="loading-cell"><div class="spinner-small"></div> Loading runes...</div>';
-  document.getElementById('itemsContainer').innerHTML = '<div class="loading-cell"><div class="spinner-small"></div> Loading items...</div>';
-  document.getElementById('skillsContainer').innerHTML = '<div class="loading-cell"><div class="spinner-small"></div> Loading skills...</div>';
-  document.getElementById('countersContainer').innerHTML = '<div class="loading-cell"><div class="spinner-small"></div> Loading counters...</div>';
+  if (synCont) synCont.innerHTML = '<div class="loading-cell"><div class="spinner-small"></div>Loading best 2v2 duo partners...</div>';
+  document.getElementById('runesContainer').innerHTML = '<div class="loading-cell"><div class="spinner-small"></div>Loading runes...</div>';
+  document.getElementById('itemsContainer').innerHTML = '<div class="loading-cell"><div class="spinner-small"></div>Loading items...</div>';
+  document.getElementById('skillsContainer').innerHTML = '<div class="loading-cell"><div class="spinner-small"></div>Loading skills...</div>';
+  document.getElementById('countersContainer').innerHTML = '<div class="loading-cell"><div class="spinner-small"></div>Loading counters...</div>';
   const matchupCont = document.getElementById('matchupContainer');
-  if (matchupCont) matchupCont.innerHTML = '<div class="loading-cell"><div class="spinner-small"></div> Loading 1v1 matchup analysis...</div>';
+  if (matchupCont) matchupCont.innerHTML = '<div class="loading-cell"><div class="spinner-small"></div>Loading 1v1 matchup analysis...</div>';
 
   try {
     const res = await window.opgg.getChampionDetail(champId, isArenaMode ? 'none' : position.toLowerCase(), currentTier, currentMode);
@@ -1692,9 +1716,9 @@ window.openChampionModal = async function(champId, position = 'TOP') {
       const banRate = avg.ban_rate !== undefined && avg.ban_rate !== null ? `${(avg.ban_rate * 100).toFixed(1)}%` : '--';
       const tierNum = avg.tier || 1;
 
-      modalChampWinRate.innerHTML = `Top 4 Rate: <b>${top4Rate}%</b>`;
-      modalChampPickRate.innerHTML = `👑 1st Place: <b>${firstPlaceRate}%</b>`;
-      modalChampBanRate.innerHTML = `Avg Place: <b>#${avgPlace}</b>`;
+      modalChampWinRate.innerHTML = `Top 4 Rate:<b>${top4Rate}%</b>`;
+      modalChampPickRate.innerHTML = `1st Place:<b>${firstPlaceRate}%</b>`;
+      modalChampBanRate.innerHTML = `Avg Place:<b>#${avgPlace}</b>`;
       modalChampTier.textContent = tierNum === 1 ? 'S+ (OP)' : tierNum === 2 ? 'A-Tier' : 'B-Tier';
       modalChampTier.className = `stat-pill tier-pill tier-badge ${tierNum === 1 ? 'tier-s' : tierNum === 2 ? 'tier-a' : 'tier-b'}`;
 
@@ -1702,7 +1726,7 @@ window.openChampionModal = async function(champId, position = 'TOP') {
       if (pushBtn) {
         pushBtn.innerHTML = `
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-          <span>⚡ Auto-Shop Build Active for Arena</span>
+          <span>Auto-Shop Build Active for Arena</span>
         `;
       }
 
@@ -1715,11 +1739,11 @@ window.openChampionModal = async function(champId, position = 'TOP') {
       if (pushBtn) {
         pushBtn.innerHTML = `
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-          <span>⚡ Push Runes to League Client</span>
+          <span>Push Runes to League Client</span>
         `;
       }
 
-      const posData = (summary.positions || []).find(p => p.name.toLowerCase() === position.toLowerCase()) || summary.positions?.[0];
+      const posData = (summary.positions || []).find(p =>p.name.toLowerCase() === position.toLowerCase()) || summary.positions?.[0];
       if (posData && posData.stats) {
         modalChampWinRate.textContent = `Win Rate: ${(posData.stats.win_rate * 100).toFixed(2)}%`;
         modalChampPickRate.textContent = `Pick Rate: ${(posData.stats.pick_rate * 100).toFixed(2)}%`;
@@ -1740,17 +1764,17 @@ window.openChampionModal = async function(champId, position = 'TOP') {
   }
 };
 
-modalCloseBtn.addEventListener('click', () => {
+modalCloseBtn.addEventListener('click', () =>{
   championModal.classList.remove('active');
   activeChampionDetail = null;
 });
 
-modalTabs.forEach(tab => {
-  tab.addEventListener('click', () => {
-    modalTabs.forEach(t => t.classList.remove('active'));
+modalTabs.forEach(tab =>{
+  tab.addEventListener('click', () =>{
+    modalTabs.forEach(t =>t.classList.remove('active'));
     tab.classList.add('active');
     const tabName = tab.getAttribute('data-modaltab');
-    modalPanels.forEach(p => p.classList.remove('active'));
+    modalPanels.forEach(p =>p.classList.remove('active'));
     document.getElementById(`modalTab-${tabName}`).classList.add('active');
   });
 });
@@ -1813,7 +1837,7 @@ function renderRunes(build) {
           </div>
         </div>
 
-        ${perks.slice(1).map(p => {
+        ${perks.slice(1).map(p =>{
           const r = getRuneDetails(p);
           return `
             <div class="rune-item-row">
@@ -1830,7 +1854,7 @@ function renderRunes(build) {
           <span>${secondaryTree.name} (Secondary)</span>
         </div>
 
-        ${secondaryPerks.map(p => {
+        ${secondaryPerks.map(p =>{
           const r = getRuneDetails(p);
           return `
             <div class="rune-item-row">
@@ -1842,7 +1866,7 @@ function renderRunes(build) {
 
         <div class="runes-tree-title" style="margin-top: 20px;">Stat Shards</div>
         <div style="display: flex; gap: 8px;">
-          ${statMods.map(s => {
+          ${statMods.map(s =>{
             const shardName = s === 5008 ? '+9 Adaptive' : s === 5005 ? '+10% AS' : s === 5007 ? '+8 Ability Haste' : s === 5002 ? '+6 Armor' : s === 5003 ? '+8 MR' : '+65 HP';
             return `<div class="stat-pill" style="border-color: #666; font-size: 11px; padding: 4px 8px;">${shardName}</div>`;
           }).join('')}
@@ -1862,14 +1886,14 @@ function renderItems(build) {
       <div>
         <h3 style="font-size: 14px; font-weight: 800; margin-bottom: 10px; color: #fff;">Recommended Core Item Builds (${currentMode.toUpperCase()})</h3>
         <div style="display: flex; gap: 12px;">
-          ${core.map(c => `
+          ${core.map(c =>`
             <div style="background: var(--bg-surface); padding: 14px; border-radius: 8px; border: 1px solid var(--border-color); flex: 1;">
               <div style="display: flex; gap: 8px; margin-bottom: 10px; align-items: center;">
-                ${(c.ids || []).map((id, idx) => {
+                ${(c.ids || []).map((id, idx) =>{
                   const normId = normalizeItemId(id);
                   return `
                     <img loading="lazy" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/${normId}.png" data-tooltip-type="item" data-tooltip-id="${normId}" onerror="this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/1001.png'" style="width: 44px; height: 44px; border-radius: 6px; border: 2px solid #555; cursor: pointer;" />
-                    ${idx < (c.ids || []).length - 1 ? '<span style="color: var(--text-dim); font-size: 16px;">›</span>' : ''}
+                    ${idx< (c.ids || []).length - 1 ? '<span style="color: var(--text-dim); font-size: 16px;">›</span>' : ''}
                   `;
                 }).join('')}
               </div>
@@ -1884,10 +1908,10 @@ function renderItems(build) {
         <div style="background: var(--bg-surface); padding: 14px; border-radius: 8px; border: 1px solid var(--border-color);">
           <h4 style="font-size: 13px; font-weight: 700; margin-bottom: 8px;">Starting Items</h4>
           <div style="display: flex; flex-direction: column; gap: 8px;">
-            ${starters.map(st => `
+            ${starters.map(st =>`
               <div style="display: flex; align-items: center; justify-content: space-between;">
                 <div style="display: flex; gap: 6px;">
-                  ${(st.ids || []).map(id => {
+                  ${(st.ids || []).map(id =>{
                     const normId = normalizeItemId(id);
                     return `<img loading="lazy" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/${normId}.png" data-tooltip-type="item" data-tooltip-id="${normId}" onerror="this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/1001.png'" style="width: 32px; height: 32px; border-radius: 4px; cursor: pointer;" />`;
                   }).join('')}
@@ -1901,7 +1925,7 @@ function renderItems(build) {
         <div style="background: var(--bg-surface); padding: 14px; border-radius: 8px; border: 1px solid var(--border-color);">
           <h4 style="font-size: 13px; font-weight: 700; margin-bottom: 8px;">Boots Priority</h4>
           <div style="display: flex; flex-direction: column; gap: 8px;">
-            ${boots.map(b => {
+            ${boots.map(b =>{
               const rawId = b.id || b.ids?.[0] || 3047;
               const normId = normalizeItemId(rawId);
               return `
@@ -1930,13 +1954,13 @@ function renderArenaAugments(res) {
   const goldAugs = Array.isArray(augGroup['1']) ? augGroup['1'].slice(0, 6) : [];
   const silverAugs = Array.isArray(augGroup['0']) ? augGroup['0'].slice(0, 6) : [];
 
-  const prismItemsHtml = prismItems.length > 0 ? `
+  const prismItemsHtml = prismItems.length >0 ? `
     <div>
       <div class="arena-section-title">
-        <span>💎</span> Recommended Prismatic Items (Mayhem / Arena)
+        <span></span>Recommended Prismatic Items (Mayhem / Arena)
       </div>
       <div class="arena-prism-grid">
-        ${prismItems.map(p => {
+        ${prismItems.map(p =>{
           const rawId = (p.ids && p.ids[0]) ? p.ids[0] : 3069;
           const itemId = normalizeItemId(rawId);
           const wr = p.play ? ((p.win / p.play) * 100).toFixed(1) : '54.2';
@@ -1951,7 +1975,7 @@ function renderArenaAugments(res) {
                 <div class="arena-prism-name">Prismatic #${itemId}</div>
                 <div class="arena-prism-stats">
                   <span class="arena-prism-wr">${wr}% Top 4</span>
-                  <span class="arena-prism-1st">👑 ${firstPlc}% 1st</span>
+                  <span class="arena-prism-1st">${firstPlc}% 1st</span>
                   <span class="arena-prism-pr">${pr}% Pick</span>
                 </div>
               </div>
@@ -1971,7 +1995,7 @@ function renderArenaAugments(res) {
           <span>Augments</span>
         </div>
         <div class="arena-aug-tier-grid">
-          ${augs.map(a => {
+          ${augs.map(a =>{
             const meta = getAugmentInfo(a.id);
             const wr = a.win_rate !== undefined ? (a.win_rate * 100).toFixed(1) : (a.play ? ((a.win / a.play) * 100).toFixed(1) : '53.5');
             const pr = a.pick_rate !== undefined ? (a.pick_rate * 100).toFixed(1) : '8.2';
@@ -2026,10 +2050,10 @@ function renderArenaSynergies(res) {
   container.innerHTML = `
     <div>
       <div class="arena-section-title">
-        <span>🤝</span> Best 2v2 Duo Partners (Win Rate & 1st Place Rate)
+        <span></span>Best 2v2 Duo Partners (Win Rate & 1st Place Rate)
       </div>
       <div class="arena-synergies-grid">
-        ${synergies.map(s => {
+        ${synergies.map(s =>{
           const partnerInfo = getChampionInfo(s.champion_id);
           const wr = s.play ? ((s.win / s.play) * 100).toFixed(1) : '52.0';
           const firstPlc = s.play && s.first_place ? ((s.first_place / s.play) * 100).toFixed(1) : '15.0';
@@ -2042,7 +2066,7 @@ function renderArenaSynergies(res) {
                 <div class="arena-synergy-name">${partnerInfo.name}</div>
                 <div class="arena-synergy-wr">${wr}% Duo Win Rate</div>
                 <div class="arena-synergy-meta">
-                  <span style="color: #ffaa00; font-weight: 700;">👑 ${firstPlc}% 1st</span>
+                  <span style="color: #ffaa00; font-weight: 700;">${firstPlc}% 1st</span>
                   <span>•</span>
                   <span>${playCount} Matches</span>
                 </div>
@@ -2057,8 +2081,8 @@ function renderArenaSynergies(res) {
 
 function renderSkills(build) {
   const masteries = build.skill_masteries || [];
-  const order = masteries[0]?.ids ? masteries[0].ids.join(' > ') : 'Q > E > W';
-  const orderKeys = (masteries[0]?.ids || ['Q', 'E', 'W']).map(s => s.toUpperCase());
+  const order = masteries[0]?.ids ? masteries[0].ids.join(' >') : 'Q >E >W';
+  const orderKeys = (masteries[0]?.ids || ['Q', 'E', 'W']).map(s =>s.toUpperCase());
   const skillRows = ['Q', 'W', 'E', 'R'];
 
   const sequence = [];
@@ -2066,7 +2090,7 @@ function renderSkills(build) {
   const secondary = orderKeys[1] || 'E';
   const third = orderKeys[2] || 'W';
 
-  for (let lvl = 1; lvl <= 18; lvl++) {
+  for (let lvl = 1; lvl<= 18; lvl++) {
     if (lvl === 6 || lvl === 11 || lvl === 16) {
       sequence.push('R');
     } else if (lvl === 1 || lvl === 4 || lvl === 5 || lvl === 7 || lvl === 9) {
@@ -2082,11 +2106,11 @@ function renderSkills(build) {
     }
   }
 
-  const tableRowsHtml = skillRows.map(row => `
+  const tableRowsHtml = skillRows.map(row =>`
     <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
       <div style="width: 32px; height: 32px; background: #2b2b36; border: 1px solid #444; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff;">${row}</div>
       <div style="display: flex; gap: 4px; flex: 1;">
-        ${sequence.map((s, idx) => {
+        ${sequence.map((s, idx) =>{
           const isLeveled = s === row;
           return `
             <div style="flex: 1; height: 32px; background: ${isLeveled ? 'var(--opgg-purple)' : '#23232b'}; border: 1px solid ${isLeveled ? 'var(--opgg-purple)' : '#333'}; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 11px; color: ${isLeveled ? '#fff' : '#444'};">
@@ -2116,7 +2140,7 @@ function renderSkills(build) {
       </div>
     ` : '';
 
-    const spellsCards = (dd.spells || []).map((sp, idx) => {
+    const spellsCards = (dd.spells || []).map((sp, idx) =>{
       const keys = ['Q', 'W', 'E', 'R'];
       return `
         <div class="champ-ability-card">
@@ -2145,7 +2169,7 @@ function renderSkills(build) {
 
   document.getElementById('skillsContainer').innerHTML = `
     <div>
-      <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 12px;">Skill Max Priority: <span style="color: var(--opgg-cyan);">${order}</span></h3>
+      <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 12px;">Skill Max Priority:<span style="color: var(--opgg-cyan);">${order}</span></h3>
       <div style="background: var(--bg-surface); padding: 16px; border-radius: 8px; border: 1px solid var(--border-color); overflow-x: auto;">
         ${tableRowsHtml}
       </div>
@@ -2157,13 +2181,13 @@ function renderSkills(build) {
 function renderCounters(summary) {
   const allCounters = summary.positions?.[0]?.counters || [];
   const hardest = allCounters.slice(0, 5);
-  const easiest = allCounters.slice().sort((a, b) => {
+  const easiest = allCounters.slice().sort((a, b) =>{
     const wrA = a.win ? (a.win / a.play) : 0.5;
     const wrB = b.win ? (b.win / b.play) : 0.5;
     return wrA - wrB; // in op.gg counters, low win % is hard, high win % is easy
   }).slice(0, 4);
 
-  const hardestHtml = hardest.map(cnt => {
+  const hardestHtml = hardest.map(cnt =>{
     const info = getChampionInfo(cnt.champion_id);
     const wr = cnt.win ? ((cnt.win / cnt.play) * 100).toFixed(2) : '48.20';
     return `
@@ -2183,11 +2207,11 @@ function renderCounters(summary) {
     `;
   }).join('');
 
-  const easiestHtml = (easiest.length > 0 ? easiest : [
+  const easiestHtml = (easiest.length >0 ? easiest : [
     { champion_id: 86, win: 850, play: 1500 },
     { champion_id: 11, win: 920, play: 1600 },
     { champion_id: 23, win: 790, play: 1400 }
-  ]).map(cnt => {
+  ]).map(cnt =>{
     const info = getChampionInfo(cnt.champion_id);
     const wr = cnt.win ? ((cnt.win / cnt.play) * 100).toFixed(2) : '54.50';
     return `
@@ -2210,13 +2234,13 @@ function renderCounters(summary) {
   document.getElementById('countersContainer').innerHTML = `
     <div style="display: flex; flex-direction: column; gap: 16px;">
       <div>
-        <h3 style="font-size: 14px; font-weight: 800; color: #fff; margin-bottom: 8px;">⚔️ Hardest Matchup Counters (Lowest Win Rate)</h3>
+        <h3 style="font-size: 14px; font-weight: 800; color: #fff; margin-bottom: 8px;">Hardest Matchup Counters (Lowest Win Rate)</h3>
         <div style="display: flex; flex-direction: column; gap: 8px;">
           ${hardestHtml}
         </div>
       </div>
       <div>
-        <h3 style="font-size: 14px; font-weight: 800; color: var(--opgg-cyan); margin-bottom: 8px;">🛡️ Easiest Matchups (Highest Win Rate)</h3>
+        <h3 style="font-size: 14px; font-weight: 800; color: var(--opgg-cyan); margin-bottom: 8px;">Easiest Matchups (Highest Win Rate)</h3>
         <div style="display: flex; flex-direction: column; gap: 8px;">
           ${easiestHtml}
         </div>
@@ -2235,7 +2259,7 @@ function renderMatchupAnalyzer(champId, position, summary) {
 
   function renderDuel(opponentId) {
     const oppInfo = getChampionInfo(opponentId);
-    const counterData = counters.find(c => c.champion_id === Number(opponentId));
+    const counterData = counters.find(c =>c.champion_id === Number(opponentId));
 
     let champWr = 50.0;
     let games = 1520;
@@ -2254,13 +2278,13 @@ function renderMatchupAnalyzer(champId, position, summary) {
     const firstTowerRate = Math.min(65, Math.max(35, parseFloat((champWr + ((Number(opponentId) % 4) - 1.5) * 1.2).toFixed(1))));
     const oppFirstTowerRate = parseFloat((100 - firstTowerRate).toFixed(1));
 
-    const oppList = (counters.length > 0 ? counters : [
+    const oppList = (counters.length >0 ? counters : [
       { champion_id: 24, play: 1800 },
       { champion_id: 86, play: 1400 },
       { champion_id: 114, play: 1200 },
       { champion_id: 266, play: 1900 },
       { champion_id: 92, play: 1100 }
-    ]).filter(c => Number(c.champion_id) !== Number(champId));
+    ]).filter(c =>Number(c.champion_id) !== Number(champId));
 
     container.innerHTML = `
       <div style="display: flex; flex-direction: column; gap: 16px;">
@@ -2274,7 +2298,7 @@ function renderMatchupAnalyzer(champId, position, summary) {
           <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
             <div class="vs-badge">VS</div>
             <select id="matchupOpponentSelect" class="opgg-filter-select" style="font-size: 11px; padding: 4px 10px;">
-              ${oppList.map(c => {
+              ${oppList.map(c =>{
                 const info = getChampionInfo(c.champion_id);
                 return `<option value="${c.champion_id}" ${Number(c.champion_id) === Number(opponentId) ? 'selected' : ''}>vs ${info.name}</option>`;
               }).join('')}
@@ -2327,11 +2351,11 @@ function renderMatchupAnalyzer(champId, position, summary) {
         </div>
 
         <div class="vs-tips-card">
-          <h3>🎯 Pro Challenger Matchup Tips (${currentChamp.name} vs ${oppInfo.name})</h3>
+          <h3>Pro Challenger Matchup Tips (${currentChamp.name} vs ${oppInfo.name})</h3>
           <ul class="vs-tips-list">
-            <li><strong>Early Laning Spike (Lvl 1-3):</strong> ${champWr >= 50 ? `${currentChamp.name} holds lane priority and superior wave control. Push for level 2 spike and look for heavy trades.` : `Respect ${oppInfo.name}'s early aggression. Avoid extended trading until your full 3-ability rotation is unlocked.`}</li>
-            <li><strong>Key Ability Windows:</strong> Bait out ${oppInfo.name}'s primary engagement cooldown before initiating. Trade during their 8-12 second window of vulnerability.</li>
-            <li><strong>Mythic/Legendary Spike:</strong> Prioritize finishing your first legendary core item. Once acquired, look for lane freeze or roam to voidgrub/dragon skirmishes.</li>
+            <li><strong>Early Laning Spike (Lvl 1-3):</strong>${champWr >= 50 ? `${currentChamp.name} holds lane priority and superior wave control. Push for level 2 spike and look for heavy trades.` : `Respect ${oppInfo.name}'s early aggression. Avoid extended trading until your full 3-ability rotation is unlocked.`}</li>
+            <li><strong>Key Ability Windows:</strong>Bait out ${oppInfo.name}'s primary engagement cooldown before initiating. Trade during their 8-12 second window of vulnerability.</li>
+            <li><strong>Mythic/Legendary Spike:</strong>Prioritize finishing your first legendary core item. Once acquired, look for lane freeze or roam to voidgrub/dragon skirmishes.</li>
           </ul>
         </div>
       </div>
@@ -2339,7 +2363,7 @@ function renderMatchupAnalyzer(champId, position, summary) {
 
     const selectEl = document.getElementById('matchupOpponentSelect');
     if (selectEl) {
-      selectEl.addEventListener('change', (e) => {
+      selectEl.addEventListener('change', (e) =>{
         renderDuel(Number(e.target.value));
       });
     }
@@ -2349,7 +2373,7 @@ function renderMatchupAnalyzer(champId, position, summary) {
 }
 
 // Push Runes manually button
-pushRunesBtn.addEventListener('click', async () => {
+pushRunesBtn.addEventListener('click', async () =>{
   if (!activeChampionDetail) return;
   const build = activeChampionDetail.build || {};
   const runes = build.runes || (build.rune_pages && build.rune_pages[0]) || {};
@@ -2367,7 +2391,7 @@ pushRunesBtn.addEventListener('click', async () => {
 
   const res = await window.opgg.lcuApplyRunes(payload);
   if (res.success) {
-    showToast(`⚡ Runes for ${payload.championName} successfully applied to League Client!`);
+    showToast(`Runes for ${payload.championName} successfully applied to League Client!`);
   } else {
     showToast(`Failed: ${res.error || 'League Client not connected'}`, true);
   }
@@ -2376,7 +2400,7 @@ pushRunesBtn.addEventListener('click', async () => {
 // Push Custom Item Set directly into League In-Game Shop
 const pushItemSetBtn = document.getElementById('pushItemSetBtn');
 if (pushItemSetBtn) {
-  pushItemSetBtn.addEventListener('click', async () => {
+  pushItemSetBtn.addEventListener('click', async () =>{
     if (!activeChampionDetail) return;
     const name = activeChampionDetail.champInfo?.name || 'Champion';
     const champId = activeChampionDetail.champInfo?.id || 266;
@@ -2392,7 +2416,7 @@ if (pushItemSetBtn) {
 
     if (res && res.success) {
       playAudioChime('ready');
-      showToast(`🎒 In-Game Shop Item Set for ${name} (${mode.toUpperCase()}) created successfully!`);
+      showToast(`In-Game Shop Item Set for ${name} (${mode.toUpperCase()}) created successfully!`);
     } else {
       showToast(`Item Set push failed: ${res?.error || 'League Client not connected'}`, true);
     }
@@ -2402,7 +2426,7 @@ if (pushItemSetBtn) {
 // Copy Champion Build Summary Button
 const btnCopyChampBuildSummary = document.getElementById('btnCopyChampBuildSummary');
 if (btnCopyChampBuildSummary) {
-  btnCopyChampBuildSummary.addEventListener('click', () => {
+  btnCopyChampBuildSummary.addEventListener('click', () =>{
     if (!activeChampionDetail) return;
     const name = activeChampionDetail.champInfo.name;
     const pos = (activeChampionDetail.position || 'TOP').toUpperCase();
@@ -2412,12 +2436,12 @@ if (btnCopyChampBuildSummary) {
     const primaryTree = getTreeDetails(runes.primary_page_id || 8000);
     const secondaryTree = getTreeDetails(runes.secondary_page_id || 8400);
 
-    const coreNames = (build.core_items?.[0]?.ids || [3078, 3053, 3161]).map(id => {
+    const coreNames = (build.core_items?.[0]?.ids || [3078, 3053, 3161]).map(id =>{
       const item = itemsDataMap[String(normalizeItemId(id))];
       return item ? item.name : `Item #${id}`;
     });
 
-    const skillOrder = build.skill_masteries?.[0]?.ids ? build.skill_masteries[0].ids.join(' > ') : 'Q > E > W';
+    const skillOrder = build.skill_masteries?.[0]?.ids ? build.skill_masteries[0].ids.join(' >') : 'Q >E >W';
 
     const summaryText = `[OP.GG ${name} (${pos})] Keystone: ${keystone.name} (${primaryTree.name} + ${secondaryTree.name}) | Core: ${coreNames.join(', ')} | Max: ${skillOrder}`;
 
@@ -2427,12 +2451,12 @@ if (btnCopyChampBuildSummary) {
       navigator.clipboard.writeText(summaryText);
     }
     playAudioChime('accept');
-    showToast(`📋 Copied ${name} build summary to clipboard!`);
+    showToast(`Copied ${name} build summary to clipboard!`);
   });
 }
 
 // ----------------- MULTI-SEARCH (LOBBY SCOUT) -----------------
-multiSearchSubmitBtn.addEventListener('click', async () => {
+multiSearchSubmitBtn.addEventListener('click', async () =>{
   const text = multiSearchText.value.trim();
   if (!text) {
     showToast('Please enter lobby chat or summoner names', true);
@@ -2455,7 +2479,7 @@ multiSearchSubmitBtn.addEventListener('click', async () => {
     }
 
     const teammatesData = [];
-    const cardsHtml = results.map((r, idx) => {
+    const cardsHtml = results.map((r, idx) =>{
       const s = r.data;
       const name = s?.name || s?.game_name || r.queryName;
       const tag = s?.tagline ? `#${s.tagline}` : '';
@@ -2465,21 +2489,21 @@ multiSearchSubmitBtn.addEventListener('click', async () => {
       const winRate = `${(winRateNum * 100).toFixed(1)}%`;
 
       // Streak & Tilt calculation
-      const isTilt = winRateNum < 0.44 || (idx % 3 === 2);
-      const isHot = winRateNum > 0.56 || (idx === 1);
+      const isTilt = winRateNum< 0.44 || (idx % 3 === 2);
+      const isHot = winRateNum >0.56 || (idx === 1);
       const isAutofill = idx === 3;
 
-      let streakTag = '<span class="teammate-tag">🛡️ Normal</span>';
+      let streakTag = '<span class="teammate-tag">Normal</span>';
       let streakCode = 'NORMAL';
       if (isTilt) {
-        streakTag = '<span class="teammate-tag tilt">🚨 Tilt (3L Streak)</span>';
+        streakTag = '<span class="teammate-tag tilt">Tilt (3L Streak)</span>';
         streakCode = '3L';
       } else if (isHot) {
-        streakTag = '<span class="teammate-tag hot">🔥 On Fire (4W Streak)</span>';
+        streakTag = '<span class="teammate-tag hot">On Fire (4W Streak)</span>';
         streakCode = '4W';
       }
 
-      const autofillTag = isAutofill ? '<span class="teammate-tag autofill">⚠️ Off-Role / Autofill</span>' : '';
+      const autofillTag = isAutofill ? '<span class="teammate-tag autofill">Off-Role / Autofill</span>' : '';
 
       teammatesData.push({
         name,
@@ -2493,7 +2517,7 @@ multiSearchSubmitBtn.addEventListener('click', async () => {
           <div class="teammate-header">
             <img class="teammate-icon" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/profileicon/${s?.profile_image_url ? 1 : 29}.png" />
             <div>
-              <div style="font-weight: 800; color: #fff; font-size: 14px;">${name} <span style="color: var(--text-dim); font-size: 11px;">${tag}</span></div>
+              <div style="font-weight: 800; color: #fff; font-size: 14px;">${name}<span style="color: var(--text-dim); font-size: 11px;">${tag}</span></div>
               <div class="teammate-winrate">${winRate} Win Rate</div>
               <div style="margin-top: 4px;">${streakTag} ${autofillTag}</div>
             </div>
@@ -2513,7 +2537,7 @@ multiSearchSubmitBtn.addEventListener('click', async () => {
   }
 });
 
-fetchFromLcuBtn.addEventListener('click', async () => {
+fetchFromLcuBtn.addEventListener('click', async () =>{
   if (!currentLcuStatus.connected) {
     showToast('League Client is not currently running', true);
     return;
@@ -2521,7 +2545,7 @@ fetchFromLcuBtn.addEventListener('click', async () => {
   try {
     const session = await window.opgg.lcuRequest('GET', '/lol-champ-select/v1/session');
     if (session && session.myTeam) {
-      const summonerIds = session.myTeam.map(m => m.summonerId).filter(Boolean);
+      const summonerIds = session.myTeam.map(m =>m.summonerId).filter(Boolean);
       multiSearchText.value = `Teammates in Champ Select (${summonerIds.length} players detected)`;
       multiSearchSubmitBtn.click();
     } else {
@@ -2546,7 +2570,7 @@ function evaluateDodgeRisk(teammates) {
   let tiltCount = 0;
   let autofillCount = 0;
 
-  teammates.forEach(t => {
+  teammates.forEach(t =>{
     if (t.streak?.includes('L')) tiltCount++;
     if (t.isAutofill) autofillCount++;
   });
@@ -2555,17 +2579,17 @@ function evaluateDodgeRisk(teammates) {
   if (tiltCount >= 2 || autofillCount >= 2) {
     riskScore = Math.min(95, 70 + (tiltCount * 8) + (autofillCount * 6));
     badge.className = 'radar-badge dodge';
-    badge.textContent = '🚨 RECOMMENDED TO DODGE';
+    badge.textContent = 'RECOMMENDED TO DODGE';
     msg.textContent = `High risk lobby detected: ${tiltCount} tilted teammates on loss streaks and ${autofillCount} autofilled players.`;
   } else if (tiltCount === 1 || autofillCount === 1) {
     riskScore = 48 + (tiltCount * 8) + (autofillCount * 8);
     badge.className = 'radar-badge caution';
-    badge.textContent = '⚠️ PLAY WITH CAUTION';
+    badge.textContent = ' PLAY WITH CAUTION';
     msg.textContent = 'Minor risk: One teammate is off-role or on a losing streak. Play safe champion picks.';
   } else {
-    riskScore = Math.max(12, 22 - teammates.filter(t => t.streak?.includes('W')).length * 3);
+    riskScore = Math.max(12, 22 - teammates.filter(t =>t.streak?.includes('W')).length * 3);
     badge.className = 'radar-badge safe';
-    badge.textContent = '✅ SAFE TO PLAY';
+    badge.textContent = 'SAFE TO PLAY';
     msg.textContent = 'Strong lobby: All teammates have solid win rates and comfort roles.';
   }
 
@@ -2587,10 +2611,10 @@ function evaluateDodgeRisk(teammates) {
   }
 
   // Populate formatted clipboard summary for game lobby
-  const teamScoutLines = teammates.map(t => {
+  const teamScoutLines = teammates.map(t =>{
     const wr = (t.winRateNum * 100).toFixed(0);
-    const tag = t.streak === '3L' ? ' ❄️3L' : (t.streak === '4W' ? ' 🔥4W' : '');
-    const af = t.isAutofill ? ' ⚠️Autofill' : '';
+    const tag = t.streak === '3L' ? ' 3L' : (t.streak === '4W' ? '4W' : '');
+    const af = t.isAutofill ? ' Autofill' : '';
     return `${t.name} (${wr}% WR${tag}${af})`;
   });
 
@@ -2602,13 +2626,13 @@ function evaluateDodgeRisk(teammates) {
 }
 
 if (btnCopyMultiSearchSummary) {
-  btnCopyMultiSearchSummary.addEventListener('click', () => {
+  btnCopyMultiSearchSummary.addEventListener('click', () =>{
     if (!currentLobbyScoutSummary) {
       showToast('No lobby scout data available to copy', true);
       return;
     }
     window.opgg.copyToClipboard(currentLobbyScoutSummary);
-    showToast('📋 Copied lobby scout summary to clipboard! Paste in team chat.');
+    showToast('Copied lobby scout summary to clipboard! Paste in team chat.');
   });
 }
 
@@ -2626,9 +2650,9 @@ function updateTeamDamageProfile(team) {
   let tankCount = 0;
   let ccCount = 0;
 
-  team.forEach(m => {
+  team.forEach(m =>{
     const cId = m.championId || m.championPickIntent || 0;
-    if (cId <= 0) return;
+    if (cId<= 0) return;
     const info = getChampionInfo(cId);
     const dd = ddragonChampionsMap[String(cId)] || ddragonChampionsMap[info.key?.toLowerCase()];
     const tags = dd?.tags || [];
@@ -2656,18 +2680,18 @@ function updateTeamDamageProfile(team) {
   if (barTrue) { barTrue.style.width = `0%`; }
 
   if (physPct >= 80) {
-    if (ratingEl) { ratingEl.textContent = '⚠️ Heavy AD Comp Alert'; ratingEl.style.color = '#ff7888'; }
-    if (traitDamage) traitDamage.textContent = '⚔️ Damage: Heavy AD (Pick AP!)';
+    if (ratingEl) { ratingEl.textContent = ' Heavy AD Comp Alert'; ratingEl.style.color = '#ff7888'; }
+    if (traitDamage) traitDamage.textContent = 'Damage: Heavy AD (Pick AP!)';
   } else if (magicPct >= 80) {
-    if (ratingEl) { ratingEl.textContent = '⚠️ Heavy AP Comp Alert'; ratingEl.style.color = '#ff7888'; }
-    if (traitDamage) traitDamage.textContent = '⚔️ Damage: Heavy AP (Pick AD!)';
+    if (ratingEl) { ratingEl.textContent = ' Heavy AP Comp Alert'; ratingEl.style.color = '#ff7888'; }
+    if (traitDamage) traitDamage.textContent = 'Damage: Heavy AP (Pick AD!)';
   } else {
-    if (ratingEl) { ratingEl.textContent = '✅ Balanced Damage Split'; ratingEl.style.color = 'var(--opgg-cyan)'; }
-    if (traitDamage) traitDamage.textContent = '⚔️ Damage: Balanced';
+    if (ratingEl) { ratingEl.textContent = 'Balanced Damage Split'; ratingEl.style.color = 'var(--opgg-cyan)'; }
+    if (traitDamage) traitDamage.textContent = 'Damage: Balanced';
   }
 
   if (traitFront) {
-    traitFront.textContent = tankCount >= 2 ? '🛡️ Frontline: Strong Tank Wall' : (tankCount === 1 ? '🛡️ Frontline: 1 Bruiser/Tank' : '🛡️ Frontline: Squishy (Needs Tank)');
+    traitFront.textContent = tankCount >= 2 ? 'Frontline: Strong Tank Wall' : (tankCount === 1 ? 'Frontline: 1 Bruiser/Tank' : 'Frontline: Squishy (Needs Tank)');
   }
 }
 
@@ -2692,7 +2716,7 @@ const btnResetMainSpellTimers = document.getElementById('btnResetMainSpellTimers
 function renderEnemySpellTimers(theirTeam) {
   const container = document.getElementById('enemyTimersGrid');
   if (!container) return;
-  const opponents = (theirTeam && theirTeam.length > 0) ? theirTeam : [
+  const opponents = (theirTeam && theirTeam.length >0) ? theirTeam : [
     { championId: 86, role: 'TOP', spell1: 'Flash', spell2: 'Teleport' },
     { championId: 64, role: 'JGL', spell1: 'Flash', spell2: 'Smite' },
     { championId: 103, role: 'MID', spell1: 'Flash', spell2: 'Ignite' },
@@ -2700,7 +2724,7 @@ function renderEnemySpellTimers(theirTeam) {
     { championId: 412, role: 'SUP', spell1: 'Flash', spell2: 'Exhaust' }
   ];
 
-  container.innerHTML = opponents.map((opp, idx) => {
+  container.innerHTML = opponents.map((opp, idx) =>{
     const info = getChampionInfo(opp.championId || 86);
     const role = opp.role || (['TOP', 'JGL', 'MID', 'BOT', 'SUP'][idx] || 'LANE');
     const s1Key = opp.spell1 || 'Flash';
@@ -2719,8 +2743,8 @@ function renderEnemySpellTimers(theirTeam) {
             </div>
           </div>
           <div style="display: flex; gap: 4px;">
-            <button class="ah-toggle-btn" id="mainAhLucidity-${idx}" onclick="toggleMainSpellAH(${idx}, 'lucidity')" title="Ionian Boots of Lucidity (-12 AH)">👟 Boots</button>
-            <button class="ah-toggle-btn" id="mainAhCosmic-${idx}" onclick="toggleMainSpellAH(${idx}, 'cosmic')" title="Cosmic Insight Rune (-18 AH)">🔮 Cosmic</button>
+            <button class="ah-toggle-btn" id="mainAhLucidity-${idx}" onclick="toggleMainSpellAH(${idx}, 'lucidity')" title="Ionian Boots of Lucidity (-12 AH)">Boots</button>
+            <button class="ah-toggle-btn" id="mainAhCosmic-${idx}" onclick="toggleMainSpellAH(${idx}, 'cosmic')" title="Cosmic Insight Rune (-18 AH)">Cosmic</button>
           </div>
         </div>
 
@@ -2785,67 +2809,67 @@ window.triggerMainSpellTimer = function(idx, slot, spellName, role) {
   let remaining = effectiveSeconds;
   if (box) box.classList.add('counting');
 
-  const updateDisplay = () => {
+  const updateDisplay = () =>{
     const m = Math.floor(remaining / 60);
     const s = remaining % 60;
-    const txt = `${m}:${s < 10 ? '0' : ''}${s}`;
+    const txt = `${m}:${s< 10 ? '0' : ''}${s}`;
     if (overlay) overlay.textContent = txt;
     if (status) { status.textContent = txt; status.style.color = '#ffaa00'; }
   };
 
   updateDisplay();
   playAudioChime('accept');
-  showToast(`⏱️ ${role} ${spellName} timer started: ${effectiveSeconds}s!`);
+  showToast(`${role} ${spellName} timer started: ${effectiveSeconds}s!`);
 
   mainEnemyTimers[timerKey] = {
     role,
     spellName,
     remaining,
     total: effectiveSeconds,
-    interval: setInterval(() => {
+    interval: setInterval(() =>{
       remaining--;
       mainEnemyTimers[timerKey].remaining = remaining;
       updateDisplay();
 
-      if (remaining <= 0) {
+      if (remaining<= 0) {
         clearInterval(mainEnemyTimers[timerKey].interval);
         delete mainEnemyTimers[timerKey];
         if (box) box.classList.remove('counting');
         if (status) { status.textContent = 'Ready!'; status.style.color = 'var(--opgg-cyan)'; }
         playAudioChime('ready');
-        showToast(`🚨 ${role} ${spellName} is back UP!`);
+        showToast(`${role} ${spellName} is back UP!`);
       }
     }, 1000)
   };
 };
 
 if (btnResetMainSpellTimers) {
-  btnResetMainSpellTimers.addEventListener('click', () => {
-    Object.keys(mainEnemyTimers).forEach(k => {
+  btnResetMainSpellTimers.addEventListener('click', () =>{
+    Object.keys(mainEnemyTimers).forEach(k =>{
       clearInterval(mainEnemyTimers[k].interval);
       delete mainEnemyTimers[k];
     });
-    document.querySelectorAll('.main-spell-box').forEach(b => b.classList.remove('counting'));
-    document.querySelectorAll('.main-spell-status').forEach(s => { s.textContent = 'Ready'; s.style.color = 'var(--opgg-cyan)'; });
+    document.querySelectorAll('.main-spell-box').forEach(b =>b.classList.remove('counting'));
+    document.querySelectorAll('.main-spell-status').forEach(s =>{ s.textContent = 'Ready'; s.style.color = 'var(--opgg-cyan)'; });
     showToast('All enemy summoner spell timers reset.');
   });
 }
 
 if (btnCopyMainSpellTimers) {
-  btnCopyMainSpellTimers.addEventListener('click', () => {
+  btnCopyMainSpellTimers.addEventListener('click', () =>{
     const active = Object.values(mainEnemyTimers);
     if (active.length === 0) {
       showToast('No active enemy spell timers to copy!', true);
       return;
     }
-    const lines = active.map(t => {
+    const lines = active.map(t =>{
       const remM = Math.floor(t.remaining / 60);
       const remS = t.remaining % 60;
-      return `${t.role} ${t.spellName} (${remM}:${remS < 10 ? '0' : ''}${remS})`;
+      return `${t.role} ${t.spellName} (${remM}:${remS< 10 ? '0' : ''}${remS})`;
     });
     const chatMsg = `OP.GG Timers: ${lines.join(' | ')}`;
     window.opgg.copyToClipboard(chatMsg);
-    showToast(`📋 Copied spell timers to clipboard! Paste in game chat.`);
+    showToast(`Copied spell timers to clipboard! Paste in game chat.`);
   });
 }
 
@@ -2883,13 +2907,13 @@ async function loadMyProfile() {
   // Ranked Stats
   const ranked = profile.ranked || {};
   const queues = ranked.queues || [];
-  const soloQueue = queues.find(q => q.queueType === 'RANKED_SOLO_5x5') || {};
-  const flexQueue = queues.find(q => q.queueType === 'RANKED_FLEX_SR') || {};
+  const soloQueue = queues.find(q =>q.queueType === 'RANKED_SOLO_5x5') || {};
+  const flexQueue = queues.find(q =>q.queueType === 'RANKED_FLEX_SR') || {};
 
   if (soloQueue.tier && soloQueue.tier !== 'NONE') {
     soloRankEl.textContent = `${soloQueue.tier} ${soloQueue.division || ''}`;
     const total = (soloQueue.wins || 0) + (soloQueue.losses || 0);
-    const wr = total > 0 ? Math.round((soloQueue.wins / total) * 100) : 50;
+    const wr = total >0 ? Math.round((soloQueue.wins / total) * 100) : 50;
     soloLpEl.textContent = `${soloQueue.leaguePoints || 0} LP (${wr}% WR - ${soloQueue.wins}W ${soloQueue.losses}L)`;
   } else {
     soloRankEl.textContent = 'Unranked';
@@ -2899,7 +2923,7 @@ async function loadMyProfile() {
   if (flexQueue.tier && flexQueue.tier !== 'NONE') {
     flexRankEl.textContent = `${flexQueue.tier} ${flexQueue.division || ''}`;
     const total = (flexQueue.wins || 0) + (flexQueue.losses || 0);
-    const wr = total > 0 ? Math.round((flexQueue.wins / total) * 100) : 50;
+    const wr = total >0 ? Math.round((flexQueue.wins / total) * 100) : 50;
     flexLpEl.textContent = `${flexQueue.leaguePoints || 0} LP (${wr}% WR - ${flexQueue.wins}W ${flexQueue.losses}L)`;
   } else {
     flexRankEl.textContent = 'Unranked';
@@ -2915,7 +2939,7 @@ async function loadMyProfile() {
     return;
   }
 
-  historyListEl.innerHTML = games.map((g, idx) => {
+  historyListEl.innerHTML = games.map((g, idx) =>{
     const p = g.participants?.[0] || {};
     const stats = p.stats || {};
     const win = !!stats.win;
@@ -2930,15 +2954,15 @@ async function loadMyProfile() {
 
     // CS and CS per minute benchmark
     const cs = (stats.totalMinionsKilled || 0) + (stats.neutralMinionsKilled || 0);
-    const csPerMin = durationMin > 0 ? (cs / durationMin) : 0;
+    const csPerMin = durationMin >0 ? (cs / durationMin) : 0;
     let csBadgeClass = 'low';
     let csBadgeText = `${cs} CS (${csPerMin.toFixed(1)}/m)`;
     if (csPerMin >= 7.5) {
       csBadgeClass = 'challenger';
-      csBadgeText = `${cs} CS (${csPerMin.toFixed(1)}/m) 🟢 Challenger Pace`;
+      csBadgeText = `${cs} CS (${csPerMin.toFixed(1)}/m) Challenger Pace`;
     } else if (csPerMin >= 5.0) {
       csBadgeClass = 'ok';
-      csBadgeText = `${cs} CS (${csPerMin.toFixed(1)}/m) 🟡 Average`;
+      csBadgeText = `${cs} CS (${csPerMin.toFixed(1)}/m) Average`;
     }
 
     // Authentic OP.GG OP-Score calculation (1.0 to 10.0 scale)
@@ -2956,13 +2980,13 @@ async function loadMyProfile() {
         <div class="match-meta-col">
           <div style="display: flex; align-items: center; gap: 6px;">
             <span class="match-outcome-title">${win ? 'VICTORY' : 'DEFEAT'}</span>
-            ${isMvp ? '<span class="mvp-badge">👑 MVP</span>' : ''}
-            ${isAce ? '<span class="ace-badge">⭐ ACE</span>' : ''}
+            ${isMvp ? '<span class="mvp-badge">MVP</span>' : ''}
+            ${isAce ? '<span class="ace-badge">ACE</span>' : ''}
           </div>
           <span class="match-mode-label">${modeName}</span>
           <span class="match-time-label">${durationMin}m ${durationSec}s</span>
           <div class="op-score-badge" title="Authentic OP-Score performance rating">
-            <span>OP-Score</span> <strong>${opScore}</strong>
+            <span>OP-Score</span><strong>${opScore}</strong>
           </div>
         </div>
         <div class="match-champ-col">
@@ -2976,12 +3000,12 @@ async function loadMyProfile() {
           </div>
         </div>
         <div class="match-kda-col">
-          <div class="kda-numbers">${kills} / <span style="color: var(--opgg-red);">${deaths}</span> / ${assists}</div>
+          <div class="kda-numbers">${kills} /<span style="color: var(--opgg-red);">${deaths}</span>/ ${assists}</div>
           <div class="kda-ratio">${kdaRatio} KDA</div>
           <div class="cs-badge ${csBadgeClass}">${csBadgeText}</div>
         </div>
         <div class="match-items-col">
-          ${items.map(itemId => `
+          ${items.map(itemId =>`
             <div class="match-item-slot">
               ${itemId ? `<img src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/${itemId}.png" onerror="this.style.display='none'" />` : ''}
             </div>
@@ -3010,7 +3034,7 @@ function getSpellKey(id) {
 
 const refreshProfileBtn = document.getElementById('refreshProfileBtn');
 if (refreshProfileBtn) {
-  refreshProfileBtn.addEventListener('click', () => {
+  refreshProfileBtn.addEventListener('click', () =>{
     loadMyProfile();
     showToast('Refreshing profile & match history...');
   });
@@ -3081,14 +3105,14 @@ function renderLeaderboardRows() {
   }
 
   const query = currentLeaderboardSearch.toLowerCase().trim();
-  const filtered = currentLeaderboardList.filter(item => {
+  const filtered = currentLeaderboardList.filter(item =>{
     const s = item.summoner || {};
     const name = (s.game_name || s.name || '').toLowerCase();
     const tag = (s.tagline || '').toLowerCase();
     const team = (s.player?.current_pro_team?.pro_team?.name || '').toLowerCase();
     const matchesSearch = !query || name.includes(query) || tag.includes(query) || team.includes(query);
 
-    const soloStats = s.league_stats?.find(st => st.game_type === 'SOLORANKED') || s.league_stats?.[0] || {};
+    const soloStats = s.league_stats?.find(st =>st.game_type === 'SOLORANKED') || s.league_stats?.[0] || {};
     const tier = (soloStats.tier_info?.tier || 'CHALLENGER').toLowerCase();
     const matchesTier = currentLeaderboardTier === 'all' || tier.includes(currentLeaderboardTier);
 
@@ -3104,7 +3128,7 @@ function renderLeaderboardRows() {
     return;
   }
 
-  leaderboardTableBody.innerHTML = filtered.map((item, idx) => {
+  leaderboardTableBody.innerHTML = filtered.map((item, idx) =>{
     const rank = item.rank || ((currentLeaderboardPage - 1) * 100 + idx + 1);
     const s = item.summoner || {};
     const name = s.game_name || s.name || 'Summoner';
@@ -3112,13 +3136,13 @@ function renderLeaderboardRows() {
     const proTeam = s.player?.current_pro_team?.pro_team?.name || '';
     const avatar = s.profile_image_url || `https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/profileicon/29.png`;
 
-    const soloStats = s.league_stats?.find(st => st.game_type === 'SOLORANKED') || s.league_stats?.[0] || {};
+    const soloStats = s.league_stats?.find(st =>st.game_type === 'SOLORANKED') || s.league_stats?.[0] || {};
     const tier = soloStats.tier_info?.tier || 'CHALLENGER';
     const lp = soloStats.tier_info?.lp ? `${soloStats.tier_info.lp.toLocaleString()} LP` : '0 LP';
     const win = soloStats.win || 0;
     const lose = soloStats.lose || 0;
     const total = win + lose;
-    const wr = total > 0 ? ((win / total) * 100).toFixed(1) : '50.0';
+    const wr = total >0 ? ((win / total) * 100).toFixed(1) : '50.0';
 
     let rankHtml = `<strong>#${rank}</strong>`;
     if (rank === 1) rankHtml = `<span class="medal-rank gold">1</span>`;
@@ -3140,7 +3164,7 @@ function renderLeaderboardRows() {
               </div>
               <div style="display: flex; align-items: center; gap: 6px; margin-top: 2px;">
                 <span style="font-size: 10px; color: var(--text-muted);">LVL ${s.level || 1}</span>
-                ${proTeam ? `<span class="pro-team-pill">🏆 ${proTeam}</span>` : ''}
+                ${proTeam ? `<span class="pro-team-pill">${proTeam}</span>` : ''}
               </div>
             </div>
           </div>
@@ -3149,7 +3173,7 @@ function renderLeaderboardRows() {
         <td style="font-weight: 800; color: var(--opgg-gold);">${lp}</td>
         <td>
           <div style="display: flex; flex-direction: column; gap: 3px;">
-            <div style="font-size: 11px; font-weight: 700; color: #fff;">${win}W ${lose}L <span style="color: var(--opgg-cyan);">(${wr}%)</span></div>
+            <div style="font-size: 11px; font-weight: 700; color: #fff;">${win}W ${lose}L<span style="color: var(--opgg-cyan);">(${wr}%)</span></div>
             <div style="width: 100px; height: 5px; background: #3c3c48; border-radius: 3px; overflow: hidden; display: flex;">
               <div style="width: ${wr}%; background: var(--opgg-blue); height: 100%;"></div>
               <div style="width: ${100 - parseFloat(wr)}%; background: var(--opgg-red); height: 100%;"></div>
@@ -3158,10 +3182,10 @@ function renderLeaderboardRows() {
         </td>
         <td>
           <div style="display: flex; gap: 6px; align-items: center;">
-            ${topChamps.length > 0 ? topChamps.map(c => {
+            ${topChamps.length >0 ? topChamps.map(c =>{
               const info = getChampionInfo(c.id);
               const cTotal = (c.win || 0) + (c.lose || 0);
-              const cWr = cTotal > 0 ? Math.round((c.win / cTotal) * 100) : 50;
+              const cWr = cTotal >0 ? Math.round((c.win / cTotal) * 100) : 50;
               return `
                 <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;" title="${info.name}: ${c.win}W ${c.lose}L (${cWr}%)">
                   <img src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${info.key}.png" style="width: 26px; height: 26px; border-radius: 5px; border: 1px solid var(--border-color);" loading="lazy" />
@@ -3172,7 +3196,7 @@ function renderLeaderboardRows() {
           </div>
         </td>
         <td style="text-align: center;">
-          <button class="btn-inspect-profile" onclick="event.stopPropagation(); openSummonerProfileFromLadder(${item.rank || idx})">Inspect 🔍</button>
+          <button class="btn-inspect-profile" onclick="event.stopPropagation(); openSummonerProfileFromLadder(${item.rank || idx})">Inspect</button>
         </td>
       </tr>
     `;
@@ -3180,42 +3204,58 @@ function renderLeaderboardRows() {
 }
 
 if (leaderboardRegionSelect) {
-  leaderboardRegionSelect.addEventListener('change', (e) => {
+  leaderboardRegionSelect.addEventListener('change', (e) =>{
     currentLeaderboardRegion = e.target.value;
     loadLeaderboards(1);
   });
 }
 
+// The titlebar region selector is what summoner searches actually use, but it
+// had no listener at all - it only got read at search time and silently
+// disagreed with the leaderboard, which defaulted to a different region.
+if (regionSelect) {
+  const syncRegionToLeaderboard = (refresh) => {
+    const region = regionSelect.value;
+    if (leaderboardRegionSelect && leaderboardRegionSelect.value !== region) {
+      leaderboardRegionSelect.value = region;
+      currentLeaderboardRegion = region;
+      if (refresh) loadLeaderboards(1);
+    }
+  };
+  syncRegionToLeaderboard(false);
+  regionSelect.addEventListener('change', () => syncRegionToLeaderboard(true));
+}
+
 if (leaderboardTierSelect) {
-  leaderboardTierSelect.addEventListener('change', (e) => {
+  leaderboardTierSelect.addEventListener('change', (e) =>{
     currentLeaderboardTier = e.target.value;
     renderLeaderboardRows();
   });
 }
 
 if (leaderboardSearchInput) {
-  leaderboardSearchInput.addEventListener('input', (e) => {
+  leaderboardSearchInput.addEventListener('input', (e) =>{
     currentLeaderboardSearch = e.target.value;
     renderLeaderboardRows();
   });
 }
 
 if (leaderboardPrevBtn) {
-  leaderboardPrevBtn.addEventListener('click', () => {
-    if (currentLeaderboardPage > 1) {
+  leaderboardPrevBtn.addEventListener('click', () =>{
+    if (currentLeaderboardPage >1) {
       loadLeaderboards(currentLeaderboardPage - 1);
     }
   });
 }
 
 if (leaderboardNextBtn) {
-  leaderboardNextBtn.addEventListener('click', () => {
+  leaderboardNextBtn.addEventListener('click', () =>{
     loadLeaderboards(currentLeaderboardPage + 1);
   });
 }
 
 if (refreshLeaderboardBtn) {
-  refreshLeaderboardBtn.addEventListener('click', () => {
+  refreshLeaderboardBtn.addEventListener('click', () =>{
     loadLeaderboards(currentLeaderboardPage);
     showToast('Refreshing ranked ladder...');
   });
@@ -3223,7 +3263,7 @@ if (refreshLeaderboardBtn) {
 
 // ----------------- SUMMONER PROFILE INSPECTOR (VIEW OTHER PROFILES) -----------------
 window.openSummonerProfileFromLadder = function(rankOrIdx) {
-  const item = currentLeaderboardList.find(x => x.rank === rankOrIdx) || currentLeaderboardList[rankOrIdx];
+  const item = currentLeaderboardList.find(x =>x.rank === rankOrIdx) || currentLeaderboardList[rankOrIdx];
   if (!item || !item.summoner) return;
   renderSummonerProfileFromData(item.summoner, item.rank);
 };
@@ -3265,18 +3305,18 @@ async function renderSummonerProfileFromData(s, rank = null) {
 
   if (s.player?.current_pro_team?.pro_team?.name) {
     proBadgeEl.style.display = 'inline-block';
-    proBadgeEl.textContent = `🏆 ${s.player.current_pro_team.pro_team.name}`;
+    proBadgeEl.textContent = `${s.player.current_pro_team.pro_team.name}`;
   } else {
     proBadgeEl.style.display = 'none';
   }
 
-  const solo = s.league_stats?.find(st => st.game_type === 'SOLORANKED') || s.league_stats?.[0] || {};
+  const solo = s.league_stats?.find(st =>st.game_type === 'SOLORANKED') || s.league_stats?.[0] || {};
   if (solo.tier_info) {
     soloRankEl.textContent = `${solo.tier_info.tier} ${solo.tier_info.division || ''}`;
     const sWin = solo.win || 0;
     const sLose = solo.lose || 0;
     const sTotal = sWin + sLose;
-    const sWr = sTotal > 0 ? Math.round((sWin / sTotal) * 100) : 50;
+    const sWr = sTotal >0 ? Math.round((sWin / sTotal) * 100) : 50;
     soloLpEl.textContent = `${(solo.tier_info.lp || 0).toLocaleString()} LP (${sWr}% WR - ${sWin}W ${sLose}L)`;
   } else {
     soloRankEl.textContent = 'Challenger';
@@ -3288,13 +3328,13 @@ async function renderSummonerProfileFromData(s, rank = null) {
 
   // Render Most Played Champions
   const mostChamps = s.most_champions?.champion_stats || [];
-  if (mostChamps.length > 0 && mostChampsSection && mostChampsGrid) {
+  if (mostChamps.length >0 && mostChampsSection && mostChampsGrid) {
     mostChampsSection.style.display = 'block';
-    mostChampsGrid.innerHTML = mostChamps.slice(0, 5).map(c => {
+    mostChampsGrid.innerHTML = mostChamps.slice(0, 5).map(c =>{
       const info = getChampionInfo(c.id);
       const totalG = (c.win || 0) + (c.lose || 0);
-      const wr = totalG > 0 ? ((c.win / totalG) * 100).toFixed(1) : '50.0';
-      const kda = c.death > 0 ? ((c.kill + c.assist) / c.death).toFixed(2) : '3.50';
+      const wr = totalG >0 ? ((c.win / totalG) * 100).toFixed(1) : '50.0';
+      const kda = c.death >0 ? ((c.kill + c.assist) / c.death).toFixed(2) : '3.50';
       return `
         <div class="most-champ-card">
           <img src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${info.key}.png" loading="lazy" />
@@ -3311,7 +3351,7 @@ async function renderSummonerProfileFromData(s, rank = null) {
   }
 
   // Load Match History for this summoner
-  historyListEl.innerHTML = '<div class="loading-cell"><div class="spinner-small"></div> Loading match history...</div>';
+  historyListEl.innerHTML = '<div class="loading-cell"><div class="spinner-small"></div>Loading match history...</div>';
 
   let games = [];
   if (s.summoner_id) {
@@ -3323,7 +3363,7 @@ async function renderSummonerProfileFromData(s, rank = null) {
   }
 
   if (games.length === 0) {
-    games = (mostChamps.length > 0 ? mostChamps.slice(0, 5) : [{ id: 64 }, { id: 268 }, { id: 163 }]).map((c, idx) => ({
+    games = (mostChamps.length >0 ? mostChamps.slice(0, 5) : [{ id: 64 }, { id: 268 }, { id: 163 }]).map((c, idx) =>({
       isSynthetic: true,
       championId: c.id,
       win: idx % 3 !== 2,
@@ -3344,7 +3384,7 @@ function renderProfileMatchHistory(games, summonerId) {
   const historyListEl = document.getElementById('matchHistoryList');
   if (!historyListEl) return;
 
-  historyListEl.innerHTML = games.map((g, idx) => {
+  historyListEl.innerHTML = games.map((g, idx) =>{
     let win = false;
     let kills = 0;
     let deaths = 0;
@@ -3370,7 +3410,7 @@ function renderProfileMatchHistory(games, summonerId) {
       isMvp = win && idx === 0;
       isAce = !win && idx === 0;
     } else if (g.participants) {
-      const p = g.participants.find(x => x.summoner?.summoner_id === summonerId) || g.participants[0] || {};
+      const p = g.participants.find(x =>x.summoner?.summoner_id === summonerId) || g.participants[0] || {};
       const st = p.stats || {};
       win = st.result === 'WIN' || !!st.win;
       kills = st.kill || 0;
@@ -3379,23 +3419,23 @@ function renderProfileMatchHistory(games, summonerId) {
       champId = p.champion_id || 86;
       items = p.items || [];
       cs = (st.minion_kill || 0) + (st.neutral_minion_kill || 0);
-      opScore = st.op_score ? parseFloat((st.op_score > 10 ? st.op_score / 100 : st.op_score).toFixed(1)) : 7.2;
+      opScore = st.op_score ? parseFloat((st.op_score >10 ? st.op_score / 100 : st.op_score).toFixed(1)) : 7.2;
       isMvp = win && (st.op_score_rank === 1 || idx === 0);
       isAce = !win && (st.op_score_rank === 1 || idx === 0);
     }
 
     const champInfo = getChampionInfo(champId);
     const kdaRatio = deaths === 0 ? 'Perfect' : ((kills + assists) / deaths).toFixed(2);
-    const csPerMin = durationMin > 0 ? (cs / durationMin) : 0;
+    const csPerMin = durationMin >0 ? (cs / durationMin) : 0;
 
     let csBadgeClass = 'low';
     let csBadgeText = `${cs} CS (${csPerMin.toFixed(1)}/m)`;
     if (csPerMin >= 7.5) {
       csBadgeClass = 'challenger';
-      csBadgeText = `${cs} CS (${csPerMin.toFixed(1)}/m) 🟢 Challenger Pace`;
+      csBadgeText = `${cs} CS (${csPerMin.toFixed(1)}/m) Challenger Pace`;
     } else if (csPerMin >= 5.0) {
       csBadgeClass = 'ok';
-      csBadgeText = `${cs} CS (${csPerMin.toFixed(1)}/m) 🟡 Average`;
+      csBadgeText = `${cs} CS (${csPerMin.toFixed(1)}/m) Average`;
     }
 
     return `
@@ -3403,13 +3443,13 @@ function renderProfileMatchHistory(games, summonerId) {
         <div class="match-meta-col">
           <div style="display: flex; align-items: center; gap: 6px;">
             <span class="match-outcome-title">${win ? 'VICTORY' : 'DEFEAT'}</span>
-            ${isMvp ? '<span class="mvp-badge">👑 MVP</span>' : ''}
-            ${isAce ? '<span class="ace-badge">⭐ ACE</span>' : ''}
+            ${isMvp ? '<span class="mvp-badge">MVP</span>' : ''}
+            ${isAce ? '<span class="ace-badge">ACE</span>' : ''}
           </div>
           <span class="match-mode-label">Ranked Solo</span>
           <span class="match-time-label">${durationMin}m</span>
           <div class="op-score-badge">
-            <span>OP-Score</span> <strong>${opScore}</strong>
+            <span>OP-Score</span><strong>${opScore}</strong>
           </div>
         </div>
         <div class="match-champ-col">
@@ -3423,12 +3463,12 @@ function renderProfileMatchHistory(games, summonerId) {
           </div>
         </div>
         <div class="match-kda-col">
-          <div class="kda-numbers">${kills} / <span style="color: var(--opgg-red);">${deaths}</span> / ${assists}</div>
+          <div class="kda-numbers">${kills} /<span style="color: var(--opgg-red);">${deaths}</span>/ ${assists}</div>
           <div class="kda-ratio">${kdaRatio} KDA</div>
           <div class="cs-badge ${csBadgeClass}">${csBadgeText}</div>
         </div>
         <div class="match-items-col">
-          ${items.map(itemId => `
+          ${items.map(itemId =>`
             <div class="match-item-slot">
               ${itemId ? `<img src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/item/${itemId}.png" loading="lazy" onerror="this.style.display='none'" />` : ''}
             </div>
@@ -3482,20 +3522,20 @@ async function handleProfileSearch(query) {
 }
 
 if (profileSearchBtn && profileSearchInput) {
-  profileSearchBtn.addEventListener('click', () => handleProfileSearch(profileSearchInput.value));
-  profileSearchInput.addEventListener('keydown', (e) => {
+  profileSearchBtn.addEventListener('click', () =>handleProfileSearch(profileSearchInput.value));
+  profileSearchInput.addEventListener('keydown', (e) =>{
     if (e.key === 'Enter') handleProfileSearch(profileSearchInput.value);
   });
 }
 
 if (btnBackToLeaderboard) {
-  btnBackToLeaderboard.addEventListener('click', () => {
+  btnBackToLeaderboard.addEventListener('click', () =>{
     switchView('lol-leaderboards');
   });
 }
 
 if (btnMyOwnProfile) {
-  btnMyOwnProfile.addEventListener('click', () => {
+  btnMyOwnProfile.addEventListener('click', () =>{
     if (btnBackToLeaderboard) btnBackToLeaderboard.style.display = 'none';
     const mostChampsSection = document.getElementById('profileMostChampsSection');
     if (mostChampsSection) mostChampsSection.style.display = 'none';
@@ -3505,13 +3545,13 @@ if (btnMyOwnProfile) {
 }
 
 // ----------------- GLOBAL SEARCH -----------------
-globalSearchBtn.addEventListener('click', () => {
+globalSearchBtn.addEventListener('click', () =>{
   const q = globalSearchInput.value.trim();
   if (!q) return;
   handleProfileSearch(q);
 });
 
-globalSearchInput.addEventListener('keydown', (e) => {
+globalSearchInput.addEventListener('keydown', (e) =>{
   if (e.key === 'Enter') {
     globalSearchBtn.click();
   }
@@ -3552,17 +3592,17 @@ let currentFlyoutRole = 'all';
 let isPickerGridInitialized = false;
 
 async function loadRankedAugmentsData() {
-  if (augmentsDatabase.length > 0 && Object.keys(championAugmentsCache).length > 0) {
+  if (augmentsDatabase.length >0 && Object.keys(championAugmentsCache).length >0) {
     return augmentsDatabase;
   }
 
   try {
     const [dbRes, cacheRes] = await Promise.all([
-      fetch('assets/augments_database.json').then(r => r.json()).catch(() => fetch('assets/ranked_augments.json').then(r => r.json())).catch(() => []),
-      fetch('assets/champion_augments_cache.json').then(r => r.json()).catch(() => ({}))
+      fetch('assets/augments_database.json').then(r =>r.json()).catch(() =>fetch('assets/ranked_augments.json').then(r =>r.json())).catch(() =>[]),
+      fetch('assets/champion_augments_cache.json').then(r =>r.json()).catch(() =>({}))
     ]);
 
-    if (Array.isArray(dbRes) && dbRes.length > 0) {
+    if (Array.isArray(dbRes) && dbRes.length >0) {
       augmentsDatabase = dbRes;
     }
     if (cacheRes && typeof cacheRes === 'object') {
@@ -3587,7 +3627,7 @@ async function computeAugmentsForChampion(champId) {
 
   // Global All Champions Overview
   if (!champId || champId === 0) {
-    const list = augmentsDatabase.map((a, idx) => {
+    const list = augmentsDatabase.map((a, idx) =>{
       const wr = a.winRate || (a.rarityName === 'Prismatic' ? 53.5 : a.rarityName === 'Gold' ? 51.5 : 50.2);
       const tier = wr >= 57.0 ? 'S+' : wr >= 53.0 ? 'S' : wr >= 50.0 ? 'A' : wr >= 47.0 ? 'B' : 'C';
       return {
@@ -3601,8 +3641,8 @@ async function computeAugmentsForChampion(champId) {
         synergyNote: 'Global Arena Meta Average across all Champions'
       };
     });
-    list.sort((a, b) => b.winRate - a.winRate);
-    list.forEach((a, i) => { a.rank = i + 1; });
+    list.sort((a, b) =>b.winRate - a.winRate);
+    list.forEach((a, i) =>{ a.rank = i + 1; });
     champAugmentsComputedCache.set(0, list);
     return list;
   }
@@ -3625,26 +3665,26 @@ async function computeAugmentsForChampion(champId) {
 
   const trackedMap = {};
   if (champGroups) {
-    ['0', '1', '2'].forEach(r => {
+    ['0', '1', '2'].forEach(r =>{
       const grp = champGroups[r]?.augments || [];
-      grp.forEach(item => {
+      grp.forEach(item =>{
         trackedMap[item.id] = item;
       });
     });
   }
 
   // Champion archetype tags
-  const tags = (champInfo.tags || ['Fighter']).map(t => t.toLowerCase());
+  const tags = (champInfo.tags || ['Fighter']).map(t =>t.toLowerCase());
   const isAd = tags.includes('fighter') || tags.includes('marksman') || tags.includes('assassin');
   const isAp = tags.includes('mage') || tags.includes('support');
   const isTank = tags.includes('tank') || tags.includes('fighter');
   const isAtkSpeed = tags.includes('marksman') || champInfo.key === 'MasterYi' || champInfo.key === 'Yasuo' || champInfo.key === 'Yone' || champInfo.key === 'Kindred';
 
-  const result = augmentsDatabase.map(a => {
+  const result = augmentsDatabase.map(a =>{
     const tracked = trackedMap[a.id];
     let winRate, pickRate, firstPlaceRate, avgPlace, isTracked = false;
 
-    if (tracked && tracked.play > 0) {
+    if (tracked && tracked.play >0) {
       isTracked = true;
       winRate = Number((tracked.win_rate * 100).toFixed(1));
       pickRate = Number((tracked.pick_rate * 100).toFixed(1));
@@ -3686,13 +3726,13 @@ async function computeAugmentsForChampion(champId) {
 
     let synergyNote = '';
     if (isTracked) {
-      synergyNote = `🔥 High Priority Pick on ${champInfo.name} (${pickRate}% pick)`;
+      synergyNote = `High Priority Pick on ${champInfo.name} (${pickRate}% pick)`;
     } else if (winRate >= 53.0) {
-      synergyNote = `⭐ Strong Archetype Synergy for ${champInfo.name}`;
+      synergyNote = `Strong Archetype Synergy for ${champInfo.name}`;
     } else if (winRate >= 50.0) {
-      synergyNote = `✔️ Viable Situationally on ${champInfo.name}`;
+      synergyNote = `Viable Situationally on ${champInfo.name}`;
     } else {
-      synergyNote = `⚠️ Low Synergy with ${champInfo.name}'s kit`;
+      synergyNote = ` Low Synergy with ${champInfo.name}'s kit`;
     }
 
     return {
@@ -3707,8 +3747,8 @@ async function computeAugmentsForChampion(champId) {
     };
   });
 
-  result.sort((a, b) => b.winRate - a.winRate);
-  result.forEach((a, i) => { a.rank = i + 1; });
+  result.sort((a, b) =>b.winRate - a.winRate);
+  result.forEach((a, i) =>{ a.rank = i + 1; });
 
   // Store in 0ms memoized cache
   champAugmentsComputedCache.set(champId, result);
@@ -3729,14 +3769,14 @@ function updateAugmentActiveChampBadge(champId) {
     nameEl.textContent = 'All Champions Overview';
     if (tagEl) tagEl.textContent = 'GLOBAL ARENA META';
     if (subEl) subEl.textContent = 'Showing global average augment win rates across all League champions.';
-    if (toggleBtnText) toggleBtnText.textContent = '🔁 Choose Champion';
+    if (toggleBtnText) toggleBtnText.textContent = 'Choose Champion';
   } else {
     const champ = getChampionInfo(champId);
     imgEl.src = `https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${champ.key || 'Aatrox'}.png`;
     nameEl.textContent = `${champ.name} - ${champ.title || 'Champion'}`;
     if (tagEl) tagEl.textContent = (champ.tags || ['Fighter']).join(' / ').toUpperCase();
     if (subEl) subEl.textContent = `Showing Augment Tiers & Win Rates ranked specifically for ${champ.name} (OP.GG Arena Meta).`;
-    if (toggleBtnText) toggleBtnText.textContent = `🔁 Change (${champ.name})`;
+    if (toggleBtnText) toggleBtnText.textContent = `Change (${champ.name})`;
   }
 }
 
@@ -3763,8 +3803,8 @@ function initChampionPickerGrid() {
 
   // Make sure allLeagueChampions list is populated
   if (allLeagueChampions.length === 0 && ddragonChampionsMap) {
-    Object.values(ddragonChampionsMap).forEach(c => {
-      if (c && c.name && !allLeagueChampions.some(x => x.id === Number(c.key))) {
+    Object.values(ddragonChampionsMap).forEach(c =>{
+      if (c && c.name && !allLeagueChampions.some(x =>x.id === Number(c.key))) {
         allLeagueChampions.push({
           id: Number(c.key),
           key: c.id,
@@ -3774,14 +3814,14 @@ function initChampionPickerGrid() {
         });
       }
     });
-    allLeagueChampions.sort((a, b) => a.name.localeCompare(b.name));
+    allLeagueChampions.sort((a, b) =>a.name.localeCompare(b.name));
   }
 
   if (allLeagueChampions.length === 0) return;
 
   // Render cards once for ultra-fast performance
   if (!isPickerGridInitialized) {
-    pickerChampionsGrid.innerHTML = allLeagueChampions.map(c => {
+    pickerChampionsGrid.innerHTML = allLeagueChampions.map(c =>{
       const tagsStr = (c.tags || []).join(',').toLowerCase();
       return `
         <div class="picker-champ-card ${c.id === currentAugmentChampId ? 'active' : ''}" 
@@ -3797,8 +3837,8 @@ function initChampionPickerGrid() {
     }).join('');
 
     // Attach click listeners
-    pickerChampionsGrid.querySelectorAll('.picker-champ-card').forEach(card => {
-      card.addEventListener('click', () => {
+    pickerChampionsGrid.querySelectorAll('.picker-champ-card').forEach(card =>{
+      card.addEventListener('click', () =>{
         const champId = Number(card.getAttribute('data-id'));
         selectAugmentChampion(champId);
         toggleChampPickerFlyout(false);
@@ -3808,7 +3848,7 @@ function initChampionPickerGrid() {
     isPickerGridInitialized = true;
   } else {
     // Just update active styling
-    pickerChampionsGrid.querySelectorAll('.picker-champ-card').forEach(card => {
+    pickerChampionsGrid.querySelectorAll('.picker-champ-card').forEach(card =>{
       if (Number(card.getAttribute('data-id')) === currentAugmentChampId) {
         card.classList.add('active');
       } else {
@@ -3822,7 +3862,7 @@ function filterChampionPickerGrid() {
   if (!pickerChampionsGrid) return;
   const q = (flyoutChampSearchInput?.value || '').trim().toLowerCase();
 
-  pickerChampionsGrid.querySelectorAll('.picker-champ-card').forEach(card => {
+  pickerChampionsGrid.querySelectorAll('.picker-champ-card').forEach(card =>{
     const name = card.getAttribute('data-name') || '';
     const key = card.getAttribute('data-key') || '';
     const tags = card.getAttribute('data-tags') || '';
@@ -3849,7 +3889,7 @@ function selectAugmentChampion(champId) {
 
   // Update quick pills
   if (augmentQuickChamps) {
-    augmentQuickChamps.querySelectorAll('.champ-pill').forEach(b => {
+    augmentQuickChamps.querySelectorAll('.champ-pill').forEach(b =>{
       if (Number(b.getAttribute('data-champ-id')) === currentAugmentChampId) {
         b.classList.add('active');
       } else {
@@ -3863,17 +3903,17 @@ function selectAugmentChampion(champId) {
 
 // Hook toggle triggers
 if (btnToggleChampPicker) {
-  btnToggleChampPicker.addEventListener('click', () => toggleChampPickerFlyout());
+  btnToggleChampPicker.addEventListener('click', () =>toggleChampPickerFlyout());
 }
 if (btnToggleChampModal) {
-  btnToggleChampModal.addEventListener('click', () => toggleChampPickerFlyout());
+  btnToggleChampModal.addEventListener('click', () =>toggleChampPickerFlyout());
 }
 if (btnOpenFullPicker) {
-  btnOpenFullPicker.addEventListener('click', () => toggleChampPickerFlyout());
+  btnOpenFullPicker.addEventListener('click', () =>toggleChampPickerFlyout());
 }
 
 if (flyoutChampSearchInput) {
-  flyoutChampSearchInput.addEventListener('input', () => {
+  flyoutChampSearchInput.addEventListener('input', () =>{
     const q = flyoutChampSearchInput.value.trim();
     if (btnClearFlyoutSearch) btnClearFlyoutSearch.style.display = q ? 'block' : 'none';
     filterChampionPickerGrid();
@@ -3881,7 +3921,7 @@ if (flyoutChampSearchInput) {
 }
 
 if (btnClearFlyoutSearch) {
-  btnClearFlyoutSearch.addEventListener('click', () => {
+  btnClearFlyoutSearch.addEventListener('click', () =>{
     if (flyoutChampSearchInput) {
       flyoutChampSearchInput.value = '';
       btnClearFlyoutSearch.style.display = 'none';
@@ -3892,9 +3932,9 @@ if (btnClearFlyoutSearch) {
 }
 
 if (flyoutRoleTabs) {
-  flyoutRoleTabs.querySelectorAll('.picker-role-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      flyoutRoleTabs.querySelectorAll('.picker-role-btn').forEach(b => b.classList.remove('active'));
+  flyoutRoleTabs.querySelectorAll('.picker-role-btn').forEach(btn =>{
+    btn.addEventListener('click', () =>{
+      flyoutRoleTabs.querySelectorAll('.picker-role-btn').forEach(b =>b.classList.remove('active'));
       btn.classList.add('active');
       currentFlyoutRole = btn.getAttribute('data-role') || 'all';
       filterChampionPickerGrid();
@@ -3903,7 +3943,7 @@ if (flyoutRoleTabs) {
 }
 
 // Close flyout on click outside
-document.addEventListener('click', (e) => {
+document.addEventListener('click', (e) =>{
   if (isPickerFlyoutOpen && champPickerFlyout) {
     const isInsideFlyout = champPickerFlyout.contains(e.target);
     const isTrigger = btnToggleChampPicker?.contains(e.target) || 
@@ -3916,7 +3956,7 @@ document.addEventListener('click', (e) => {
 });
 
 function updateAugmentSortIcons() {
-  document.querySelectorAll('#augmentsTable th.sortable').forEach(th => {
+  document.querySelectorAll('#augmentsTable th.sortable').forEach(th =>{
     const col = th.getAttribute('data-sort');
     const icon = th.querySelector('.sort-icon');
     if (col === augmentSortCol) {
@@ -3930,8 +3970,8 @@ function updateAugmentSortIcons() {
 }
 
 function setupAugmentTableSorting() {
-  document.querySelectorAll('#augmentsTable th.sortable').forEach(th => {
-    th.addEventListener('click', () => {
+  document.querySelectorAll('#augmentsTable th.sortable').forEach(th =>{
+    th.addEventListener('click', () =>{
       const col = th.getAttribute('data-sort');
       if (!col) return;
       if (augmentSortCol === col) {
@@ -3971,7 +4011,7 @@ async function renderAugmentsMainTable() {
   const query = (augmentSearchQuery || '').toLowerCase().trim();
 
   // 1. Filter
-  let filtered = allRankedAugments.filter(a => {
+  let filtered = allRankedAugments.filter(a =>{
     if (augmentFilterRarity !== 'all' && (a.rarityName || '').toLowerCase() !== augmentFilterRarity.toLowerCase()) {
       return false;
     }
@@ -3999,7 +4039,7 @@ async function renderAugmentsMainTable() {
   const tierWeight = { 'S+': 5, 'S': 4, 'A': 3, 'B': 2, 'C': 1 };
   const rarityWeight = { 'Prismatic': 3, 'Gold': 2, 'Silver': 1 };
 
-  filtered.sort((a, b) => {
+  filtered.sort((a, b) =>{
     let diff = 0;
     switch (augmentSortCol) {
       case 'rank':
@@ -4042,7 +4082,7 @@ async function renderAugmentsMainTable() {
   }
 
   // 3. Render HTML
-  augmentsTableBody.innerHTML = filtered.map(a => {
+  augmentsTableBody.innerHTML = filtered.map(a =>{
     const rarityClass = (a.rarityName || 'Silver').toLowerCase();
     const tierClass = a.tier === 'S+' ? 'splus' : (a.tier || 'b').toLowerCase();
     const iconUrl = a.icon || a.smallIcon || 'https://raw.communitydragon.org/latest/game/assets/ux/cherry/augments/icons/adapt_small.png';
@@ -4051,7 +4091,7 @@ async function renderAugmentsMainTable() {
     return `
       <tr>
         <td class="rank-cell">
-          <span class="rank-num ${a.rank <= 3 ? 'top-rank' : ''}">${a.rank}</span>
+          <span class="rank-num ${a.rank<= 3 ? 'top-rank' : ''}">${a.rank}</span>
         </td>
         <td>
           <div class="augment-cell-info">
@@ -4082,7 +4122,7 @@ async function renderAugmentsMainTable() {
           </div>
         </td>
         <td>
-          <span class="first-place-rate" style="font-weight: 700; color: #ffb900;">👑 ${a.firstPlaceRate}%</span>
+          <span class="first-place-rate" style="font-weight: 700; color: #ffb900;">${a.firstPlaceRate}%</span>
         </td>
         <td>
           <span class="avg-place-badge">#${a.avgPlace}</span>
@@ -4100,8 +4140,8 @@ async function renderAugmentsMainTable() {
 
 // Attach Quick Champion Switcher listeners
 if (augmentQuickChamps) {
-  augmentQuickChamps.querySelectorAll('.champ-pill').forEach(btn => {
-    btn.addEventListener('click', () => {
+  augmentQuickChamps.querySelectorAll('.champ-pill').forEach(btn =>{
+    btn.addEventListener('click', () =>{
       const champId = Number(btn.getAttribute('data-champ-id'));
       selectAugmentChampion(champId);
     });
@@ -4110,9 +4150,9 @@ if (augmentQuickChamps) {
 
 // Attach Mayhem Augment Rarity filter event listeners
 if (mainAugmentRarityFilters) {
-  mainAugmentRarityFilters.querySelectorAll('.augment-rarity-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      mainAugmentRarityFilters.querySelectorAll('.augment-rarity-btn').forEach(b => b.classList.remove('active'));
+  mainAugmentRarityFilters.querySelectorAll('.augment-rarity-btn').forEach(btn =>{
+    btn.addEventListener('click', () =>{
+      mainAugmentRarityFilters.querySelectorAll('.augment-rarity-btn').forEach(b =>b.classList.remove('active'));
       btn.classList.add('active');
       augmentFilterRarity = btn.getAttribute('data-rarity') || 'all';
       renderAugmentsMainTable();
@@ -4121,7 +4161,7 @@ if (mainAugmentRarityFilters) {
 }
 
 if (mainAugmentTierSelect) {
-  mainAugmentTierSelect.addEventListener('change', (e) => {
+  mainAugmentTierSelect.addEventListener('change', (e) =>{
     augmentFilterTier = e.target.value;
     renderAugmentsMainTable();
   });
@@ -4129,9 +4169,9 @@ if (mainAugmentTierSelect) {
 
 let augmentSearchDebounce = null;
 if (mainAugmentSearchInput) {
-  mainAugmentSearchInput.addEventListener('input', (e) => {
+  mainAugmentSearchInput.addEventListener('input', (e) =>{
     clearTimeout(augmentSearchDebounce);
-    augmentSearchDebounce = setTimeout(() => {
+    augmentSearchDebounce = setTimeout(() =>{
       augmentSearchQuery = e.target.value;
       renderAugmentsMainTable();
     }, 60);
@@ -4139,19 +4179,19 @@ if (mainAugmentSearchInput) {
 }
 
 if (refreshAugmentsBtn) {
-  refreshAugmentsBtn.addEventListener('click', async () => {
+  refreshAugmentsBtn.addEventListener('click', async () =>{
     augmentsDatabase = [];
     championAugmentsCache = {};
     await renderAugmentsMainTable();
-    showToast('✅ Mayhem Augment rankings updated!');
+    showToast('Mayhem Augment rankings updated!');
   });
 }
 
 // Attach Mayhem Augment Stat Archetype filter event listeners
 if (mainAugmentArchetypeFilters) {
-  mainAugmentArchetypeFilters.querySelectorAll('.augment-arch-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      mainAugmentArchetypeFilters.querySelectorAll('.augment-arch-btn').forEach(b => b.classList.remove('active'));
+  mainAugmentArchetypeFilters.querySelectorAll('.augment-arch-btn').forEach(btn =>{
+    btn.addEventListener('click', () =>{
+      mainAugmentArchetypeFilters.querySelectorAll('.augment-arch-btn').forEach(b =>b.classList.remove('active'));
       btn.classList.add('active');
       augmentFilterArchetype = btn.getAttribute('data-arch') || 'all';
       renderAugmentsMainTable();
@@ -4193,6 +4233,8 @@ function openSettingsModal() {
   if (settingSoundToggle) {
     settingSoundToggle.checked = isAudioFeedbackEnabled;
   }
+  // Refresh the display controls so they show the live saved values.
+  syncDisplayControls();
   if (settingThemeSelect) {
     const themeMap = ['classic', 'midnight', 'cyber'];
     settingThemeSelect.value = themeMap[currentThemeIndex] || 'classic';
@@ -4203,6 +4245,60 @@ function closeSettingsModal() {
   if (settingsModal) settingsModal.style.display = 'none';
 }
 
+// ----------------- DISPLAY SCALE & RESOLUTION -----------------
+const uiScaleSlider = document.getElementById('uiScaleSlider');
+const uiScaleValue = document.getElementById('uiScaleValue');
+const btnScaleUp = document.getElementById('btnScaleUp');
+const btnScaleDown = document.getElementById('btnScaleDown');
+const resolutionSelect = document.getElementById('resolutionSelect');
+
+function syncDisplayControls(state) {
+  if (!state) {
+    // No state passed: pull authoritative values from the main process.
+    window.opgg.getDisplayState().then(syncDisplayControls).catch(() => {});
+    return;
+  }
+  if (uiScaleSlider) uiScaleSlider.value = String(state.scalePercent);
+  if (uiScaleValue) uiScaleValue.textContent = state.scalePercent + '%';
+  if (resolutionSelect) resolutionSelect.value = state.resolution;
+}
+
+if (uiScaleSlider) {
+  uiScaleSlider.addEventListener('input', () => {
+    if (uiScaleValue) uiScaleValue.textContent = uiScaleSlider.value + '%';
+  });
+  uiScaleSlider.addEventListener('change', async () => {
+    const state = await window.opgg.setDisplayScale(Number(uiScaleSlider.value));
+    syncDisplayControls(state);
+    showToast(`Interface scale set to ${state.scalePercent}%`);
+  });
+}
+
+const stepScale = async (delta) => {
+  if (!uiScaleSlider) return;
+  const next = Math.min(200, Math.max(50, Number(uiScaleSlider.value) + delta));
+  uiScaleSlider.value = String(next);
+  const state = await window.opgg.setDisplayScale(next);
+  syncDisplayControls(state);
+  showToast(`Interface scale set to ${state.scalePercent}%`);
+};
+
+if (btnScaleUp) btnScaleUp.addEventListener('click', () => stepScale(25));
+if (btnScaleDown) btnScaleDown.addEventListener('click', () => stepScale(-25));
+
+if (resolutionSelect) {
+  resolutionSelect.addEventListener('change', async () => {
+    const state = await window.opgg.setDisplayResolution(resolutionSelect.value);
+    syncDisplayControls(state);
+    if (state.resolution === 'fit') {
+      showToast('Window fitted to screen');
+    } else {
+      const [w, h] = state.resolution.split('x');
+      showToast(`Window set to ${w} x ${h}`);
+    }
+  });
+}
+
 if (settingsModalBtn) {
   settingsModalBtn.addEventListener('click', openSettingsModal);
 }
@@ -4210,14 +4306,14 @@ if (settingsModalCloseBtn) {
   settingsModalCloseBtn.addEventListener('click', closeSettingsModal);
 }
 if (settingsModal) {
-  settingsModal.addEventListener('click', (e) => {
+  settingsModal.addEventListener('click', (e) =>{
     if (e.target === settingsModal) closeSettingsModal();
   });
 }
 
 // Live setting event handlers
 if (settingAutoAcceptToggle) {
-  settingAutoAcceptToggle.addEventListener('change', async (e) => {
+  settingAutoAcceptToggle.addEventListener('change', async (e) =>{
     const enabled = e.target.checked;
     if (autoAcceptToggle) autoAcceptToggle.classList.toggle('active', enabled);
     await window.opgg.lcuAutoAccept(enabled);
@@ -4226,7 +4322,7 @@ if (settingAutoAcceptToggle) {
 }
 
 if (settingAutoRunesToggle) {
-  settingAutoRunesToggle.addEventListener('change', async (e) => {
+  settingAutoRunesToggle.addEventListener('change', async (e) =>{
     const enabled = e.target.checked;
     if (autoRunesToggle) autoRunesToggle.classList.toggle('active', enabled);
     await window.opgg.lcuAutoRunes(enabled);
@@ -4235,7 +4331,7 @@ if (settingAutoRunesToggle) {
 }
 
 if (settingAutoBuildsToggle) {
-  settingAutoBuildsToggle.addEventListener('change', async (e) => {
+  settingAutoBuildsToggle.addEventListener('change', async (e) =>{
     const enabled = e.target.checked;
     if (autoBuildsToggle) autoBuildsToggle.classList.toggle('active', enabled);
     await window.opgg.lcuAutoBuilds(enabled);
@@ -4244,7 +4340,7 @@ if (settingAutoBuildsToggle) {
 }
 
 if (settingAutoSpellsToggle) {
-  settingAutoSpellsToggle.addEventListener('change', async (e) => {
+  settingAutoSpellsToggle.addEventListener('change', async (e) =>{
     const enabled = e.target.checked;
     await window.opgg.lcuAutoSpells(enabled);
     showToast(`Auto-Spells is now ${enabled ? 'ENABLED' : 'DISABLED'}`);
@@ -4257,56 +4353,56 @@ function setFlashKeyUI(key) {
 }
 
 if (settingFlashD) {
-  settingFlashD.addEventListener('click', async () => {
+  settingFlashD.addEventListener('click', async () =>{
     setFlashKeyUI('D');
     await window.opgg.lcuSetFlashKey('D');
-    showToast('⚡ Flash assigned to slot [D]');
+    showToast('Flash assigned to slot [D]');
   });
 }
 
 if (settingFlashF) {
-  settingFlashF.addEventListener('click', async () => {
+  settingFlashF.addEventListener('click', async () =>{
     setFlashKeyUI('F');
     await window.opgg.lcuSetFlashKey('F');
-    showToast('⚡ Flash assigned to slot [F]');
+    showToast('Flash assigned to slot [F]');
   });
 }
 
 if (settingSmartRerollToggle) {
-  settingSmartRerollToggle.addEventListener('change', (e) => {
+  settingSmartRerollToggle.addEventListener('change', (e) =>{
     localStorage.setItem('opgg_smart_reroll', e.target.checked ? 'true' : 'false');
     showToast(`Smart Augment Reroll Advisor ${e.target.checked ? 'ENABLED' : 'DISABLED'}`);
   });
 }
 
 if (settingOverlayPinToggle) {
-  settingOverlayPinToggle.addEventListener('change', async () => {
+  settingOverlayPinToggle.addEventListener('change', async () =>{
     const pinned = await window.opgg.overlayTogglePin();
     showToast(`Overlay Always on Top: ${pinned ? 'PINNED' : 'UNPINNED'}`);
   });
 }
 
 if (btnLaunchOverlayFromSettings) {
-  btnLaunchOverlayFromSettings.addEventListener('click', () => {
+  btnLaunchOverlayFromSettings.addEventListener('click', () =>{
     window.opgg.overlayOpen();
-    showToast('🪟 Companion HUD Overlay opened!');
+    showToast('Companion HUD Overlay opened!');
   });
 }
 
 if (settingSoundToggle) {
-  settingSoundToggle.addEventListener('change', (e) => {
+  settingSoundToggle.addEventListener('change', (e) =>{
     isAudioFeedbackEnabled = e.target.checked;
     const soundToggleBtn = document.getElementById('soundToggleBtn');
     const soundToggleIcon = document.getElementById('soundToggleIcon');
     if (soundToggleBtn) soundToggleBtn.classList.toggle('active', isAudioFeedbackEnabled);
-    if (soundToggleIcon) soundToggleIcon.textContent = isAudioFeedbackEnabled ? '🔊 Sound: ON' : '🔇 Sound: OFF';
+    if (soundToggleIcon) soundToggleIcon.textContent = isAudioFeedbackEnabled ? 'Sound: On' : 'Sound: Off';
     if (isAudioFeedbackEnabled) playAudioChime('accept');
     showToast(`Audio feedback ${isAudioFeedbackEnabled ? 'enabled' : 'disabled'}`);
   });
 }
 
 if (settingThemeSelect) {
-  settingThemeSelect.addEventListener('change', (e) => {
+  settingThemeSelect.addEventListener('change', (e) =>{
     const val = e.target.value;
     const themes = ['classic', 'midnight', 'cyber'];
     const idx = themes.indexOf(val);
@@ -4319,7 +4415,7 @@ if (settingThemeSelect) {
 }
 
 if (btnClearCacheFromSettings) {
-  btnClearCacheFromSettings.addEventListener('click', async () => {
+  btnClearCacheFromSettings.addEventListener('click', async () =>{
     champAugmentsComputedCache.clear();
     augmentsDatabase = [];
     championAugmentsCache = {};
@@ -4332,15 +4428,15 @@ if (btnClearCacheFromSettings) {
       renderAugmentsMainTable()
     ]);
     playAudioChime('ready');
-    showToast('🚀 Caches cleared! Memory freed and assets updated.');
+    showToast('Caches cleared! Memory freed and assets updated.');
   });
 }
 
 // Auto-sync active champion with LCU champ select session
 if (window.opgg?.onChampSelectUpdate) {
-  window.opgg.onChampSelectUpdate((data) => {
-    const lockedChamp = data.myChampionId || (data.myTeam && data.myTeam.find(m => m.cellId === data.localPlayerCellId)?.championId) || 0;
-    if (lockedChamp && lockedChamp > 0 && lockedChamp !== currentAugmentChampId) {
+  window.opgg.onChampSelectUpdate((data) =>{
+    const lockedChamp = data.myChampionId || (data.myTeam && data.myTeam.find(m =>m.cellId === data.localPlayerCellId)?.championId) || 0;
+    if (lockedChamp && lockedChamp >0 && lockedChamp !== currentAugmentChampId) {
       selectAugmentChampion(lockedChamp);
     }
   });

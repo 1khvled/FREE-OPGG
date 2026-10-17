@@ -82,19 +82,16 @@
       </div>
 
       <button class="audio-feedback-btn" id="patchUpdateBtn" title="Check Riot DDragon for New Patch (Auto-Updates)">
-        <span id="patchUpdateText">⚡ Patch 16.20</span>
+        <span id="patchUpdateText">Patch 16.20</span>
       </button>
 
       <button class="audio-feedback-btn active" id="soundToggleBtn" title="Toggle Audio Feedback Chimes">
-        <span id="soundToggleIcon">🔊 Sound: ON</span>
+        <span id="soundToggleIcon">Sound: ON</span>
       </button>
 
-      <button class="audio-feedback-btn" id="themeToggleBtn" title="Switch Theme (OP.GG Classic, Deep Midnight, Cyber Void)">
-        <span id="themeToggleText">🎨 Theme</span>
-      </button>
 
       <button class="audio-feedback-btn" id="settingsModalBtn" title="Application & In-Game Automation Settings">
-        <span>⚙️ Settings</span>
+        <span>Settings</span>
       </button>
 
       <!-- Window action buttons -->
@@ -109,9 +106,9 @@
   <!-- ================= SUB-NAVIGATION ================= -->
   <nav class="sub-nav" id="subNav">
     <button class="subnav-tab active" data-view="lol-champions">Champions & Tier List</button>
-    <button class="subnav-tab" data-view="lol-augments">🃏 Mayhem Augments</button>
-    <button class="subnav-tab" data-view="lol-livegame">⚡ Live Game & ARAM Cards</button>
-    <button class="subnav-tab" data-view="lol-profile">👤 My Profile & History</button>
+    <button class="subnav-tab" data-view="lol-augments">Mayhem Augments</button>
+    <button class="subnav-tab" data-view="lol-livegame">Live Game & ARAM Cards</button>
+    <button class="subnav-tab" data-view="lol-profile">My Profile & History</button>
     <button class="subnav-tab" data-view="lol-multisearch">Multi-Search & Dodge Radar</button>
     <button class="subnav-tab" data-view="lol-leaderboards">Ranked Leaderboard</button>
   </nav>
@@ -125,7 +122,7 @@
       <div class="meta-trends-banner" id="metaTrendsBanner">
         <div class="trends-header">
           <div class="trends-title-wrap">
-            <span class="trends-badge">🔥 PATCH 16.20 TRENDS</span>
+            <span class="trends-badge">PATCH 16.20 TRENDS</span>
             <span class="trends-sub">Meta Highlights & Winrate Spikes from 17,498,908 analyzed matches</span>
           </div>
           <button class="btn-toggle-trends" id="btnToggleTrends" title="Collapse / Expand Trends">Hide Highlights ▴</button>
@@ -223,7 +220,7 @@
 
           <!-- Server / Region dropdown -->
           <div class="filter-dropdown-pill">
-            <span class="globe-icon">🌍</span>
+            <span class="globe-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18z"></path></svg></span>
             <select id="regionFilterSelect" class="opgg-filter-select">
               <option value="GLOBAL" selected>World</option>
               <option value="KR">Korea (KR)</option>
@@ -255,13 +252,13 @@
       <div class="archetype-strip" id="archetypeFilters">
         <div class="archetype-chips">
           <button class="arch-chip active" data-tag="all">All Classes</button>
-          <button class="arch-chip" data-tag="Fighter">⚔️ Fighter</button>
-          <button class="arch-chip" data-tag="Assassin">🗡️ Assassin</button>
-          <button class="arch-chip" data-tag="Mage">🔮 Mage</button>
-          <button class="arch-chip" data-tag="Marksman">🏹 Marksman</button>
-          <button class="arch-chip" data-tag="Tank">🛡️ Tank</button>
-          <button class="arch-chip" data-tag="Support">💖 Support</button>
-          <button class="arch-chip favorites-chip" data-tag="favorites" id="btnFilterFavorites" title="View your starred favorite champion pool">⭐ My Pool (<span id="favCountBadge">0</span>)</button>
+          <button class="arch-chip" data-tag="Fighter">Fighter</button>
+          <button class="arch-chip" data-tag="Assassin">Assassin</button>
+          <button class="arch-chip" data-tag="Mage">Mage</button>
+          <button class="arch-chip" data-tag="Marksman">Marksman</button>
+          <button class="arch-chip" data-tag="Tank">Tank</button>
+          <button class="arch-chip" data-tag="Support">Support</button>
+          <button class="arch-chip favorites-chip" data-tag="favorites" id="btnFilterFavorites" title="View your starred favorite champion pool">My Pool (<span id="favCountBadge">0</span>)</button>
         </div>
       </div>
 
@@ -269,15 +266,15 @@
         <table class="opgg-table" id="championsTable">
           <thead id="championsTableHead">
             <tr>
-              <th style="width: 42px; text-align: center;" title="Favorite Pin">⭐</th>
-              <th class="sortable active" data-sort="rank" style="width: 75px;">Rank <span class="sort-icon">▲</span></th>
-              <th class="sortable" data-sort="champion">Champion <span class="sort-icon">⇅</span></th>
-              <th class="sortable" data-sort="tier" style="width: 80px;">Tier <span class="sort-icon">⇅</span></th>
-              <th class="sortable" data-sort="winRate" style="width: 125px;">Win Rate <span class="sort-icon">⇅</span></th>
-              <th class="sortable" data-sort="pickRate" style="width: 95px;">Pick Rate <span class="sort-icon">⇅</span></th>
-              <th class="sortable" data-sort="banRate" style="width: 95px;">Ban Rate <span class="sort-icon">⇅</span></th>
-              <th class="sortable" data-sort="matches" style="width: 105px;">Matches <span class="sort-icon">⇅</span></th>
-              <th class="sortable" data-sort="kda" style="width: 85px;">KDA <span class="sort-icon">⇅</span></th>
+              <th style="width: 42px; text-align: center;" title="Favorite Pin"></th>
+              <th class="sortable active" data-sort="rank" style="width: 75px;">Rank<span class="sort-icon">▲</span></th>
+              <th class="sortable" data-sort="champion">Champion<span class="sort-icon">⇅</span></th>
+              <th class="sortable" data-sort="tier" style="width: 80px;">Tier<span class="sort-icon">⇅</span></th>
+              <th class="sortable" data-sort="winRate" style="width: 125px;">Win Rate<span class="sort-icon">⇅</span></th>
+              <th class="sortable" data-sort="pickRate" style="width: 95px;">Pick Rate<span class="sort-icon">⇅</span></th>
+              <th class="sortable" data-sort="banRate" style="width: 95px;">Ban Rate<span class="sort-icon">⇅</span></th>
+              <th class="sortable" data-sort="matches" style="width: 105px;">Matches<span class="sort-icon">⇅</span></th>
+              <th class="sortable" data-sort="kda" style="width: 85px;">KDA<span class="sort-icon">⇅</span></th>
               <th>Hardest Counters</th>
               <th style="width: 120px; text-align: right;">Build & Runes</th>
             </tr>
@@ -307,16 +304,40 @@
         </div>
 
         <div class="companion-switches">
-          <div class="badge-active-auto">⚡ Auto-Runes Active</div>
-          <div class="badge-active-auto">📦 Auto-Builds Active</div>
-          <button class="btn-popout-overlay" id="launchOverlayCompanionBtn" title="Launch Floating In-Game Overlay HUD directly over League of Legends (Ctrl+Shift+O)">🎮 In-Game Overlay HUD (Over Game)</button>
+          <div class="badge-active-auto">Auto-Runes Active</div>
+          <div class="badge-active-auto">Auto-Builds Active</div>
+          <button class="btn-popout-overlay" id="launchOverlayCompanionBtn" title="Launch Floating In-Game Overlay HUD directly over League of Legends (Ctrl+Shift+O)">In-Game Overlay HUD (Over Game)</button>
         </div>
       </div>
+
+<!-- Live In-Game Match State (populated only while a match is running) -->
+<div class="live-match-strip" id="liveMatchStrip" style="display: none;">
+<div class="lms-block">
+<span class="lms-label">Status</span>
+<strong class="lms-value" id="lmsStatus">Match In Progress</strong>
+</div>
+<div class="lms-block">
+<span class="lms-label">Queue</span>
+<strong class="lms-value" id="lmsQueue">-</strong>
+</div>
+<div class="lms-block">
+<span class="lms-label">Map</span>
+<strong class="lms-value" id="lmsMap">-</strong>
+</div>
+<div class="lms-block">
+<span class="lms-label">Your Champion</span>
+<strong class="lms-value" id="lmsChampion">-</strong>
+</div>
+<div class="lms-block">
+<span class="lms-label">Players In Lobby</span>
+<strong class="lms-value" id="lmsPlayers">-</strong>
+</div>
+</div>
 
       <!-- Team Damage Profile & Balance Analyzer -->
       <div class="team-damage-profile-card" id="teamDamageCard" style="display: none;">
         <div class="section-title-row">
-          <h3>⚖️ Team Composition Balance & Damage Split</h3>
+          <h3>Team Composition Balance & Damage Split</h3>
           <span id="teamCompRating" class="badge-active-auto" style="background: rgba(83, 131, 232, 0.2); border-color: var(--opgg-blue);">Analyzing Comp...</span>
         </div>
         <div class="damage-split-container">
@@ -326,9 +347,9 @@
             <div id="barTrue" class="split-segment true-dmg" style="width: 10%;">True: 10%</div>
           </div>
           <div class="comp-traits-row">
-            <span class="comp-trait-badge" id="traitFrontline">🛡️ Frontline: Normal</span>
-            <span class="comp-trait-badge" id="traitCc">🌀 Crowd Control: Normal</span>
-            <span class="comp-trait-badge" id="traitDamage">⚔️ Damage: Balanced</span>
+            <span class="comp-trait-badge" id="traitFrontline">Frontline: Normal</span>
+            <span class="comp-trait-badge" id="traitCc">Crowd Control: Normal</span>
+            <span class="comp-trait-badge" id="traitDamage">Damage: Balanced</span>
           </div>
         </div>
       </div>
@@ -336,12 +357,12 @@
       <!-- Live Jungle Camp & Neutral Objective Timers HUD -->
       <div class="objective-timers-section" id="objectiveTimersSection">
         <div class="section-title-row">
-          <h3>🐉 Jungle Camps & Objective Timers (In-Game Live HUD)</h3>
+          <h3>Jungle Camps & Objective Timers (In-Game Live HUD)</h3>
           <span style="font-size: 11px; color: var(--text-dim);">Click when taken to start live respawn countdown with 30s audio warning</span>
         </div>
         <div class="objective-timers-grid">
           <div class="obj-timer-card" id="objTimerDragon" onclick="startObjectiveTimer('dragon', 'Dragon', 300)">
-            <div class="obj-icon-wrap dragon">🐉</div>
+            <div class="obj-icon-wrap dragon"></div>
             <div class="obj-info">
               <span class="obj-name">Dragon</span>
               <span class="obj-countdown" id="cdDragon">Ready (5:00)</span>
@@ -350,7 +371,7 @@
           </div>
 
           <div class="obj-timer-card" id="objTimerBaron" onclick="startObjectiveTimer('baron', 'Baron Nashor', 360)">
-            <div class="obj-icon-wrap baron">👾</div>
+            <div class="obj-icon-wrap baron"></div>
             <div class="obj-info">
               <span class="obj-name">Baron Nashor</span>
               <span class="obj-countdown" id="cdBaron">Ready (6:00)</span>
@@ -359,7 +380,7 @@
           </div>
 
           <div class="obj-timer-card" id="objTimerGrubs" onclick="startObjectiveTimer('grubs', 'Voidgrubs', 240)">
-            <div class="obj-icon-wrap grubs">🛡️</div>
+            <div class="obj-icon-wrap grubs"></div>
             <div class="obj-info">
               <span class="obj-name">Voidgrubs</span>
               <span class="obj-countdown" id="cdGrubs">Ready (4:00)</span>
@@ -368,7 +389,7 @@
           </div>
 
           <div class="obj-timer-card" id="objTimerScuttle" onclick="startObjectiveTimer('scuttle', 'Scuttle Crab', 150)">
-            <div class="obj-icon-wrap scuttle">🦀</div>
+            <div class="obj-icon-wrap scuttle"></div>
             <div class="obj-info">
               <span class="obj-name">Scuttle Crab</span>
               <span class="obj-countdown" id="cdScuttle">Ready (2:30)</span>
@@ -377,7 +398,7 @@
           </div>
 
           <div class="obj-timer-card" id="objTimerBlue" onclick="startObjectiveTimer('blue', 'Blue Buff', 300)">
-            <div class="obj-icon-wrap blue-buff">🔵</div>
+            <div class="obj-icon-wrap blue-buff"></div>
             <div class="obj-info">
               <span class="obj-name">Blue Sentinel</span>
               <span class="obj-countdown" id="cdBlue">Ready (5:00)</span>
@@ -386,7 +407,7 @@
           </div>
 
           <div class="obj-timer-card" id="objTimerRed" onclick="startObjectiveTimer('red', 'Red Buff', 300)">
-            <div class="obj-icon-wrap red-buff">🔴</div>
+            <div class="obj-icon-wrap red-buff"></div>
             <div class="obj-info">
               <span class="obj-name">Red Brambleback</span>
               <span class="obj-countdown" id="cdRed">Ready (5:00)</span>
@@ -400,12 +421,12 @@
       <div class="enemy-spell-timers-section" id="enemySpellTimersSection">
         <div class="section-title-row" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
           <div>
-            <h3>⏱️ Enemy Summoner Spell Cooldown Timers (Live Match Tracker)</h3>
+            <h3>Enemy Summoner Spell Cooldown Timers (Live Match Tracker)</h3>
             <span style="font-size: 11px; color: var(--text-dim);">Click any spell when an enemy casts it to start live cooldown timer</span>
           </div>
           <div style="display: flex; gap: 8px;">
-            <button id="btnCopyMainSpellTimers" class="btn-refresh-profile" style="padding: 4px 10px; font-size: 11px;">📋 Copy Timers to Chat</button>
-            <button id="btnResetMainSpellTimers" class="btn-refresh-profile" style="padding: 4px 10px; font-size: 11px;">🔄 Reset</button>
+            <button id="btnCopyMainSpellTimers" class="btn-refresh-profile" style="padding: 4px 10px; font-size: 11px;">Copy Timers to Chat</button>
+            <button id="btnResetMainSpellTimers" class="btn-refresh-profile" style="padding: 4px 10px; font-size: 11px;">Reset</button>
           </div>
         </div>
         <div class="enemy-timers-grid" id="enemyTimersGrid">
@@ -413,21 +434,10 @@
         </div>
       </div>
 
-      <!-- ARAM Bench Pool Section (Visible when in ARAM) -->
-      <div class="aram-bench-section" id="aramBenchSection">
-        <div class="section-title-row">
-          <h3>🎲 ARAM Bench Reroll Pool (S-Tier & A-Tier Priority)</h3>
-          <span style="font-size: 11px; color: var(--text-dim);">Click any champion card below to instantly swap with League client</span>
-        </div>
-        <div class="aram-bench-grid" id="aramBenchGrid">
-          <div class="empty-bench">No champions currently on the ARAM bench. Bench rerolls will appear here with Tier Badges (S, A, B).</div>
-        </div>
-      </div>
-
-      <!-- Live Team Cards Section -->
+<!-- Live Team Cards Section -->
       <div class="team-cards-section">
         <div class="section-title-row">
-          <h3>🛡️ Active Team Champions & Live Tier Cards</h3>
+          <h3>Active Team Champions & Live Tier Cards</h3>
           <span id="activeModeLabel" style="font-size: 12px; font-weight: 700; color: var(--opgg-cyan);">MODE: RANKED / NORMAL</span>
         </div>
 
@@ -449,7 +459,7 @@
           <button id="profileSearchBtn" class="btn-search-profile">Inspect Profile</button>
         </div>
         <button id="btnMyOwnProfile" class="btn-my-profile" title="Switch to my connected League Client account">
-          👤 My Account
+           My Account
         </button>
       </div>
 
@@ -482,14 +492,14 @@
           </div>
         </div>
         <button id="refreshProfileBtn" class="btn-refresh-profile" title="Refresh Profile & Match History">
-          🔄 Refresh
+           Refresh
         </button>
       </div>
 
       <!-- Most Played Champions Summary -->
       <div class="profile-most-champs-section" id="profileMostChampsSection" style="display: none;">
         <div class="section-title-row">
-          <h3>👑 Most Played Champions This Season</h3>
+          <h3>Most Played Champions This Season</h3>
         </div>
         <div class="most-champs-grid" id="profileMostChampsGrid"></div>
       </div>
@@ -497,7 +507,7 @@
       <!-- Match History Section -->
       <div class="match-history-section">
         <div class="section-title-row">
-          <h3>📜 Recent Match History</h3>
+          <h3>Recent Match History</h3>
           <span style="font-size: 12px; color: var(--text-dim);" id="matchHistoryCount">Loaded</span>
         </div>
         <div class="match-history-list" id="matchHistoryList">
@@ -529,7 +539,7 @@ Keria joined the lobby"></textarea>
               <span>Import from Active Champ Select</span>
             </button>
             <button id="btnCopyMultiSearchSummary" class="btn-secondary" style="display: none;">
-              <span>📋 Copy Scout to Chat</span>
+              <span>Copy Scout to Chat</span>
             </button>
           </div>
         </div>
@@ -568,12 +578,12 @@ Keria joined the lobby"></textarea>
       <div class="leaderboard-header">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;">
           <div>
-            <h2>🏆 Ranked Solo/Duo Challenger & Pro Leaderboard</h2>
+            <h2>Ranked Solo/Duo Challenger & Pro Leaderboard</h2>
             <p>Live official OP.GG ranking ladder with pro players, LP, win rates, and 1-click profile inspector.</p>
           </div>
           <div class="leaderboard-actions-row">
             <button id="refreshLeaderboardBtn" class="btn-refresh-profile" style="padding: 6px 14px; font-size: 11px;">
-              🔄 Refresh Ladder
+               Refresh Ladder
             </button>
           </div>
         </div>
@@ -583,7 +593,7 @@ Keria joined the lobby"></textarea>
           <div class="toolbar-left">
             <!-- Region Selector -->
             <div class="filter-dropdown-pill">
-              <span class="globe-icon">🌍</span>
+              <span class="globe-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18z"></path></svg></span>
               <select id="leaderboardRegionSelect" class="opgg-filter-select">
                 <option value="kr" selected>Korea (KR)</option>
                 <option value="na">North America (NA)</option>
@@ -646,12 +656,12 @@ Keria joined the lobby"></textarea>
       <div class="leaderboard-header">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;">
           <div>
-            <h2>🃏 Mayhem & Arena Augment Tier List</h2>
+            <h2>Mayhem & Arena Augment Tier List</h2>
             <p>Official OP.GG Augment Rankings • S+/S/A/B Tiers, Win Rates & Placement ranked specifically for each Champion.</p>
           </div>
           <div class="leaderboard-actions-row">
             <button id="refreshAugmentsBtn" class="btn-refresh-profile" style="padding: 6px 14px; font-size: 11px;">
-              🔄 Refresh Augments
+               Refresh Augments
             </button>
           </div>
         </div>
@@ -660,7 +670,7 @@ Keria joined the lobby"></textarea>
         <div class="augment-champ-selector-container">
           <div class="augment-active-champ-badge" id="augmentActiveChampBadge">
             <div class="augment-champ-avatar-wrap" id="btnToggleChampModal" title="Click to choose champion">
-              <img id="augmentActiveChampImg" class="augment-active-champ-img" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Aatrox.png" alt="Aatrox" />
+              <img id="augmentActiveChampImg" class="augment-active-champ-img"  data-cd="champion/Aatrox.png" src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/champion/Aatrox.png" alt="Aatrox" />
               <span class="champ-avatar-change-hint">Change</span>
             </div>
             <div class="augment-active-champ-meta">
@@ -672,7 +682,7 @@ Keria joined the lobby"></textarea>
                 <h3 id="augmentActiveChampName">Aatrox - The Darkin Blade</h3>
                 <!-- Toggle Button to Choose Champion -->
                 <button class="btn-toggle-champ-picker" id="btnToggleChampPicker">
-                  <span id="toggleBtnChampText">🔁 Choose Champion</span>
+                  <span id="toggleBtnChampText">Choose Champion</span>
                   <span class="toggle-arrow" id="toggleArrow">▾</span>
                 </button>
               </div>
@@ -683,21 +693,21 @@ Keria joined the lobby"></textarea>
           <!-- Quick Selector Strip & Full Browser Toggle Button -->
           <div class="augment-champ-controls">
             <div class="augment-quick-champs" id="augmentQuickChamps">
-              <button class="champ-pill active" data-champ-id="266" data-champ-name="Aatrox"><img class="pill-thumb" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Aatrox.png" alt=""/> Aatrox</button>
-              <button class="champ-pill" data-champ-id="203" data-champ-name="Kindred"><img class="pill-thumb" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Kindred.png" alt=""/> Kindred</button>
-              <button class="champ-pill" data-champ-id="222" data-champ-name="Jinx"><img class="pill-thumb" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Jinx.png" alt=""/> Jinx</button>
-              <button class="champ-pill" data-champ-id="238" data-champ-name="Zed"><img class="pill-thumb" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Zed.png" alt=""/> Zed</button>
-              <button class="champ-pill" data-champ-id="99" data-champ-name="Lux"><img class="pill-thumb" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Lux.png" alt=""/> Lux</button>
-              <button class="champ-pill" data-champ-id="875" data-champ-name="Sett"><img class="pill-thumb" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Sett.png" alt=""/> Sett</button>
-              <button class="champ-pill" data-champ-id="11" data-champ-name="Master Yi"><img class="pill-thumb" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/MasterYi.png" alt=""/> Master Yi</button>
-              <button class="champ-pill" data-champ-id="31" data-champ-name="Cho'Gath"><img class="pill-thumb" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Chogath.png" alt=""/> Cho'Gath</button>
-              <button class="champ-pill" data-champ-id="141" data-champ-name="Kayn"><img class="pill-thumb" src="https://ddragon.leagueoflegends.com/cdn/14.20.1/img/champion/Kayn.png" alt=""/> Kayn</button>
-              <button class="champ-pill" data-champ-id="0" data-champ-name="All Champions">🌍 All Champions</button>
+              <button class="champ-pill active" data-champ-id="266" data-champ-name="Aatrox"><img class="pill-thumb"  data-cd="champion/Aatrox.png" src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/champion/Aatrox.png" alt=""/>Aatrox</button>
+              <button class="champ-pill" data-champ-id="203" data-champ-name="Kindred"><img class="pill-thumb"  data-cd="champion/Kindred.png" src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/champion/Kindred.png" alt=""/>Kindred</button>
+              <button class="champ-pill" data-champ-id="222" data-champ-name="Jinx"><img class="pill-thumb"  data-cd="champion/Jinx.png" src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/champion/Jinx.png" alt=""/>Jinx</button>
+              <button class="champ-pill" data-champ-id="238" data-champ-name="Zed"><img class="pill-thumb"  data-cd="champion/Zed.png" src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/champion/Zed.png" alt=""/>Zed</button>
+              <button class="champ-pill" data-champ-id="99" data-champ-name="Lux"><img class="pill-thumb"  data-cd="champion/Lux.png" src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/champion/Lux.png" alt=""/>Lux</button>
+              <button class="champ-pill" data-champ-id="875" data-champ-name="Sett"><img class="pill-thumb"  data-cd="champion/Sett.png" src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/champion/Sett.png" alt=""/>Sett</button>
+              <button class="champ-pill" data-champ-id="11" data-champ-name="Master Yi"><img class="pill-thumb"  data-cd="champion/MasterYi.png" src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/champion/MasterYi.png" alt=""/>Master Yi</button>
+              <button class="champ-pill" data-champ-id="31" data-champ-name="Cho'Gath"><img class="pill-thumb"  data-cd="champion/Chogath.png" src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/champion/Chogath.png" alt=""/>Cho'Gath</button>
+              <button class="champ-pill" data-champ-id="141" data-champ-name="Kayn"><img class="pill-thumb"  data-cd="champion/Kayn.png" src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/champion/Kayn.png" alt=""/>Kayn</button>
+              <button class="champ-pill" data-champ-id="0" data-champ-name="All Champions">All Champions</button>
             </div>
 
             <!-- Toggle Open 173-Champion Picker -->
             <button class="btn-open-full-picker" id="btnOpenFullPicker">
-              🔍 Toggle All 173 Champions ▾
+               Toggle All 173 Champions ▾
             </button>
           </div>
 
@@ -705,7 +715,7 @@ Keria joined the lobby"></textarea>
           <div class="champ-picker-flyout" id="champPickerFlyout" style="display: none;">
             <div class="picker-flyout-header">
               <div class="picker-search-bar">
-                <span class="search-icon">🔍</span>
+                <span class="search-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
                 <input type="text" id="flyoutChampSearchInput" placeholder="Type champion name (e.g. Kindred, Yasuo, Gwen, Vayne)..." />
                 <button class="btn-clear-search" id="btnClearFlyoutSearch" style="display: none;">✕</button>
               </div>
@@ -730,20 +740,20 @@ Keria joined the lobby"></textarea>
             <!-- Rarity Filter Chips -->
             <div class="augment-rarity-filter-group" id="mainAugmentRarityFilters">
               <button class="augment-rarity-btn active" data-rarity="all">ALL</button>
-              <button class="augment-rarity-btn prismatic" data-rarity="Prismatic">💎 PRISMATIC</button>
-              <button class="augment-rarity-btn gold" data-rarity="Gold">🪙 GOLD</button>
-              <button class="augment-rarity-btn silver" data-rarity="Silver">🛡️ SILVER</button>
+              <button class="augment-rarity-btn prismatic" data-rarity="Prismatic">PRISMATIC</button>
+              <button class="augment-rarity-btn gold" data-rarity="Gold">GOLD</button>
+              <button class="augment-rarity-btn silver" data-rarity="Silver">SILVER</button>
             </div>
 
             <!-- Stat Archetype Filter Chips -->
             <div class="augment-archetype-filter-group" id="mainAugmentArchetypeFilters">
               <button class="augment-arch-btn active" data-arch="all">ALL STATS</button>
-              <button class="augment-arch-btn" data-arch="ad">⚔️ AD / Crit</button>
-              <button class="augment-arch-btn" data-arch="ap">🔮 AP / Burn</button>
-              <button class="augment-arch-btn" data-arch="tank">🛡️ Tank / HP</button>
-              <button class="augment-arch-btn" data-arch="as">⚡ Attack Speed</button>
-              <button class="augment-arch-btn" data-arch="haste">🌀 Haste / CD</button>
-              <button class="augment-arch-btn" data-arch="vamp">🩸 Omnivamp</button>
+              <button class="augment-arch-btn" data-arch="ad">AD / Crit</button>
+              <button class="augment-arch-btn" data-arch="ap">AP / Burn</button>
+              <button class="augment-arch-btn" data-arch="tank">Tank / HP</button>
+              <button class="augment-arch-btn" data-arch="as">Attack Speed</button>
+              <button class="augment-arch-btn" data-arch="haste">Haste / CD</button>
+              <button class="augment-arch-btn" data-arch="vamp">Omnivamp</button>
             </div>
 
             <!-- Tier Dropdown -->
@@ -769,14 +779,14 @@ Keria joined the lobby"></textarea>
         <table class="opgg-table" id="augmentsTable">
           <thead>
             <tr>
-              <th class="sortable active" data-sort="rank" style="width: 75px;">Rank <span class="sort-icon">▲</span></th>
-              <th class="sortable" data-sort="name">Augment <span class="sort-icon">⇅</span></th>
-              <th class="sortable" data-sort="rarity" style="width: 105px;">Rarity <span class="sort-icon">⇅</span></th>
-              <th class="sortable" data-sort="tier" style="width: 80px;">Tier <span class="sort-icon">⇅</span></th>
-              <th class="sortable" data-sort="winRate" style="width: 125px;">Win Rate <span class="sort-icon">⇅</span></th>
-              <th class="sortable" data-sort="firstPlace" style="width: 110px;">1st Place % <span class="sort-icon">⇅</span></th>
-              <th class="sortable" data-sort="avgPlace" style="width: 100px;">Avg Place <span class="sort-icon">⇅</span></th>
-              <th class="sortable" data-sort="pickRate" style="width: 95px;">Pick Rate <span class="sort-icon">⇅</span></th>
+              <th class="sortable active" data-sort="rank" style="width: 75px;">Rank<span class="sort-icon">▲</span></th>
+              <th class="sortable" data-sort="name">Augment<span class="sort-icon">⇅</span></th>
+              <th class="sortable" data-sort="rarity" style="width: 105px;">Rarity<span class="sort-icon">⇅</span></th>
+              <th class="sortable" data-sort="tier" style="width: 80px;">Tier<span class="sort-icon">⇅</span></th>
+              <th class="sortable" data-sort="winRate" style="width: 125px;">Win Rate<span class="sort-icon">⇅</span></th>
+              <th class="sortable" data-sort="firstPlace" style="width: 110px;">1st Place %<span class="sort-icon">⇅</span></th>
+              <th class="sortable" data-sort="avgPlace" style="width: 100px;">Avg Place<span class="sort-icon">⇅</span></th>
+              <th class="sortable" data-sort="pickRate" style="width: 95px;">Pick Rate<span class="sort-icon">⇅</span></th>
               <th style="width: 200px;">Champion Synergy & Meta Role</th>
             </tr>
           </thead>
@@ -813,14 +823,14 @@ Keria joined the lobby"></textarea>
           <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 6px;">
             <button id="pushRunesBtn" class="btn-push-runes">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-              <span>⚡ Push Runes to League Client</span>
+              <span>Push Runes to League Client</span>
             </button>
             <button id="pushItemSetBtn" class="btn-push-runes" style="background: linear-gradient(135deg, #00bba3 0%, #008775 100%);">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-              <span>🎒 Push Item Set to Shop</span>
+              <span>Push Item Set to Shop</span>
             </button>
             <button id="btnCopyChampBuildSummary" class="btn-secondary" style="padding: 10px 16px; font-size: 13px; font-weight: 700; border-radius: 8px;">
-              <span>📋 Copy Build Summary</span>
+              <span>Copy Build Summary</span>
             </button>
           </div>
         </div>
@@ -831,7 +841,7 @@ Keria joined the lobby"></textarea>
         <button class="modal-tab" data-modaltab="items">Core Item Builds</button>
         <button class="modal-tab" data-modaltab="skills">Skill Max Order</button>
         <button class="modal-tab" data-modaltab="counters">Matchup Counters</button>
-        <button class="modal-tab" data-modaltab="matchup">⚔️ VS Matchup Analyzer</button>
+        <button class="modal-tab" data-modaltab="matchup">VS Matchup Analyzer</button>
       </div>
 
       <div class="modal-body-content">
@@ -867,7 +877,7 @@ Keria joined the lobby"></textarea>
       <button class="modal-close-btn" id="settingsModalCloseBtn">✕</button>
 
       <div class="settings-modal-header">
-        <div class="settings-header-icon">⚙️</div>
+        <div class="settings-header-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></div>
         <div>
           <h2>OP.GG Desktop Preferences</h2>
           <p>Configure automated client integrations, in-game overlay features, and app performance</p>
@@ -878,7 +888,7 @@ Keria joined the lobby"></textarea>
         <!-- Section 1: In-Game Automations -->
         <div class="settings-section">
           <div class="settings-section-title">
-            <span>⚡ League Client Automations (LCU)</span>
+            <span>League Client Automations (LCU)</span>
             <span class="settings-section-badge">Live Sync</span>
           </div>
 
@@ -941,7 +951,7 @@ Keria joined the lobby"></textarea>
         <!-- Section 2: In-Game Overlay & Mayhem Advisor -->
         <div class="settings-section">
           <div class="settings-section-title">
-            <span>🃏 In-Game Overlay & Augment Advisor</span>
+            <span>In-Game Overlay & Augment Advisor</span>
             <span class="settings-section-badge">Pro HUD</span>
           </div>
 
@@ -973,15 +983,53 @@ Keria joined the lobby"></textarea>
               <div class="settings-row-desc">Launch or bring the floating HUD overlay to front right now.</div>
             </div>
             <button class="btn-secondary" id="btnLaunchOverlayFromSettings" style="padding: 6px 14px; font-size: 12px; font-weight: 700; border-radius: 6px;">
-              <span>🪟 Launch HUD</span>
+              <span>Launch HUD</span>
             </button>
           </div>
         </div>
 
         <!-- Section 3: Performance, Themes & Cache -->
         <div class="settings-section">
-          <div class="settings-section-title">
-            <span>⚡ App Appearance & Performance</span>
+          <!-- Section 4: Display Scale & Resolution -->
+<div class="settings-section">
+<div class="settings-section-title">
+<span>Display Scale & Resolution</span>
+<span class="settings-section-badge">Saved</span>
+</div>
+
+<div class="settings-row">
+<div class="settings-row-info">
+<div class="settings-row-title">Interface Scale</div>
+<div class="settings-row-desc">Scales all text and controls in the app and the in-game HUD. Applies instantly.</div>
+</div>
+<div class="scale-control">
+<button class="scale-step" id="btnScaleDown" title="Decrease scale">&minus;</button>
+<input type="range" id="uiScaleSlider" min="50" max="200" step="25" value="100" />
+<button class="scale-step" id="btnScaleUp" title="Increase scale">+</button>
+<output class="scale-readout" id="uiScaleValue">100%</output>
+</div>
+</div>
+
+<div class="settings-row">
+<div class="settings-row-info">
+<div class="settings-row-title">Window Resolution</div>
+<div class="settings-row-desc">Resizes the application window. Use "Fit Screen" to match your display.</div>
+</div>
+<select id="resolutionSelect" class="opgg-filter-select" style="min-width: 160px;">
+<option value="fit">Fit Screen</option>
+<option value="1920x1080">1920 x 1080</option>
+<option value="1680x1050">1680 x 1050</option>
+<option value="1600x900">1600 x 900</option>
+<option value="1440x900">1440 x 900</option>
+<option value="1366x768">1366 x 768</option>
+<option value="1280x720">1280 x 720</option>
+</select>
+</div>
+</div>
+</div>
+
+<div class="settings-section-title">
+            <span>App Appearance & Performance</span>
             <span class="settings-section-badge">0ms Engine</span>
           </div>
 
@@ -996,17 +1044,6 @@ Keria joined the lobby"></textarea>
             </label>
           </div>
 
-          <div class="settings-row">
-            <div class="settings-row-info">
-              <div class="settings-row-title">Color Palette Theme</div>
-              <div class="settings-row-desc">Choose your preferred dark mode theme aesthetic.</div>
-            </div>
-            <select id="settingThemeSelect" class="opgg-filter-select" style="min-width: 140px;">
-              <option value="classic">OP.GG Classic</option>
-              <option value="midnight">Deep Midnight</option>
-              <option value="cyber">Cyber Void</option>
-            </select>
-          </div>
 
           <div class="settings-row">
             <div class="settings-row-info">
@@ -1014,7 +1051,7 @@ Keria joined the lobby"></textarea>
               <div class="settings-row-desc">Clear 0ms champion augment tier caches and force-refresh all live Data Dragon assets.</div>
             </div>
             <button class="btn-secondary" id="btnClearCacheFromSettings" style="padding: 6px 14px; font-size: 12px; font-weight: 700; border-radius: 6px; border-color: #ff4757; color: #ff6b81;">
-              <span>🗑️ Clear Cache</span>
+              <span>Clear Cache</span>
             </button>
           </div>
         </div>

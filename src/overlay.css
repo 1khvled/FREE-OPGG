@@ -1,21 +1,18 @@
 /* ================= 1:1 OP.GG IN-GAME HUD OVERLAY STYLES ================= */
 
 :root {
-  --opgg-bg-hud: rgba(16, 18, 27, 0.92);
-  --opgg-card-bg: rgba(25, 28, 41, 0.94);
+  --opgg-bg-hud: rgba(20, 22, 26, 0.94);
+  --opgg-card-bg: rgba(27, 30, 36, 0.96);
   --opgg-border: rgba(255, 255, 255, 0.12);
-  --opgg-cyan: #00bba3;
-  --opgg-blue: #5383ec;
-  --opgg-gold: #ffaa00;
-  --opgg-red: #e84057;
-  --tier-splus-border: #ffb800;
-  --tier-splus-glow: 0 0 22px rgba(255, 184, 0, 0.45);
-  --tier-s-border: #5383ec;
-  --tier-s-glow: 0 0 18px rgba(83, 131, 236, 0.4);
-  --tier-a-border: #00bba3;
-  --tier-a-glow: 0 0 16px rgba(0, 187, 163, 0.35);
-  --tier-b-border: #717b94;
-  --tier-b-glow: 0 0 10px rgba(113, 123, 148, 0.25);
+  --opgg-cyan: #2f9e8f;
+  --opgg-blue: #4c8bf5;
+  --opgg-gold: #d9a441;
+  --opgg-red: #e05252;
+  /* Tier accents are plain border colours now - no glow tokens. */
+  --tier-splus-border: #d9a441;
+  --tier-s-border: #4c8bf5;
+  --tier-a-border: #2f9e8f;
+  --tier-b-border: #858d9a;
 }
 
 * {
@@ -373,17 +370,14 @@ body.ingame-overlay-body {
 
 .hud-augment-card.tier-splus {
   border-color: var(--tier-splus-border);
-  box-shadow: var(--tier-splus-glow);
 }
 
 .hud-augment-card.tier-s {
   border-color: var(--tier-s-border);
-  box-shadow: var(--tier-s-glow);
 }
 
 .hud-augment-card.tier-a {
   border-color: var(--tier-a-border);
-  box-shadow: var(--tier-a-glow);
 }
 
 .card-top-header {
@@ -569,101 +563,17 @@ body.ingame-overlay-body {
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* ================= 3. ARAM BENCH OVERLAY ================= */
-.hud-bench-widget {
-  position: fixed;
-  bottom: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 880px;
-  max-width: 95vw;
-  padding: 12px 16px;
-  z-index: 9997;
-}
 
-.bench-widget-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
 
-.bench-subtext {
-  font-size: 11px;
-  color: var(--opgg-cyan);
-  margin-left: 8px;
-}
 
-.bench-cards-container {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  padding-bottom: 4px;
-}
 
-.hud-bench-card {
-  min-width: 130px;
-  background: var(--opgg-card-bg);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  padding: 8px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
 
-.hud-bench-card:hover {
-  background: #252838;
-  border-color: var(--opgg-cyan);
-  transform: translateY(-2px);
-}
 
-.bench-portrait-wrap {
-  position: relative;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 2px solid #444;
-}
 
-.bench-portrait-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
 
-.bench-champ-name {
-  font-size: 12px;
-  font-weight: 800;
-  color: #fff;
-}
 
-.bench-wr-tag {
-  font-size: 10px;
-  font-weight: 800;
-  color: var(--opgg-cyan);
-}
 
-.bench-swap-btn {
-  width: 100%;
-  background: linear-gradient(135deg, #00bba3 0%, #008775 100%);
-  border: none;
-  border-radius: 4px;
-  color: #fff;
-  font-size: 10px;
-  font-weight: 800;
-  padding: 4px 0;
-  cursor: pointer;
-  transition: all 0.15s;
-}
 
-.bench-swap-btn:hover {
-  filter: brightness(1.15);
-}
 
 /* ================= 4. IN-GAME RECOMMENDED BUILD & SKILL HUD ================= */
 .hud-build-widget {
@@ -844,4 +754,224 @@ body.ingame-overlay-body {
 .hud-toast.show {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
+}
+
+/* ================= 16. TEXT FITTING LAYER =================
+   Goal: text always fits inside its box. Two classic causes of overflow are
+   handled here:
+   1. Flex/grid children default to `min-width: auto`, so they refuse to shrink
+      below their content width and push past the box instead of truncating.
+   2. Long free-form strings (augment descriptions, synergy notes, verdict copy)
+      have no height cap, so cards grow past the widget and get clipped.
+   Single-line labels get an ellipsis; multi-line copy gets a line clamp. */
+
+/* 1. Allow text-bearing flex children to shrink below their content width */
+.hud-augment-card,
+.augment-header-left,
+.augment-header-right,
+.build-header-left,
+.timers-widget-header,
+.verdict-content,
+.card-stats-column,
+.card-top-header,
+.drawer-item-row,
+.flash-timer-row,
+.relic-timer-btn,
+.hud-champ-pill,
+.hud-nav-buttons,
+.hud-actions {
+  min-width: 0;
+}
+
+/* 2. Single-line labels: ellipsis instead of horizontal overflow */
+.hud-title,
+#hudChampName,
+.hud-tier-tag,
+.hud-mode-tag,
+.widget-title,
+.widget-champ-badge,
+.card-augment-title,
+.card-wr-label,
+.card-wr-val,
+.card-tier-badge,
+.build-wr-badge,
+.section-label,
+.relic-timer-btn > span,
+.flash-timer-row > span,
+.verdict-icon {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Icons must never be squeezed by the ellipsis rule above */
+.verdict-icon {
+  flex: 0 0 auto;
+  overflow: visible;
+}
+
+/* 3. Multi-line copy: clamp so cards keep a predictable height */
+.card-augment-desc,
+.card-synergy-box,
+.verdict-headline,
+.verdict-subtext {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+
+.card-augment-desc {
+  -webkit-line-clamp: 4;
+}
+
+.card-synergy-box {
+  -webkit-line-clamp: 3;
+}
+
+.verdict-headline {
+  -webkit-line-clamp: 2;
+}
+
+.verdict-subtext {
+  -webkit-line-clamp: 2;
+}
+
+/* 4. Wrap long unbroken tokens (champion/augment names) inside clamped boxes */
+.card-augment-title,
+.card-synergy-box,
+.verdict-headline,
+.verdict-subtext,
+.flash-timer-row > span {
+  overflow-wrap: anywhere;
+}
+
+/* 5. Fixed-width widgets: cap height and scroll rather than spill off-screen */
+.hud-augment-widget,
+.hud-build-widget,
+.hud-timers-widget,
+
+/* 6. Top bar must never exceed the viewport width */
+.hud-top-bar {
+  max-width: 96vw;
+  flex-wrap: nowrap;
+}
+
+.hud-brand {
+  flex: 0 0 auto;
+}
+
+
+
+/* 8. Narrow side-dock widgets scale their type with available room */
+.hud-build-widget,
+.hud-timers-widget {
+  font-size: clamp(10px, 0.85vw, 12px);
+}
+
+/* ================= FLAT DESIGN LAYER =================
+   Mirrors the main window: state is carried by a 1px border and text weight,
+   not by glow, gradient or blur. */
+
+body.ingame-overlay-body {
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+/* Glow -> border */
+.hud-augment-card.tier-splus,
+.hud-augment-card.tier-s,
+.hud-augment-card.tier-a,
+.hud-tier-tag.tier-splus,
+.card-rarity-pill.prismatic {
+  box-shadow: none;
+}
+
+.hud-augment-card {
+  transition: border-color 0.15s ease;
+}
+
+.hud-augment-card:hover {
+  transform: none;
+  border-color: #6b7480;
+}
+
+/* Gradients -> flat fills */
+.hud-tier-tag.tier-splus,
+
+.hud-tier-tag.tier-splus {
+  background-color: #5c4a12;
+  color: #f2d99b;
+  border: 1px solid #8a6f22;
+}
+
+
+
+/* Blur removed (it also costs GPU on the overlay, drawn every frame) */
+.hud-widget,
+.hud-top-bar {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: var(--opgg-bg-hud);
+}
+
+.hud-top-bar {
+  border-radius: 8px;
+}
+
+/* Pulse animation becomes a calm opacity blink rather than an expanding ring */
+@keyframes pulse {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 1; }
+}
+
+.pulse-indicator {
+  box-shadow: none;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Moderated radii */
+.hud-btn,
+.widget-action-btn,
+.hud-shortcut-hint,
+.hud-tier-tag,
+.hud-mode-tag,
+.card-rarity-pill,
+.card-verdict-pill,
+.card-synergy-box,
+.relic-timer-btn,
+.flash-timer-row,
+.hud-toast {
+  border-radius: 6px;
+}
+
+/* Lighter, calmer decorative shadows on the panels themselves */
+.hud-widget {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55);
+}
+
+.hud-top-bar {
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Ally / enemy dots (replaced the removed colour emoji) */
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+  flex: 0 0 auto;
+}
+
+.dot-ally { background: #4c8bf5; }
+.dot-enemy { background: #e05252; }
+
+/* Keyboard focus visibility */
+:focus-visible {
+  outline: 2px solid var(--opgg-blue);
+  outline-offset: 1px;
 }
