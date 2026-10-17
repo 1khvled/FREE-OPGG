@@ -125,7 +125,7 @@
         <div class="panel-header-strip">
           <div class="strip-left">
             <span class="strip-heading">🃏 MAYHEM & ARENA AUGMENT CARD TIER LIST</span>
-            <span class="strip-sub">Real-time augment tier rankings, win rates, and synergies for picking 3-card choices</span>
+            <span class="strip-sub">Official OP.GG Augment Tier Rankings • S+/S/A/B Tiers, Win Rates, Avg Placements & Best Champion Synergies</span>
           </div>
           <div class="strip-right">
             <div class="augment-filters">
@@ -135,7 +135,32 @@
               <button class="filter-chip" data-rarity="Gold">Gold</button>
               <button class="filter-chip" data-rarity="Silver">Silver</button>
             </div>
+            <div class="augment-tier-filters">
+              <button class="tier-chip active" data-tier="all">All Tiers</button>
+              <button class="tier-chip" data-tier="S+">S+ God</button>
+              <button class="tier-chip" data-tier="S">S Tier</button>
+              <button class="tier-chip" data-tier="A">A Tier</button>
+              <button class="tier-chip" data-tier="B">B Tier</button>
+            </div>
           </div>
+        </div>
+
+        <!-- In-Game 3-Choice Augment Decision Assistant -->
+        <div class="augment-picker-strip" id="augmentPickerStrip">
+          <div class="picker-header">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="pulse-dot"></span>
+              <span style="font-weight: 800; font-size: 11px; color: #fff; letter-spacing: 0.5px;">⚔️ 3-CARD IN-GAME PICKER HELPER</span>
+            </div>
+            <span style="font-size: 10px; color: var(--text-dim);">Type names of your 3 in-game choices to instantly pick the highest win rate & tier card</span>
+          </div>
+          <div class="picker-inputs-row">
+            <input type="text" id="pickerCard1" class="picker-input" placeholder="Card #1 (e.g. Giant Slayer)" />
+            <input type="text" id="pickerCard2" class="picker-input" placeholder="Card #2 (e.g. Back To Basics)" />
+            <input type="text" id="pickerCard3" class="picker-input" placeholder="Card #3 (e.g. Blade Waltz)" />
+            <button class="btn-compare-choices" id="btnCompareChoices">⚡ Compare 3 Choices</button>
+          </div>
+          <div class="picker-comparison-results" id="pickerResults" style="display: none;"></div>
         </div>
 
         <div class="augments-cards-grid" id="augmentsGrid"></div>

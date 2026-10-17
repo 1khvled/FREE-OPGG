@@ -478,6 +478,8 @@ function switchView(viewId) {
     target.classList.add('active');
     if (viewId === 'lol-profile') {
       loadMyProfile();
+    } else if (viewId === 'lol-augments') {
+      renderAugmentsMainTable();
     }
   }
 }
@@ -2926,7 +2928,276 @@ globalSearchInput.addEventListener('keydown', (e) => {
   }
 });
 
+// ----------------- MAYHEM & ARENA AUGMENTS TABLE -----------------
+let allRankedAugments = [];
+let augmentFilterRarity = 'all';
+let augmentFilterTier = 'all';
+let augmentSearchQuery = '';
+let augmentSortCol = 'rank';
+let augmentSortOrder = 'asc';
+
+const augmentsTableBody = document.getElementById('augmentsTableBody');
+const mainAugmentRarityFilters = document.getElementById('mainAugmentRarityFilters');
+const mainAugmentTierSelect = document.getElementById('mainAugmentTierSelect');
+const mainAugmentSearchInput = document.getElementById('mainAugmentSearchInput');
+const refreshAugmentsBtn = document.getElementById('refreshAugmentsBtn');
+
+async function loadRankedAugmentsData() {
+  if (allRankedAugments.length > 0) return allRankedAugments;
+  try {
+    const res = await fetch('assets/ranked_augments.json');
+    const data = await res.json();
+    if (Array.isArray(data) && data.length > 0) {
+      allRankedAugments = data;
+      return allRankedAugments;
+    }
+  } catch (e) {
+    console.error('Failed to load assets/ranked_augments.json:', e);
+  }
+  return [];
+}
+
+function updateAugmentSortIcons() {
+  document.querySelectorAll('#augmentsTable th.sortable').forEach(th => {
+    const col = th.getAttribute('data-sort');
+    const icon = th.querySelector('.sort-icon');
+    if (col === augmentSortCol) {
+      th.classList.add('active');
+      if (icon) icon.textContent = augmentSortOrder === 'asc' ? '▲' : '▼';
+    } else {
+      th.classList.remove('active');
+      if (icon) icon.textContent = '⇅';
+    }
+  });
+}
+
+function setupAugmentTableSorting() {
+  document.querySelectorAll('#augmentsTable th.sortable').forEach(th => {
+    th.addEventListener('click', () => {
+      const col = th.getAttribute('data-sort');
+      if (!col) return;
+      if (augmentSortCol === col) {
+        augmentSortOrder = augmentSortOrder === 'asc' ? 'desc' : 'asc';
+      } else {
+        augmentSortCol = col;
+        // Default order: desc for winRate, firstPlace, pickRate; asc for rank, name, avgPlace
+        if (col === 'winRate' || col === 'firstPlace' || col === 'pickRate') {
+          augmentSortOrder = 'desc';
+        } else {
+          augmentSortOrder = 'asc';
+        }
+      }
+      updateAugmentSortIcons();
+      renderAugmentsMainTable();
+    });
+  });
+}
+
+async function renderAugmentsMainTable() {
+  if (!augmentsTableBody) return;
+
+  if (allRankedAugments.length === 0) {
+    augmentsTableBody.innerHTML = `
+      <tr>
+        <td colspan="9" class="loading-cell">
+          <div class="spinner-small"></div>
+          <span>Loading official OP.GG Mayhem augment tier list...</span>
+        </td>
+      </tr>
+    `;
+    await loadRankedAugmentsData();
+  }
+
+  if (allRankedAugments.length === 0) {
+    augmentsTableBody.innerHTML = `
+      <tr>
+        <td colspan="9" class="loading-cell" style="color: var(--opgg-red);">
+          Failed to load augment database. Please click Refresh Augments.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  const query = (augmentSearchQuery || '').toLowerCase().trim();
+
+  // 1. Filter
+  let filtered = allRankedAugments.filter(a => {
+    if (augmentFilterRarity !== 'all' && (a.rarityName || '').toLowerCase() !== augmentFilterRarity.toLowerCase()) {
+      return false;
+    }
+    if (augmentFilterTier !== 'all' && a.tier !== augmentFilterTier) {
+      return false;
+    }
+    if (query) {
+      const nameMatch = (a.name || '').toLowerCase().includes(query);
+      const descMatch = (a.desc || '').toLowerCase().includes(query);
+      const champMatch = Array.isArray(a.bestChampions) && a.bestChampions.some(c => (c.name || '').toLowerCase().includes(query));
+      if (!nameMatch && !descMatch && !champMatch) return false;
+    }
+    return true;
+  });
+
+  // 2. Sort
+  const tierWeight = { 'S+': 5, 'S': 4, 'A': 3, 'B': 2, 'C': 1 };
+  const rarityWeight = { 'Prismatic': 3, 'Gold': 2, 'Silver': 1 };
+
+  filtered.sort((a, b) => {
+    let diff = 0;
+    switch (augmentSortCol) {
+      case 'rank':
+        diff = (a.rank || 0) - (b.rank || 0);
+        break;
+      case 'name':
+        diff = (a.name || '').localeCompare(b.name || '');
+        break;
+      case 'rarity':
+        diff = (rarityWeight[b.rarityName] || 0) - (rarityWeight[a.rarityName] || 0);
+        break;
+      case 'tier':
+        diff = (tierWeight[b.tier] || 0) - (tierWeight[a.tier] || 0);
+        break;
+      case 'winRate':
+        diff = (a.winRate || 0) - (b.winRate || 0);
+        break;
+      case 'firstPlace':
+        diff = (a.firstPlaceRate || 0) - (b.firstPlaceRate || 0);
+        break;
+      case 'avgPlace':
+        diff = (a.avgPlace || 0) - (b.avgPlace || 0);
+        break;
+      case 'pickRate':
+        diff = (a.pickRate || 0) - (b.pickRate || 0);
+        break;
+      default:
+        diff = (a.rank || 0) - (b.rank || 0);
+    }
+    return augmentSortOrder === 'asc' ? diff : -diff;
+  });
+
+  if (filtered.length === 0) {
+    augmentsTableBody.innerHTML = `
+      <tr>
+        <td colspan="9" class="loading-cell">No augments match the selected filters or search query.</td>
+      </tr>
+    `;
+    return;
+  }
+
+  // 3. Render HTML
+  augmentsTableBody.innerHTML = filtered.map(a => {
+    const rarityClass = (a.rarityName || 'silver').toLowerCase();
+    const tierClass = a.tier === 'S+' ? 'splus' : (a.tier || 'b').toLowerCase();
+    const iconUrl = a.smallIcon || a.largeIcon || 'https://opgg-static.akamaized.net/meta/images/lol/latest/augment/acceleratingsorcery_small.png';
+
+    // Best Champions HTML
+    const champsHtml = Array.isArray(a.bestChampions) ? a.bestChampions.map(c => {
+      const champInfo = getChampionInfo(c.id);
+      const champImg = `https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${champInfo.key || 'Aatrox'}.png`;
+      return `
+        <img class="augment-synergy-thumb" 
+             src="${champImg}" 
+             alt="${champInfo.name || c.name}" 
+             title="${champInfo.name || c.name} (${c.winRate || a.winRate}% WR with ${a.name})" 
+             onclick="openChampionModal(${c.id}, 'TOP')" />
+      `;
+    }).join('') : '';
+
+    return `
+      <tr>
+        <td class="rank-cell">
+          <span class="rank-num ${a.rank <= 3 ? 'top-rank' : ''}">${a.rank}</span>
+        </td>
+        <td>
+          <div class="augment-cell-info">
+            <img class="augment-cell-icon ${rarityClass}" 
+                 src="${iconUrl}" 
+                 alt="${a.name}" 
+                 onerror="this.src='https://opgg-static.akamaized.net/meta/images/lol/latest/augment/acceleratingsorcery_small.png'" />
+            <div class="augment-cell-details">
+              <span class="augment-cell-name">${a.name}</span>
+              <span class="augment-cell-desc" title="${a.desc || ''}">${a.desc || 'Arena / Mayhem augment enhancement'}</span>
+            </div>
+          </div>
+        </td>
+        <td>
+          <span class="augment-rarity-pill ${rarityClass}">${a.rarityName}</span>
+        </td>
+        <td>
+          <span class="augment-tier-pill ${tierClass}">${a.tier}</span>
+        </td>
+        <td>
+          <div class="rate-bar-container">
+            <div class="rate-fill-wrap">
+              <span class="rate-value ${a.winRate >= 56 ? 'high-wr' : ''}">${a.winRate}%</span>
+              <div class="rate-bar">
+                <div class="rate-bar-fill" style="width: ${Math.min(100, Math.max(0, (a.winRate - 40) * 3))}%;"></div>
+              </div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <span class="first-place-rate" style="font-weight: 700; color: #ffb900;">👑 ${a.firstPlaceRate}%</span>
+        </td>
+        <td>
+          <span class="avg-place-badge">#${a.avgPlace}</span>
+        </td>
+        <td>
+          <span class="pick-rate-val">${a.pickRate}%</span>
+        </td>
+        <td>
+          <div class="augment-synergies-wrap">
+            ${champsHtml}
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+// Attach Mayhem Augment event listeners
+if (mainAugmentRarityFilters) {
+  mainAugmentRarityFilters.querySelectorAll('.role-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      mainAugmentRarityFilters.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      augmentFilterRarity = btn.getAttribute('data-rarity') || 'all';
+      renderAugmentsMainTable();
+    });
+  });
+}
+
+if (mainAugmentTierSelect) {
+  mainAugmentTierSelect.addEventListener('change', (e) => {
+    augmentFilterTier = e.target.value;
+    renderAugmentsMainTable();
+  });
+}
+
+let augmentSearchDebounce = null;
+if (mainAugmentSearchInput) {
+  mainAugmentSearchInput.addEventListener('input', (e) => {
+    clearTimeout(augmentSearchDebounce);
+    augmentSearchDebounce = setTimeout(() => {
+      augmentSearchQuery = e.target.value;
+      renderAugmentsMainTable();
+    }, 120);
+  });
+}
+
+if (refreshAugmentsBtn) {
+  refreshAugmentsBtn.addEventListener('click', async () => {
+    allRankedAugments = [];
+    showToast('Refreshing Mayhem Augment rankings...');
+    await renderAugmentsMainTable();
+    showToast('✅ Mayhem Augment rankings updated!');
+  });
+}
+
 // Initialize on boot
 setupTableSorting();
+setupAugmentTableSorting();
+loadRankedAugmentsData();
 loadChampions();
 loadLeaderboards(1);
+

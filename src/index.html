@@ -101,6 +101,7 @@
   <!-- ================= SUB-NAVIGATION ================= -->
   <nav class="sub-nav" id="subNav">
     <button class="subnav-tab active" data-view="lol-champions">Champions & Tier List</button>
+    <button class="subnav-tab" data-view="lol-augments">🃏 Mayhem Augments</button>
     <button class="subnav-tab" data-view="lol-livegame">⚡ Live Game & ARAM Cards</button>
     <button class="subnav-tab" data-view="lol-profile">👤 My Profile & History</button>
     <button class="subnav-tab" data-view="lol-multisearch">Multi-Search & Dodge Radar</button>
@@ -589,6 +590,78 @@ Keria joined the lobby"></textarea>
             </tr>
           </thead>
           <tbody id="leaderboardTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 6. MAYHEM & ARENA AUGMENT TIER LIST VIEW -->
+    <section class="view-panel" id="view-lol-augments">
+      <div class="leaderboard-header">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <h2>🃏 Mayhem & Arena Augment Tier List</h2>
+            <p>Official OP.GG Augment Rankings • 221 Augments analyzed across live Mayhem & Arena rounds with S+/S/A/B Tiers, Win Rates, and Synergies.</p>
+          </div>
+          <div class="leaderboard-actions-row">
+            <button id="refreshAugmentsBtn" class="btn-refresh-profile" style="padding: 6px 14px; font-size: 11px;">
+              🔄 Refresh Augments
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter & Search Toolbar -->
+        <div class="leaderboard-toolbar">
+          <div class="toolbar-left">
+            <!-- Rarity Filter Chips -->
+            <div class="role-filters" id="mainAugmentRarityFilters">
+              <button class="role-btn active" data-rarity="all"><span class="role-text-icon">ALL</span></button>
+              <button class="role-btn" data-rarity="Prismatic"><span class="role-text-icon" style="color: #ff3399;">💎 PRISMATIC</span></button>
+              <button class="role-btn" data-rarity="Gold"><span class="role-text-icon" style="color: #f0c040;">🪙 GOLD</span></button>
+              <button class="role-btn" data-rarity="Silver"><span class="role-text-icon" style="color: #c0d0e0;">🛡️ SILVER</span></button>
+            </div>
+
+            <!-- Tier Dropdown -->
+            <div class="filter-dropdown-pill">
+              <select id="mainAugmentTierSelect" class="opgg-filter-select">
+                <option value="all" selected>All Tiers</option>
+                <option value="S+">S+ God Tier</option>
+                <option value="S">S Tier</option>
+                <option value="A">A Tier</option>
+                <option value="B">B Tier</option>
+                <option value="C">C Tier</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="toolbar-right">
+            <input type="text" id="mainAugmentSearchInput" class="champ-search" placeholder="Search augment or champion synergy..." />
+          </div>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table class="opgg-table" id="augmentsTable">
+          <thead>
+            <tr>
+              <th class="sortable active" data-sort="rank" style="width: 75px;">Rank <span class="sort-icon">▲</span></th>
+              <th class="sortable" data-sort="name">Augment <span class="sort-icon">⇅</span></th>
+              <th class="sortable" data-sort="rarity" style="width: 105px;">Rarity <span class="sort-icon">⇅</span></th>
+              <th class="sortable" data-sort="tier" style="width: 80px;">Tier <span class="sort-icon">⇅</span></th>
+              <th class="sortable" data-sort="winRate" style="width: 125px;">Win Rate <span class="sort-icon">⇅</span></th>
+              <th class="sortable" data-sort="firstPlace" style="width: 110px;">1st Place % <span class="sort-icon">⇅</span></th>
+              <th class="sortable" data-sort="avgPlace" style="width: 100px;">Avg Place <span class="sort-icon">⇅</span></th>
+              <th class="sortable" data-sort="pickRate" style="width: 95px;">Pick Rate <span class="sort-icon">⇅</span></th>
+              <th>Best Champion Synergies</th>
+            </tr>
+          </thead>
+          <tbody id="augmentsTableBody">
+            <tr>
+              <td colspan="9" class="loading-cell">
+                <div class="spinner-small"></div>
+                <span>Loading OP.GG live Mayhem & Arena augments...</span>
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </section>

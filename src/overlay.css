@@ -784,3 +784,199 @@ body.overlay-body {
   transform: translateX(-50%) translateY(0);
   opacity: 1;
 }
+
+/* Enhanced Augment Cards & 3-Choice Picker */
+.augment-icon-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  flex-shrink: 0;
+}
+
+.augment-card.Prismatic .augment-icon-img {
+  border-color: #ff007f;
+  box-shadow: 0 0 8px rgba(255, 0, 127, 0.5);
+}
+
+.augment-card.Gold .augment-icon-img {
+  border-color: #f59e0b;
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
+}
+
+.augment-card.Silver .augment-icon-img {
+  border-color: #94a3b8;
+}
+
+.augment-rarity-badge {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-top: 1px;
+  display: inline-block;
+}
+
+.augment-rarity-badge.prismatic {
+  background: rgba(255, 0, 127, 0.2);
+  color: #ff3399;
+  border: 1px solid rgba(255, 0, 127, 0.4);
+}
+
+.augment-rarity-badge.gold {
+  background: rgba(245, 158, 11, 0.2);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.augment-rarity-badge.silver {
+  background: rgba(148, 163, 184, 0.2);
+  color: #cbd5e1;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+}
+
+.augment-tier-pill.a {
+  background: #10b981;
+  color: #fff;
+}
+
+.augment-tier-pill.b {
+  background: #64748b;
+  color: #fff;
+}
+
+.augment-champ-synergies {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.champ-mini-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  object-fit: cover;
+}
+
+.augment-tier-filters {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tier-chip {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #94a3b8;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.tier-chip:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.tier-chip.active {
+  background: var(--opgg-cyan);
+  border-color: var(--opgg-cyan);
+  color: #000;
+}
+
+/* 3-Choice Augment Assistant */
+.augment-picker-strip {
+  background: linear-gradient(135deg, rgba(83, 131, 236, 0.12), rgba(18, 22, 32, 0.8));
+  border: 1px solid rgba(83, 131, 236, 0.35);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.picker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.picker-inputs-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.picker-input {
+  flex: 1;
+  background: #11141e;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 6px 10px;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.picker-input:focus {
+  border-color: var(--opgg-cyan);
+}
+
+.btn-compare-choices {
+  background: var(--opgg-cyan);
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 6px 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.15s ease;
+}
+
+.btn-compare-choices:hover {
+  opacity: 0.9;
+}
+
+.picker-comparison-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 8px;
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.picker-result-card {
+  background: #171b26;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 8px 10px;
+  position: relative;
+}
+
+.picker-result-card.winner {
+  border-color: #ffaa00;
+  background: rgba(255, 170, 0, 0.1);
+  box-shadow: 0 0 10px rgba(255, 170, 0, 0.25);
+}
+
+.winner-badge {
+  font-size: 9px;
+  font-weight: 800;
+  color: #ffaa00;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}

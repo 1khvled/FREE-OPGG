@@ -46,7 +46,7 @@ async function initStaticData() {
     const [ddragonRes, runesRes, augmentsRes] = await Promise.all([
       fetch('assets/champions_ddragon.json').then(r => r.json()).catch(() => null),
       fetch('assets/runes.json').then(r => r.json()).catch(() => null),
-      fetch('assets/augments.json').then(r => r.json()).catch(() => null)
+      fetch('assets/ranked_augments.json').then(r => r.json()).catch(() => fetch('assets/augments.json').then(r => r.json())).catch(() => null)
     ]);
 
     if (ddragonRes?.data) {
@@ -379,41 +379,53 @@ async function renderTeamCards(myTeam, myChampId, mode = 'aram') {
 // ----------------- RENDER MAYHEM / ARENA AUGMENTS -----------------
 function renderAugments(list) {
   if (!list || list.length === 0) {
-    augmentsGrid.innerHTML = '<div class="empty-overlay-state"><h4>No Augment Cards Found</h4></div>';
+    augmentsGrid.innerHTML = '<div class="empty-overlay-state"><h4>No Augment Cards Found</h4><p>Try searching for a different augment name, effect, or champion archetype.</p></div>';
     return;
   }
 
   augmentsGrid.innerHTML = list.map(aug => {
     const isSPlus = aug.tier === 'S+';
-    const tierPillClass = isSPlus ? 'splus' : (aug.tier === 'S' ? 's' : '');
+    const isS = aug.tier === 'S';
+    const isA = aug.tier === 'A';
+    const tierPillClass = isSPlus ? 'splus' : (isS ? 's' : (isA ? 'a' : 'b'));
+    const rarityClass = (aug.rarity || 'Silver').toLowerCase();
 
-    const tagsHtml = (aug.bestFor || []).map(t => `
-      <span class="augment-tag">${t}</span>
-    `).join('');
+    const champMiniHtml = (aug.bestChampions || []).slice(0, 4).map(c => {
+      const champKey = c.id || c.name || 'Aatrox';
+      return `<img class="champ-mini-icon" src="https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/${champKey}.png" onerror="this.src='https://ddragon.leagueoflegends.com/cdn/${DDRAGON_VER}/img/champion/Aatrox.png'" title="${c.name || c.id}" />`;
+    }).join('');
 
     return `
       <div class="augment-card ${aug.rarity}">
         <div class="augment-top">
           <div class="augment-name-group">
-            <span class="augment-icon">${aug.icon}</span>
-            <span class="augment-name">${aug.name}</span>
+            <img class="augment-icon-img" src="${aug.smallIcon || aug.largeIcon || 'assets/images/icon-alert.svg'}" onerror="this.src='https://opgg-static.akamaized.net/meta/images/lol/latest/augment/acceleratingsorcery_small.png'" alt="${aug.name}" />
+            <div>
+              <div class="augment-name">${aug.name}</div>
+              <span class="augment-rarity-badge ${rarityClass}">${aug.rarity}</span>
+            </div>
           </div>
           <span class="augment-tier-pill ${tierPillClass}">${aug.tier} TIER</span>
         </div>
         <div class="augment-desc">${aug.description}</div>
         <div class="augment-footer">
           <div class="augment-stats">
-            <span class="augment-winrate">${aug.winRate} WR</span>
+            <span class="augment-winrate">${aug.winRate}% WR</span>
+            <span style="color: #ffaa00; font-weight: 700;">👑 ${aug.firstPlaceRate || '16.0'}%</span>
             <span>Avg #${aug.avgPlace}</span>
           </div>
-          <div class="augment-tags">${tagsHtml}</div>
+          <div class="augment-champ-synergies" title="Best Champion Synergies">
+            ${champMiniHtml}
+          </div>
         </div>
       </div>
     `;
   }).join('');
 }
 
-// Augment Search & Filters
+// Augment Search & Multi-Filters (Rarity + Tier)
+const tierChips = document.querySelectorAll('.tier-chip');
+
 augmentSearch.addEventListener('input', filterAugments);
 filterChips.forEach(chip => {
   chip.addEventListener('click', () => {
@@ -423,21 +435,101 @@ filterChips.forEach(chip => {
   });
 });
 
+tierChips.forEach(chip => {
+  chip.addEventListener('click', () => {
+    tierChips.forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    filterAugments();
+  });
+});
+
 function filterAugments() {
   const query = augmentSearch.value.trim().toLowerCase();
-  const activeChip = document.querySelector('.filter-chip.active');
-  const rarity = activeChip ? activeChip.getAttribute('data-rarity') : 'all';
+  const activeRarityChip = document.querySelector('.filter-chip.active');
+  const rarity = activeRarityChip ? activeRarityChip.getAttribute('data-rarity') : 'all';
+
+  const activeTierChip = document.querySelector('.tier-chip.active');
+  const tier = activeTierChip ? activeTierChip.getAttribute('data-tier') : 'all';
 
   const filtered = augmentsList.filter(aug => {
     const matchesRarity = rarity === 'all' || aug.rarity === rarity;
+    const matchesTier = tier === 'all' || aug.tier === tier;
     const matchesText = !query ||
       aug.name.toLowerCase().includes(query) ||
       aug.description.toLowerCase().includes(query) ||
-      (aug.bestFor && aug.bestFor.some(t => t.toLowerCase().includes(query)));
-    return matchesRarity && matchesText;
+      (aug.bestChampions && aug.bestChampions.some(c => (c.name || '').toLowerCase().includes(query)));
+    return matchesRarity && matchesTier && matchesText;
   });
 
   renderAugments(filtered);
+}
+
+// ----------------- IN-GAME 3-CHOICE AUGMENT DECISION PICKER -----------------
+const btnCompareChoices = document.getElementById('btnCompareChoices');
+const pickerCard1 = document.getElementById('pickerCard1');
+const pickerCard2 = document.getElementById('pickerCard2');
+const pickerCard3 = document.getElementById('pickerCard3');
+const pickerResults = document.getElementById('pickerResults');
+
+if (btnCompareChoices) {
+  btnCompareChoices.addEventListener('click', runChoiceComparison);
+  [pickerCard1, pickerCard2, pickerCard3].forEach(inp => {
+    inp?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') runChoiceComparison();
+    });
+  });
+}
+
+function runChoiceComparison() {
+  const c1 = pickerCard1?.value.trim().toLowerCase() || '';
+  const c2 = pickerCard2?.value.trim().toLowerCase() || '';
+  const c3 = pickerCard3?.value.trim().toLowerCase() || '';
+
+  if (!c1 && !c2 && !c3) {
+    showOverlayToast('Type in at least 1 or 2 card choices to compare!', true);
+    return;
+  }
+
+  const findBestMatch = (query) => {
+    if (!query) return null;
+    return augmentsList.find(a => a.name.toLowerCase() === query) ||
+           augmentsList.find(a => a.name.toLowerCase().includes(query)) ||
+           null;
+  };
+
+  const matches = [findBestMatch(c1), findBestMatch(c2), findBestMatch(c3)].filter(Boolean);
+  if (matches.length === 0) {
+    pickerResults.style.display = 'block';
+    pickerResults.innerHTML = '<div style="color: #f87171; font-size: 11px; padding: 6px;">No matching augment cards found. Check spelling.</div>';
+    return;
+  }
+
+  matches.sort((a, b) => {
+    if (a.tierRank !== b.tierRank) return a.tierRank - b.tierRank;
+    return b.winRate - a.winRate;
+  });
+
+  const bestAugment = matches[0];
+
+  pickerResults.style.display = 'grid';
+  pickerResults.innerHTML = matches.map((m, idx) => {
+    const isWinner = m.id === bestAugment.id;
+    return `
+      <div class="picker-result-card ${isWinner ? 'winner' : ''}">
+        ${isWinner ? '<div class="winner-badge">👑 OP.GG TOP PICK</div>' : ''}
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <img src="${m.smallIcon || m.largeIcon}" style="width: 28px; height: 28px; border-radius: 50%;" />
+          <div>
+            <div style="font-weight: 800; font-size: 11px; color: #fff;">${m.name}</div>
+            <div style="font-size: 10px; color: var(--text-dim);">${m.rarity} • <b style="color: ${isWinner ? 'var(--opgg-cyan)' : '#ffb800'};">${m.tier} Tier</b></div>
+          </div>
+        </div>
+        <div style="font-size: 11px; font-weight: 700; color: var(--opgg-cyan); margin-top: 4px;">
+          ${m.winRate}% Win Rate • Avg #${m.avgPlace} • 👑 ${m.firstPlaceRate}% 1st
+        </div>
+      </div>
+    `;
+  }).join('');
 }
 
 // ----------------- 1-CLICK BENCH SWAP -----------------

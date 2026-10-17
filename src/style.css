@@ -2966,4 +2966,163 @@ body {
   gap: 6px;
 }
 
+/* ================= MAYHEM AUGMENTS TABLE STYLING ================= */
+.augment-cell-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 380px;
+}
+
+.augment-cell-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  border: 2px solid var(--border-color);
+  background: #111;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+.augment-cell-icon.prismatic {
+  border-color: #ff3399;
+  box-shadow: 0 0 8px rgba(255, 51, 153, 0.4);
+}
+
+.augment-cell-icon.gold {
+  border-color: #f0c040;
+  box-shadow: 0 0 8px rgba(240, 192, 64, 0.35);
+}
+
+.augment-cell-icon.silver {
+  border-color: #94a3b8;
+  box-shadow: 0 0 6px rgba(148, 163, 184, 0.25);
+}
+
+.augment-cell-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.augment-cell-name {
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.augment-cell-desc {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.augment-rarity-pill {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.augment-rarity-pill.prismatic {
+  background: rgba(255, 51, 153, 0.15);
+  color: #ff3399;
+  border: 1px solid rgba(255, 51, 153, 0.4);
+}
+
+.augment-rarity-pill.gold {
+  background: rgba(240, 192, 64, 0.15);
+  color: #f0c040;
+  border: 1px solid rgba(240, 192, 64, 0.4);
+}
+
+.augment-rarity-pill.silver {
+  background: rgba(148, 163, 184, 0.15);
+  color: #c0d0e0;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.augment-tier-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.augment-tier-pill.splus {
+  background: rgba(255, 75, 75, 0.2);
+  color: #ff4b4b;
+  border: 1px solid #ff4b4b;
+  box-shadow: 0 0 6px rgba(255, 75, 75, 0.35);
+}
+
+.augment-tier-pill.s {
+  background: rgba(83, 131, 232, 0.2);
+  color: #5383e8;
+  border: 1px solid #5383e8;
+}
+
+.augment-tier-pill.a {
+  background: rgba(0, 207, 188, 0.2);
+  color: #00cfbc;
+  border: 1px solid #00cfbc;
+}
+
+.augment-tier-pill.b {
+  background: rgba(240, 192, 64, 0.2);
+  color: #f0c040;
+  border: 1px solid #f0c040;
+}
+
+.augment-tier-pill.c {
+  background: rgba(148, 163, 184, 0.15);
+  color: #94a3b8;
+  border: 1px solid #94a3b8;
+}
+
+.augment-synergies-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.augment-synergy-thumb {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: #111;
+  object-fit: cover;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+  cursor: pointer;
+}
+
+.augment-synergy-thumb:hover {
+  transform: scale(1.15);
+  border-color: var(--opgg-cyan);
+  z-index: 2;
+}
+
+.avg-place-badge {
+  font-size: 12px;
+  font-weight: 700;
+  color: #e2e8f0;
+}
+
+
 
