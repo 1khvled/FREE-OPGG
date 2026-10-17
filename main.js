@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, shell, clipboard } = require('electron');
+const { app, BrowserWindow, ipcMain, shell, clipboard, globalShortcut, screen } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const https = require('https');
@@ -139,53 +139,43 @@ async function getLeagueClientBounds() {
 }
 
 async function createOverlayWindow(showImmediately = false) {
+  const primaryDisplay = screen.getPrimaryDisplay();
+  const { width: screenWidth, height: screenHeight } = primaryDisplay.bounds;
+
+  let targetX = 0;
+  let targetY = 0;
+  let targetW = screenWidth;
+  let targetH = screenHeight;
+
+  try {
+    const lcuBounds = await getLeagueClientBounds();
+    if (lcuBounds && lcuBounds.width > 400 && lcuBounds.height > 300) {
+      targetX = lcuBounds.x;
+      targetY = lcuBounds.y;
+      targetW = lcuBounds.width;
+      targetH = lcuBounds.height;
+    }
+  } catch (e) {}
+
   if (overlayWindow && !overlayWindow.isDestroyed()) {
-    if (showImmediately) {
-      const bounds = await getLeagueClientBounds();
-      if (bounds) {
-        const curr = overlayWindow.getBounds();
-        const targetW = Math.min(curr.width, bounds.width - 20);
-        const targetX = Math.round(bounds.x + (bounds.width - targetW) / 2);
-        const targetY = Math.round(bounds.y + 15);
-        overlayWindow.setBounds({ x: targetX, y: targetY, width: targetW, height: curr.height });
-      }
-      overlayWindow.show();
-      overlayWindow.focus();
+    overlayWindow.setBounds({ x: targetX, y: targetY, width: targetW, height: targetH });
+    if (showImmediately && !overlayWindow.isVisible()) {
+      overlayWindow.showInactive();
     }
     return overlayWindow;
   }
 
-  const { screen } = require('electron');
-  const primaryDisplay = screen.getPrimaryDisplay();
-  const { width: screenWidth } = primaryDisplay.workAreaSize;
-
-  const defaultWidth = 1140;
-  const defaultHeight = 380;
-  let initialX = Math.round((screenWidth - defaultWidth) / 2);
-  let initialY = 40;
-
-  try {
-    const lcuBounds = await getLeagueClientBounds();
-    if (lcuBounds) {
-      const targetW = Math.min(defaultWidth, lcuBounds.width - 20);
-      initialX = Math.round(lcuBounds.x + (lcuBounds.width - targetW) / 2);
-      initialY = Math.round(lcuBounds.y + 15);
-    }
-  } catch (e) {}
-
   overlayWindow = new BrowserWindow({
-    width: defaultWidth,
-    height: defaultHeight,
-    minWidth: 640,
-    minHeight: 140,
-    x: initialX,
-    y: initialY,
+    width: targetW,
+    height: targetH,
+    x: targetX,
+    y: targetY,
     transparent: true,
     frame: false,
-    alwaysOnTop: overlayPinned,
-    skipTaskbar: false,
-    resizable: true,
-    hasShadow: true,
+    alwaysOnTop: true,
+    skipTaskbar: true,
+    resizable: false,
+    hasShadow: false,
     show: showImmediately,
     backgroundColor: '#00000000',
     icon: path.join(__dirname, 'assets', 'icon.ico'),
@@ -199,10 +189,11 @@ async function createOverlayWindow(showImmediately = false) {
     }
   });
 
-  if (overlayPinned) {
-    overlayWindow.setAlwaysOnTop(true, 'screen-saver');
-    overlayWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
-  }
+  overlayWindow.setAlwaysOnTop(true, 'screen-saver');
+  overlayWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
+
+  // Authentic in-game overlay click-through: clicks pass through to League of Legends by default
+  overlayWindow.setIgnoreMouseEvents(true, { forward: true });
 
   overlayWindow.loadFile(path.join(__dirname, 'src', 'overlay.html'));
 
@@ -538,6 +529,13 @@ async function processActiveGameflow() {
           overlayWindow.webContents.send('lcu:champ-select-update', champSelectPayload);
         }
       }
+    } else if (lcuState.gameflow === 'InProgress') {
+      // Auto-activate In-Game HUD Overlay when League match is running
+      if (!overlayWindow || overlayWindow.isDestroyed()) {
+        createOverlayWindow(true);
+      } else if (!overlayWindow.isVisible()) {
+        overlayWindow.showInactive();
+      }
     } else {
       lcuState.lastAutoRuneChamp = null;
       lcuState.lastAutoBuildChamp = null;
@@ -735,27 +733,22 @@ ipcMain.on('overlay:close', () => {
 ipcMain.on('overlay:minimize', () => {
   if (overlayWindow && !overlayWindow.isDestroyed()) overlayWindow.minimize();
 });
-ipcMain.on('overlay:set-compact', (e, compact) => {
+ipcMain.on('overlay:set-ignore-mouse-events', (event, ignore, options) => {
   if (overlayWindow && !overlayWindow.isDestroyed()) {
-    const b = overlayWindow.getBounds();
-    overlayWindow.setBounds({ x: b.x, y: b.y, width: b.width, height: compact ? 190 : 380 });
+    overlayWindow.setIgnoreMouseEvents(ignore, options || { forward: true });
   }
 });
 ipcMain.handle('overlay:toggle-pin', () => {
   overlayPinned = !overlayPinned;
   if (overlayWindow && !overlayWindow.isDestroyed()) {
-    overlayWindow.setAlwaysOnTop(overlayPinned);
+    overlayWindow.setAlwaysOnTop(overlayPinned, 'screen-saver');
   }
   return overlayPinned;
 });
 ipcMain.handle('overlay:dock-to-league', async () => {
   const bounds = await getLeagueClientBounds();
   if (bounds && overlayWindow && !overlayWindow.isDestroyed()) {
-    const curr = overlayWindow.getBounds();
-    const targetW = Math.min(curr.width, bounds.width - 20);
-    const targetX = Math.round(bounds.x + (bounds.width - targetW) / 2);
-    const targetY = Math.round(bounds.y + 15);
-    overlayWindow.setBounds({ x: targetX, y: targetY, width: targetW, height: curr.height });
+    overlayWindow.setBounds({ x: bounds.x, y: bounds.y, width: bounds.width, height: bounds.height });
     return { success: true };
   }
   return { success: false };
@@ -1311,9 +1304,33 @@ if (!gotTheLock) {
     checkPatchAutoUpdate(false);
     patchCheckInterval = setInterval(() => checkPatchAutoUpdate(false), 30 * 60 * 1000);
 
-    // Global shortcut Ctrl+Shift+O to toggle in-game overlay over League
+    // Global shortcuts: Shift+Tab (Unlock/Lock OP.GG in-game HUD) & Ctrl+G (Toggle HUD visibility)
     try {
-      const { globalShortcut } = require('electron');
+      globalShortcut.register('Shift+Tab', async () => {
+        if (!overlayWindow || overlayWindow.isDestroyed()) {
+          await createOverlayWindow(true);
+        } else {
+          if (!overlayWindow.isVisible()) {
+            overlayWindow.showInactive();
+          }
+          overlayWindow.webContents.send('overlay:interactive-toggle');
+        }
+      });
+
+      globalShortcut.register('CommandOrControl+G', async () => {
+        if (!overlayWindow || overlayWindow.isDestroyed()) {
+          await createOverlayWindow(true);
+        } else if (overlayWindow.isVisible()) {
+          overlayWindow.hide();
+        } else {
+          const bounds = await getLeagueClientBounds();
+          if (bounds) {
+            overlayWindow.setBounds({ x: bounds.x, y: bounds.y, width: bounds.width, height: bounds.height });
+          }
+          overlayWindow.showInactive();
+        }
+      });
+
       globalShortcut.register('CommandOrControl+Shift+O', async () => {
         if (!overlayWindow || overlayWindow.isDestroyed()) {
           await createOverlayWindow(true);
@@ -1322,14 +1339,9 @@ if (!gotTheLock) {
         } else {
           const bounds = await getLeagueClientBounds();
           if (bounds) {
-            const curr = overlayWindow.getBounds();
-            const targetW = Math.min(curr.width, bounds.width - 20);
-            const targetX = Math.round(bounds.x + (bounds.width - targetW) / 2);
-            const targetY = Math.round(bounds.y + 15);
-            overlayWindow.setBounds({ x: targetX, y: targetY, width: targetW, height: curr.height });
+            overlayWindow.setBounds({ x: bounds.x, y: bounds.y, width: bounds.width, height: bounds.height });
           }
-          overlayWindow.show();
-          overlayWindow.focus();
+          overlayWindow.showInactive();
         }
       });
     } catch (e) {}

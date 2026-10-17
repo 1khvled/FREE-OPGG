@@ -14,6 +14,12 @@ contextBridge.exposeInMainWorld('opgg', {
   overlaySetCompact: (compact) => ipcRenderer.send('overlay:set-compact', compact),
   overlayTogglePin: () => ipcRenderer.invoke('overlay:toggle-pin'),
   overlayDockToLeague: () => ipcRenderer.invoke('overlay:dock-to-league'),
+  setIgnoreMouseEvents: (ignore, options) => ipcRenderer.send('overlay:set-ignore-mouse-events', ignore, options),
+  onOverlayInteractiveToggle: (callback) => {
+    const handler = (event, data) => callback(data);
+    ipcRenderer.on('overlay:interactive-toggle', handler);
+    return () => ipcRenderer.removeListener('overlay:interactive-toggle', handler);
+  },
 
   // LCU Integration & Automations
   lcuStatus: () => ipcRenderer.invoke('lcu:status'),
