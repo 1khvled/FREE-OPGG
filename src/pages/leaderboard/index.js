@@ -140,10 +140,13 @@ export function normalizeRow(raw, index = 0) {
 
   const name = (() => {
     const direct = pick(row, ['name', 'summoner_name', 'game_name', 'nickname', 'display_name']);
-    if (typeof direct === 'string') return direct.trim();
+    if (typeof direct === 'string' && direct.trim()) return direct.trim();
     const inner = pick(nested, ['name', 'game_name', 'summoner_name', 'nickname']);
-    if (typeof inner === 'string') return inner.trim();
-    if (typeof row.summoner === 'string') return row.summoner.trim();
+    if (typeof inner === 'string' && inner.trim()) return inner.trim();
+    if (typeof row.summoner === 'string' && row.summoner.trim()) return row.summoner.trim();
+    // The Riot ID game name is the fallback when the profile has no display name.
+    const gameName = pick(nested, ['gameName', 'game_name']);
+    if (typeof gameName === 'string' && gameName.trim()) return gameName.trim();
     return '';
   })();
 
@@ -176,11 +179,11 @@ export function normalizeRow(raw, index = 0) {
   })();
 
   const division = (() => {
-    const direct = pick(row, ['division', 'tier_division', 'rank_division']);
+    const direct = pick(row, ['division', 'tier_division', 'rank_division', 'tierDivision']);
     if (direct !== undefined) return String(direct);
     if (tierInfo.division !== undefined) return String(tierInfo.division);
     if (soloTier.division !== undefined) return String(soloTier.division);
-    const inner = pick(nested, ['division']);
+    const inner = pick(nested, ['division', 'tier_division', 'tierDivision']);
     return inner !== undefined ? String(inner) : '';
   })();
 
@@ -195,12 +198,15 @@ export function normalizeRow(raw, index = 0) {
   })();
 
   const wins = toNumber(pick(row, ['wins', 'total_wins', 'win_count']))
-    ?? toNumber(pick(solo || {}, ['win', 'wins', 'total_wins']));
+    ?? toNumber(pick(solo || {}, ['win', 'wins', 'total_wins']))
+    ?? toNumber(pick(nested, ['win', 'wins', 'total_wins']));
   const losses = toNumber(pick(row, ['losses', 'total_losses', 'lose_count', 'loss_count']))
-    ?? toNumber(pick(solo || {}, ['lose', 'loss', 'losses', 'total_losses']));
+    ?? toNumber(pick(solo || {}, ['lose', 'loss', 'losses', 'total_losses']))
+    ?? toNumber(pick(nested, ['lose', 'loss', 'losses', 'total_losses']));
 
   const winRate = (() => {
-    const rate = toPercent(pick(row, ['win_rate', 'winRate', 'win_ratio']));
+    const rate = toPercent(pick(row, ['win_rate', 'winRate', 'win_ratio']))
+      ?? toPercent(pick(nested, ['win_rate', 'winRate', 'win_ratio']));
     if (rate !== null) return rate;
     if (wins !== null && losses !== null && wins + losses > 0) {
       return (wins / (wins + losses)) * 100;
@@ -209,7 +215,8 @@ export function normalizeRow(raw, index = 0) {
   })();
 
   const matches = (() => {
-    const direct = toNumber(pick(row, ['matches', 'total_matches', 'games', 'game_count', 'played']));
+    const direct = toNumber(pick(row, ['matches', 'total_matches', 'games', 'game_count', 'played']))
+      ?? toNumber(pick(nested, ['matches', 'total_matches', 'games', 'game_count', 'played']));
     if (direct !== null) return direct;
     if (wins !== null || losses !== null) return (wins || 0) + (losses || 0);
     return null;

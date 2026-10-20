@@ -1,0 +1,24 @@
+Fix the IPC payload contract, the leaderboard row shape and the detail panel
+
+- main/ipc/opgg.js: the privileged() wrapper calls handlers with
+  (event, payload), but the OP.GG handlers were registered bare and so
+  received the Electron event as their payload. Every filter was silently
+  ignored and the champion detail never resolved a champion.
+- src/pages/champion-detail/data.js: adapt the main process's normalised
+  champion-detail payload back onto the endpoint's field names, so one set
+  of normalisers serves both the raw and the normalised shape.
+- src/pages/leaderboard/index.js: read the win rate, matches and division
+  from the nested summoner record the main process returns.
+- src/pages/champions: the second table column carries the rank-change
+  indicator and has no header label, matching the reference; the reference
+  labels the ADC lane "Bottom", not "AD Carry"; the tier list is a flat
+  table with no panel fill; the patch dropdown defaults to the live patch.
+- src/data/champions.js: the 60xxx "Jade" champion variants keep the base
+  square name, which is the only key the image CDN serves.
+- src/core/i18n.js: cache the translated string per key AND interpolation
+  variables, so t(key, { n }) no longer freezes the first interpolation.
+- main/windows.js: the main window is at least 1242px wide, the width the
+  reference layout needs before the tier table is clipped.
+
+Verified with tools/verify-pages.mjs and tools/verify-interactions.mjs: all
+six screens render with no console error, no exception and no broken image.

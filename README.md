@@ -138,7 +138,23 @@ the project because the evidence must be reproducible:
 | `tools/rea-ipc-channels.mjs` | Recover the literal channel vocabulary |
 | `tools/rea-i18n.mjs` | Flatten and search the shipped i18n bundle |
 | `tools/rea-web-capture.mjs` | Extract DOM/screenshot artifacts from a REA browser capture |
+| `tools/serve-renderer.mjs` | Serve the shipped renderer for observation |
+| `tools/bridge-stub.js` | Stand-in for the preload bridge |
+| `tools/cdp.mjs` | Drive a running Electron/Chrome target over CDP |
 | `tools/check-syntax.mjs` | Project-wide syntax check |
+| `tools/test-core.mjs` | Contract tests for the core modules (22 assertions) |
+| `tools/verify-app.mjs` | Launch the app, screenshot it, report renderer errors |
+| `tools/verify-pages.mjs` | Walk every screen, screenshot it, assert a clean console |
+| `tools/verify-interactions.mjs` | Exercise the champion modal and the overlay window |
+| `tools/verify-images.mjs` | Report every image that failed to load |
+| `tools/probe-ipc.mjs` | Call an IPC handler inside the running app |
+| `tools/probe-cdn.mjs` | Measure how the renderer sees an image CDN |
+
+```bash
+npm run check      # syntax
+npm test           # contract tests
+npm run verify     # drive the real app, screenshot every screen
+```
 
 ---
 
