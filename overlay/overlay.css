@@ -3,9 +3,21 @@
  *
  * The design tokens live in `src/styles/tokens.css`, which the overlay
  * document links directly (`../src/styles/tokens.css`); every colour, radius,
- * spacing step and font size below is a token reference. No hex literal
- * appears in this file and no text is smaller than the 12px metadata floor.
+ * spacing step and font size below is a token reference. The only literals
+ * are the letter-grade swatches in the `:root` block below, which have no
+ * counterpart in the shared token set.
  * ========================================================================== */
+
+:root {
+  /* Letter grades: S+ is the "OP" tier, then S, A, B, C, D. */
+  --grade-splus-from: #ffaa00;
+  --grade-splus-to: #ff5500;
+  --grade-splus-glow: rgba(255, 184, 0, 0.45);
+  --grade-s: #5383ec;
+  --grade-s-glow: rgba(83, 131, 236, 0.4);
+  --grade-a: #00bba3;
+  --grade-b: #717b94;
+}
 
 * {
   box-sizing: border-box;
@@ -221,6 +233,9 @@ body {
   display: flex;
   align-items: center;
   gap: var(--sp-2);
+  /* The champion card keeps its width: the section toggles may wrap, the
+     champion's name must not be squeezed to an ellipsis. */
+  flex: 0 0 auto;
   min-width: 0;
 }
 
@@ -319,6 +334,50 @@ body {
 
 .hud-tier--tier-5 {
   background: var(--tier-5);
+}
+
+/* ---- Letter grades (S+ / S / A / B / C / D) --------------------------------
+ *
+ * The ARAM and Mayhem cards show a letter grade rather than the numeric
+ * tier. S+ is the "OP" tier and keeps the gold treatment.
+ */
+
+.hud-tier--tier-splus {
+  background: linear-gradient(135deg, var(--grade-splus-from), var(--grade-splus-to));
+  color: var(--text-primary);
+  box-shadow: 0 0 10px var(--grade-splus-glow);
+}
+
+.hud-tier--tier-s {
+  background: var(--grade-s);
+  color: var(--text-primary);
+  box-shadow: 0 0 8px var(--grade-s-glow);
+}
+
+.hud-tier--tier-a {
+  background: var(--grade-a);
+  color: var(--text-primary);
+}
+
+.hud-tier--tier-b {
+  background: var(--grade-b);
+  color: var(--text-primary);
+}
+
+.hud-tier--tier-c {
+  background: var(--bg-surface-raised);
+  color: var(--text-primary);
+}
+
+.hud-tier--tier-d {
+  background: var(--bg-surface-raised);
+  color: var(--text-muted);
+}
+
+.hud-tier--tier-e,
+.hud-tier--tier-f {
+  background: var(--bg-surface-muted);
+  color: var(--text-muted);
 }
 
 /* --------------------------------------------------------------------------

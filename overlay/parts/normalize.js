@@ -71,6 +71,37 @@ const TIER_CLASS = {
 };
 
 /**
+ * Letter grade per tier bucket.
+ *
+ * OP.GG's own tier list numbers the buckets 1..5 (0 is the "OP" tier), but
+ * the overlay has always shown a letter grade on the ARAM / Mayhem cards:
+ * S+ for the OP tier, then S, A, B, C, D. The letter is the headline; the
+ * numeric tier stays available as the badge's tooltip.
+ */
+const TIER_LETTER = {
+  0: { letter: 'S+', className: 'tier-splus' },
+  1: { letter: 'S', className: 'tier-s' },
+  2: { letter: 'A', className: 'tier-a' },
+  3: { letter: 'B', className: 'tier-b' },
+  4: { letter: 'C', className: 'tier-c' },
+  5: { letter: 'D', className: 'tier-d' },
+};
+
+/** Letter grade for an already-lettered grade such as `S+` or `A`. */
+const LETTER_CLASS = {
+  's+': { letter: 'S+', className: 'tier-splus' },
+  splus: { letter: 'S+', className: 'tier-splus' },
+  op: { letter: 'S+', className: 'tier-splus' },
+  s: { letter: 'S', className: 'tier-s' },
+  a: { letter: 'A', className: 'tier-a' },
+  b: { letter: 'B', className: 'tier-b' },
+  c: { letter: 'C', className: 'tier-c' },
+  d: { letter: 'D', className: 'tier-d' },
+  e: { letter: 'E', className: 'tier-e' },
+  f: { letter: 'F', className: 'tier-f' },
+};
+
+/**
  * Normalise a tier badge.
  *
  * Accepts the reference's `{ grade, rank }` objects, plain grades
@@ -107,12 +138,32 @@ export function normalizeTier(raw) {
   else if (/^[1-5]$/.test(key)) className = TIER_CLASS[key];
   else className = TIER_CLASS.d;
 
+  // Letter grade: an explicit letter wins, otherwise derive it from the
+  // numeric tier bucket or the `Tier N` / `OP` label the API returns.
+  let letter = null;
+  let letterClass = null;
+  const numeric = /^(?:tier\s*)?([0-5])$/.exec(key) || /^tier\s*([0-5])$/.exec(key.replace(/\s+/g, ''));
+  if (LETTER_CLASS[key]) {
+    letter = LETTER_CLASS[key].letter;
+    letterClass = LETTER_CLASS[key].className;
+  } else if (numeric) {
+    letter = TIER_LETTER[Number(numeric[1])].letter;
+    letterClass = TIER_LETTER[Number(numeric[1])].className;
+  } else if (rank !== null && rank >= 0 && rank <= 5) {
+    letter = TIER_LETTER[rank].letter;
+    letterClass = TIER_LETTER[rank].className;
+  }
+
   return {
     grade: String(grade).trim(),
     rank,
     className,
     /** `OP` / `S+` / `1` — the short label shown in the badge. */
     label: String(grade).trim().toUpperCase(),
+    /** `S+` / `S` / `A` / `B` / `C` / `D` — the letter grade on the cards. */
+    letter,
+    /** CSS class for the letter grade. */
+    letterClass,
   };
 }
 

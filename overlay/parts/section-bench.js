@@ -60,7 +60,14 @@ export function render(ctx) {
             'span',
             { class: 'hud-bench-card__stats' },
             tier
-              ? h('span', { class: `hud-tier hud-tier--${tier.className}` }, tier.label)
+              ? h(
+                'span',
+                {
+                  class: `hud-tier hud-tier--${tier.letterClass || tier.className}`,
+                  title: tier.label,
+                },
+                tier.letter || tier.label,
+              )
               : null,
             entry.winRate !== null && entry.winRate !== undefined
               ? h('span', { class: 'hud-bench-card__wr' }, formatPercent(entry.winRate))

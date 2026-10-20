@@ -28,10 +28,10 @@ export function render(ctx) {
     ? h(
         'span',
         {
-          class: `hud-tier hud-tier--${tier.className}`,
+          class: `hud-tier hud-tier--${tier.letterClass || tier.className}`,
           title: `${t('lol.live.champion.v3.tier-2')}: ${tier.grade}`,
         },
-        tier.label,
+        tier.letter || tier.label,
       )
     : null;
 

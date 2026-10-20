@@ -58,7 +58,14 @@ export function render(ctx) {
             h('span', { class: 'hud-augment__rarity' }, augment.rarityLabel),
           ),
           augment.tier
-            ? h('span', { class: `hud-tier hud-tier--${augment.tier.className}` }, augment.tier.label)
+            ? h(
+              'span',
+              {
+                class: `hud-tier hud-tier--${augment.tier.letterClass || augment.tier.className}`,
+                title: augment.tier.label,
+              },
+              augment.tier.letter || augment.tier.label,
+            )
             : null,
         ),
         augment.description
