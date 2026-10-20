@@ -1,11 +1,15 @@
 {
   "name": "open-opgg-desktop",
-  "version": "1.0.0",
-  "description": "1:1 Clean-Room Open-Source Replica of OP.GG for Desktop",
-  "main": "main.js",
+  "version": "2.0.0",
+  "description": "Clean-room 1:1 open-source replica of OP.GG for Desktop (League of Legends)",
+  "main": "main/index.js",
   "type": "commonjs",
   "scripts": {
     "start": "electron .",
+    "dev": "electron . --dev",
+    "check": "node tools/check-syntax.mjs .",
+    "test": "node tools/test-core.mjs",
+    "verify": "node tools/verify-pages.mjs",
     "dist": "electron-builder --win nsis",
     "dist:dir": "electron-builder --win dir",
     "dist:portable": "electron-builder --win portable"
@@ -22,9 +26,11 @@
       "output": "dist"
     },
     "files": [
-      "main.js",
-      "preload.js",
-      "src/**/*"
+      "main/**/*",
+      "preload/**/*",
+      "shared/**/*",
+      "src/**/*",
+      "overlay/**/*"
     ],
     "win": {
       "icon": "assets/icon.ico",

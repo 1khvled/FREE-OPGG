@@ -1,0 +1,167 @@
+/* ============================================================================
+ * OP.GG design tokens — reconstructed with REA + live computed-style capture.
+ *
+ * Sources
+ *   - REA `analyze-javascript-application` over the shipped renderer bundles
+ *     (styled-components theme literals) for the desktop palette.
+ *   - Computed-style capture of the live tier-list page for usage frequency,
+ *     exact table geometry and typography scale.
+ *
+ * Typography rule (house rule): 12px is the metadata floor and is used ONLY for
+ * table column headers, axis labels and de-emphasised metadata. Body copy,
+ * table rows and data cells are 14px. Chips and buttons are 13px. Reading
+ * paragraphs are 15-16px. Never ship 10px or 11px text.
+ * ========================================================================== */
+
+:root {
+  /* ---- Surfaces ---------------------------------------------------------- */
+  --bg-app: #000000;
+  --bg-surface: #31313c;
+  --bg-surface-raised: #424254;
+  --bg-surface-sunken: #1c1c1f;
+  --bg-surface-dark: #181819;
+  --bg-surface-flat: #282830;
+  --bg-surface-hover: #2b2b30;
+  --bg-surface-muted: #212125;
+  --bg-overlay-scrim: rgba(0, 0, 0, 0.75);
+  --bg-overlay-scrim-soft: rgba(0, 0, 0, 0.4);
+  --bg-glass: rgba(255, 255, 255, 0.04);
+  --bg-glass-strong: rgba(255, 255, 255, 0.08);
+
+  /* ---- Text -------------------------------------------------------------- */
+  --text-primary: #ffffff;
+  --text-secondary: #b3cdff;
+  --text-muted: #9e9eb1;
+  --text-label: #7b7a8e;
+  --text-faint: #b7b7c9;
+  --text-inverse: #1c1c1f;
+  --text-on-accent: #ffffff;
+
+  /* ---- Accents ----------------------------------------------------------- */
+  --brand: #5f32e6;
+  --accent-blue: #5383e8;
+  --accent-blue-strong: #4171d6;
+  --accent-cyan: #1ea1f7;
+  --accent-teal: #00bba3;
+  --accent-gold: #eb9c00;
+  --accent-gold-bright: #ffb900;
+  --accent-orange: #ff8200;
+  --accent-pink: #e537a2;
+  --accent-red: #e84057;
+  --accent-red-deep: #d31a45;
+  --accent-green: #00ae0a;
+  --accent-green-bright: #34d399;
+  --accent-lime: #7ed321;
+  --accent-sky: #08a6ff;
+  --accent-amber: #f59e0b;
+
+  /* ---- Tier colours (champion tier list) --------------------------------- */
+  --tier-op: #e84057;
+  --tier-1: #ff8200;
+  --tier-2: #eb9c00;
+  --tier-3: #00bba3;
+  --tier-4: #5383e8;
+  --tier-5: #9e9eb1;
+
+  /* ---- Borders ----------------------------------------------------------- */
+  --border-subtle: #424254;
+  --border-strong: #5d5a73;
+  --border-muted: #3a3a44;
+  --border-focus: #5383e8;
+  --border-row: rgba(66, 66, 84, 0.55);
+
+  /* ---- Typography -------------------------------------------------------- */
+  --font-sans: 'Roboto', 'Roboto Fallback', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', sans-serif;
+  --font-display: 'Axiforma', 'Roboto', sans-serif;
+  --font-mono: 'Consolas', 'SF Mono', 'Menlo', monospace;
+
+  --fs-2xs: 12px;   /* metadata + table column headers only */
+  --fs-xs: 13px;    /* chips, buttons, badges */
+  --fs-sm: 14px;    /* body, table rows, data cells */
+  --fs-md: 15px;    /* tab labels, emphasis */
+  --fs-lg: 16px;    /* reading paragraphs, section titles */
+  --fs-xl: 20px;    /* page titles */
+  --fs-2xl: 24px;   /* hero numbers */
+
+  --lh-tight: 16px;
+  --lh-normal: 20px;
+  --lh-relaxed: 24px;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
+
+  /* ---- Spacing (4px base) ------------------------------------------------ */
+  --sp-0: 0;
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+
+  /* ---- Radii ------------------------------------------------------------- */
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-xl: 12px;
+  --radius-pill: 9999px;
+  --radius-cap: 100px;
+
+  /* ---- Layout ------------------------------------------------------------ */
+  --width-content: 1068px;
+  --width-limit: 1068px;
+  --width-side: 174px;
+  --width-side-item: 156px;
+  --height-header: 65px;
+  --height-row: 40px;
+  --height-th: 32px;
+  --width-th-rank: 18px;
+  --width-th-role: 32px;
+  --width-th-champion: 219px;
+  --width-th-tier: 48px;
+  --width-th-stat: 94px;
+  --width-search-panel: 356px;
+  --width-champion-tile: 46px;
+  --height-champion-tile: 59px;
+  --radius-panel: 12px;
+
+  /* ---- Motion ------------------------------------------------------------ */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --dur-fast: 120ms;
+  --dur-normal: 200ms;
+  --dur-slow: 320ms;
+
+  /* ---- Elevation --------------------------------------------------------- */
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-2: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-3: 0 12px 32px rgba(0, 0, 0, 0.6);
+}
+
+/* Light theme — the reference ships a light skin with the same token names. */
+:root[data-theme='light'] {
+  --bg-app: #f7f7f9;
+  --bg-surface: #ffffff;
+  --bg-surface-raised: #eef0f5;
+  --bg-surface-sunken: #eceff4;
+  --bg-surface-flat: #f2f3f7;
+  --bg-surface-hover: #f0f1f5;
+  --bg-surface-muted: #e3e5eb;
+
+  --text-primary: #1c1c1f;
+  --text-secondary: #4171d6;
+  --text-muted: #6b7280;
+  --text-label: #7b7a8e;
+  --text-faint: #9aa4af;
+  --text-inverse: #ffffff;
+
+  --border-subtle: #e1e4ea;
+  --border-strong: #c7cbd6;
+  --border-row: rgba(0, 0, 0, 0.08);
+}

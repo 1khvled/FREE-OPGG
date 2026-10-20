@@ -23,3 +23,11 @@ yarn-error.log*
 Thumbs.db
 Desktop.ini
 .DS_Store
+
+# Reverse-engineering scratch output (evidence lives in docs/rea/)
+docs/rea/raw/
+*.rea.json
+rea-*.json
+_decompressed/
+_recovered/
+.playwright-cli/

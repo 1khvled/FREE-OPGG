@@ -1,0 +1,373 @@
+/* ============================================================================
+ * My page — profile header, most played champions and match history.
+ *
+ * Desktop density: 12px type, 40px match rows, 12px panel radii.
+ * ========================================================================== */
+
+.page--my-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  width: 100%;
+  height: 100%;
+  padding: var(--sp-5);
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+/* --- toolbar ------------------------------------------------------------- */
+
+.mp-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+.mp-toolbar__search {
+  flex: 1 1 320px;
+  min-width: 240px;
+}
+
+.mp-toolbar__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.mp-toolbar__group {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.mp-toolbar__label {
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  color: var(--text-label);
+}
+
+/* --- profile ------------------------------------------------------------- */
+
+.mp-profile-slot,
+.mp-champions-slot,
+.mp-history-slot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.mp-profile {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-5);
+  padding: var(--sp-4) var(--sp-5);
+  border-radius: var(--radius-xl);
+  background-color: var(--bg-surface);
+  background-image: radial-gradient(circle at 50% 0,
+    color-mix(in srgb, var(--bg-surface-raised) 22%, transparent),
+    color-mix(in srgb, var(--bg-surface-raised) 40%, transparent) 95%);
+}
+
+.mp-profile__avatar {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.mp-profile__level {
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  transform: translateX(-50%);
+  min-width: 24px;
+  padding: 0 var(--sp-2);
+  border-radius: var(--radius-pill);
+  background-color: var(--bg-surface-dark);
+  color: var(--text-primary);
+  font-size: var(--fs-2xs);
+  line-height: 18px;
+  text-align: center;
+}
+
+.mp-profile__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.mp-profile__name {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.mp-profile__tag {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-regular);
+  color: var(--text-label);
+}
+
+.mp-profile__rank {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.mp-profile__rank-text {
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  color: var(--text-muted);
+}
+
+.mp-profile__stats {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-6);
+}
+
+.mp-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.mp-stat__label {
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  color: var(--text-label);
+}
+
+.mp-stat__value {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- panels -------------------------------------------------------------- */
+
+.mp-panel {
+  border-radius: var(--radius-xl);
+  background-color: var(--bg-surface);
+  background-image: radial-gradient(circle at 50% 0,
+    color-mix(in srgb, var(--bg-surface-raised) 22%, transparent),
+    color-mix(in srgb, var(--bg-surface-raised) 40%, transparent) 95%);
+  overflow: hidden;
+}
+
+.mp-panel__title {
+  height: var(--height-th);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--sp-4);
+  border-bottom: 1px solid var(--bg-surface-dark);
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+}
+
+/* --- most played champions ------------------------------------------------ */
+
+.mp-champions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-4);
+  padding: var(--sp-4);
+}
+
+.mp-champion {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  width: 168px;
+}
+
+.mp-champion__portrait {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-md);
+  border: 2px solid var(--border-subtle);
+  background-color: var(--bg-surface-raised);
+  overflow: hidden;
+  flex: 0 0 auto;
+}
+
+.mp-champion__portrait--empty {
+  border-color: var(--border-muted);
+}
+
+.mp-champion__portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mp-champion__meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.mp-champion__name {
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mp-champion__bar {
+  height: 4px;
+  border-radius: var(--radius-xs);
+  background-color: var(--bg-surface-flat);
+  overflow: hidden;
+}
+
+.mp-champion__bar-fill {
+  height: 100%;
+  border-radius: var(--radius-xs);
+  background-color: var(--accent-blue);
+}
+
+.mp-champion__text {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-2);
+}
+
+.mp-champion__games,
+.mp-champion__wr {
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  color: var(--text-label);
+  font-variant-numeric: tabular-nums;
+}
+
+.mp-champion__wr {
+  color: var(--text-muted);
+}
+
+/* --- match history -------------------------------------------------------- */
+
+.mp-matches {
+  display: flex;
+  flex-direction: column;
+}
+
+.mp-match {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  height: var(--height-row);
+  padding: 0 var(--sp-4);
+  color: var(--text-primary);
+}
+
+.mp-match:hover {
+  background-color: var(--bg-surface-hover);
+}
+
+.mp-match__champion {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  background-color: var(--bg-surface-raised);
+  overflow: hidden;
+  flex: 0 0 auto;
+}
+
+.mp-match__champion--empty {
+  background-color: var(--bg-surface-muted);
+}
+
+.mp-match__champion img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mp-match__mode {
+  width: 110px;
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mp-match__result {
+  width: 44px;
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+}
+
+.mp-match--win .mp-match__result {
+  color: var(--accent-blue);
+}
+
+.mp-match--lose .mp-match__result {
+  color: var(--accent-red);
+}
+
+.mp-match--remake .mp-match__result {
+  color: var(--text-muted);
+}
+
+.mp-match__kda {
+  width: 96px;
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  font-variant-numeric: tabular-nums;
+}
+
+.mp-match__kda-ratio {
+  width: 76px;
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.mp-match__duration {
+  width: 76px;
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.mp-match__time {
+  margin-left: auto;
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  color: var(--text-label);
+}
+
+/* --- inline states -------------------------------------------------------- */
+
+.st--inline {
+  min-height: 84px;
+  border-radius: 0;
+  background: none;
+}

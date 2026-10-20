@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OP.GG In-Game Overlay</title>
+    <!-- Design tokens live with the main renderer; the overlay links them
+         directly so there is exactly one copy of the palette. -->
+    <link rel="stylesheet" href="../src/styles/tokens.css" />
+    <link rel="stylesheet" href="overlay.css" />
+  </head>
+  <body class="opgg-overlay-body">
+    <!-- The HUD is built by overlay.js; it stays invisible and non-interactive
+         until the League Client reports a game in progress. -->
+    <div id="hud" class="hud" data-visible="false" data-interactive="false" aria-hidden="true"></div>
+
+    <div id="toast" class="hud-toast" role="status" aria-live="polite"></div>
+
+    <script type="module" src="overlay.js"></script>
+  </body>
+</html>

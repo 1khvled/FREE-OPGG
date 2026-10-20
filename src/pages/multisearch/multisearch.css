@@ -1,0 +1,489 @@
+/* ============================================================================
+ * Multi-search screen.
+ *
+ * The card layout follows the reference's `.multisearch` / `.ms-*` rules
+ * recovered from app.17903a6b.js, restated at the desktop density the
+ * orchestrator asked for (12px type — the reference ships 11px in a few of
+ * these rules, which the house rule floors at 12px).
+ * ========================================================================== */
+
+.page--multisearch {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  width: 100%;
+  height: 100%;
+  padding: var(--sp-5);
+  box-sizing: border-box;
+}
+
+/* --- toolbar ------------------------------------------------------------- */
+
+.ms-toolbar {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+.ms-toolbar__search {
+  flex: 1 1 360px;
+  min-width: 260px;
+}
+
+.ms-toolbar__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.ms-toolbar__group {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.ms-toolbar__label {
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  color: var(--text-label);
+}
+
+/* --- recent searches ----------------------------------------------------- */
+
+.ms-recent {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.ms-recent__label {
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  color: var(--text-label);
+}
+
+.ms-recent__chip {
+  max-width: 220px;
+  height: 24px;
+  padding: 0 var(--sp-3);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-subtle);
+  background-color: var(--bg-surface-hover);
+  color: var(--text-muted);
+  font-size: var(--fs-2xs);
+  line-height: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ms-recent__chip:hover {
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+}
+
+/* --- results ------------------------------------------------------------- */
+
+.ms-results {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.multisearch-main {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  padding: var(--sp-5) 0 0;
+}
+
+.multisearch-main-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 194px;
+  flex: 0 0 auto;
+}
+
+/* --- tier chips ---------------------------------------------------------- */
+
+.ms-tiers {
+  display: flex;
+  gap: var(--sp-1);
+}
+
+.ms-tiers-tier {
+  display: inline-block;
+  padding: 2px 4px;
+  border-radius: var(--radius-xs);
+  background-color: var(--bg-surface-muted);
+  color: var(--text-label);
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  white-space: nowrap;
+}
+
+.ms-tiers-cur {
+  background-color: var(--brand);
+  color: var(--text-on-accent);
+}
+
+/* --- card ---------------------------------------------------------------- */
+
+.ms-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 194px;
+  min-height: 495px;
+  margin-top: 30px;
+  border-radius: var(--radius-lg);
+  background-color: var(--bg-surface);
+  background-image: radial-gradient(circle at 50% 0,
+    color-mix(in srgb, var(--bg-surface-raised) 22%, transparent),
+    color-mix(in srgb, var(--bg-surface-raised) 40%, transparent) 98%);
+  overflow: hidden;
+}
+
+.ms-info-header {
+  position: absolute;
+  top: -22px;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+}
+
+.ms-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-color: var(--bg-surface-flat);
+  overflow: hidden;
+}
+
+.ms-profile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 68px;
+  height: 68px;
+  margin: 0 var(--sp-4);
+}
+
+.ms-level {
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  padding: 0 var(--sp-3);
+  border-radius: var(--radius-pill);
+  background-color: var(--bg-surface-muted);
+  color: var(--text-primary);
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+}
+
+.ms-info-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 55px;
+}
+
+.ms-summoner-name {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-1);
+  max-width: 180px;
+  font-size: var(--fs-md);
+  font-weight: var(--fw-bold);
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.ms-tagline-name {
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-regular);
+  color: var(--text-label);
+}
+
+.ms-tier-detail {
+  margin-top: 5px;
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* --- win / loss ---------------------------------------------------------- */
+
+.ms-stats {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-2);
+  margin-top: var(--sp-4);
+  font-size: var(--fs-2xs);
+}
+
+.ms-wl {
+  display: flex;
+  justify-content: space-between;
+  width: 155px;
+  padding: 0 var(--sp-1);
+}
+
+.ms-win {
+  color: var(--accent-blue);
+}
+
+.ms-lose {
+  color: var(--accent-red);
+}
+
+.ms-wl-bar {
+  width: 155px;
+  height: 4px;
+  margin-top: 4px;
+  border-radius: var(--radius-xs);
+  background-color: var(--bg-surface-flat);
+}
+
+.ms-w-rate {
+  height: 4px;
+  border-radius: var(--radius-xs);
+  background-color: var(--accent-blue);
+}
+
+.ms-wl-ratio {
+  margin-left: var(--sp-2);
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  color: var(--accent-blue);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- lanes --------------------------------------------------------------- */
+
+.multisearch-lane {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 28px;
+  margin: var(--sp-3) 0;
+  padding: 0 var(--sp-3);
+}
+
+.ms-lane {
+  display: flex;
+  align-items: center;
+  width: 90px;
+  font-size: var(--fs-2xs);
+}
+
+.ms-lane + .ms-lane {
+  margin-left: var(--sp-2);
+}
+
+.ms-lane-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-md);
+  background-color: var(--bg-surface-flat);
+}
+
+.ms-lane-img > img {
+  width: 18px;
+  height: 18px;
+}
+
+.ms-lane-stats {
+  display: inline-flex;
+  flex-direction: column;
+  margin-left: 7px;
+}
+
+.ms-lane-ratio {
+  color: var(--text-muted);
+}
+
+.ms-lane-wl-ratio {
+  color: var(--text-secondary);
+}
+
+/* --- section labels ------------------------------------------------------ */
+
+.ms-section-label {
+  width: 100%;
+  height: 12px;
+  margin: var(--sp-2) var(--sp-3) var(--sp-2);
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  color: var(--text-primary);
+}
+
+.ms-separator {
+  width: 170px;
+  height: 1px;
+  margin: var(--sp-3) 0;
+  background-color: var(--border-subtle);
+}
+
+/* --- recent games -------------------------------------------------------- */
+
+.multisearch-recent-games {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 236px;
+  padding: 0 var(--sp-3);
+  overflow-y: auto;
+}
+
+.ms-game {
+  display: flex;
+  align-items: center;
+  height: 20px;
+}
+
+.ms-game + .ms-game {
+  margin-top: 4px;
+}
+
+.ms-game-img {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-xs);
+  background-color: var(--bg-surface-flat);
+  background-size: cover;
+  overflow: hidden;
+}
+
+.ms-game-img--round {
+  border-radius: 50%;
+}
+
+.ms-game-img--empty {
+  background-color: var(--bg-surface-raised);
+}
+
+.ms-game-img > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ms-game-stat {
+  width: 54px;
+  height: 20px;
+  margin-left: var(--sp-2);
+  border-radius: var(--radius-xs);
+  background-color: var(--accent-blue);
+  color: var(--text-primary);
+  font-size: var(--fs-2xs);
+  line-height: 20px;
+  text-align: center;
+}
+
+.ms-game-win {
+  background-color: var(--bg-surface-raised);
+  color: var(--text-secondary);
+}
+
+.ms-game-lose {
+  background-color: var(--bg-surface-muted);
+  color: var(--accent-red);
+}
+
+.ms-game-remake {
+  background-color: var(--border-strong);
+  color: var(--text-muted);
+}
+
+.ms-game-hours {
+  margin-left: auto;
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  color: var(--text-label);
+}
+
+/* --- most played champions ----------------------------------------------- */
+
+.multisearch-most-champions {
+  display: flex;
+  flex-direction: column;
+  width: 170px;
+  max-height: 246px;
+  overflow-y: auto;
+}
+
+.ms-champion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ms-champion + .ms-champion {
+  margin-top: 4px;
+}
+
+.ms-champion-header {
+  display: flex;
+  align-items: center;
+}
+
+.ms-champion-kda {
+  margin-left: var(--sp-2);
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  color: var(--text-muted);
+}
+
+.ms-champion-index {
+  display: flex;
+  align-items: center;
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  color: var(--text-label);
+}
+
+.ms-champion-win-rate {
+  color: var(--text-muted);
+}
+
+/* --- empty --------------------------------------------------------------- */
+
+.ms-no-data {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 170px;
+  height: 237px;
+  padding: var(--sp-3);
+  border-radius: var(--radius-lg);
+  background-color: var(--bg-surface-sunken);
+  color: var(--text-label);
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  text-align: center;
+}

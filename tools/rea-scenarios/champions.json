@@ -1,0 +1,23 @@
+{
+  "browser": {
+    "mode": "launch",
+    "executable_path": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "headless": true
+  },
+  "environment": {
+    "viewport": { "width": 1440, "height": 900, "device_scale_factor": 1 },
+    "locale": "en-US",
+    "color_scheme": "dark",
+    "reduced_motion": "no-preference",
+    "service_workers": "allow"
+  },
+  "start_url": { "url": "https://op.gg/lol/champions?region=global&tier=emerald_plus" },
+  "actions": [
+    { "step_id": "settle", "action": "wait_for_timeout", "duration_ms": 6000 },
+    { "step_id": "tierlist-ready", "action": "wait_for", "locator": { "kind": "css", "selector": "table" }, "state": "visible", "timeout_ms": 20000 }
+  ],
+  "capture": {
+    "at_end": ["dom", "accessibility", "screenshot", "url"],
+    "events": ["network"]
+  }
+}

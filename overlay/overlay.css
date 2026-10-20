@@ -1,0 +1,949 @@
+/* ============================================================================
+ * OP.GG in-game overlay — HUD styling.
+ *
+ * The design tokens live in `src/styles/tokens.css`, which the overlay
+ * document links directly (`../src/styles/tokens.css`); every colour, radius,
+ * spacing step and font size below is a token reference. No hex literal
+ * appears in this file and no text is smaller than the 12px metadata floor.
+ * ========================================================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+  color: var(--text-primary);
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: default;
+}
+
+/* --------------------------------------------------------------------------
+ * HUD shell
+ * -------------------------------------------------------------------------- */
+
+.hud {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-normal) var(--ease-standard);
+}
+
+.hud[data-visible='true'] {
+  opacity: 1;
+}
+
+/* Only the header stays grabbable while the HUD is passive; every control
+ * needs the HUD to be unlocked before it reacts. */
+.hud[data-visible='true'] .hud__header {
+  pointer-events: auto;
+}
+
+/* A hidden HUD must not leave an invisible drag region behind. */
+.hud[data-visible='false'] .hud__header {
+  -webkit-app-region: no-drag;
+}
+
+.hud[data-visible='true'][data-interactive='true'] .hud-interactive {
+  pointer-events: auto;
+}
+
+/* --------------------------------------------------------------------------
+ * Header
+ * -------------------------------------------------------------------------- */
+
+.hud__header {
+  -webkit-app-region: drag;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  align-self: flex-start;
+  max-width: 100%;
+  padding: var(--sp-2) var(--sp-3);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  background: color-mix(in srgb, var(--bg-surface-sunken) 88%, transparent);
+  box-shadow: var(--shadow-2);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.hud__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.hud__logo {
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.06em;
+  color: var(--text-primary);
+}
+
+.hud__mode {
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-bold);
+  color: var(--accent-cyan);
+  padding: 2px var(--sp-2);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  background: var(--bg-glass);
+  white-space: nowrap;
+}
+
+.hud__mode.is-hidden {
+  display: none;
+}
+
+.hud__champ-slot {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.hud__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-left: auto;
+}
+
+.hud__toggles {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  flex-wrap: wrap;
+}
+
+/* --------------------------------------------------------------------------
+ * Controls
+ * -------------------------------------------------------------------------- */
+
+.hud-btn,
+.hud-chip,
+.hud-icon-btn {
+  -webkit-app-region: no-drag;
+  font-family: inherit;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  color: var(--text-muted);
+  background: var(--bg-glass);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  padding: var(--sp-1) var(--sp-3);
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background var(--dur-fast) var(--ease-standard),
+    color var(--dur-fast) var(--ease-standard),
+    border-color var(--dur-fast) var(--ease-standard);
+}
+
+.hud-btn:hover,
+.hud-chip:hover,
+.hud-icon-btn:hover {
+  background: var(--bg-glass-strong);
+  color: var(--text-primary);
+}
+
+.hud-chip.is-active {
+  color: var(--text-primary);
+  background: color-mix(in srgb, var(--accent-blue) 28%, transparent);
+  border-color: color-mix(in srgb, var(--accent-blue) 55%, transparent);
+}
+
+.hud-btn--ghost {
+  background: transparent;
+  border-color: var(--border-subtle);
+}
+
+.hud-btn--tiny {
+  font-size: var(--fs-2xs);
+  padding: 2px var(--sp-2);
+}
+
+.hud-btn:disabled {
+  color: var(--text-label);
+  cursor: default;
+  opacity: 0.55;
+}
+
+.hud-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  border-color: var(--border-subtle);
+}
+
+.hud-icon-btn.is-unlocked {
+  color: var(--text-primary);
+  background: color-mix(in srgb, var(--accent-teal) 26%, transparent);
+  border-color: color-mix(in srgb, var(--accent-teal) 55%, transparent);
+}
+
+.hud-icon-btn__glyph {
+  font-size: var(--fs-xs);
+  line-height: 1;
+}
+
+.hud-icon-btn__text {
+  font-size: var(--fs-2xs);
+}
+
+/* --------------------------------------------------------------------------
+ * Champion card
+ * -------------------------------------------------------------------------- */
+
+.hud-champ {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-width: 0;
+}
+
+.hud-champ--empty {
+  min-width: 0;
+}
+
+.hud-champ__portrait {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  object-fit: cover;
+  flex: none;
+}
+
+.hud-champ__meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.hud-champ__name {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+  line-height: var(--lh-tight);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hud-champ__sub {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-2xs);
+  color: var(--text-muted);
+  line-height: var(--lh-tight);
+}
+
+.hud-champ__key {
+  color: var(--text-label);
+  font-variant-numeric: tabular-nums;
+}
+
+/* A missing asset keeps its slot so the HUD never reflows, and reads as a
+   neutral placeholder instead of a broken-image glyph over the game. */
+.img--missing {
+  opacity: 0.2;
+  background: var(--bg-surface-muted);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-sm);
+}
+
+/* --------------------------------------------------------------------------
+ * Tier badges
+ * -------------------------------------------------------------------------- */
+
+.hud-tier {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 18px;
+  padding: 0 var(--sp-1);
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-bold);
+  line-height: 1;
+  color: var(--text-inverse);
+  background: var(--tier-5);
+}
+
+.hud-tier--tier-op {
+  background: var(--tier-op);
+  color: var(--text-primary);
+}
+
+.hud-tier--tier-1 {
+  background: var(--tier-1);
+}
+
+.hud-tier--tier-2 {
+  background: var(--tier-2);
+}
+
+.hud-tier--tier-3 {
+  background: var(--tier-3);
+}
+
+.hud-tier--tier-4 {
+  background: var(--tier-4);
+  color: var(--text-primary);
+}
+
+.hud-tier--tier-5 {
+  background: var(--tier-5);
+}
+
+/* --------------------------------------------------------------------------
+ * Panels
+ * -------------------------------------------------------------------------- */
+
+.hud__panels {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--sp-2);
+  min-height: 0;
+}
+
+.hud-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-3);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--bg-surface-sunken) 86%, transparent);
+  box-shadow: var(--shadow-1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.hud-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+
+.hud-panel__title {
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-label);
+  line-height: var(--lh-tight);
+}
+
+.hud-empty,
+.hud-error,
+.hud-loading {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-2xs);
+  color: var(--text-muted);
+  line-height: var(--lh-tight);
+}
+
+.hud-error__text {
+  color: var(--accent-red);
+}
+
+.hud-loading__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+}
+
+/* --------------------------------------------------------------------------
+ * Runes
+ * -------------------------------------------------------------------------- */
+
+.hud-runes__body {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.hud-runes__tree {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  padding-right: var(--sp-3);
+  border-right: 1px solid var(--border-muted);
+}
+
+.hud-runes__tree--secondary {
+  border-right: none;
+  padding-right: 0;
+}
+
+.hud-runes__shards {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  padding-left: var(--sp-3);
+  border-left: 1px solid var(--border-muted);
+}
+
+.hud-rune {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hud-rune__icon {
+  display: block;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-muted);
+  object-fit: cover;
+}
+
+.hud-rune--major .hud-rune__icon {
+  width: 26px;
+  height: 26px;
+}
+
+.hud-rune--minor .hud-rune__icon {
+  width: 18px;
+  height: 18px;
+}
+
+.hud-rune--shard .hud-rune__icon {
+  width: 14px;
+  height: 14px;
+}
+
+.hud-rune--tree .hud-rune__icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+}
+
+/* --------------------------------------------------------------------------
+ * Build
+ * -------------------------------------------------------------------------- */
+
+.hud-build__groups {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.hud-build__row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.hud-build__label {
+  min-width: 72px;
+  font-size: var(--fs-2xs);
+  color: var(--text-label);
+  line-height: var(--lh-tight);
+}
+
+.hud-build__group {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+
+.hud-item__icon {
+  display: block;
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-muted);
+  object-fit: cover;
+}
+
+/* --------------------------------------------------------------------------
+ * Skills
+ * -------------------------------------------------------------------------- */
+
+.hud-skills__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.hud-skills__priority {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+
+.hud-skills__sequence {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-wrap: wrap;
+}
+
+.hud-skill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 var(--sp-1);
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-bold);
+  color: var(--text-label);
+  background: var(--bg-surface-muted);
+  border: 1px solid var(--border-muted);
+}
+
+.hud-skill.is-active {
+  color: var(--text-primary);
+  background: color-mix(in srgb, var(--accent-blue) 34%, transparent);
+  border-color: color-mix(in srgb, var(--accent-blue) 60%, transparent);
+}
+
+.hud-skill--seq {
+  min-width: 16px;
+  height: 16px;
+  font-size: var(--fs-2xs);
+}
+
+.hud-skill--seq.is-first {
+  color: var(--accent-gold);
+}
+
+.hud-skill__rank {
+  position: absolute;
+  top: -6px;
+  right: -4px;
+  font-size: var(--fs-2xs);
+  color: var(--text-label);
+}
+
+/* --------------------------------------------------------------------------
+ * Spells
+ * -------------------------------------------------------------------------- */
+
+.hud-spells__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.hud-spells__player,
+.hud-spells__enemy-list {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.hud-spells__enemy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  padding-top: var(--sp-1);
+  border-top: 1px solid var(--border-muted);
+}
+
+.hud-spells__enemy-label {
+  font-size: var(--fs-2xs);
+  color: var(--text-label);
+  line-height: var(--lh-tight);
+}
+
+.hud-spell {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+}
+
+.hud-ring {
+  position: absolute;
+  inset: 0;
+  width: 36px;
+  height: 36px;
+  transform: rotate(-90deg);
+}
+
+.hud-ring__track {
+  fill: none;
+  stroke: var(--border-subtle);
+  stroke-width: 2.5;
+}
+
+.hud-ring__progress {
+  fill: none;
+  stroke: var(--accent-cyan);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  transition: stroke-dashoffset var(--dur-fast) linear;
+}
+
+.hud-ring__progress.is-running {
+  stroke: var(--accent-gold);
+}
+
+.hud-spell__icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.hud-spell__time {
+  position: absolute;
+  bottom: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: var(--fs-2xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-label);
+  white-space: nowrap;
+}
+
+.hud-spell__time.is-active {
+  color: var(--accent-gold);
+}
+
+.hud-spell--row {
+  width: auto;
+  height: 28px;
+  padding: 0 var(--sp-2) 0 0;
+  gap: var(--sp-2);
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius-pill);
+  background: var(--bg-glass);
+}
+
+.hud-spell--row .hud-ring {
+  position: relative;
+  inset: auto;
+  width: 28px;
+  height: 28px;
+  flex: none;
+}
+
+.hud-spell--row .hud-spell__icon {
+  width: 20px;
+  height: 20px;
+}
+
+.hud-spell__label {
+  font-size: var(--fs-2xs);
+  color: var(--text-muted);
+  line-height: var(--lh-tight);
+  white-space: nowrap;
+}
+
+.hud-spell__time--inline {
+  position: static;
+  transform: none;
+  min-width: 34px;
+  text-align: right;
+}
+
+.hud-spell.is-tracking {
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--accent-gold) 60%, transparent));
+}
+
+/* --------------------------------------------------------------------------
+ * Bench
+ * -------------------------------------------------------------------------- */
+
+.hud-bench__cards {
+  display: flex;
+  align-items: stretch;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.hud-bench-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-1);
+  width: 84px;
+  padding: var(--sp-2);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--bg-glass);
+}
+
+.hud-bench-card.is-unavailable {
+  opacity: 0.45;
+}
+
+.hud-bench-card__portrait {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border-subtle);
+  object-fit: cover;
+}
+
+.hud-bench-card__meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  width: 100%;
+}
+
+.hud-bench-card__name {
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+  line-height: var(--lh-tight);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hud-bench-card__stats {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+
+.hud-bench-card__wr {
+  font-size: var(--fs-2xs);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------------------
+ * Augments
+ * -------------------------------------------------------------------------- */
+
+.hud-augments__cards {
+  display: flex;
+  align-items: stretch;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.hud-augment {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  width: 208px;
+  padding: var(--sp-2);
+  border: 1px solid var(--border-subtle);
+  border-left-width: 3px;
+  border-radius: var(--radius-md);
+  background: var(--bg-glass);
+}
+
+.hud-augment--prismatic {
+  border-left-color: var(--accent-pink);
+}
+
+.hud-augment--gold {
+  border-left-color: var(--accent-gold);
+}
+
+.hud-augment--silver {
+  border-left-color: var(--text-label);
+}
+
+.hud-augment--normal {
+  border-left-color: var(--border-strong);
+}
+
+.hud-augment__head {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.hud-augment__icon {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  flex: none;
+}
+
+.hud-augment__titlebox {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.hud-augment__name {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+  line-height: var(--lh-tight);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hud-augment__rarity {
+  font-size: var(--fs-2xs);
+  color: var(--text-muted);
+  line-height: var(--lh-tight);
+}
+
+.hud-augment__desc {
+  font-size: var(--fs-2xs);
+  color: var(--text-muted);
+  line-height: var(--lh-tight);
+  max-height: 48px;
+  overflow: hidden;
+}
+
+.hud-augment__foot {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-2xs);
+  color: var(--text-label);
+}
+
+.hud-augment__wr {
+  color: var(--accent-teal);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------------------
+ * Objectives
+ * -------------------------------------------------------------------------- */
+
+.hud-objectives__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.hud-objectives__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.hud-objectives__label {
+  font-size: var(--fs-2xs);
+  color: var(--text-label);
+  line-height: var(--lh-tight);
+}
+
+.hud-objectives__rows {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+.hud-objective {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+
+.hud-objective__name {
+  font-size: var(--fs-2xs);
+  color: var(--text-muted);
+  line-height: var(--lh-tight);
+}
+
+.hud-objective__time {
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-bold);
+  color: var(--accent-gold);
+  font-variant-numeric: tabular-nums;
+  min-width: 38px;
+}
+
+.hud-objective__icon {
+  width: 16px;
+  height: 16px;
+  border-radius: var(--radius-xs);
+  object-fit: cover;
+}
+
+/* --------------------------------------------------------------------------
+ * Toast
+ * -------------------------------------------------------------------------- */
+
+.hud-toast {
+  position: fixed;
+  left: 50%;
+  bottom: var(--sp-6);
+  transform: translate(-50%, 12px);
+  padding: var(--sp-2) var(--sp-4);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--bg-surface-sunken) 94%, transparent);
+  box-shadow: var(--shadow-2);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity var(--dur-normal) var(--ease-standard),
+    transform var(--dur-normal) var(--ease-standard);
+}
+
+.hud-toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* Scrollbars — the overlay rarely scrolls but the bench strip can. */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: var(--radius-pill);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}

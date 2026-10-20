@@ -1,0 +1,961 @@
+/* ============================================================================
+ * Shared component styles.
+ *
+ * Every colour, radius, spacing step and font size comes from
+ * src/styles/tokens.css. The desktop app's ground truth lives in
+ * docs/rea/desktop-ui.md.
+ * ========================================================================== */
+
+/* ---------------------------------------------------------------------------
+ * Image frames (champion portraits, item / rune / spell icons)
+ * ------------------------------------------------------------------------- */
+
+.fallback-image {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--bg-surface-raised);
+  border-radius: var(--radius-md);
+}
+
+.fallback-image__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fallback-image__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-surface-raised);
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+}
+
+.champion-avatar {
+  display: inline-flex;
+  flex: none;
+  vertical-align: middle;
+}
+
+.champion-avatar.is-clickable {
+  cursor: pointer;
+}
+
+/* The reference's portrait box inside the statistics table. */
+.champion-img-32 {
+  display: flex;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  margin-right: var(--sp-2);
+  overflow: hidden;
+  background: var(--bg-surface-raised);
+}
+
+.item-icon,
+.rune-icon,
+.spell-icon {
+  display: inline-flex;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--bg-surface-raised);
+}
+
+/* ---------------------------------------------------------------------------
+ * Tier chip
+ * ------------------------------------------------------------------------- */
+
+.tier-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-raised);
+  /* `--bg-surface-dark` is theme independent, so the label stays legible on
+     every tier colour in both the dark and the light skin. */
+  color: var(--bg-surface-dark);
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.tier-chip--md {
+  min-width: 24px;
+  height: 24px;
+  padding: 0 8px;
+}
+
+.tier-chip__label {
+  pointer-events: none;
+}
+
+.tier-chip--op { background: var(--tier-op); }
+.tier-chip--1 { background: var(--tier-1); }
+.tier-chip--2 { background: var(--tier-2); }
+.tier-chip--3 { background: var(--tier-3); }
+.tier-chip--4 { background: var(--tier-4); }
+.tier-chip--5 { background: var(--tier-5); }
+
+/* ---------------------------------------------------------------------------
+ * Role chip
+ * ------------------------------------------------------------------------- */
+
+.role-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 20px;
+  padding: 0 var(--sp-1);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-raised);
+  color: var(--text-muted);
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.role-chip--full {
+  width: auto;
+  min-width: 36px;
+}
+
+.role-chip__label {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.role-chip--top { color: var(--accent-orange); }
+.role-chip--jungle { color: var(--accent-green-bright); }
+.role-chip--mid { color: var(--accent-blue); }
+.role-chip--adc { color: var(--accent-red); }
+.role-chip--support { color: var(--accent-teal); }
+
+/* ---------------------------------------------------------------------------
+ * Stat cell (numeric table columns)
+ * ------------------------------------------------------------------------- */
+
+.stat-cell {
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+}
+
+.stat-cell.is-emphasised {
+  color: var(--text-primary);
+}
+
+/* ---------------------------------------------------------------------------
+ * Select
+ * ------------------------------------------------------------------------- */
+
+.select {
+  height: 32px;
+  min-width: 96px;
+  padding: 0 var(--sp-2);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-surface-raised);
+  color: var(--text-primary);
+  font-size: var(--fs-xs);
+  line-height: var(--lh-tight);
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-standard);
+}
+
+.select:hover {
+  border-color: var(--border-strong);
+}
+
+.select:focus-visible {
+  outline: none;
+  border-color: var(--border-focus);
+}
+
+.select:disabled {
+  color: var(--text-label);
+  cursor: default;
+}
+
+:root[data-theme='light'] .select {
+  color-scheme: light;
+}
+
+.select {
+  color-scheme: dark;
+}
+
+/* ---------------------------------------------------------------------------
+ * Toggle
+ * ------------------------------------------------------------------------- */
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle.is-disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.toggle__label {
+  font-size: var(--fs-xs);
+  line-height: var(--lh-tight);
+  color: var(--text-primary);
+}
+
+.toggle__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.toggle__track {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 36px;
+  height: 20px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-surface-raised);
+  border: 1px solid var(--border-subtle);
+  transition: background var(--dur-fast) var(--ease-standard),
+    border-color var(--dur-fast) var(--ease-standard);
+}
+
+.toggle__thumb {
+  position: absolute;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  transition: transform var(--dur-fast) var(--ease-standard),
+    background var(--dur-fast) var(--ease-standard);
+}
+
+.toggle__input:checked + .toggle__track {
+  background: var(--brand);
+  border-color: var(--brand);
+}
+
+.toggle__input:checked + .toggle__track .toggle__thumb {
+  transform: translateX(16px);
+  background: var(--text-primary);
+}
+
+.toggle__input:focus-visible + .toggle__track {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------------------------
+ * Segmented control
+ * ------------------------------------------------------------------------- */
+
+.segmented-control {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+
+.segmented-control__item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  padding: 0 var(--sp-3);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: var(--fs-xs);
+  line-height: var(--lh-tight);
+  white-space: nowrap;
+  transition: background var(--dur-fast) var(--ease-standard),
+    color var(--dur-fast) var(--ease-standard);
+}
+
+.segmented-control__item:hover {
+  color: var(--text-primary);
+}
+
+.segmented-control__item.is-active {
+  background: var(--bg-surface-raised);
+  color: var(--text-primary);
+}
+
+/* ---------------------------------------------------------------------------
+ * Tabs — pill variant (desktop role tabs) and underline variant (web tabs)
+ * ------------------------------------------------------------------------- */
+
+.tabs {
+  display: flex;
+  align-items: center;
+}
+
+/* Pill variant — the reference's `.recommendation-tab`. */
+.recommendation-tab {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  padding: 10px var(--sp-4);
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  white-space: nowrap;
+  transition: background var(--dur-fast) var(--ease-standard),
+    color var(--dur-fast) var(--ease-standard);
+}
+
+.recommendation-tab + .recommendation-tab {
+  margin-left: 2px;
+}
+
+.recommendation-tab:hover {
+  color: var(--text-primary);
+}
+
+.recommendation-tab.recommendation-tab-active {
+  background: var(--brand);
+  color: var(--text-primary);
+}
+
+.recommendation-tab-title {
+  margin: 0 6px 0 0;
+}
+
+.recommendation-tab-title-active {
+  color: var(--text-primary);
+}
+
+.recommendation-tab-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: var(--sp-1);
+  object-fit: contain;
+}
+
+/* Underline variant — the web app's tab strip. */
+.tabs--underline {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.tabs--underline .tabs__item {
+  padding: var(--sp-3) 0 9px;
+  border-bottom: 3px solid transparent;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: var(--fs-md);
+  line-height: var(--lh-relaxed);
+  white-space: nowrap;
+  transition: color var(--dur-fast) var(--ease-standard),
+    border-color var(--dur-fast) var(--ease-standard);
+}
+
+.tabs--underline .tabs__item:hover {
+  color: var(--text-primary);
+}
+
+.tabs--underline .tabs__item.is-active {
+  color: var(--text-primary);
+  font-weight: var(--fw-bold);
+  border-bottom-color: var(--accent-blue);
+}
+
+/* ---------------------------------------------------------------------------
+ * Search bar / search input
+ * ------------------------------------------------------------------------- */
+
+.champion-statistics-search-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 332px;
+  height: 40px;
+  padding: 1px 30px 1px 2px;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-hover);
+  box-sizing: border-box;
+}
+
+.champion-statistics-search-bar__field {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  padding: 0 var(--sp-2);
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: var(--fs-sm);
+}
+
+.champion-statistics-search-bar__field::-webkit-search-cancel-button,
+.champion-statistics-search-bar__field::-webkit-search-decoration {
+  display: none;
+}
+
+.champion-statistics-search-bar__field::placeholder {
+  color: var(--text-label);
+}
+
+.champion-statistics-search-bar__icon {
+  position: absolute;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------------------------
+ * Dropdown toggle
+ * ------------------------------------------------------------------------- */
+
+.dropdown-toggle {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 var(--sp-3);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text-primary);
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  white-space: nowrap;
+  transition: background var(--dur-fast) var(--ease-standard);
+}
+
+.dropdown-toggle:hover {
+  background: var(--bg-surface-hover);
+}
+
+.dropdown-toggle__label {
+  margin-left: var(--sp-2);
+}
+
+.dropdown-toggle__icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.dropdown-toggle__chevron {
+  display: flex;
+  align-items: center;
+  margin-left: var(--sp-2);
+  color: var(--text-muted);
+}
+
+/* ---------------------------------------------------------------------------
+ * Champion tile (search panel portrait grid)
+ * ------------------------------------------------------------------------- */
+
+.item-champion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: var(--width-champion-tile);
+  height: var(--height-champion-tile);
+  margin: var(--sp-1);
+  color: var(--text-muted);
+  overflow: hidden;
+}
+
+.item-champion.is-clickable {
+  cursor: pointer;
+}
+
+.champion-statistics-champion-img-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--width-champion-tile);
+  height: var(--width-champion-tile);
+  overflow: hidden;
+}
+
+.champion-statistics-champion-img {
+  width: var(--width-champion-tile);
+  height: var(--width-champion-tile);
+  border-radius: 0;
+}
+
+/* The reference renders this label at 11px; the house typography floor is
+   12px, so the replica deliberately ships 12px. */
+.item-champion-name {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+}
+
+/* ---------------------------------------------------------------------------
+ * Sortable table — grid variant (the desktop reference)
+ * ------------------------------------------------------------------------- */
+
+.champion-statistics-table {
+  display: flex;
+  flex-direction: column;
+  width: 672px;
+  border-radius: var(--radius-panel);
+  overflow: hidden;
+  color: var(--text-label);
+  font-size: var(--fs-2xs);
+}
+
+.champion-statistics-table-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: var(--height-th);
+  padding: 0 var(--sp-3);
+}
+
+.champion-statistics-table-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.champion-statistics-table-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: var(--height-row);
+  padding-left: var(--sp-3);
+  color: var(--text-primary);
+}
+
+.champion-statistics-table-row.is-clickable {
+  cursor: pointer;
+}
+
+.champion-statistics-table-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.champion-statistics-table-column {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.champion-statistics-table-header .champion-statistics-table-column {
+  color: var(--text-label);
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  font-weight: var(--fw-regular);
+  white-space: nowrap;
+}
+
+.champion-statistics-table-column__1 { width: 18px; margin-right: var(--sp-1); flex: 0 0 18px; }
+.champion-statistics-table-column__2 { width: 32px; flex: 0 0 32px; }
+.champion-statistics-table-column__3 { width: 219px; flex: 0 0 219px; }
+.champion-statistics-table-column__4 { width: 48px; margin-right: var(--sp-2); flex: 0 0 48px; }
+.champion-statistics-table-column__5 { width: 94px; margin-right: var(--sp-2); flex: 0 0 94px; }
+
+.champion-statistics-table-empty {
+  width: 100%;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+/* Sort affordance — shared by both table variants. */
+.data-table__label {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table-sort {
+  cursor: pointer;
+  user-select: none;
+}
+
+.table-sort:hover {
+  color: var(--text-primary);
+}
+
+.table-sort__indicator {
+  display: inline-block;
+  width: 8px;
+  margin-left: var(--sp-1);
+  color: var(--text-muted);
+  font-size: var(--fs-2xs);
+  line-height: 1;
+  visibility: hidden;
+}
+
+.table-sort__indicator.is-visible {
+  visibility: visible;
+}
+
+.champion-statistics-table-column.is-sorted {
+  color: var(--text-primary);
+}
+
+/* ---------------------------------------------------------------------------
+ * Sortable table — table variant (the web app's <table> geometry)
+ * ------------------------------------------------------------------------- */
+
+.data-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  background: var(--bg-surface);
+}
+
+.data-table thead th {
+  height: var(--height-th);
+  padding: 0 var(--sp-1);
+  background: var(--bg-surface-flat);
+  color: var(--text-label);
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  font-weight: var(--fw-regular);
+  text-align: left;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.data-table thead th:first-child {
+  padding-left: var(--sp-3);
+}
+
+.data-table thead th:last-child {
+  padding-right: var(--sp-3);
+}
+
+.data-table tbody td {
+  height: 41px;
+  padding: var(--sp-1);
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+  vertical-align: middle;
+}
+
+.data-table tbody td:first-child {
+  padding: var(--sp-1) var(--sp-1) var(--sp-1) var(--sp-3);
+}
+
+.data-table tbody td:last-child {
+  padding: var(--sp-1) var(--sp-3) var(--sp-1) var(--sp-1);
+}
+
+.data-table tbody tr + tr td {
+  border-top: 1px solid var(--border-row);
+}
+
+.data-table tbody tr:hover td {
+  background: var(--bg-surface-hover);
+}
+
+.data-table tbody tr.is-clickable {
+  cursor: pointer;
+}
+
+.data-table tbody td.data-table__empty {
+  height: auto;
+  padding: var(--sp-8) var(--sp-3);
+  text-align: center;
+  color: var(--text-muted);
+}
+
+/* ---------------------------------------------------------------------------
+ * Modal
+ * ------------------------------------------------------------------------- */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: var(--bg-overlay-scrim);
+}
+
+.modal__panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-width: calc(100vw - var(--sp-8));
+  max-height: calc(100vh - var(--sp-8));
+  background: var(--bg-surface-raised);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-3);
+}
+
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.modal__title {
+  margin: 0;
+  font-size: var(--fs-lg);
+  line-height: var(--lh-relaxed);
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+}
+
+.modal__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  font-size: var(--fs-lg);
+  line-height: 1;
+  transition: background var(--dur-fast) var(--ease-standard),
+    color var(--dur-fast) var(--ease-standard);
+}
+
+.modal__close:hover {
+  background: var(--bg-surface-hover);
+  color: var(--text-primary);
+}
+
+.modal__body {
+  padding: var(--sp-4);
+  overflow: auto;
+  color: var(--text-primary);
+  font-size: var(--fs-sm);
+}
+
+/* ---------------------------------------------------------------------------
+ * Tooltip
+ * ------------------------------------------------------------------------- */
+
+.tooltip {
+  position: fixed;
+  z-index: 120;
+  max-width: 320px;
+  padding: var(--sp-2) var(--sp-3);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-raised);
+  box-shadow: var(--shadow-2);
+  color: var(--text-primary);
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  pointer-events: none;
+}
+
+.tooltip b {
+  color: var(--text-primary);
+}
+
+.tooltip i {
+  color: var(--text-muted);
+}
+
+/* ---------------------------------------------------------------------------
+ * Reference layout helpers — the containers the desktop app wraps the
+ * components above in (docs/rea/desktop-ui.md). Pages may reuse them.
+ * ------------------------------------------------------------------------- */
+
+.champion-statistics-search {
+  width: var(--width-search-panel);
+  padding: var(--sp-3) 0 0;
+}
+
+.champion-statistics-search-top {
+  display: flex;
+  align-items: center;
+}
+
+.champion-statistics-search-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  padding: var(--sp-3) var(--sp-3) var(--sp-1) 10px;
+}
+
+.champion-statistics-table-wrapper {
+  display: flex;
+  align-items: flex-start;
+}
+
+.dropdown-container {
+  display: flex;
+  align-items: center;
+  margin-left: var(--sp-3);
+}
+
+/* ---------------------------------------------------------------------------
+ * States — loading skeleton, error, empty
+ * ------------------------------------------------------------------------- */
+
+.state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  padding: var(--sp-8);
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  text-align: center;
+}
+
+.state--error {
+  color: var(--accent-red);
+}
+
+.state__message {
+  margin: 0;
+}
+
+.state--loading {
+  padding: 0;
+  gap: 0;
+  align-items: stretch;
+}
+
+.skeleton-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  height: var(--height-row);
+  padding: 0 var(--sp-3);
+}
+
+.skeleton-block {
+  display: block;
+  height: 12px;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-raised);
+  animation: skeleton-pulse 1.4s var(--ease-standard) infinite;
+}
+
+.skeleton-block--avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+}
+
+.skeleton-block--bar {
+  width: 160px;
+}
+
+.skeleton-block--short {
+  width: 80px;
+}
+
+@keyframes skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Buttons (used by the error state and by pages)
+ * ------------------------------------------------------------------------- */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-1);
+  height: 32px;
+  padding: 0 var(--sp-4);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-raised);
+  color: var(--text-primary);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  white-space: nowrap;
+  transition: background var(--dur-fast) var(--ease-standard),
+    opacity var(--dur-fast) var(--ease-standard);
+}
+
+.button:hover {
+  opacity: 0.88;
+}
+
+.button--primary {
+  background: var(--brand);
+  color: var(--text-primary);
+}
+
+.button--ghost {
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+}
+
+/* ---------------------------------------------------------------------------
+ * Toast — `.toast` itself lives in src/styles/base.css
+ * ------------------------------------------------------------------------- */
+
+.toast--info {
+  border-color: var(--accent-blue);
+}
+
+.toast--warning {
+  border-color: var(--accent-amber);
+}
