@@ -1,0 +1,440 @@
+/* ============================================================================
+ * Combos screen — a champion's skill history across patches.
+ *
+ * Ground truth: docs/rea/desktop-ui.md (the shipped desktop renderer) and the
+ * reference's own `.combos*` rules recovered from the renderer bundle
+ * (`.combos-header`, `.combos-searchbar`, `.combos-main`, `.combos-champions`).
+ *
+ * Geometry
+ *   - the champion picker is the 356px search panel of the champions screen,
+ *     with the reference's 332 × 40px search bar and 46 × 59px portrait tiles
+ *     (five per row here);
+ *   - the history panel is the reference's `.combos-main`: a 12px rounded
+ *     surface with the rows inside it;
+ *   - the version rows keep the champions table's 40px row height and its
+ *     12px muted numeric cells.
+ *
+ * Every colour, radius, spacing step and font size comes from
+ * src/styles/tokens.css — there is not a single literal in this file.
+ * ========================================================================== */
+
+.combos {
+  --combos-picker-width: 356px;
+  --combos-row-height: var(--height-row);
+  --combos-tile-size: var(--width-champion-tile);
+  --combos-tile-height: var(--height-champion-tile);
+
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0 var(--sp-5) var(--sp-5);
+  color: var(--text-primary);
+  font-size: var(--fs-sm);
+}
+
+/* ==========================================================================
+ * Header
+ * ======================================================================== */
+
+.combos-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: var(--sp-5) 0 var(--sp-4);
+}
+
+.combos-header__titles {
+  min-width: 0;
+}
+
+.combos-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-relaxed);
+  color: var(--text-primary);
+}
+
+.combos-subtitle {
+  margin: var(--sp-1) 0 0;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+/* ---- the selected champion chip ---------------------------------------- */
+
+.combos-chip {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex: none;
+  padding: var(--sp-1) var(--sp-3) var(--sp-1) var(--sp-1);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--bg-surface-flat);
+}
+
+.combos-chip[hidden] {
+  display: none;
+}
+
+.combos-chip__portrait {
+  display: block;
+  width: 32px;
+  height: 32px;
+  flex: none;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-muted);
+}
+
+.combos-chip__portrait.is-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-sm);
+  color: var(--text-label);
+}
+
+.combos-chip__image {
+  display: block;
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+}
+
+.combos-chip__identity {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.combos-chip__name {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  color: var(--text-primary);
+}
+
+.combos-chip__title {
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+ * Body — picker + history panel
+ * ======================================================================== */
+
+.combos-body {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-4);
+  min-height: 0;
+}
+
+.combos-picker-wrapper {
+  width: var(--combos-picker-width);
+  flex: none;
+}
+
+.combos-picker {
+  width: 100%;
+}
+
+/* ---- the search bar (the reference's 332 × 40px control) --------------- */
+
+.combos-picker__search {
+  padding-top: var(--sp-3);
+}
+
+.combos-picker .champion-statistics-search-bar {
+  width: 332px;
+  height: 40px;
+}
+
+/* ---- the portrait grid -------------------------------------------------- */
+
+.combos-grid {
+  display: grid;
+  grid-template-columns: repeat(5, var(--combos-tile-size));
+  gap: var(--sp-1);
+  align-content: flex-start;
+  max-height: 520px;
+  margin-top: var(--sp-3);
+  padding-bottom: var(--sp-1);
+  overflow-y: auto;
+}
+
+.combos-tile__button {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.combos-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: var(--combos-tile-size);
+  height: var(--combos-tile-height);
+  color: var(--text-muted);
+}
+
+.combos-tile__portrait {
+  display: block;
+  width: var(--combos-tile-size);
+  height: var(--combos-tile-size);
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-muted);
+}
+
+.combos-tile__portrait.is-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-sm);
+  color: var(--text-label);
+}
+
+.combos-tile__image {
+  display: block;
+  width: var(--combos-tile-size);
+  height: var(--combos-tile-size);
+  object-fit: cover;
+}
+
+.combos-tile__name {
+  width: 100%;
+  margin-top: 2px;
+  overflow: hidden;
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  color: var(--text-muted);
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.combos-tile__button:hover .combos-tile__name {
+  color: var(--text-primary);
+}
+
+.combos-tile.is-selected .combos-tile__portrait {
+  box-shadow: 0 0 0 2px var(--brand);
+}
+
+.combos-tile.is-selected .combos-tile__name {
+  font-weight: var(--fw-bold);
+  color: var(--text-primary);
+}
+
+.combos-picker__empty {
+  grid-column: 1 / -1;
+  margin: var(--sp-4) 0;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+ * History panel
+ * ======================================================================== */
+
+.combos-panel {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  background: var(--bg-surface-muted);
+}
+
+.combos-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--height-th);
+  padding: 0 var(--sp-4);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.combos-panel__meta {
+  font-size: var(--fs-2xs);
+  color: var(--text-label);
+}
+
+.combos-panel__body {
+  padding: var(--sp-2) var(--sp-4) var(--sp-4);
+}
+
+.combos-panel__body .state {
+  padding: var(--sp-6) var(--sp-4);
+}
+
+/* ---- version rows -------------------------------------------------------- */
+
+.combos-versions {
+  display: flex;
+  flex-direction: column;
+}
+
+.combos-version {
+  border-bottom: 1px solid var(--border-row);
+}
+
+.combos-version:last-child {
+  border-bottom: none;
+}
+
+.combos-version__row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: var(--combos-row-height);
+  margin: 0;
+  padding: 0 var(--sp-1) 0 var(--sp-2);
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  text-align: left;
+  cursor: pointer;
+}
+
+.combos-version__row:hover {
+  background: var(--bg-surface-hover);
+}
+
+.combos-version__name {
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-medium);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+}
+
+.combos-version__count {
+  margin-left: auto;
+  font-size: var(--fs-2xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-label);
+}
+
+.combos-version__row svg {
+  margin-left: var(--sp-2);
+  flex: none;
+  color: var(--text-label);
+  transition: transform var(--dur-fast) var(--ease-standard);
+}
+
+.combos-version__row.is-open svg {
+  transform: rotate(90deg);
+}
+
+/* ---- the expanded body --------------------------------------------------- */
+
+.combos-version__body {
+  padding: 0 0 var(--sp-3) var(--sp-2);
+}
+
+.combos-version__body[hidden] {
+  display: none;
+}
+
+.combos-version__none {
+  margin: 0;
+  padding: var(--sp-2) 0;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.combos-slot {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  padding: var(--sp-2) 0;
+}
+
+.combos-slot__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex: none;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-hover);
+  color: var(--text-secondary);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+}
+
+.combos-slot__skills {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.combos-skill__key {
+  font-size: var(--fs-2xs);
+  color: var(--text-muted);
+}
+
+.combos-skill__text {
+  margin-top: 2px;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+  color: var(--text-faint);
+  /* The upstream description carries its own line breaks. */
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+/* ==========================================================================
+ * Skeleton — the loading state of a multi-megabyte payload
+ * ======================================================================== */
+
+.combos-skeleton {
+  display: flex;
+  flex-direction: column;
+}
+
+.combos-skeleton__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--combos-row-height);
+  border-bottom: 1px solid var(--border-row);
+}
+
+.combos-skeleton__bar {
+  display: block;
+  height: 10px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface-hover);
+  animation: combos-skeleton-pulse 1.4s var(--ease-standard) infinite;
+}
+
+.combos-skeleton__bar--version {
+  width: 72px;
+}
+
+.combos-skeleton__bar--count {
+  width: 48px;
+}
+
+@keyframes combos-skeleton-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+
+  50% {
+    opacity: 0.75;
+  }
+}

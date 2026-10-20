@@ -2,13 +2,14 @@
  * IPC registration.
  *
  * Every channel that the renderer may use comes from `shared/channels.js` —
- * nothing is hard-coded here. The four modules below register their slice of
+ * nothing is hard-coded here. The five modules below register their slice of
  * the contract:
  *
- *   - `window.js`  — main window + overlay window
- *   - `lcu.js`     — League Client Update integration
- *   - `opgg.js`    — OP.GG data layer
- *   - `system.js`  — clipboard, external links, version, paths, settings
+ *   - `window.js`       — main window + overlay window
+ *   - `lcu.js`          — League Client Update integration
+ *   - `opgg.js`         — OP.GG data layer
+ *   - `lool-screens.js` — Combos, Buff / Nerf and the ARAM balance ratios
+ *   - `system.js`       — clipboard, external links, version, paths, settings
  *
  * ## Sender validation
  *
@@ -40,6 +41,7 @@ const { SettingsStore } = require('../services/settings-store.js');
 const registerWindowIpc = require('./window.js');
 const registerLcuIpc = require('./lcu.js');
 const registerOpggIpc = require('./opgg.js');
+const registerLoolScreensIpc = require('./lool-screens.js');
 const registerSystemIpc = require('./system.js');
 
 const { LcuWatcher } = require('./lcu.js');
@@ -124,6 +126,7 @@ function registerIpc(ctx) {
   registerWindowIpc(ctx);
   registerLcuIpc(ctx);
   registerOpggIpc(ctx);
+  registerLoolScreensIpc(ctx);
   registerSystemIpc(ctx);
 }
 

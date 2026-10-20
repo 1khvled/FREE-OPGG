@@ -80,6 +80,11 @@ export const api = {
   currentPatch: () => invoke(INVOKE, 'OPGG_CURRENT_PATCH'),
   checkPatchUpdate: () => invoke(INVOKE, 'OPGG_CHECK_PATCH_UPDATE'),
 
+  /* champion extras */
+  combos: (params) => invoke(INVOKE, 'OPGG_COMBOS', params),
+  buffNerf: (params) => invoke(INVOKE, 'OPGG_BUFF_NERF', params),
+  aramBalance: (params) => invoke(INVOKE, 'OPGG_ARAM_BALANCE', params),
+
   /* league client */
   lcuStatus: () => invoke(INVOKE, 'LCU_STATUS'),
   lcuRequest: (payload) => invoke(INVOKE, 'LCU_REQUEST', payload),

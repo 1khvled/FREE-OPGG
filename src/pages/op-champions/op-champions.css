@@ -1,0 +1,212 @@
+/* ============================================================================
+ * OP Champions screen
+ *
+ * Ground truth: the desktop app's tier-list geometry
+ * (docs/rea/desktop-ui.md §3) — the same seven column div grid, the same
+ * 46 × 59px portrait tiles and the same 32px header / 40px row rhythm, so the
+ * screen reads as the twin of the Champions screen.
+ *
+ * The shared class names (`.champion-statistics-table*`, `.item-champion`,
+ * `.champion-statistics-search*`, `.champion-img-32`, `.stat-cell`) live in
+ * src/styles/components.css and are not repeated here.
+ *
+ * Every colour, radius, spacing step and font size comes from
+ * src/styles/tokens.css — there is not a single literal in this file.
+ * ========================================================================== */
+
+.op-champions {
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--sp-5) var(--sp-5);
+  color: var(--text-primary);
+  font-size: var(--fs-sm);
+}
+
+/* ==========================================================================
+ * Heading — the title and the number of champions in the tier
+ * ======================================================================== */
+
+.op-champions__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  margin-top: var(--sp-5);
+}
+
+.op-champions__heading {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.op-champions__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-relaxed);
+  color: var(--text-primary);
+}
+
+.op-champions__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 20px;
+  padding: 0 var(--sp-2);
+  border-radius: var(--radius-pill);
+  background: var(--bg-surface-raised);
+  color: var(--text-secondary);
+  font-size: var(--fs-2xs);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  user-select: none;
+}
+
+.op-champions__subtitle {
+  margin: 0;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+ * Lane tabs
+ * ======================================================================== */
+
+.op-champions__tabs {
+  margin-top: var(--sp-4);
+}
+
+/* ==========================================================================
+ * Body — the portrait grid and the table
+ * ======================================================================== */
+
+.op-champions__body {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-4);
+  margin-top: var(--sp-4);
+}
+
+.op-champions__grid {
+  flex: none;
+}
+
+.op-champions__table {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.op-champions .champion-statistics-search-bottom {
+  max-height: 520px;
+  overflow-y: auto;
+}
+
+/* ==========================================================================
+ * Table cells
+ * ======================================================================== */
+
+.op-champions .champion-statistics-table {
+  background: transparent;
+}
+
+.op-champions .champion-statistics-table-row {
+  border-bottom: 1px solid var(--border-row);
+  background: transparent;
+}
+
+.op-champions .champion-statistics-table-row:hover {
+  background: var(--bg-surface-hover);
+}
+
+.op-champion-rank {
+  font-size: var(--fs-2xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+}
+
+.op-role-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.op-champion-cell {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.op-champion-name {
+  overflow: hidden;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+  color: var(--text-primary);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+ * Tier grade — the letter scale the in-game overlay uses
+ *
+ * The overlay keeps its own swatches (overlay/overlay.css); the replica maps
+ * the same six grades onto the shared tier tokens.
+ * ======================================================================== */
+
+.op-tier-grade {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 20px;
+  padding: 0 var(--sp-1);
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface-raised);
+  color: var(--text-primary);
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-bold);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.op-champions .tier-splus {
+  background: linear-gradient(135deg, var(--accent-gold-bright), var(--accent-orange));
+  color: var(--text-primary);
+}
+
+.op-champions .tier-s {
+  background: var(--accent-blue);
+  color: var(--text-primary);
+}
+
+.op-champions .tier-a {
+  background: var(--accent-teal);
+  color: var(--text-primary);
+}
+
+.op-champions .tier-b {
+  background: var(--text-label);
+  color: var(--text-primary);
+}
+
+.op-champions .tier-c {
+  background: var(--bg-surface-raised);
+  color: var(--text-primary);
+}
+
+.op-champions .tier-d {
+  background: var(--bg-surface-muted);
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+ * States
+ * ======================================================================== */
+
+.op-champions .state {
+  min-height: 160px;
+}

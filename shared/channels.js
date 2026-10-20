@@ -92,6 +92,10 @@ const RENDERER_TO_MAIN_INVOKE = {
   OPGG_CHECK_PATCH_UPDATE: 'opgg:check-patch-update',
   OPGG_CURRENT_PATCH: 'opgg:get-current-patch',
 
+  OPGG_COMBOS: 'opgg:combos',
+  OPGG_BUFF_NERF: 'opgg:buff-nerf',
+  OPGG_ARAM_BALANCE: 'opgg:aram-balance',
+
   APP_COPY_TO_CLIPBOARD: 'app:copy-to-clipboard',
   APP_GET_VERSION: 'app:get-version',
   APP_GET_PATHS: 'app:get-paths',

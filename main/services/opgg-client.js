@@ -40,6 +40,8 @@ const TTL = {
   ladder: 60 * 1000,
   static: 6 * 60 * 60 * 1000,
   patch: 30 * 60 * 1000,
+  combos: 60 * 60 * 1000,
+  balance: 60 * 60 * 1000,
 };
 
 /** Request timeout (ms). */
@@ -140,10 +142,11 @@ function isRetryable(err) {
  * @param {object} [options.params] - query parameters
  * @param {number} [options.ttl] - cache lifetime; 0 disables caching
  * @param {object} [options.headers]
+ * @param {number} [options.timeout] - per-request timeout override (ms)
  * @returns {Promise<*>} the parsed JSON body
  */
 async function getJson(url, options = {}) {
-  const { params, ttl = 0, headers } = options;
+  const { params, ttl = 0, headers, timeout } = options;
   const cacheKey = ttl ? `${url}?${JSON.stringify(params || {})}` : null;
 
   if (cacheKey) {
@@ -151,10 +154,13 @@ async function getJson(url, options = {}) {
     if (hit !== undefined) return hit;
   }
 
+  const requestConfig = { params, headers };
+  if (timeout) requestConfig.timeout = timeout;
+
   let lastError = null;
   for (let attempt = 0; attempt < RETRY.attempts; attempt += 1) {
     try {
-      const res = await http.get(url, { params, headers });
+      const res = await http.get(url, requestConfig);
       const status = res.status;
       if (status >= 400) {
         const error = new Error(`HTTP ${status} for ${url}`);
@@ -649,6 +655,110 @@ async function getCommunityDragonPerks() {
 /* -------------------------------------------------------------------------- */
 
 /**
+ * `GET /skill?champ={champion}` — the champion's skill change history.
+ *
+ * The raw payload is huge (≈3.7 MB for one champion: every patch version with
+ * every skill and all of its tooltip data), so the caller is expected to trim
+ * it. The response is cached for an hour — the history only grows when a new
+ * patch ships.
+ *
+ * The upstream expects the champion **key** (`LeeSin`, `DrMundo`), not the
+ * display name. When the lookup with the given name comes back empty the
+ * matching key is resolved from the champion metadata and the call is retried
+ * once.
+ *
+ * @param {string} champion - the champion name or key, e.g. `Jinx` / `Lee Sin`
+ * @returns {Promise<Array<{version:string, skills:Array<object>}>>}
+ */
+async function getCombos(champion) {
+  const name = String(champion || '').trim();
+  if (!name) return [];
+
+  const fetchSkill = async (query) => {
+    const payload = await getJson(`${HOSTS.desktop}/skill`, {
+      params: { champ: query },
+      ttl: TTL.combos,
+      // The payload is megabytes large — it needs more than the default timeout.
+      timeout: 30000,
+    });
+    return Array.isArray(payload) ? payload : [];
+  };
+
+  let rows = await fetchSkill(name);
+  if (rows.length) return rows;
+
+  const key = await resolveChampionKey(name);
+  if (key && key !== name) {
+    rows = await fetchSkill(key);
+  }
+  return rows;
+}
+
+/**
+ * Resolve a champion display name to its Data Dragon key.
+ *
+ * @param {string} name
+ * @returns {Promise<string|null>}
+ */
+async function resolveChampionKey(name) {
+  const wanted = String(name || '').trim().toLowerCase();
+  if (!wanted) return null;
+
+  let meta = [];
+  try {
+    meta = await getChampionMeta();
+  } catch (err) {
+    return null;
+  }
+
+  for (const entry of meta) {
+    if (entry && typeof entry.name === 'string' && entry.name.toLowerCase() === wanted) {
+      return entry.key ? String(entry.key) : null;
+    }
+  }
+
+  // "Lee Sin" -> "LeeSin"
+  const compact = wanted.replace(/[\s'’.]/g, '');
+  for (const entry of meta) {
+    if (entry && typeof entry.key === 'string' && entry.key.toLowerCase() === compact) {
+      return entry.key;
+    }
+  }
+  return null;
+}
+
+/**
+ * `GET /buff-nerf/latest?gameType={gameType}` — the latest patch notes.
+ *
+ * The response carries one array per locale (`en`, `kr`, …).
+ *
+ * @param {string} [gameType]
+ * @returns {Promise<object|null>}
+ */
+async function getBuffNerf(gameType = 'lol') {
+  const type = String(gameType || 'lol').trim() || 'lol';
+  const payload = await getJson(`${HOSTS.desktop}/buff-nerf/latest`, {
+    params: { gameType: type },
+    ttl: TTL.patch,
+  });
+  return payload && typeof payload === 'object' ? payload : null;
+}
+
+/**
+ * `GET /api/contents/aram-balance` — the ARAM balance ratios.
+ *
+ * The rows carry champion ids only; the names come from the static data.
+ *
+ * @returns {Promise<Array<object>>}
+ */
+async function getAramBalance() {
+  const payload = await getJson(`${HOSTS.champion}/api/contents/aram-balance`, {
+    ttl: TTL.balance,
+  });
+  return payload && Array.isArray(payload.data) ? payload.data : [];
+}
+
+/**
  * Best-effort read of the desktop hardware profile.
  *
  * The endpoint is not part of the critical path; failures are reported to the
@@ -715,6 +825,10 @@ module.exports = {
   getDdragonItems,
   getDdragonRunes,
   getCommunityDragonPerks,
+  getCombos,
+  resolveChampionKey,
+  getBuffNerf,
+  getAramBalance,
   getHardwareProfile,
   getDesktopGameList,
   clearCache,
