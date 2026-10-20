@@ -2,6 +2,10 @@
 // error, uncaught exception or broken image.
 //
 // Usage: node tools/verify-pages.mjs [--port 9336] [--wait 6000] [--out docs/verify]
+//                               [--attach <port>] [--exe <path>]
+//
+// With `--attach <port>` the verifier drives an app that is already running
+// (a packaged build, for example) instead of launching one from source.
 import { spawn } from "node:child_process";
 import { createRequire } from "node:module";
 import { writeFileSync, mkdirSync } from "node:fs";
@@ -13,6 +17,8 @@ const argOf = (n, d) => { const i = argv.indexOf(n); return i >= 0 ? argv[i + 1]
 const port = Number(argOf('--port', '9336'));
 const waitMs = Number(argOf('--wait', '6000'));
 const outDir = resolve(argOf('--out', 'docs/verify'));
+const attachPort = argOf('--attach', null);
+const exePath = argOf('--exe', null);
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 const PAGES = [
@@ -31,11 +37,19 @@ const PAGES = [
 ];
 
 const electronBin = createRequire(import.meta.url)('electron');
-const child = spawn(electronBin, ['.', `--remote-debugging-port=${port}`], {
-  cwd: process.cwd(), stdio: ['ignore', 'pipe', 'pipe'],
-});
-child.stdout.resume();
-child.stderr.resume();
+let child = null;
+if (!attachPort) {
+  const command = exePath || electronBin;
+  const args = exePath
+    ? [`--remote-debugging-port=${port}`]
+    : ['.', `--remote-debugging-port=${port}`];
+  child = spawn(command, args, {
+    cwd: process.cwd(), stdio: ['ignore', 'pipe', 'pipe'],
+  });
+  child.stdout.resume();
+  child.stderr.resume();
+}
+const targetPort = attachPort ? Number(attachPort) : port;
 
 let exitCode = 0;
 try {
@@ -43,7 +57,7 @@ try {
   const deadline = Date.now() + 30000;
   while (Date.now() < deadline && !target) {
     try {
-      const res = await fetch(`http://127.0.0.1:${port}/json/list`);
+      const res = await fetch(`http://127.0.0.1:${targetPort}/json/list`);
       const targets = await res.json();
       target = targets.find((t) => t.type === 'page' && t.url.includes('index.html') && t.webSocketDebuggerUrl);
     } catch { /* not up yet */ }
@@ -155,8 +169,10 @@ try {
   exitCode = 1;
   console.error('failed:', err.message);
 } finally {
-  child.kill();
-  await sleep(400);
-  try { process.kill(child.pid, 'SIGKILL'); } catch { /* gone */ }
+  if (child) {
+    child.kill();
+    await sleep(400);
+    try { process.kill(child.pid, 'SIGKILL'); } catch { /* gone */ }
+  }
 }
 process.exit(exitCode);

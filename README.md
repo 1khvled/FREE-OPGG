@@ -74,13 +74,17 @@ it to the renderer as `window.opgg.channels`. There is no second copy.
 
 | Screen | What it does |
 | --- | --- |
-| **Champions** | Role tabs, tier/region/queue/patch filters, 8-column sortable tier list, champion detail modal |
+| **Champion tier** | Role tabs, tier/region/queue/patch filters, 7-column sortable div-grid table, champion detail modal |
+| **Combos** | A champion's skill history across patches, from `desktop-api.op.gg/skill` |
+| **OP champions** | The tier-0 list — the top of every lane |
+| **Game modes** | Per-champion balance ratios (attack speed, damage, cooldown, healing, …) |
+| **Buff / Nerf** | The latest patch's champion changes, buffs and nerfs side by side |
 | **Live** | Champion-select board, ARAM bench cards, augment advisor, my profile, one-click rune/build/spell application |
 | **Leaderboard** | Ranked ladder by region and tier |
-| **Multisearch** | Multi-summoner search |
-| **My page** | Profile, most-played champions, match history |
-| **Settings** | Theme, language, League Client automations, overlay options |
-| **Overlay** | Frameless always-on-top in-game HUD: champion card, runes, build, skills, spell cooldowns, bench, objective timers |
+| **Multi-search** | Multi-summoner search |
+| **My info** | Profile, most-played champions, match history |
+| **Settings** | Theme, language (12 locales), League Client automations, overlay options |
+| **Overlay** | Frameless always-on-top in-game HUD: champion card, runes, build, skills, spell cooldowns, bench, augment advisor, objective timers |
 
 ---
 
@@ -142,16 +146,23 @@ the project because the evidence must be reproducible:
 | `tools/bridge-stub.js` | Stand-in for the preload bridge |
 | `tools/cdp.mjs` | Drive a running Electron/Chrome target over CDP |
 | `tools/check-syntax.mjs` | Project-wide syntax check |
+| `tools/check-undefined.mjs` | Find identifiers that are called but never defined |
 | `tools/test-core.mjs` | Contract tests for the core modules (22 assertions) |
+| `tools/test-overlay-tier.mjs` | Assert the overlay's tier-grade mapping |
 | `tools/verify-app.mjs` | Launch the app, screenshot it, report renderer errors |
 | `tools/verify-pages.mjs` | Walk every screen, screenshot it, assert a clean console |
 | `tools/verify-interactions.mjs` | Exercise the champion modal and the overlay window |
+| `tools/verify-overlay.mjs` | Render the overlay's ARAM panels with mock data |
+| `tools/verify-detail-panels.mjs` | List the panels the champion detail rendered |
 | `tools/verify-images.mjs` | Report every image that failed to load |
 | `tools/probe-ipc.mjs` | Call an IPC handler inside the running app |
 | `tools/probe-cdn.mjs` | Measure how the renderer sees an image CDN |
+| `tools/rea-routes.mjs` | Dump the reference's route table |
+| `tools/rea-i18n-keys.mjs` | List the i18n keys a shipped bundle references |
+| `tools/rea-grep.mjs` | Search the shipped bundles, gunzipping them |
 
 ```bash
-npm run check      # syntax
+npm run check      # syntax + undefined-identifier check
 npm test           # contract tests
 npm run verify     # drive the real app, screenshot every screen
 ```
