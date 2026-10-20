@@ -115,10 +115,15 @@ export const ASSET_BASE = 'https://desktop-app-data.op.gg/desktop/app/assets/ima
 /** OP.GG static CDN. */
 const CDN_BASE = 'https://opgg-static.akamaized.net';
 
-/** Square champion portraits. */
+/**
+ * Square champion portraits.
+ *
+ * The CDN's `latest` segment always resolves to what it has published; a
+ * version-pinned path answers 403 until the CDN catches up with the patch.
+ * The `/images/champions/*` path is dead (403) and the Data Dragon path needs
+ * an exact patch version, so neither is used.
+ */
 const PORTRAIT_META = `${CDN_BASE}/meta/images/lol/latest/champion/{key}.png`;
-const PORTRAIT_SQUARE = `${CDN_BASE}/images/champions/{square}.png`;
-const PORTRAIT_DDRAGON = 'https://ddragon.leagueoflegends.com/cdn/16.20.1/img/champion/{key}.png';
 const SPLASH_CDN = `${CDN_BASE}/meta/images/lol/latest/champion/centered/{key}_0.jpg`;
 
 /** The image service query the reference uses to resize a portrait. */
@@ -623,15 +628,14 @@ export function normalizeRows(payload, options = {}) {
 export function portraitUrls(row, size = 32) {
   const urls = [];
   // Order matters: the first entry is the one the browser actually requests,
-  // and every one of these paths was HTTP-verified. Data Dragon's champion
-  // path answers 403 from the desktop shell, so the OP.GG mirror leads.
+  // and every one of these paths was HTTP-verified. The OP.GG image CDN lags
+  // the Data Dragon version, so the `latest` segment is the only one that
+  // always resolves; `/images/champions/*` answers 403 and is not used.
   if (row?.key) {
     urls.push(`${PORTRAIT_META.replace('{key}', row.key)}${resizeQuery(size)}`);
   }
   if (row?.imageUrl) urls.push(`${row.imageUrl}${resizeQuery(size)}`);
-  if (row?.square) urls.push(`${PORTRAIT_SQUARE.replace('{square}', row.square)}${resizeQuery(size)}`);
   if (row?.key) {
-    urls.push(PORTRAIT_DDRAGON.replace('{key}', row.key));
     urls.push(SPLASH_CDN.replace('{key}', row.key));
   }
   return urls;

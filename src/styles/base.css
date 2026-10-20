@@ -130,6 +130,7 @@ table {
 }
 
 .app-header__title {
+  font-family: var(--font-display);
   font-size: var(--fs-2xs);
   color: var(--text-primary);
   white-space: nowrap;
@@ -192,6 +193,7 @@ table {
 }
 
 .app-side__section-title {
+  font-family: var(--font-display);
   font-weight: var(--fw-bold);
   margin-bottom: 8px;
   font-size: var(--fs-2xs);
@@ -239,6 +241,7 @@ table {
   display: flex;
   align-items: center;
   gap: 10px;
+  font-family: var(--font-display);
   font-size: var(--fs-2xs);
 }
 
@@ -253,9 +256,56 @@ table {
   padding-top: var(--sp-4);
 }
 
+/* The reference's footer menu: a Discord glyph that opens the invite. */
+.app-side__menu {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.app-side__menu-item {
+  display: flex;
+  align-items: center;
+}
+
+.app-side__discord {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  transition: background var(--dur-fast) var(--ease-standard), color var(--dur-fast) var(--ease-standard);
+}
+
+.app-side__discord:hover {
+  background: var(--bg-surface-hover);
+  color: var(--text-primary);
+}
+
+.app-side__discord-icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+/* The build stamp — the reference prints `20260914 0836` under the sidebar. */
 .app-side__build {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
   font-size: var(--fs-2xs);
   color: var(--text-label);
+}
+
+.app-side__build-version,
+.app-side__build-stamp {
+  display: block;
+  font-variant-numeric: tabular-nums;
 }
 
 /* ---- Main --------------------------------------------------------------- */

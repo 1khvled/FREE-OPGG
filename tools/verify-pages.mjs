@@ -15,7 +15,20 @@ const waitMs = Number(argOf('--wait', '6000'));
 const outDir = resolve(argOf('--out', 'docs/verify'));
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-const PAGES = ['champions', 'live', 'leaderboard', 'multisearch', 'my-page', 'settings'];
+const PAGES = [
+  'champions',
+  'combos',
+  'op-champions',
+  'modes',
+  'buff-nerf',
+  'live',
+  'multisearch',
+  'my-page',
+  'settings',
+  // The reference's desktop sidebar does not list the leaderboards; the route
+  // is reached through the hash router instead.
+  'leaderboard',
+];
 
 const electronBin = createRequire(import.meta.url)('electron');
 const child = spawn(electronBin, ['.', `--remote-debugging-port=${port}`], {
@@ -70,11 +83,13 @@ try {
 
   for (const page of PAGES) {
     const before = events.length;
-    await send('Runtime.evaluate', {
+    const nav = await send('Runtime.evaluate', {
       expression: `(() => {
         const link = document.querySelector('.app-side__item[href="#/${page}"]');
         if (link) { link.click(); return 'clicked'; }
-        return 'no sidebar link for ${page}';
+        if (window.location.hash === '#/${page}') return 'already-there';
+        window.location.hash = '#/${page}';
+        return 'hash';
       })()`,
       returnByValue: true,
     });
@@ -84,8 +99,10 @@ try {
       expression: `(() => {
         const imgs = Array.from(document.querySelectorAll('img'));
         return JSON.stringify({
+          route: window.location.hash,
           heading: (document.querySelector('.app-main') || {}).innerText ? document.querySelector('.app-main').innerText.slice(0, 220) : '',
           errors: Array.from(document.querySelectorAll('.app-error')).map(e => e.innerText.slice(0, 200)),
+          errorStates: Array.from(document.querySelectorAll('.state--error')).map(e => e.innerText.replace(/\s+/g, ' ').slice(0, 200)),
           images: imgs.length,
           brokenImages: imgs.filter(i => i.complete && i.naturalWidth === 0).length,
           pendingImages: imgs.filter(i => !i.complete).length,
@@ -101,7 +118,10 @@ try {
     const pageEvents = events.slice(before);
     const consoleErrors = pageEvents
       .filter((e) => e.method === 'Log.entryAdded' && e.params?.entry?.level === 'error')
-      .map((e) => e.params.entry.text);
+      .map((e) => {
+        const entry = e.params.entry;
+        return entry.url ? `${entry.text} [${entry.url}]` : entry.text;
+      });
     const exceptions = pageEvents
       .filter((e) => e.method === 'Runtime.exceptionThrown')
       .map((e) => e.params?.exceptionDetails?.exception?.description || e.params?.exceptionDetails?.text);
@@ -109,11 +129,14 @@ try {
     const parsed = JSON.parse(info.result.value);
     const problems = [];
     if (parsed.errors.length) problems.push(`error panel: ${parsed.errors.join(' | ')}`);
+    if (parsed.errorStates && parsed.errorStates.length) problems.push(`error state: ${parsed.errorStates.join(' | ')}`);
     if (parsed.brokenImages) problems.push(`${parsed.brokenImages} broken image(s)`);
     if (consoleErrors.length) problems.push(`${consoleErrors.length} console error(s)`);
     if (exceptions.length) problems.push(`${exceptions.length} exception(s)`);
+    if (parsed.route !== `#/${page}`) problems.push(`landed on ${parsed.route || '(no hash)'}`);
 
     console.log(`\n=== ${page} ===`);
+    console.log(`  nav ${nav.result.value} -> ${parsed.route}`);
     console.log(`  ${parsed.heading.split('\n').filter(Boolean).slice(0, 6).join(' / ')}`);
     console.log(`  images ${parsed.images} (broken ${parsed.brokenImages}, pending ${parsed.pendingImages})`);
     console.log(`  screenshot -> ${file}`);

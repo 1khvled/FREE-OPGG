@@ -15,6 +15,7 @@
  */
 
 import { h, clear } from '../../core/dom.js';
+import { bus } from '../../core/events.js';
 import {
   POSITIONS,
   normalizePosition,
@@ -29,7 +30,9 @@ import { renderBuildPanel } from './parts/build-panel.js';
 import { renderSkillsPanel } from './parts/skills-panel.js';
 import { renderSummonerSpellsPanel } from './parts/summoner-spells-panel.js';
 import { renderCountersPanel } from './parts/counters-panel.js';
+import { renderLaneTipsPanel } from './parts/lane-tips-panel.js';
 import { renderMatchupPanel } from './parts/matchup-panel.js';
+import { renderComboVideosPanel } from './parts/combo-videos-panel.js';
 
 export const meta = {
   id: 'champion-detail',
@@ -180,7 +183,9 @@ export function mount(container, ctx) {
       ]),
       h('div.cd-column.cd-column--side', null, [
         renderCountersPanel(view),
+        renderLaneTipsPanel(view),
         renderMatchupPanel(view),
+        renderComboVideosPanel(view),
       ]),
     ]));
   }
@@ -276,6 +281,13 @@ export function mount(container, ctx) {
 
   void load();
 
+  // The locale catalogues are loaded lazily: when one lands the screen has to
+  // be painted again so the panel copy follows the new language.
+  const offLocale = bus.on('i18n:locale', () => {
+    if (disposed || !model || !model.hasData) return;
+    renderContent();
+  });
+
   // Best-effort metadata refresh: the live static-data payload refines the
   // champion / item / rune names the shipped Data Dragon snapshot carries.
   if (ctx?.api?.staticData) {
@@ -290,6 +302,7 @@ export function mount(container, ctx) {
 
   return () => {
     disposed = true;
+    offLocale();
     releaseStyles();
     tooltip.destroy();
     if (root.parentNode) root.parentNode.removeChild(root);

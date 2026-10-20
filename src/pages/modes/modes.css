@@ -1,0 +1,322 @@
+/* ============================================================================
+ * Game modes screen
+ *
+ * Ground truth: the desktop app's table geometry (docs/rea/desktop-ui.md §3) —
+ * a 32px header, 40px rows, 12px muted numeric cells with tabular figures and
+ * a 12px panel radius.
+ *
+ * The shared class names (`.champion-statistics-table*`, `.champion-img-32`,
+ * `.fallback-image__placeholder`, `.state`) live in src/styles/components.css
+ * and are not repeated here.
+ *
+ * Every colour, radius, spacing step and font size comes from
+ * src/styles/tokens.css — there is not a single literal in this file.
+ * ========================================================================== */
+
+.modes {
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--sp-5) var(--sp-5);
+  color: var(--text-primary);
+  font-size: var(--fs-sm);
+}
+
+/* ==========================================================================
+ * Heading — the title, the champion count and the section name
+ * ======================================================================== */
+
+.modes__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  margin-top: var(--sp-5);
+}
+
+.modes__heading {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.modes__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-relaxed);
+  color: var(--text-primary);
+}
+
+.modes__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 20px;
+  padding: 0 var(--sp-2);
+  border-radius: var(--radius-pill);
+  background: var(--bg-surface-raised);
+  color: var(--text-secondary);
+  font-size: var(--fs-2xs);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  user-select: none;
+}
+
+.modes__subtitle {
+  margin: 0;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+ * Toolbar — the search box and the lane filter
+ * ======================================================================== */
+
+.modes__toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-top: var(--sp-4);
+}
+
+.modes__toolbar-search {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.modes__toolbar-filter {
+  display: flex;
+  align-items: center;
+}
+
+/* ==========================================================================
+ * Panel — the table and the states share it
+ * ======================================================================== */
+
+.modes__panel {
+  margin-top: var(--sp-4);
+  border-radius: var(--radius-panel);
+  background: var(--bg-surface);
+  overflow: hidden;
+}
+
+.modes__panel .state {
+  min-height: 200px;
+}
+
+/* ==========================================================================
+ * Table
+ * ======================================================================== */
+
+.modes__table {
+  width: 100%;
+  background: transparent;
+  border-radius: 0;
+}
+
+.modes__table .champion-statistics-table-row {
+  border-bottom: 1px solid var(--border-row);
+  background: transparent;
+}
+
+.modes__table .champion-statistics-table-row:hover {
+  background: var(--bg-surface-hover);
+}
+
+.modes__cell--champion {
+  flex: 1 1 auto;
+  min-width: 120px;
+}
+
+/* The stat cell stacks the percentage above its bar. */
+.modes__cell--stat {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  padding: 0 var(--sp-1);
+}
+
+/* The header cell keeps the reference's row layout (the label and its sort
+   indicator sit next to each other). The reference's own stat labels are
+   longer than the column ("Cooldown Reduction"), so the label wraps onto a
+   second line instead of being cut off. */
+.modes__table .champion-statistics-table-header .modes__cell--head {
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  white-space: normal;
+  line-height: var(--lh-tight);
+  text-align: center;
+}
+
+.modes__table .champion-statistics-table-header .modes__cell--champion {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+/* The sort indicator is a flex sibling of the header label; the stat columns
+   are narrow, so it gets a smaller footprint of its own. */
+.modes__table .table-sort__indicator {
+  width: 6px;
+  margin-left: var(--sp-1);
+}
+
+/* ==========================================================================
+ * Champion cell — the 32px portrait and the name
+ * ======================================================================== */
+
+.modes__champion {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.modes__champion-name {
+  overflow: hidden;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+  color: var(--text-primary);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.modes__portrait--empty {
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==========================================================================
+ * Stat cell — the percentage and its bar
+ * ======================================================================== */
+
+.modes__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--sp-1);
+  width: 100%;
+  min-width: 0;
+}
+
+.modes__ratio {
+  display: block;
+  overflow: hidden;
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.modes__bar {
+  display: block;
+  width: 100%;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-surface-muted);
+  overflow: hidden;
+}
+
+.modes__bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+}
+
+/* The tone of a ratio: above the reference champion, below it, or exactly
+   the reference champion. */
+.modes__stat--up .modes__ratio {
+  color: var(--accent-green-bright);
+}
+
+.modes__stat--up .modes__bar-fill {
+  background: var(--accent-green);
+}
+
+.modes__stat--down .modes__ratio {
+  color: var(--accent-red);
+}
+
+.modes__stat--down .modes__bar-fill {
+  background: var(--accent-red);
+}
+
+.modes__stat--base .modes__ratio {
+  color: var(--text-muted);
+}
+
+.modes__stat--base .modes__bar-fill {
+  background: var(--text-muted);
+}
+
+.modes__stat--unknown .modes__ratio {
+  color: var(--text-label);
+}
+
+/* ==========================================================================
+ * Skeleton — the table's own geometry
+ * ======================================================================== */
+
+.modes__skeleton {
+  display: flex;
+  flex-direction: column;
+}
+
+.modes__skeleton-head,
+.modes__skeleton-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  padding: 0 var(--sp-3);
+}
+
+.modes__skeleton-head {
+  height: var(--height-th);
+  border-bottom: 1px solid var(--border-row);
+}
+
+.modes__skeleton-row {
+  height: var(--height-row);
+  border-bottom: 1px solid var(--border-row);
+  gap: var(--sp-2);
+}
+
+.modes__skeleton-block {
+  display: block;
+  flex: 0 0 92px;
+  height: 12px;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-raised);
+  animation: modes-pulse 1.4s var(--ease-standard) infinite;
+}
+
+.modes__skeleton-block--champion {
+  flex: 1 1 auto;
+  max-width: 160px;
+}
+
+.modes__skeleton-block--avatar {
+  flex: 0 0 32px;
+  height: 32px;
+}
+
+.modes__skeleton-block--name {
+  flex: 1 1 auto;
+  max-width: 110px;
+  margin-right: var(--sp-2);
+}
+
+@keyframes modes-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+}

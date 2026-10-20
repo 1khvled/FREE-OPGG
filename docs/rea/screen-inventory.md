@@ -54,6 +54,36 @@ route to them.
 
 ---
 
+## Reference route table (recovered)
+
+`node tools/rea-routes.mjs` extracts the shipped app's route tree from
+`assets/react/DesktopApp.2d31a5dd.bundle.js`: **108 routes**, of which **14 are
+League of Legends**.
+
+| Path | i18n key | Replica |
+| --- | --- | --- |
+| `/lol/home` | `common.sidebar.home` | — |
+| `/lol` | `common.live.tab.myprofile` | ✅ My info |
+| `/lol/collections` | `common.sidebar.collections` | — |
+| `/lol/live/recommendation/v2` | `common.sidebar.live` | partial (Live) |
+| `/lol/quickplay/v2` | `common.live.tab.quickPlay` | — |
+| `/lol/live/multisearch` | `common.live.tab.multisearch` | ✅ Multi-search |
+| `/lol/live/champion/v3` | `common.live.tab.champion` | ✅ Live |
+| `/lol/live/ingame` | `common.live.tab.ingame` | — (the overlay covers the in-game surface) |
+| `/lol/live/end-of-game` | `common.live.tab.eog` | — |
+| `/lol/champions` | `lol.champions.sidebar.analysis` | ✅ Champions |
+| `/lol/live-op-champions/v2` | `common.op` | ✅ OP Champions |
+| `/lol/modes` | `common.sidebar.gameMode` | ✅ Game modes |
+| `/lol/buff-nerf` | `common.buff-nerf` | ✅ Buff / Nerf |
+
+The desktop shell's own sidebar adds two more LoL entries on top of the route
+tree: `/combos` ("Combos") and `/op-champions` ("OP Champions"). ✅ Combos is
+built.
+
+The reference's remaining routes are TFT, Valorant, Supervise, Slay the Spire 2,
+Diablo 4, MapleStory, Palworld and 2XKO — deliberately out of scope for this
+LoL-only replica.
+
 ## Reference shell structure (from `assets/react/index.html`)
 
 ```html

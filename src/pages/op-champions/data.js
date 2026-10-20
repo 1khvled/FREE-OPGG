@@ -30,6 +30,27 @@
  * of aliases.
  */
 
+/**
+ * Does the champion have tier data for the requested lane?
+ *
+ * The tier list only reports the lanes a champion is actually played in, so a
+ * champion that is missing from the requested lane is an off-meta pick.
+ *
+ * @param {Array<object>} positions - the raw `positions[]` entries
+ * @param {string} role - the requested lane key ('TOP', 'MID', …)
+ * @returns {boolean}
+ */
+function playsRole(positions, role) {
+  if (!role) return true;
+  if (!Array.isArray(positions) || !positions.length) return false;
+  const wanted = String(role).trim().toUpperCase();
+  return positions.some((entry) => {
+    if (!entry || typeof entry !== 'object') return false;
+    const name = firstDefined(entry.name, entry.position, entry.role);
+    return String(name || '').trim().toUpperCase() === wanted;
+  });
+}
+
 /* -------------------------------------------------------------------------
  * Shared data helpers
  * ---------------------------------------------------------------------- */
@@ -40,6 +61,30 @@ import {
   normalizeTier,
   resolveChampion,
 } from '../../data/index.js';
+
+/**
+ * The lane a champion is played in the most — its primary position.
+ *
+ * The tier list reports every lane a champion appears in; the one with the
+ * largest `play` count is the lane it is actually played in.
+ *
+ * @param {Array<object>} positions - the raw `positions[]` entries
+ * @returns {object|null} the raw position entry
+ */
+function primaryPosition(positions) {
+  if (!Array.isArray(positions) || !positions.length) return null;
+
+  const playOf = (entry) => {
+    if (!entry || typeof entry !== 'object') return -1;
+    const stats = entry.stats && typeof entry.stats === 'object' ? entry.stats : entry;
+    const value = Number(stats.play ?? stats.games ?? stats.role_rate ?? stats.roleRate);
+    return Number.isFinite(value) ? value : -1;
+  };
+
+  return positions
+    .slice()
+    .sort((a, b) => playOf(b) - playOf(a))[0] || null;
+}
 
 /* -------------------------------------------------------------------------
  * Option catalogues

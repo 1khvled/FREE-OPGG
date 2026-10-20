@@ -16,7 +16,15 @@
 const { RENDERER_TO_MAIN_INVOKE } = require('../../shared/channels.js');
 const opgg = require('../services/opgg-client.js');
 
-/** OP.GG image CDN. Paths are version pinned: `/meta/images/lol/{version}/…`. */
+/**
+ * OP.GG image CDN.
+ *
+ * The CDN publishes `/meta/images/lol/{version}/…` per release, but it lags
+ * the Data Dragon version by a patch or two: a version-pinned champion path
+ * answers 403 until the CDN catches up. The `latest` segment always resolves
+ * to what the CDN has published, so every image URL uses it. The reference app
+ * does the same for its live assets.
+ */
 const CDN_ROOT = 'https://opgg-static.akamaized.net/meta/images/lol';
 
 /** Data Dragon CDN (used for the champion portraits). */
@@ -272,7 +280,7 @@ async function getChampionIndex() {
  */
 function championSquareUrl(version, key) {
   if (!version || !key) return null;
-  return `${CDN_ROOT}/${version}/champion/${key}.png`;
+  return `${CDN_ROOT}/latest/champion/${key}.png`;
 }
 
 /**
@@ -287,7 +295,7 @@ function championPortraitUrl(version, key) {
   // Data Dragon's champion path answers 403 from the desktop shell, so the
   // replica uses OP.GG's own version-pinned mirror, which is what the
   // reference app loads.
-  return `${CDN_ROOT}/${version}/champion/${key}.png`;
+  return `${CDN_ROOT}/latest/champion/${key}.png`;
 }
 
 /**
@@ -299,7 +307,7 @@ function championPortraitUrl(version, key) {
  */
 function perkUrl(version, id) {
   if (!version || id === null || id === undefined) return null;
-  return `${CDN_ROOT}/${version}/perk/${id}.png`;
+  return `${CDN_ROOT}/latest/perk/${id}.png`;
 }
 
 /**
@@ -311,7 +319,7 @@ function perkUrl(version, id) {
  */
 function perkStyleUrl(version, id) {
   if (!version || id === null || id === undefined) return null;
-  return `${CDN_ROOT}/${version}/perkStyle/${id}.png`;
+  return `${CDN_ROOT}/latest/perkStyle/${id}.png`;
 }
 
 /**
@@ -323,7 +331,7 @@ function perkStyleUrl(version, id) {
  */
 function shardUrl(version, id) {
   if (!version || id === null || id === undefined) return null;
-  return `${CDN_ROOT}/${version}/perkShard/${id}.png`;
+  return `${CDN_ROOT}/latest/perkShard/${id}.png`;
 }
 
 /**
@@ -335,7 +343,7 @@ function shardUrl(version, id) {
  */
 function itemUrl(version, id) {
   if (!version || id === null || id === undefined) return null;
-  return `${CDN_ROOT}/${version}/item/${id}.png`;
+  return `${CDN_ROOT}/latest/item/${id}.png`;
 }
 
 /**
@@ -347,7 +355,7 @@ function itemUrl(version, id) {
  */
 function spellUrl(version, file) {
   if (!version || !file) return null;
-  return `${CDN_ROOT}/${version}/spell/${file}`;
+  return `${CDN_ROOT}/latest/spell/${file}`;
 }
 
 /**
@@ -359,7 +367,7 @@ function spellUrl(version, file) {
  */
 function passiveUrl(version, file) {
   if (!version || !file) return null;
-  return `${CDN_ROOT}/${version}/passive/${file}`;
+  return `${CDN_ROOT}/latest/passive/${file}`;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -487,13 +495,19 @@ function buildRow(entry, ctx) {
   const stats = (selected && selected.stats) || entry.average_stats || {};
   const tierData = stats.tier_data || (entry.average_stats && entry.average_stats.tier_data) || {};
 
-  const tierNumber = toNumber(tierData.tier) !== null
+  const rawTierNumber = toNumber(tierData.tier) !== null
     ? toNumber(tierData.tier)
     : (toNumber(stats.tier) !== null ? toNumber(stats.tier) : toNumber(entry.average_stats && entry.average_stats.tier));
 
   const rank = toNumber(tierData.rank) !== null
     ? toNumber(tierData.rank)
     : toNumber(entry.average_stats && entry.average_stats.rank);
+
+  // The upstream tier list has no tier 0: the reference promotes the very top
+  // of Tier 1 to "OP", which is the tier the "OP champions" screen lists.
+  const tierNumber = (rawTierNumber === 1 && rank !== null && rank > 0 && rank <= 3)
+    ? 0
+    : rawTierNumber;
 
   const roleSource = selected ? selected.roles : (entry.roles && entry.roles.length ? entry.roles : (primary && primary.roles) || []);
   const roles = (Array.isArray(roleSource) ? roleSource : [])

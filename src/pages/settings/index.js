@@ -13,28 +13,37 @@
  */
 
 import { h, clear } from '../../core/dom.js';
+import { bus } from '../../core/events.js';
+import { AVAILABLE_LOCALES } from '../../core/i18n.js';
 import { createSelect, createToggle, createSlider, createButton, createSearchInput } from '../_shared/form-controls.js';
 
 export const meta = { id: 'settings', title: 'common.sidebar.settings', order: 90 };
 
 /**
- * The locales the reference ships catalogues for. Only English is bundled in
- * the replica, the rest are listed but disabled with a clear note.
+ * The locales the reference ships catalogues for.
+ *
+ * A locale is only offered when the build actually carries its catalogue:
+ * `AVAILABLE_LOCALES` is the list of locale bundles the i18n runtime can load
+ * from `src/i18n/locales/`, and every one of them was flattened from the
+ * reference's own v3 bundle.
  */
 export const LOCALES = [
-  { value: 'en', label: 'English', bundled: true },
-  { value: 'ko', label: '한국어', bundled: false },
-  { value: 'de', label: 'Deutsch', bundled: false },
-  { value: 'es', label: 'Español', bundled: false },
-  { value: 'fr', label: 'Français', bundled: false },
-  { value: 'ja', label: '日本語', bundled: false },
-  { value: 'pl', label: 'Polski', bundled: false },
-  { value: 'pt', label: 'Português', bundled: false },
-  { value: 'ru', label: 'Русский', bundled: false },
-  { value: 'tc', label: '繁體中文', bundled: false },
-  { value: 'tr', label: 'Türkçe', bundled: false },
-  { value: 'sc', label: '简体中文', bundled: false },
-];
+  { value: 'en', label: 'English' },
+  { value: 'ko', label: '한국어' },
+  { value: 'de', label: 'Deutsch' },
+  { value: 'es', label: 'Español' },
+  { value: 'fr', label: 'Français' },
+  { value: 'ja', label: '日本語' },
+  { value: 'pl', label: 'Polski' },
+  { value: 'pt', label: 'Português' },
+  { value: 'ru', label: 'Русский' },
+  { value: 'tc', label: '繁體中文' },
+  { value: 'tr', label: 'Türkçe' },
+  { value: 'sc', label: '简体中文' },
+].map((entry) => ({
+  ...entry,
+  bundled: entry.value === 'en' || AVAILABLE_LOCALES.includes(entry.value),
+}));
 
 /** Themes the replica ships. */
 export const THEMES = [
@@ -463,6 +472,14 @@ export function mount(container, ctx) {
     if (changed.includes('settings')) render();
   });
 
+  // The locale catalogues are loaded lazily: when one lands, the settings
+  // slice is written back into the store, which repaints this screen and
+  // makes the shell repaint the chrome (the sidebar) in the new language.
+  const offLocale = bus.on('i18n:locale', () => {
+    if (disposed) return;
+    store.setState({ settings: { ...current() } });
+  });
+
   let unsubscribeSettings = null;
   try {
     unsubscribeSettings = api.onSettingsChanged((payload) => {
@@ -489,6 +506,7 @@ export function mount(container, ctx) {
   return () => {
     disposed = true;
     unsubscribeStore();
+    offLocale();
     if (typeof unsubscribeSettings === 'function') unsubscribeSettings();
     sharedLink.remove();
     pageLink.remove();

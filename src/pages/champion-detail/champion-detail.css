@@ -857,6 +857,88 @@
   color: var(--text-label);
 }
 
+/* ---- Lane tips --------------------------------------------------------------- */
+
+.cd-lane-tip {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  padding: var(--sp-2);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-flat);
+}
+
+.cd-lane-tip__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  min-width: 0;
+}
+
+.cd-lane-tip__sentence {
+  margin: 0;
+  font-size: var(--fs-lg);
+  line-height: var(--lh-normal);
+  color: var(--text-primary);
+}
+
+.cd-lane-tip__stats {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-4);
+  flex-wrap: wrap;
+}
+
+.cd-lane-tip__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cd-lane-tip__label {
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  color: var(--text-label);
+}
+
+.cd-lane-tip__value {
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+  font-weight: var(--fw-bold);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Combo videos ------------------------------------------------------------- */
+
+.cd-videos__status {
+  margin: 0;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+  color: var(--text-muted);
+}
+
+.cd-videos__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  height: 30px;
+  padding: 0 var(--sp-4);
+  border-radius: var(--radius-pill);
+  background: var(--bg-surface-flat);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-size: var(--fs-xs);
+  line-height: 1;
+  transition: background var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard);
+}
+
+.cd-videos__link:hover {
+  background: var(--bg-surface-hover);
+  border-color: var(--border-strong);
+}
+
 /* ---- Tooltip ---------------------------------------------------------------- */
 
 .cd-tooltip {

@@ -71,11 +71,15 @@ const SQUARE_INDEX = (() => {
   return index;
 })();
 
-/** Normalise a version segment. */
+/**
+ * Normalise a version segment.
+ *
+ * The OP.GG image CDN lags the Data Dragon version by a patch or two, so a
+ * version-pinned path answers 403 until the CDN catches up. `latest` always
+ * resolves to what has been published, so it is the only segment used.
+ */
 function versionSegment(version) {
-  if (version === null || version === undefined) return DD_VERSION_FALLBACK;
-  const value = String(version).trim();
-  return value || DD_VERSION_FALLBACK;
+  return DD_VERSION_FALLBACK;
 }
 
 /** `true` when the string looks like a Data Dragon square name. */
@@ -227,7 +231,8 @@ export function championPortrait(champion, width = 46, version = DD_VERSION_FALL
  * Champion portrait with the reference web app's image-proxy transform.
  *
  * Note: the reference web app serves this path from `opgg.com`, not from the
- * static CDN — the static CDN answers 403 for `/images/champions/*`.
+ * static CDN — the static CDN answers 403 for `/images/champions/*`, so this
+ * URL is only a last-resort candidate and is never requested first.
  *
  * @param {number|string|object|null|undefined} champion
  * @returns {string}

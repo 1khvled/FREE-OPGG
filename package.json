@@ -7,7 +7,7 @@
   "scripts": {
     "start": "electron .",
     "dev": "electron . --dev",
-    "check": "node tools/check-syntax.mjs .",
+    "check": "node tools/check-syntax.mjs . && node tools/check-undefined.mjs src",
     "test": "node tools/test-core.mjs",
     "verify": "node tools/verify-pages.mjs",
     "dist": "electron-builder --win nsis",

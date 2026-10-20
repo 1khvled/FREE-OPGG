@@ -1,0 +1,320 @@
+/* ============================================================================
+ * Buff / Nerf screen — the patch notes of the latest patch.
+ *
+ * Ground truth: the shipped desktop renderer's patch-notes screen
+ * (`/lol/buff-nerf`, chunk `BuffNerf`) — the screen title, the explanation
+ * line, the search field and the champion tiles with their status badge.
+ *
+ * Divergence note: the reference lists the changed champions as a grid of
+ * portrait tiles; the replica shows them the way the patch notes read — two
+ * columns, buffs on the left and nerfs on the right, each entry carrying the
+ * champion portrait, the name, the status badge and the change log.
+ *
+ * Every colour, radius, spacing step and font size comes from
+ * src/styles/tokens.css — there is not a single colour literal in this file.
+ * ========================================================================== */
+
+.buff-nerf {
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--sp-5) var(--sp-5);
+  color: var(--text-primary);
+  font-size: var(--fs-sm);
+}
+
+/* ==========================================================================
+ * Header — the title, the patch version and the patch date
+ * ======================================================================== */
+
+.buff-nerf__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  margin-top: var(--sp-5);
+}
+
+.buff-nerf__heading {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.buff-nerf__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-relaxed);
+  color: var(--text-primary);
+}
+
+.buff-nerf__subtitle {
+  margin: 0;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+  color: var(--text-muted);
+}
+
+/* The patch-note title arrives in Korean; it is rendered as it is. */
+.buff-nerf__patch-title {
+  margin: 0;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+  color: var(--text-secondary);
+}
+
+.buff-nerf__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-top: var(--sp-1);
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  color: var(--text-muted);
+}
+
+.buff-nerf__meta-label {
+  color: var(--text-label);
+}
+
+.buff-nerf__meta-value {
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.buff-nerf__meta-dot {
+  color: var(--text-label);
+}
+
+/* ==========================================================================
+ * List head — the "Champion list" heading and the champion filter
+ * ======================================================================== */
+
+.buff-nerf__list-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  margin-top: var(--sp-4);
+  padding-bottom: var(--sp-2);
+  border-bottom: 1px solid var(--border-row);
+}
+
+.buff-nerf__section-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-normal);
+  color: var(--text-primary);
+}
+
+.buff-nerf__filter {
+  flex: none;
+}
+
+/* The reference's own field on this screen is 240px wide. */
+.buff-nerf__search {
+  width: 240px;
+}
+
+/* ==========================================================================
+ * Body — the two columns
+ * ======================================================================== */
+
+.buff-nerf__body {
+  margin-top: var(--sp-4);
+}
+
+.buff-nerf__columns {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--sp-5);
+}
+
+.buff-nerf__column {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 320px;
+  min-width: 0;
+  gap: var(--sp-2);
+  padding: var(--sp-4);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-panel);
+  background: var(--bg-surface-muted);
+}
+
+.buff-nerf__column-head {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding-bottom: var(--sp-2);
+  border-bottom: 1px solid var(--border-row);
+}
+
+.buff-nerf__column-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-normal);
+  color: var(--text-primary);
+}
+
+.buff-nerf__column-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 18px;
+  padding: 0 var(--sp-1);
+  border-radius: var(--radius-pill);
+  background: var(--bg-surface-raised);
+  color: var(--text-muted);
+  font-size: var(--fs-2xs);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  user-select: none;
+}
+
+.buff-nerf__entries {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+/* ==========================================================================
+ * One entry — portrait, name, badge, change log
+ * ======================================================================== */
+
+.buff-nerf__entry {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+}
+
+.buff-nerf__portrait {
+  display: inline-flex;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--bg-surface-raised);
+}
+
+.buff-nerf__portrait__frame {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.buff-nerf__portrait__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.buff-nerf__portrait__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-surface-raised);
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+}
+
+.buff-nerf__entry-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+  gap: var(--sp-1);
+}
+
+.buff-nerf__entry-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.buff-nerf__entry-name {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-normal);
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+ * Status badge
+ * ======================================================================== */
+
+.buff-nerf__badge {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 var(--sp-2);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  line-height: 1;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.buff-nerf__badge--buff {
+  color: var(--accent-green-bright);
+  background: color-mix(in srgb, var(--accent-green-bright) 16%, transparent);
+  border-color: color-mix(in srgb, var(--accent-green-bright) 40%, transparent);
+}
+
+.buff-nerf__badge--nerf {
+  color: var(--accent-red);
+  background: color-mix(in srgb, var(--accent-red) 16%, transparent);
+  border-color: color-mix(in srgb, var(--accent-red) 40%, transparent);
+}
+
+.buff-nerf__badge--neutral {
+  color: var(--text-secondary);
+  background: color-mix(in srgb, var(--bg-surface-raised) 60%, transparent);
+  border-color: var(--border-subtle);
+}
+
+/* ==========================================================================
+ * The change log
+ *
+ * The upstream text already carries the newlines that separate the changed
+ * lines, so the newlines are kept (`pre-line`) and the text is never
+ * reflowed into a single line.
+ * ======================================================================== */
+
+.buff-nerf__entry-log {
+  margin: 0;
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-normal);
+  color: var(--text-muted);
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+/* ==========================================================================
+ * States
+ * ======================================================================== */
+
+.buff-nerf__state {
+  min-height: 160px;
+}

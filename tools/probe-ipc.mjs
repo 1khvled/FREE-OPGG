@@ -59,10 +59,12 @@ try {
   await send('Runtime.enable');
   await sleep(4000);
 
+  const reducer = argOf('--reduce', '');
   const expression = `(async () => {
     try {
       const result = await window.opgg.invoke(${JSON.stringify(channel)}, ${JSON.stringify(payload ?? null)});
-      return JSON.stringify(result, (k, v) => {
+      const reduced = ${reducer ? `(${reducer})(result)` : 'result'};
+      return JSON.stringify(reduced, (k, v) => {
         if (Array.isArray(v)) return v.length > 4 ? [...v.slice(0, 2), '...(' + v.length + ' items)'] : v;
         return v;
       }).slice(0, 6000);

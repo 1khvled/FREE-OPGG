@@ -1,0 +1,45 @@
+/* ============================================================================
+ * Axiforma — the desktop chrome typeface.
+ *
+ * The reference ships three weights of Axiforma (Regular / Bold / Heavy) and
+ * declares them with `@font-face`; the replica ships the very same woff2
+ * files under `src/assets/fonts/`, so the paths below are relative to this
+ * stylesheet (`src/styles/` → `src/assets/fonts/`).
+ *
+ * The reference's own declaration is:
+ *
+ *   @font-face{font-family:"Axiforma";font-weight:400;font-display:fallback;
+ *     src:url(.../Axiforma-Regular/font.woff2) format("woff2")}
+ *
+ * The replica keeps the same family name and weights and swaps `fallback` for
+ * `swap`, so the chrome paints with the fallback face for a frame instead of
+ * waiting for the webfont.
+ *
+ * Axiforma is the *chrome* typeface: the sidebar, the app header title and
+ * the page titles. The product surface (tables, panels, body copy) stays
+ * Roboto — see `--font-sans` in `tokens.css`.
+ * ========================================================================== */
+
+@font-face {
+  font-family: 'Axiforma';
+  src: url('../assets/fonts/Axiforma-Regular/font.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Axiforma';
+  src: url('../assets/fonts/Axiforma-Bold/font.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Axiforma';
+  src: url('../assets/fonts/Axiforma-Heavy/font.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
