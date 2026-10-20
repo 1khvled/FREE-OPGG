@@ -18,6 +18,8 @@
   gap: var(--sp-4);
   width: 100%;
   padding: var(--sp-6);
+  /* The inline confirmation is positioned against the panel. */
+  position: relative;
 }
 
 /* ---- Header ------------------------------------------------------------- */
@@ -210,6 +212,113 @@
   color: var(--text-label);
   text-transform: uppercase;
   letter-spacing: 0.04em;
+}
+
+/* ---- "Export Rune Build" -------------------------------------------------
+ *
+ * The reference renders this as a button that writes the recommended rune
+ * page into the League Client and confirms it with a check icon.
+ */
+
+.cd-export-runes {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  padding: 0;
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  font-weight: var(--fw-bold);
+  color: var(--text-label);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: color var(--dur-fast) var(--ease-standard);
+}
+
+.cd-export-runes:hover:not(:disabled) {
+  color: var(--text-primary);
+}
+
+.cd-export-runes:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.cd-export-runes[data-state='done'] {
+  color: var(--accent-green-bright);
+}
+
+.cd-export-runes__check {
+  width: 16px;
+  height: 16px;
+  opacity: 0.75;
+}
+
+.cd-export-runes[data-state='done'] .cd-export-runes__check {
+  opacity: 1;
+}
+
+/* ---- Inline confirmation -------------------------------------------------- */
+
+.cd-toast {
+  position: absolute;
+  right: var(--sp-4);
+  top: var(--sp-4);
+  z-index: 20;
+  max-width: 320px;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-raised);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-2);
+  color: var(--text-primary);
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity var(--dur-normal) var(--ease-out), transform var(--dur-normal) var(--ease-out);
+}
+
+.cd-toast.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cd-toast[data-kind='error'] {
+  border-color: var(--accent-red);
+}
+
+/* ---- Summoner spells ------------------------------------------------------ */
+
+.cd-spells {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.cd-spells__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+
+.cd-spells__icons {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+
+.cd-spells__rate {
+  font-size: var(--fs-2xs);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.cd-icon--spell {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
 }
 
 .cd-panel__body {

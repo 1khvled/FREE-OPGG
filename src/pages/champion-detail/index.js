@@ -27,6 +27,7 @@ import { renderHeader } from './parts/header.js';
 import { renderRunesPanel } from './parts/runes-panel.js';
 import { renderBuildPanel } from './parts/build-panel.js';
 import { renderSkillsPanel } from './parts/skills-panel.js';
+import { renderSummonerSpellsPanel } from './parts/summoner-spells-panel.js';
 import { renderCountersPanel } from './parts/counters-panel.js';
 import { renderMatchupPanel } from './parts/matchup-panel.js';
 
@@ -114,6 +115,32 @@ export function mount(container, ctx) {
     ctx.store.setState({ detail: { ...current, championId, position, ...patch } });
   }
 
+  /**
+   * Show a transient message above the panel.
+   *
+   * The reference uses a toast library for the "rune set applied" confirmation;
+   * the replica renders the same confirmation inline on the button so no extra
+   * dependency is needed.
+   *
+   * @param {string} message
+   * @param {'ok'|'error'} [kind]
+   */
+  function onToast(message, kind = 'ok') {
+    if (!root) return;
+    let host = root.querySelector('.cd-toast');
+    if (!host) {
+      host = h('div.cd-toast', { role: 'status', 'aria-live': 'polite' });
+      root.appendChild(host);
+    }
+    host.textContent = message;
+    host.dataset.kind = kind;
+    host.classList.add('is-visible');
+    clearTimeout(onToast.timer);
+    onToast.timer = setTimeout(() => {
+      host.classList.remove('is-visible');
+    }, 2600);
+  }
+
   /* ---- states ------------------------------------------------------------ */
 
   function renderState(kind, message, detail) {
@@ -137,6 +164,8 @@ export function mount(container, ctx) {
       t,
       model,
       tooltip,
+      api: ctx?.api,
+      onToast,
       opponentId,
       onSelectOpponent: selectOpponent,
     };
@@ -146,6 +175,7 @@ export function mount(container, ctx) {
       h('div.cd-column.cd-column--main', null, [
         renderRunesPanel(view),
         renderBuildPanel(view),
+        renderSummonerSpellsPanel(view),
         renderSkillsPanel(view),
       ]),
       h('div.cd-column.cd-column--side', null, [

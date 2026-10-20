@@ -657,6 +657,51 @@ function buildMatch(game, index, puuid) {
 }
 
 /* -------------------------------------------------------------------------- */
+/* Summoner spell catalogue                                                    */
+/* -------------------------------------------------------------------------- */
+
+let spellCatalogue = null;
+let spellCatalogueStamp = 0;
+let spellCataloguePromise = null;
+const SPELL_CATALOGUE_TTL = 6 * 60 * 60 * 1000;
+
+/**
+ * The summoner spell catalogue, cached for six hours.
+ *
+ * @returns {Promise<Map<number, {id:number,key:string,name:string,imageUrl:string}>>}
+ */
+async function getSpellCatalogue() {
+  if (spellCatalogue && Date.now() - spellCatalogueStamp < SPELL_CATALOGUE_TTL) {
+    return spellCatalogue;
+  }
+  if (!spellCataloguePromise) {
+    spellCataloguePromise = opgg.getSummonerSpellMeta()
+      .then((entries) => {
+        const byId = new Map();
+        const version = championIndex ? championIndex.version : null;
+        for (const entry of Array.isArray(entries) ? entries : []) {
+          const id = toNumber(entry && entry.id);
+          if (id === null) continue;
+          byId.set(id, {
+            id,
+            key: entry.key ? String(entry.key) : null,
+            name: entry.name ? String(entry.name) : null,
+            imageUrl: entry.image_url ? String(entry.image_url) : spellUrl(version, `${entry.key}.png`),
+          });
+        }
+        spellCatalogue = byId;
+        spellCatalogueStamp = Date.now();
+        return byId;
+      })
+      .catch(() => new Map())
+      .finally(() => {
+        spellCataloguePromise = null;
+      });
+  }
+  return spellCataloguePromise;
+}
+
+/* -------------------------------------------------------------------------- */
 /* Handlers                                                                    */
 /* -------------------------------------------------------------------------- */
 
@@ -957,6 +1002,32 @@ async function handleChampionDetail(payload) {
     win: toNumber(entry.win) || 0,
   }));
 
+  /* ------------------------------------------------------- summoner spells */
+  // The endpoint only carries the spell ids; the names and icons come from
+  // the summoner spell catalogue.
+  const catalogue = await getSpellCatalogue();
+  const summonerSpells = (Array.isArray(data.summoner_spells) ? data.summoner_spells : [])
+    .slice(0, 5)
+    .map((entry) => {
+      const ids = Array.isArray(entry.ids) ? entry.ids.map((id) => toNumber(id)).filter((id) => id !== null) : [];
+      if (!ids.length) return null;
+      return {
+        ids,
+        spells: ids.map((id) => {
+          const spell = catalogue.get(id) || null;
+          return {
+            id,
+            name: spell ? spell.name : null,
+            imageUrl: spell ? spell.imageUrl : null,
+          };
+        }),
+        pickRate: toRatio(entry.pick_rate),
+        play: toNumber(entry.play) || 0,
+        win: toNumber(entry.win) || 0,
+      };
+    })
+    .filter(Boolean);
+
   /* ------------------------------------------------------------- counters */
   // The lane list holds the opponents that counter the champion hardest
   // (sorted by our win rate); the full list holds every opponent we face.
@@ -1006,6 +1077,7 @@ async function handleChampionDetail(payload) {
     build,
     skills,
     skillOrders,
+    summonerSpells,
     counters,
   };
 }

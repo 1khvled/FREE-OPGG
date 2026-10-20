@@ -83,5 +83,21 @@ export function renderBuildPanel(ctx) {
   wrapper.appendChild(group(t('lol.common.champion.boots'), boots.slice(0, 4)));
   wrapper.appendChild(group(t('lol.common.champion.recommend-item-builds'), last.slice(0, 6)));
 
+  /* The reference shows a separate "Support Item" section for support
+     champions, listing the situational items that follow the support quest
+     item. The quest ids are filtered out, exactly as the reference does. */
+  const isSupport = (model.roles || []).some((role) => String(role.name || '').toUpperCase() === 'SUPPORT')
+    || (model.champion && Array.isArray(model.champion.tags)
+      && model.champion.tags.some((tag) => String(tag).toUpperCase() === 'SUPPORT'));
+  if (isSupport && last.length) {
+    const questIds = new Set([3869, 3870, 3871, 3876, 3877]);
+    const supportItems = last
+      .filter((entry) => !(entry.ids || []).some((id) => questIds.has(id)))
+      .slice(0, 3);
+    if (supportItems.length) {
+      wrapper.appendChild(group(t('lol.common.champion.supportItems'), supportItems));
+    }
+  }
+
   return wrapper;
 }

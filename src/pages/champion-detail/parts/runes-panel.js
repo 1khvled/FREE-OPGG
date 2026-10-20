@@ -24,20 +24,77 @@ function adviceFor(t, perk) {
 }
 
 /**
- * @param {{ t: Function, model: object, tooltip: object }} ctx
+ * @param {{ t: Function, model: object, tooltip: object, api: object, onToast: Function }} ctx
  * @returns {HTMLElement}
  */
 export function renderRunesPanel(ctx) {
-  const { t, model, tooltip } = ctx;
+  const { t, model, tooltip, api, onToast } = ctx;
 
   const pages = Array.isArray(model.runes) ? model.runes : [];
   let pageIndex = 0;
   let showTips = false;
+  let applying = false;
 
   const body = h('div.cd-panel__body');
+
+  /**
+   * The reference's "Export Rune Build" is a button that writes the
+   * recommended page into the League Client (`set-perk-page`) and confirms it
+   * with a toast. It is dimmed while the client is unreachable.
+   */
+  const exportButton = h('button.cd-export-runes', {
+    type: 'button',
+    on: {
+      click: async () => {
+        if (applying) return;
+        const page = pages[Math.min(pageIndex, pages.length - 1)];
+        if (!page || !api || typeof api.applyRunes !== 'function') return;
+
+        const selectedPerkIds = [
+          ...(page.primaryPerks || []).map((perk) => perk.id),
+          ...(page.secondaryPerks || []).map((perk) => perk.id),
+          ...(page.shards || []).map((perk) => perk.id),
+        ].filter((id) => id !== null && id !== undefined);
+
+        if (!selectedPerkIds.length) return;
+
+        applying = true;
+        exportButton.disabled = true;
+        try {
+          const result = await api.applyRunes({
+            championId: model.champion ? model.champion.id : null,
+            championName: model.champion ? model.champion.name : null,
+            primaryStyleId: page.primaryStyleId || 8000,
+            subStyleId: page.secondaryStyleId || 8400,
+            selectedPerkIds,
+          });
+          if (result && result.ok) {
+            exportButton.dataset.state = 'done';
+            if (typeof onToast === 'function') onToast(t('lol.common.rune-set'), 'ok');
+          } else if (typeof onToast === 'function') {
+            onToast((result && result.error) || t('common.error'), 'error');
+          }
+        } catch (err) {
+          if (typeof onToast === 'function') onToast(String(err && err.message ? err.message : err), 'error');
+        } finally {
+          applying = false;
+          exportButton.disabled = false;
+        }
+      },
+    },
+  }, [
+    h('span.cd-export-runes__label', { text: t('lol.common.champion.export-rune') }),
+    h('img.cd-export-runes__check', {
+      src: 'assets/images/ui/icon-check.svg',
+      alt: '',
+      width: 16,
+      height: 16,
+    }),
+  ]);
+
   const panel = h('section.cd-panel.cd-panel--runes', null, [
     h('div.cd-panel__head', null, [
-      h('h3.cd-panel__title', { text: t('lol.common.champion.export-rune') }),
+      exportButton,
       h('button.cd-toggle', {
         type: 'button',
         'aria-pressed': 'false',

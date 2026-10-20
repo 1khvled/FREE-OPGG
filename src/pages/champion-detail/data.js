@@ -863,8 +863,18 @@ function normalizeSummonerSpells(payload) {
       const ids = firstArray(entry.ids) || [];
       const spellIds = ids.map((id) => toInt(id)).filter((id) => id !== null);
       if (!spellIds.length) return null;
+      // The main process resolves the spell names and icons from the summoner
+      // spell catalogue; keep them when they are present.
+      const resolved = firstArray(entry.spells) || [];
       return {
         ids: spellIds,
+        spells: resolved
+          .map((spell) => (isObject(spell) ? {
+            id: toInt(firstNumber(spell.id)),
+            name: firstString(spell.name),
+            imageUrl: firstString(spell.imageUrl, spell.image_url, spell.icon),
+          } : null))
+          .filter(Boolean),
         winRate: firstNumber(entry.win_rate, entry.winRate),
         pickRate: firstNumber(entry.pick_rate, entry.pickRate),
         matches: toInt(firstNumber(entry.play, entry.matches, entry.games)),
