@@ -1,0 +1,7 @@
+Fix the average statistics the arena and ARAM rows forward
+
+The row builder referenced a variable that only exists in the detail builder,
+so every tier-list request failed with "average is not defined" and the OP
+Champions, Game modes, ARAM and ARAM: Mayhem screens all showed an error
+state. tools/verify-pages.mjs now fails a page that renders its own error
+state, which is how it was caught.

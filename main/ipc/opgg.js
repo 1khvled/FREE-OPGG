@@ -495,6 +495,9 @@ function buildRow(entry, ctx) {
   const stats = (selected && selected.stats) || entry.average_stats || {};
   const tierData = stats.tier_data || (entry.average_stats && entry.average_stats.tier_data) || {};
 
+  /** The champion's league-wide statistics, independent of the lane. */
+  const averageStats = entry.average_stats || {};
+
   const rawTierNumber = toNumber(tierData.tier) !== null
     ? toNumber(tierData.tier)
     : (toNumber(stats.tier) !== null ? toNumber(stats.tier) : toNumber(entry.average_stats && entry.average_stats.tier));
@@ -547,14 +550,14 @@ function buildRow(entry, ctx) {
     // `play`, `total_place`, `first_place`). Forward the raw statistics so a
     // page can derive the rates the reference derives.
     averageStats: {
-      win: toNumber(average.win),
-      play: toNumber(average.play),
-      totalPlace: toNumber(average.total_place),
-      firstPlace: toNumber(average.first_place),
-      winRate: toRatio(average.win_rate),
-      pickRate: toRatio(average.pick_rate),
-      banRate: toRatio(average.ban_rate),
-      kda: toRatio(average.kda),
+      win: toNumber(averageStats.win),
+      play: toNumber(averageStats.play),
+      totalPlace: toNumber(averageStats.total_place),
+      firstPlace: toNumber(averageStats.first_place),
+      winRate: toRatio(averageStats.win_rate),
+      pickRate: toRatio(averageStats.pick_rate),
+      banRate: toRatio(averageStats.ban_rate),
+      kda: toRatio(averageStats.kda),
     },
     /** Retired / "Ultimate Spellbook" variants are flagged by the API. */
     isRip: Boolean(entry.is_rip),

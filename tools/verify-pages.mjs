@@ -83,7 +83,23 @@ try {
     }
     if (msg.method) events.push(msg);
   });
-  const send = (method, params = {}) => new Promise((res, reject) => {
+  /**
+ * Capture a screenshot, but never wait forever.
+ *
+ * The app runs hidden during verification and a capture of a window that was
+ * never shown can hang indefinitely, so it is bounded and failures are not
+ * fatal — the walk still reports the page's health.
+ *
+ * @param {number} [timeoutMs=15000]
+ * @returns {Promise<string|null>} the base64 PNG, or null
+ */
+const captureScreenshotBounded = (timeoutMs = 15000) => Promise.race([
+  send('Page.captureScreenshot', { format: 'png', captureBeyondViewport: true })
+    .then((r) => r.data),
+  new Promise((resolve) => setTimeout(() => resolve(null), timeoutMs)),
+]);
+
+const send = (method, params = {}) => new Promise((res, reject) => {
     id += 1; pending.set(id, { resolve: res, reject });
     ws.send(JSON.stringify({ id, method, params }));
     setTimeout(() => { if (pending.has(id)) { pending.delete(id); reject(new Error(`${method} timed out`)); } }, 60000);
@@ -127,9 +143,9 @@ try {
       returnByValue: true,
     });
 
-    const shot = await send('Page.captureScreenshot', { format: 'png' });
+    const shot = await captureScreenshotBounded();
     const file = join(outDir, `app-${page}.png`);
-    writeFileSync(file, Buffer.from(shot.data, 'base64'));
+    if (shot) writeFileSync(file, Buffer.from(shot, 'base64'));
 
     const pageEvents = events.slice(before);
     const consoleErrors = pageEvents
@@ -155,7 +171,7 @@ try {
     console.log(`  nav ${nav.result.value} -> ${parsed.route}`);
     console.log(`  ${parsed.heading.split('\n').filter(Boolean).slice(0, 6).join(' / ')}`);
     console.log(`  images ${parsed.images} (broken ${parsed.brokenImages}, pending ${parsed.pendingImages})`);
-    console.log(`  screenshot -> ${file}`);
+    if (shot) console.log(`  screenshot -> ${file}`);
     if (problems.length) {
       exitCode = 1;
       console.log(`  PROBLEMS: ${problems.join('; ')}`);

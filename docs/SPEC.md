@@ -123,14 +123,20 @@ helpers (`api.champions()`, `api.championDetail()`, `api.lcuStatus()`, …).
 
 | # | Screen | Route id | Source of truth |
 | --- | --- | --- | --- |
-| 1 | **Champions tier list** — role tabs (All/Top/Jungle/Mid/ADC/Support), tier selector, region selector, queue selector, patch selector, 8-column sortable table (Rank, Champion, Tier, Role, Win rate, Pick rate, Ban rate, Weak against + Counter) | `champions` | `ChampionsV3.47962334.bundle.js`, `LoL.c4a25cd8.bundle.js` |
-| 2 | **Champion detail** — portrait, tier, win/pick/ban, runes, build, skills, counters, synergy | `champion-detail` | `ChampionStatistics.54719aad.bundle.js` |
-| 3 | **Live companion** — champ-select pick/ban board, ARAM bench cards, augment advisor, my profile | `live` | `LiveChampion3.8c6f1092.bundle.js`, `LiveOPChampionsV2.3c917b01.bundle.js` |
-| 4 | **Leaderboard** — ranked ladder by region/tier | `leaderboard` | `LoLHome.3dc65272.bundle.js` |
-| 5 | **Multisearch** — multi-summoner search + dodge radar | `multisearch` | `Multisearch.5a65d8b2.bundle.js` |
-| 6 | **My page** — profile + match history | `my-page` | `MyPage.3f0173b5.bundle.js` |
-| 7 | **Settings** — theme, locale, overlay options, automations | `settings` | `MainSettings.61f2dc02.bundle.js` |
-| 8 | **In-game overlay** — separate always-on-top window | `overlay` | `overlay.e6ae753e.js` |
+| 1 | **Champions tier list** - role tabs (Top/Jungle/Mid/ADC/Support), tier selector, region selector, patch selector, 7-column sortable div grid (Rank, Champion, Tier, Role, Win rate, Pick rate, Ban rate) | `champions` | `ChampionsV3.47962334.bundle.js`, `LoL.c4a25cd8.bundle.js` |
+| 2 | **Champion detail** - portrait, tier, win/pick/ban, runes, build, skills, counters, matchup, lane tips, combo videos, export rune build | `champion-detail` | `ChampionStatistics.54719aad.bundle.js` |
+| 3 | **Combos** - a champion's skill history across patches | `combos` | `desktop-api.op.gg/skill` |
+| 4 | **OP champions** - the tier-0 list | `op-champions` | `LiveOPChampionsV2.3c917b01.bundle.js` |
+| 5 | **ARAM tier list** - no lanes, no bans; the ARAM balance tag instead | `aram` | `lol-api-champion.op.gg/api/contents/aram-balance` |
+| 6 | **ARAM: Mayhem** - the augment-swarm tier table | `aram-mayhem` | `AramMayhem.03c382ad.bundle.js` |
+| 7 | **Game modes** - per-mode champion balance (ARAM / Arena / Nexus Blitz) | `modes` | `GameMode.7c113a60.bundle.js` |
+| 8 | **Buff / Nerf** - the latest patch's champion changes | `buff-nerf` | `BuffNerf.1da29145.bundle.js` |
+| 9 | **Live companion** - champ-select pick/ban board, ARAM bench cards, augment advisor, my profile | `live` | `LiveChampion3.8c6f1092.bundle.js` |
+| 10 | **Leaderboard** - ranked ladder by region/tier | `leaderboard` | `LoLHome.3dc65272.bundle.js` |
+| 11 | **Multisearch** - multi-summoner search + dodge radar | `multisearch` | `Multisearch.5a65d8b2.bundle.js` |
+| 12 | **My page** - profile + match history | `my-page` | `MyPage.3f0173b5.bundle.js` |
+| 13 | **Settings** - theme, locale, overlay options, automations | `settings` | `MainSettings.61f2dc02.bundle.js` |
+| 14 | **In-game overlay** - separate always-on-top window | `overlay` | `overlay.e6ae753e.js` |
 
 ---
 
