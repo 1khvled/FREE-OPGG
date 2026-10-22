@@ -66,6 +66,22 @@ const ROUTES = [
     load: () => import('./pages/op-champions/index.js'),
   },
   {
+    id: 'aram',
+    title: 'lol.common.gameMode.aram',
+    order: 35,
+    group: 'champions',
+    icon: 'aram',
+    load: () => import('./pages/aram/index.js'),
+  },
+  {
+    id: 'aram-mayhem',
+    title: 'lol.aram-mayhem.aram-mayhem',
+    order: 36,
+    group: 'champions',
+    icon: 'aram-mayhem',
+    load: () => import('./pages/aram-mayhem/index.js'),
+  },
+  {
     id: 'modes',
     title: 'common.sidebar.gameMode',
     order: 40,
@@ -141,6 +157,8 @@ const ICONS = {
   tiers: '<svg class="app-side__item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16M6 16h3v-4H6zM11 16h3V6h-3zM16 16h3v-7h-3z"/></svg>',
   combos: '<svg class="app-side__item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/></svg>',
   'op-champions': '<svg class="app-side__item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17h18l-1.4-8.2a1 1 0 0 0-1.9.2L16 12l-1.7-3a1 1 0 0 0-1.7 0L11 12 8.3 9a1 1 0 0 0-1.9-.2L5 16.8a1 1 0 0 1-1-.8z"/><path d="M3 20h18"/></svg>',
+  aram: '<svg class="app-side__item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17c3 0 3-2 6-2s3 2 6 2 3-2 6-2"/><path d="M3 11c3 0 3-2 6-2s3 2 6 2 3-2 6-2"/></svg>',
+  'aram-mayhem': '<svg class="app-side__item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5L12 2z"/></svg>',
   modes: '<svg class="app-side__item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="m3 13 9 5 9-5"/><path d="m3 17.5 9 5 9-5"/></svg>',
   'buff-nerf': '<svg class="app-side__item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17V8"/><path d="m3.5 12 3.5-3.5L10.5 12"/><path d="M17 7v9"/><path d="m13.5 12 3.5 3.5L20.5 12"/></svg>',
   live: '<svg class="app-side__item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M7.8 16.2a6 6 0 0 1 0-8.4"/><path d="M16.2 7.8a6 6 0 0 1 0 8.4"/><path d="M4.9 19.1a10 10 0 0 1 0-14.2"/><path d="M19.1 4.9a10 10 0 0 1 0 14.2"/></svg>',
@@ -177,22 +195,48 @@ let appVersion = '';
 
 let hashLock = false;
 
-/** Parse `location.hash` into a route id and its query parameters. */
+/**
+ * Parse `location.hash` into a route id and its parameters.
+ *
+ * The reference's router has parameterised paths — `/lol/modes/:mode?` — so a
+ * hash may carry extra path segments (`#/modes/arena`) as well as a query
+ * string (`#/modes?mode=arena`). Both are returned as `params`; the first path
+ * segment is the route id.
+ */
 function parseHashRoute() {
   const raw = String(window.location.hash || '').replace(/^#\/?/, '');
   if (!raw) return null;
   const [path, query] = raw.split('?');
-  const id = path.split('/').filter(Boolean)[0];
+  const segments = path.split('/').filter(Boolean);
+  const id = segments[0];
   if (!id) return null;
-  return {
-    id,
-    params: query ? Object.fromEntries(new URLSearchParams(query)) : {},
-  };
+
+  const params = query ? Object.fromEntries(new URLSearchParams(query)) : {};
+  // Extra path segments become parameters under their own name, so
+  // `#/modes/arena` sets `params.mode = 'arena'`.
+  if (segments.length > 1) {
+    params.mode = params.mode || segments.slice(1).join('/');
+  }
+
+  return { id, params };
 }
 
-/** Keep the address bar in step with the current screen. */
-function syncHash(id) {
-  const target = `#/${id}`;
+/**
+ * Keep the address bar in step with the current screen.
+ *
+ * @param {string} id - the route id
+ * @param {object} [params] - the route parameters
+ */
+function syncHash(id, params = {}) {
+  const segments = [id];
+  if (params && params.mode) segments.push(String(params.mode));
+  const query = new URLSearchParams();
+  for (const [key, value] of Object.entries(params || {})) {
+    if (key === 'mode' || value === undefined || value === null || value === '') continue;
+    query.set(key, String(value));
+  }
+  const search = query.toString();
+  const target = `#/${segments.join('/')}${search ? `?${search}` : ''}`;
   if (window.location.hash === target) return;
   hashLock = true;
   window.location.hash = target;
@@ -318,7 +362,7 @@ export function navigate(id, params = {}) {
   if (!routeById.has(id)) id = 'champions';
   store.setState({ route: { id, params } });
   void mountRoute(id, params);
-  syncHash(id);
+  syncHash(id, params);
 }
 
 /** Guards against a slow page load overwriting a newer screen. */

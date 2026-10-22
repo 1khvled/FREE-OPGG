@@ -56,6 +56,14 @@ const MAIN_WINDOW = {
 /** Session partition used by the overlay window. */
 const OVERLAY_PARTITION = 'persist:overlay';
 
+/**
+ * `--hidden` keeps the window off screen.
+ *
+ * The verification tools drive the app over the DevTools Protocol; they must
+ * never put a window on the user's desktop or steal focus.
+ */
+const HIDDEN = process.argv.includes('--hidden');
+
 /** Live window handles. */
 let mainWindow = null;
 let overlayWindow = null;
@@ -164,7 +172,7 @@ function broadcast(channel, payload) {
  */
 function createMainWindow() {
   if (mainWindow && !mainWindow.isDestroyed()) {
-    mainWindow.focus();
+    if (!HIDDEN) mainWindow.focus();
     return mainWindow;
   }
 
@@ -190,8 +198,13 @@ function createMainWindow() {
   mainWindow.loadFile(MAIN_ENTRY);
 
   mainWindow.once('ready-to-show', () => {
-    mainWindow.show();
-    mainWindow.focus();
+    // `--hidden` keeps the window off screen: the verification tools drive the
+    // app over the DevTools Protocol and must never steal focus or pop a
+    // window on the user's desktop.
+    if (!HIDDEN) {
+      mainWindow.show();
+      mainWindow.focus();
+    }
   });
 
   const pushState = () => {

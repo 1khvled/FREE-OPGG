@@ -543,6 +543,22 @@ function buildRow(entry, ctx) {
     rank,
     rankChange: rankChange(tierData),
     counters,
+    // The arena and ARAM modes report counts rather than rates (`win`,
+    // `play`, `total_place`, `first_place`). Forward the raw statistics so a
+    // page can derive the rates the reference derives.
+    averageStats: {
+      win: toNumber(average.win),
+      play: toNumber(average.play),
+      totalPlace: toNumber(average.total_place),
+      firstPlace: toNumber(average.first_place),
+      winRate: toRatio(average.win_rate),
+      pickRate: toRatio(average.pick_rate),
+      banRate: toRatio(average.ban_rate),
+      kda: toRatio(average.kda),
+    },
+    /** Retired / "Ultimate Spellbook" variants are flagged by the API. */
+    isRip: Boolean(entry.is_rip),
+    isRotation: Boolean(entry.is_rotation),
     positions: positions.map((position) => ({
       name: position.name ? String(position.name) : null,
       winRate: toRatio(position.stats && position.stats.win_rate),
@@ -766,7 +782,12 @@ async function handleChampions(payload) {
   const index = await getChampionIndex();
   const { rows, meta, cached } = await opgg.getTierList({ mode, tier, region });
 
-  const normalised = (Array.isArray(rows) ? rows : []).map((entry) => buildRow(entry, { index, position }));
+  const normalised = (Array.isArray(rows) ? rows : [])
+    // The arena list carries 77 retired "Ultimate Spellbook" variants
+    // (`is_rip`, id >= 60000) with no games and duplicate names — the
+    // reference drops them.
+    .filter((entry) => !(entry && entry.is_rip))
+    .map((entry) => buildRow(entry, { index, position }));
 
   return {
     ok: true,
@@ -792,8 +813,12 @@ async function handleChampions(payload) {
  * The row shape is identical to `opgg:champions`.
  */
 async function handleModeTierList(payload) {
-  const args = payload && typeof payload === 'object' ? payload : {};
-  const rawMode = String(args.mode || 'aram').toLowerCase();
+  // The mode may arrive as a bare string (`'arena'`) or wrapped in an object
+  // (`{ mode: 'arena' }`).
+  const raw = payload && typeof payload === 'object' && !Array.isArray(payload)
+    ? payload.mode
+    : payload;
+  const rawMode = String(raw || 'aram').toLowerCase();
   const mode = (rawMode === 'arena' || rawMode === 'mayhem') ? 'arena' : 'aram';
 
   const index = await getChampionIndex();
@@ -805,7 +830,9 @@ async function handleModeTierList(payload) {
     patch: (meta && meta.version) || index.patch,
     updatedAt: (meta && (meta.analyzed_at || meta.cached_at)) || new Date().toISOString(),
     cached: Boolean(cached),
-    rows: (Array.isArray(rows) ? rows : []).map((entry) => buildRow(entry, { index, position: null })),
+    rows: (Array.isArray(rows) ? rows : [])
+      .filter((entry) => !(entry && entry.is_rip))
+      .map((entry) => buildRow(entry, { index, position: null })),
   };
 }
 
@@ -854,7 +881,19 @@ async function handleChampionDetail(payload) {
   const meta = index.byId.get(champId) || null;
 
   const buildPayload = await opgg.getChampionBuild({ champId, mode, position, tier });
-  const data = buildPayload.data || {};
+  let data = buildPayload.data || {};
+
+  // The arena build endpoint (`/champions/arena/{id}/none`) answers 422; the
+  // augment pairing lives on the champion endpoint (`/champions/arena/{id}`).
+  // Fetch it alongside the build so the ARAM: Mayhem screen has its data.
+  let arenaData = null;
+  if (mode === 'arena' || mode === 'mayhem') {
+    arenaData = await opgg.getArenaChampion(champId).catch(() => null);
+    if (arenaData && arenaData.data && Object.keys(arenaData.data).length) {
+      data = { ...data, ...arenaData.data };
+    }
+  }
+
   const summary = data.summary || {};
   const average = summary.average_stats || {};
   const positions = Array.isArray(summary.positions) ? summary.positions : [];
@@ -1093,6 +1132,11 @@ async function handleChampionDetail(payload) {
     skillOrders,
     summonerSpells,
     counters,
+    // The augment pairing the ARAM: Mayhem screen needs. It only exists on
+    // the arena champion endpoint, so it is absent for every other mode.
+    augmentGroup: Array.isArray(data.augment_group) ? data.augment_group : [],
+    prismItems: Array.isArray(data.prism_items) ? data.prism_items : [],
+    synergies: Array.isArray(data.synergies) ? data.synergies : [],
   };
 }
 

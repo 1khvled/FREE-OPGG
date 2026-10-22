@@ -81,8 +81,12 @@ function focusMainWindow() {
     return;
   }
   if (win.isMinimized()) win.restore();
-  win.show();
-  win.focus();
+  // The verification tools run the app with `--hidden`; they must never raise
+  // a window on the user's desktop.
+  if (!process.argv.includes('--hidden')) {
+    win.show();
+    win.focus();
+  }
 }
 
 /**

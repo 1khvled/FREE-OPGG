@@ -7,24 +7,42 @@
  *     div.champion-statistics-table-body
  *       div.champion-statistics-table-row      h 40px
  *
- * The first column is the champion (32px portrait + name); the nine stat
- * columns carry the balance ratio of the mode. Every stat cell is a
- * percentage and a bar whose length is the ratio (`value / 100`):
+ * The columns are, in order:
+ *
+ *   1. the champion — the 32px portrait and the name;
+ *   2. the mode's stats — the set the reference computes for the mode
+ *      (ARAM: win rate and pick rate; Arena: win rate, avg. place, 1st rate,
+ *      pick rate, ban rate and 2nd rate);
+ *   3. the nine balance ratios (attack speed, damage dealt, …), which are the
+ *      same for every mode.
+ *
+ * A balance cell is a percentage and a bar whose length is the ratio
+ * (`value / 100`):
  *
  *   > 100 %  green   — stronger than the reference champion
  *   = 100 %  muted   — the reference champion
  *   < 100 %  red     — weaker than the reference champion
  *
- * The values are **already** percentages against the reference champion, so
- * `95` is rendered as `95 %` and never scaled again.
+ * The balance values are **already** percentages against the reference
+ * champion, so `95` is rendered as `95 %` and never scaled again. The mode
+ * stats are the reference's own strings (`51.29%`, `4.32`).
  */
 
 import { h } from '../../../core/dom.js';
 import { createChampionAvatar, createSortableTable } from '../../../components/index.js';
-import { STAT_COLUMNS, barRatio, formatRatio, ratioTone } from '../data.js';
+import {
+  STAT_COLUMNS,
+  barRatio,
+  formatRatio,
+  ratioTone,
+  statsOfMode,
+} from '../data.js';
 
-/** The width of a stat column — the reference's numeric column rhythm. */
-export const STAT_COLUMN_WIDTH = 96;
+/** The width of a mode stat column. */
+export const MODE_COLUMN_WIDTH = 88;
+
+/** The width of a balance column. */
+export const BALANCE_COLUMN_WIDTH = 88;
 
 /**
  * The champion portrait.
@@ -76,14 +94,28 @@ function renderChampionCell(row) {
 }
 
 /**
- * A stat cell — the percentage and its bar.
+ * A mode stat cell — the reference's own formatted number.
+ *
+ * @param {object} row
+ * @param {object} stat - the entry of the mode's stat set.
+ * @returns {HTMLElement}
+ */
+function renderModeStatCell(row, stat) {
+  const value = row.stats ? row.stats[stat.id] : null;
+  const text = value && value.text ? value.text : '—';
+
+  return h('span.modes__mode-stat', { text });
+}
+
+/**
+ * A balance cell — the percentage and its bar.
  *
  * @param {object} row
  * @param {object} column - the entry of `STAT_COLUMNS`.
  * @returns {HTMLElement}
  */
-function renderRatioCell(row, column) {
-  const value = row[column.id];
+function renderBalanceCell(row, column) {
+  const value = row.balance ? row.balance[column.id] : null;
   const tone = ratioTone(value);
   const ratio = barRatio(value);
 
@@ -104,10 +136,11 @@ function renderRatioCell(row, column) {
  *
  * @param {object} options
  * @param {(key:string, vars?:object, fallback?:string)=>string} options.t
+ * @param {string} options.mode - the active mode; it decides the stat set.
  * @param {(sort:{column:string,direction:string})=>void} options.onSort
  * @param {(row:object)=>void} [options.onRowClick]
  */
-export function createModesTable({ t, onSort, onRowClick }) {
+export function createModesTable({ t, mode, onSort, onRowClick }) {
   const columns = [
     {
       key: 'champion',
@@ -119,16 +152,25 @@ export function createModesTable({ t, onSort, onRowClick }) {
       sortable: true,
       cell: (row) => renderChampionCell(row),
     },
+    ...statsOfMode(mode).map((stat) => ({
+      key: stat.id,
+      label: t(stat.labelKey, null, stat.fallback),
+      width: MODE_COLUMN_WIDTH,
+      className: 'modes__cell modes__cell--stat',
+      headerClassName: 'champion-statistics-table-column modes__cell modes__cell--head',
+      sortable: true,
+      cell: (row) => renderModeStatCell(row, stat),
+    })),
     ...STAT_COLUMNS.map((column) => ({
       key: column.id,
       // The area-of-effect ratio has no entry in the reference catalogue, so
       // that column carries a literal label instead of a key.
       label: column.labelKey ? t(column.labelKey, null, column.fallback) : column.label,
-      width: STAT_COLUMN_WIDTH,
+      width: BALANCE_COLUMN_WIDTH,
       className: 'modes__cell modes__cell--stat',
       headerClassName: 'champion-statistics-table-column modes__cell modes__cell--head',
       sortable: true,
-      cell: (row) => renderRatioCell(row, column),
+      cell: (row) => renderBalanceCell(row, column),
     })),
   ];
 

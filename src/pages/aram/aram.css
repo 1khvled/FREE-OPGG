@@ -1,0 +1,328 @@
+/* ============================================================================
+ * ARAM screen — the ARAM champion tier list.
+ *
+ * Ground truth: the desktop app's tier-list geometry
+ * (docs/rea/desktop-ui.md §3) — the same seven column div grid, the same
+ * 46 × 59px portrait tiles and the same 32px header / 40px row rhythm, so the
+ * screen reads as the twin of the Champions screen.
+ *
+ * The shared class names (`.champion-statistics-table*`, `.item-champion`,
+ * `.champion-statistics-search*`, `.champion-img-32`, `.stat-cell`) live in
+ * src/styles/components.css and are not repeated here.
+ *
+ * Every colour, radius, spacing step and font size comes from
+ * src/styles/tokens.css — there is not a single literal in this file.
+ * ========================================================================== */
+
+.aram {
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--sp-5) var(--sp-5);
+  color: var(--text-primary);
+  font-size: var(--fs-sm);
+}
+
+/* ==========================================================================
+ * Heading — the queue title, the patch version and the champion count
+ * ======================================================================== */
+
+.aram__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  margin-top: var(--sp-5);
+}
+
+.aram__heading {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.aram__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-relaxed);
+  color: var(--text-primary);
+}
+
+/* The patch the tier list was built for — the reference shows it next to the
+   title as well. */
+.aram__patch {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 var(--sp-2);
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface-raised);
+  color: var(--text-secondary);
+  font-size: var(--fs-2xs);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  user-select: none;
+}
+
+.aram__patch[hidden] {
+  display: none;
+}
+
+.aram__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 20px;
+  padding: 0 var(--sp-2);
+  border-radius: var(--radius-pill);
+  background: var(--bg-surface-raised);
+  color: var(--text-secondary);
+  font-size: var(--fs-2xs);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  user-select: none;
+}
+
+.aram__subtitle {
+  margin: 0;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+ * Body — the portrait grid and the table
+ * ======================================================================== */
+
+.aram__body {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-4);
+  margin-top: var(--sp-4);
+}
+
+/* The portrait grid keeps the reference's 356px width. The basis is pinned to
+   that width so the grid can never grow to its max-content width (the
+   wrapping row of 46px tiles), which would push the table out of the
+   window. */
+.aram__grid {
+  flex: 0 0 var(--width-search-panel);
+  width: var(--width-search-panel);
+  min-width: 0;
+}
+
+.aram__table {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.aram .champion-statistics-search-bottom {
+  max-height: 520px;
+  overflow-y: auto;
+}
+
+/* ==========================================================================
+ * Table cells
+ * ======================================================================== */
+
+.aram .champion-statistics-table {
+  background: transparent;
+}
+
+.aram .champion-statistics-table-row {
+  border-bottom: 1px solid var(--border-row);
+  background: transparent;
+}
+
+.aram .champion-statistics-table-row:hover {
+  background: var(--bg-surface-hover);
+}
+
+/* The sort indicator is a flex sibling of the header label; the numeric
+   columns are narrow, so it gets a smaller footprint of its own. */
+.aram .table-sort__indicator {
+  width: 6px;
+  margin-left: var(--sp-1);
+}
+
+.aram-rank {
+  font-size: var(--fs-2xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+}
+
+/* The rank movement of the 32px slot — the same slot the ranked list uses
+   for the lane icon. ARAM has no lanes, so it carries the movement. */
+.aram-rank-change {
+  font-size: var(--fs-2xs);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.aram-rank-change[data-direction='up'] {
+  color: var(--accent-green-bright);
+}
+
+.aram-rank-change[data-direction='down'] {
+  color: var(--accent-red);
+}
+
+.aram-rank-change--none {
+  font-size: var(--fs-2xs);
+  color: var(--text-label);
+}
+
+.aram-champion-cell {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.aram-champion-name {
+  overflow: hidden;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+  color: var(--text-primary);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+ * The tier badge — the reference's `optier-{tier}.svg` shield
+ * ======================================================================== */
+
+.aram-tier-badge {
+  display: block;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+/* ==========================================================================
+ * The ARAM balance tag — the buff / nerf badge of the seventh column
+ * ======================================================================== */
+
+.aram-balance {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 var(--sp-2);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.aram-balance--buff {
+  color: var(--accent-green-bright);
+  background: color-mix(in srgb, var(--accent-green-bright) 16%, transparent);
+  border-color: color-mix(in srgb, var(--accent-green-bright) 40%, transparent);
+}
+
+.aram-balance--nerf {
+  color: var(--accent-red);
+  background: color-mix(in srgb, var(--accent-red) 16%, transparent);
+  border-color: color-mix(in srgb, var(--accent-red) 40%, transparent);
+}
+
+/* A champion without a balance row — and a champion whose numbers are all at
+   the baseline — carries no tag at all. */
+.aram-balance__none {
+  font-size: var(--fs-2xs);
+  color: var(--text-label);
+}
+
+/* ---- the tooltip body ---------------------------------------------------- */
+/* The shared tooltip lives in `document.body`, so these rules are not scoped
+   to the page. */
+
+.aram-balance__tip-head {
+  margin-bottom: var(--sp-1);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+}
+
+.aram-balance__tip-head--buff {
+  color: var(--accent-green-bright);
+}
+
+.aram-balance__tip-head--nerf {
+  color: var(--accent-red);
+}
+
+.aram-balance__tip-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-relaxed);
+  color: var(--text-muted);
+}
+
+.aram-balance__tip-row > span:last-child {
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}
+
+/* ==========================================================================
+ * Skeleton — the table's own geometry
+ * ======================================================================== */
+
+.aram__skeleton {
+  display: flex;
+  flex-direction: column;
+}
+
+.aram__skeleton-head,
+.aram__skeleton-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  padding: 0 var(--sp-3);
+}
+
+.aram__skeleton-head {
+  height: var(--height-th);
+  border-bottom: 1px solid var(--border-row);
+}
+
+.aram__skeleton-row {
+  height: var(--height-row);
+  border-bottom: 1px solid var(--border-row);
+  gap: var(--sp-2);
+}
+
+.aram__skeleton-block {
+  display: block;
+  flex: 0 0 92px;
+  height: 12px;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-raised);
+  animation: aram-pulse 1.4s var(--ease-standard) infinite;
+}
+
+.aram__skeleton-block--avatar {
+  flex: 0 0 32px;
+  height: 32px;
+}
+
+.aram__skeleton-block--name {
+  flex: 1 1 auto;
+  max-width: 160px;
+  margin-right: var(--sp-2);
+}
+
+@keyframes aram-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+}

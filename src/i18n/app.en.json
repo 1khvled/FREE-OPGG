@@ -32,5 +32,8 @@
   "app.language": "Language",
   "app.automations": "League Client automations",
   "app.about": "About",
+  "app.avgPlace": "Avg. Place",
+  "app.firstRate": "1st Rate",
+  "app.secondRate": "2nd Rate",
   "common.Combos": "Combos"
 }

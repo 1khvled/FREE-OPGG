@@ -26,6 +26,8 @@ const PAGES = [
   'combos',
   'op-champions',
   'modes',
+  'aram',
+  'aram-mayhem',
   'buff-nerf',
   'live',
   'multisearch',
@@ -41,8 +43,8 @@ let child = null;
 if (!attachPort) {
   const command = exePath || electronBin;
   const args = exePath
-    ? [`--remote-debugging-port=${port}`]
-    : ['.', `--remote-debugging-port=${port}`];
+    ? [`--remote-debugging-port=${port}`, '--hidden']
+    : ['.', `--remote-debugging-port=${port}`, '--hidden'];
   child = spawn(command, args, {
     cwd: process.cwd(), stdio: ['ignore', 'pipe', 'pipe'],
   });

@@ -1,0 +1,446 @@
+/* ============================================================================
+ * ARAM: Mayhem screen — the swarm table.
+ *
+ * Ground truth: the shipped desktop renderer's ARAM: Mayhem screen
+ * (`/lol/aram-mayhem`, chunk `AramMayhem.03c382ad.bundle.js`; the
+ * decompressed copy lives in `docs/rea/aram-mayhem-bundle.js`).
+ *
+ * Every rule below is the reference's own, with the values it ships. The
+ * styled-components nesting of the bundle is flattened here, and the two
+ * divergences are documented in place:
+ *
+ *   1. the reference's `.augment-name` is 11px — the house typography floor
+ *      is 12px, so the label ships at 12px;
+ *   2. the reference keeps `.pal-image` / `.augment-name` / `.works` outside
+ *      of the `.swarm-tier` block, so it never had to reconcile them with
+ *      the `.swarm-tier div` rule. The replica nests them, as the screen's
+ *      structure requires, and therefore restores the reference's own
+ *      measurements in the "cascade repairs" block at the end of the file.
+ *
+ * Every colour lives in the `:root` block at the top of the file, so that no
+ * rule carries a bare hex value.
+ * ========================================================================== */
+
+:root {
+  /* ---- The reference's palette ------------------------------------------ */
+  --am-ink: #ffffff;             /* the text of the dark shell */
+  --am-ink-inverse: #1c1c1f;     /* the "×" of the clear button */
+  --am-muted: #9e9eb1;           /* the placeholder, the counter, the speed */
+  --am-panel: #282830;           /* the search fill, the portrait plate */
+  --am-panel-border: #31313c;    /* the search border, the portrait edge */
+  --am-row-divider: #121212;     /* the hairline between two tier rows */
+
+  /* ---- The search highlight ---------------------------------------------- */
+  --am-highlight: #ffd700;
+  --am-highlight-ink: #000000;
+  --am-highlight-soft: rgba(255, 215, 0, 0.1);
+
+  /* ---- The accent the reference calls `--point` -------------------------- */
+  --am-point: #5f32e6;
+  --am-point-rgb: 95, 50, 230;
+  --am-point-hover: #7a4de6;
+  --am-point-glow: #7a4de6;      /* the reference's `--point-glow-solid` */
+
+  /* ---- The gradient of the portrait plate variant ------------------------ */
+  --am-plate-pink: #ff9bd2;
+  --am-plate-blue: #54acee;
+
+  /* ---- The six tier colours ---------------------------------------------- */
+  --am-row-0: #f15a5a1a;
+  --am-row-1: #0093ff1a;
+  --am-row-2: #00bba31a;
+  --am-row-3: #ffb9001a;
+  --am-row-4: #8892a11a;
+  --am-row-5: #a88a671a;
+
+  /* ---- The gradient of a tier row ---------------------------------------- */
+  --am-row-gradient: radial-gradient(
+    circle at 50% 0,
+    rgba(50, 50, 60, 0.15),
+    rgba(50, 50, 60, 0.25) 95%
+  );
+}
+
+/* ==========================================================================
+ * The page
+ * ======================================================================== */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 24px;
+  height: 100%;
+  font-size: 12px;
+  overflow: hidden;
+}
+
+.page h1 {
+  font-size: 16px !important;
+  line-height: 20px !important;
+  color: var(--am-ink) !important;
+  font-weight: 400 !important;
+  margin: 0 !important;
+}
+
+/*
+ * The reference's page root fills the content area and lets the tier table
+ * scroll on its own. The replica's shell sizes `.app-page` by its content,
+ * so the height is handed down explicitly while this screen is mounted.
+ */
+.app-page:has(> .page) {
+  height: 100%;
+}
+
+/* ==========================================================================
+ * The header — the search field and the match counter
+ * ======================================================================== */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 15px;
+  background: var(--am-panel);
+  border-radius: 8px;
+  border: 1px solid var(--am-panel-border);
+  flex-shrink: 0;
+  width: 400px;
+}
+
+.search-field {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.search input {
+  flex: 1;
+  background: none;
+  border: none;
+  color: var(--am-ink);
+  font-size: 14px;
+  outline: none;
+  width: 100%;
+  padding-right: 28px;
+}
+
+.search input::placeholder {
+  color: var(--am-muted);
+}
+
+.search-clear {
+  position: absolute;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--am-muted);
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.search-clear:hover {
+  background: var(--am-ink);
+}
+
+.search-clear-sign {
+  color: var(--am-ink-inverse);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--am-muted);
+  font-size: 12px;
+}
+
+.search-meta-nav {
+  display: flex;
+  gap: 5px;
+}
+
+.search-meta-btn {
+  background: var(--am-point);
+  color: var(--am-ink);
+  padding: 4px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-meta-btn:hover {
+  background: var(--am-point-hover);
+}
+
+/* ==========================================================================
+ * The swarm table
+ * ======================================================================== */
+
+.tier-table {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.tier-table-row {
+  display: flex;
+  backdrop-filter: blur(11px);
+  background-image: var(--am-row-gradient);
+}
+
+.tier-table-row:first-of-type {
+  border-radius: 12px 12px 0 0;
+}
+
+.tier-table-row:last-of-type {
+  border-radius: 0 0 12px 12px;
+}
+
+.tier-table-row-col1 {
+  width: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--am-row-divider);
+  background-color: rgba(var(--am-point-rgb), 0.102);
+}
+
+.tier-table-row-col2 {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 12px;
+  gap: 12px;
+  flex: 1;
+  border-bottom: 1px solid var(--am-row-divider);
+}
+
+.tier-table-row .row-0 {
+  background-color: var(--am-row-0);
+  border-top-left-radius: 12px;
+}
+
+.tier-table-row .row-1 {
+  background-color: var(--am-row-1);
+}
+
+.tier-table-row .row-2 {
+  background-color: var(--am-row-2);
+}
+
+.tier-table-row .row-3 {
+  background-color: var(--am-row-3);
+}
+
+.tier-table-row .row-4 {
+  background-color: var(--am-row-4);
+}
+
+.tier-table-row .row-5 {
+  background-color: var(--am-row-5);
+  border-bottom-left-radius: 12px;
+}
+
+/* ==========================================================================
+ * One champion of the swarm
+ * ======================================================================== */
+
+.swarm-tier {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.swarm-tier:hover div {
+  text-decoration: underline;
+}
+
+.swarm-tier div {
+  width: 48px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.augment-name {
+  width: 64px;
+  word-break: keep-all;
+  /* The reference ships 11px here; the house typography floor is 12px. */
+  font-size: 12px;
+  text-align: center;
+}
+
+/* ==========================================================================
+ * The portrait plate
+ * ======================================================================== */
+
+.pal-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border: 1px solid var(--am-panel-border);
+  border-radius: 8px;
+  background: var(--am-panel);
+  overflow: hidden;
+}
+
+.pal-image img {
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  object-fit: cover;
+}
+
+.pal-image::before {
+  width: calc(100% - 4px);
+  height: calc(100% - 4px);
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  content: "";
+  background-color: var(--am-panel);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.pal-image-s {
+  background: linear-gradient(
+    142.91deg,
+    var(--am-plate-pink) 0%,
+    var(--am-point-glow) 49.48%,
+    var(--am-plate-blue) 100%
+  );
+}
+
+.pal-image-s img {
+  width: calc(100% - 4px);
+  height: calc(100% - 4px);
+  border-radius: 6px;
+  z-index: 100;
+}
+
+/* ==========================================================================
+ * The augment strip
+ * ======================================================================== */
+
+.works {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-wrap: wrap;
+}
+
+.work {
+  display: flex;
+  align-items: center;
+}
+
+.work img {
+  width: 20px;
+  height: 20px;
+}
+
+.pal-speed {
+  color: var(--am-muted);
+}
+
+/* ==========================================================================
+ * The search highlight
+ * ======================================================================== */
+
+.search-highlight {
+  background-color: var(--am-highlight);
+  color: var(--am-highlight-ink);
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-weight: bold;
+}
+
+.highlighted {
+  background-color: var(--am-highlight-soft);
+  border-radius: 4px;
+  padding: 2px;
+}
+
+/* ==========================================================================
+ * Cascade repairs
+ *
+ * The reference keeps `.pal-image`, `.augment-name` and `.works` outside of
+ * the `.swarm-tier` block, so it never had to reconcile them with the
+ * `.swarm-tier div` rule (specificity 0-1-1) that sizes every descendant of
+ * a swarm cell to the 48px name width. The replica nests them, as the
+ * screen's structure requires, and the reference's own measurements are
+ * restored here: the 64px portrait plate, the 64px augment label and the
+ * free-width augment strip.
+ * ======================================================================== */
+
+.swarm-tier .pal-image {
+  width: 64px;
+  height: 64px;
+}
+
+.swarm-tier .augment-name {
+  width: 64px;
+  white-space: normal;
+}
+
+.swarm-tier .works,
+.swarm-tier .work {
+  width: auto;
+}
+
+/* ==========================================================================
+ * The states and the hidden cells
+ * ======================================================================== */
+
+.aram-mayhem__state {
+  min-height: 160px;
+}
+
+/*
+ * The `hidden` attribute has to beat the display rules above, so the cells
+ * the search filters out really disappear.
+ */
+.search-clear[hidden],
+.search-meta[hidden],
+.search-meta-nav[hidden],
+.swarm-tier[hidden],
+.tier-table-row[hidden] {
+  display: none;
+}

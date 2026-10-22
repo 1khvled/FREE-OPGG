@@ -17,7 +17,7 @@ const waitMs = Number(argOf('--wait', '15000'));
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 const electronBin = createRequire(import.meta.url)('electron');
-const child = spawn(electronBin, ['.', `--remote-debugging-port=${port}`], {
+const child = spawn(electronBin, ['.', `--remote-debugging-port=${port}`, '--hidden'], {
   cwd: process.cwd(),
   stdio: ['ignore', 'pipe', 'pipe'],
 });

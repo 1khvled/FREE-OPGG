@@ -86,7 +86,7 @@ function cdp(ws) {
 
 // `require('electron')` resolves to the path of the packaged Electron binary.
 const electronBin = createRequire(import.meta.url)('electron');
-const child = spawn(electronBin, ['.', `--remote-debugging-port=${port}`], {
+const child = spawn(electronBin, ['.', `--remote-debugging-port=${port}`, '--hidden'], {
   cwd: root,
   stdio: ['ignore', 'pipe', 'pipe'],
   env: { ...process.env, ELECTRON_ENABLE_LOGGING: '1' },

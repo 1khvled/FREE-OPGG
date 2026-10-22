@@ -5,9 +5,14 @@
  * a 32px header, 40px rows, 12px muted numeric cells with tabular figures and
  * a 12px panel radius.
  *
+ * The mode picker is the reference's own mode picker: a row of
+ * `.recommendation-tab` pills (the shared `createTabs` widget), which the
+ * shipped `docs/rea/game-mode-bundle.js` renders inside a `.statistics-tabs`
+ * strip.
+ *
  * The shared class names (`.champion-statistics-table*`, `.champion-img-32`,
- * `.fallback-image__placeholder`, `.state`) live in src/styles/components.css
- * and are not repeated here.
+ * `.fallback-image__placeholder`, `.state`, `.recommendation-tab*`) live in
+ * src/styles/components.css and are not repeated here.
  *
  * Every colour, radius, spacing step and font size comes from
  * src/styles/tokens.css — there is not a single literal in this file.
@@ -71,6 +76,16 @@
 }
 
 /* ==========================================================================
+ * Mode picker — the reference's `.recommendation-tab` pills
+ * ======================================================================== */
+
+.modes__modes {
+  display: flex;
+  align-items: center;
+  margin-top: var(--sp-4);
+}
+
+/* ==========================================================================
  * Toolbar — the search box and the lane filter
  * ======================================================================== */
 
@@ -94,13 +109,19 @@
 
 /* ==========================================================================
  * Panel — the table and the states share it
+ *
+ * The arena mode has sixteen columns, which is wider than the content area,
+ * so the panel is the table's scroll container: it scrolls sideways and the
+ * header row stays in sight.
  * ======================================================================== */
 
 .modes__panel {
   margin-top: var(--sp-4);
+  max-height: calc(100vh - 300px);
+  min-height: 240px;
   border-radius: var(--radius-panel);
   background: var(--bg-surface);
-  overflow: hidden;
+  overflow: auto;
 }
 
 .modes__panel .state {
@@ -112,9 +133,11 @@
  * ======================================================================== */
 
 .modes__table {
-  width: 100%;
+  width: max-content;
+  min-width: 100%;
   background: transparent;
   border-radius: 0;
+  overflow: visible;
 }
 
 .modes__table .champion-statistics-table-row {
@@ -126,9 +149,29 @@
   background: var(--bg-surface-hover);
 }
 
+/* The header row sticks to the top of the scroll container. */
+.modes__table .champion-statistics-table-header {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: var(--bg-surface);
+}
+
 .modes__cell--champion {
+  position: sticky;
+  left: 0;
+  z-index: 2;
   flex: 1 1 auto;
   min-width: 120px;
+  background: var(--bg-surface);
+}
+
+.modes__table .champion-statistics-table-row:hover .modes__cell--champion {
+  background: var(--bg-surface-hover);
+}
+
+.modes__table .champion-statistics-table-header .modes__cell--champion {
+  z-index: 4;
 }
 
 /* The stat cell stacks the percentage above its bar. */
@@ -189,7 +232,23 @@
 }
 
 /* ==========================================================================
- * Stat cell — the percentage and its bar
+ * Mode stat cell — the reference's own number
+ * ======================================================================== */
+
+.modes__mode-stat {
+  display: block;
+  overflow: hidden;
+  font-size: var(--fs-2xs);
+  line-height: var(--lh-tight);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+ * Balance cell — the percentage and its bar
  * ======================================================================== */
 
 .modes__stat {
@@ -287,7 +346,7 @@
 
 .modes__skeleton-block {
   display: block;
-  flex: 0 0 92px;
+  flex: 0 0 88px;
   height: 12px;
   border-radius: var(--radius-md);
   background: var(--bg-surface-raised);

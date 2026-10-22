@@ -1,89 +1,68 @@
-// Diagnostic: replicate main.js findLcuCredentials() discovery to test LCU reachability.
-const fs = require('fs');
+// Diagnostic: check whether the local League Client is reachable.
+//
+// This is a standalone probe — it needs no Electron and no app instance, so
+// it can be run when the app reports "League Client not connected" and you
+// want to know whether the problem is discovery, the token, or the client.
+//
+// Usage: node tools/probe_lcu.js
 const https = require('https');
-const path = require('path');
 
-const localAppData = process.env.LOCALAPPDATA;
+const {
+  candidateLockfilePaths,
+  discoverLeagueClient,
+  readLockfile,
+} = require('../main/services/league-lockfile.js');
+
 const agent = new https.Agent({ rejectUnauthorized: false });
-
-function readLockfile(p) {
-  try {
-    if (!fs.existsSync(p)) return null;
-    const parts = fs.readFileSync(p, 'utf-8').split(':');
-    if (parts.length < 5) return null;
-    return { processName: parts[0], pid: parts[1], port: parts[2], token: parts[3], protocol: parts[4] };
-  } catch (e) { return null; }
-}
 
 function get(url, token) {
   return new Promise((resolve, reject) => {
     const auth = Buffer.from(`riot:${token}`).toString('base64');
-    const req = https.get(url, {
+    const request = https.get(url, {
       agent,
-      headers: { 'Authorization': `Basic ${auth}` },
-      timeout: 3000
+      headers: { Authorization: `Basic ${auth}` },
+      timeout: 3000,
     }, (res) => {
       let body = '';
-      res.on('data', d => body += d);
-      res.on('end', () => { try { resolve(JSON.parse(body)); } catch (e) { reject(new Error('bad json: ' + body.slice(0, 120))); } });
+      res.on('data', (chunk) => { body += chunk; });
+      res.on('end', () => {
+        try {
+          resolve(JSON.parse(body));
+        } catch {
+          reject(new Error(`bad json: ${body.slice(0, 120)}`));
+        }
+      });
     });
-    req.on('error', reject);
-    req.on('timeout', () => { req.destroy(); reject(new Error('timeout')); });
+    request.on('error', reject);
+    request.on('timeout', () => { request.destroy(); reject(new Error('timeout')); });
   });
 }
 
 (async () => {
   console.log('=== STEP 1: common LoL lockfile paths ===');
-  const common = [
-    'C:\\Riot Games\\League of Legends\\lockfile',
-    'D:\\Riot Games\\League of Legends\\lockfile',
-    'E:\\Riot Games\\League of Legends\\lockfile',
-    path.join(localAppData, 'Riot Games', 'League of Legends', 'lockfile')
-  ];
-  for (const p of common) {
-    const c = readLockfile(p);
-    console.log(`  ${c ? 'HIT ' : 'miss'} ${p}`);
+  for (const path of candidateLockfilePaths()) {
+    const credentials = readLockfile(path);
+    console.log(`  ${credentials ? 'HIT ' : 'miss'} ${path}`);
   }
 
-  console.log('\n=== STEP 2: Riot Client lockfile ===');
-  const rcPath = path.join(localAppData, 'Riot Games', 'Riot Client', 'Config', 'lockfile');
-  const rc = readLockfile(rcPath);
-  if (!rc) { console.log('  no Riot Client lockfile'); process.exit(1); }
-  console.log(`  port=${rc.port} pid=${rc.pid} token=${rc.token.slice(0, 6)}...`);
-
-  console.log('\n=== STEP 3: query /product-session/v1/sessions ===');
-  let sessions;
-  try {
-    sessions = await get(`https://127.0.0.1:${rc.port}/product-session/v1/sessions`, rc.token);
-  } catch (e) {
-    console.log('  FAILED: ' + e.message);
-    process.exit(1);
+  console.log('\n=== STEP 2: discovery ===');
+  const client = await discoverLeagueClient();
+  if (!client) {
+    console.log('  no League Client found');
+    process.exitCode = 1;
+    return;
   }
-  const entries = Object.values(sessions || {});
-  console.log(`  OK - ${entries.length} session(s):`);
-  for (const s of entries) {
-    console.log(`    product=${s.productId} running=${s.launchConfiguration?.launchArguments?.length !== undefined ? 'yes' : '?'} cwd=${s.launchConfiguration?.workingDirectory}`);
+  console.log(`  port=${client.port} pid=${client.pid} protocol=${client.protocol}`);
+
+  console.log('\n=== STEP 3: reachability ===');
+  const base = `${client.protocol || 'https'}://127.0.0.1:${client.port}`;
+  for (const path of ['/lol-summoner/v1/current-summoner', '/lol-gameflow/v1/gameflow-phase']) {
+    try {
+      const body = await get(`${base}${path}`, client.token);
+      console.log(`  200 ${path} -> ${JSON.stringify(body).slice(0, 160)}`);
+    } catch (err) {
+      console.log(`  ERR ${path} -> ${err.message}`);
+      process.exitCode = 1;
+    }
   }
-
-  console.log('\n=== STEP 4: LoL lockfile from session workingDirectory ===');
-  const lolSession = entries.find(s => s.productId === 'league_of_legends');
-  if (!lolSession) { console.log('  no league_of_legends session'); process.exit(1); }
-  const cwd = lolSession.launchConfiguration?.workingDirectory;
-  const lf = path.join(cwd, 'lockfile');
-  const lcred = readLockfile(lf);
-  if (!lcred) { console.log(`  MISSING lockfile at ${lf}`); process.exit(1); }
-  console.log(`  FOUND: port=${lcred.port} token=${lcred.token.slice(0, 6)}...`);
-
-  console.log('\n=== STEP 5: verify LoL LCU responds ===');
-  try {
-    const phase = await get(`https://127.0.0.1:${lcred.port}/lol-gameflow/v1/gameflow-phase`, lcred.token);
-    console.log('  gameflow-phase =', phase);
-    const summoner = await get(`https://127.0.0.1:${lcred.port}/lol-summoner/v1/current-summoner`, lcred.token);
-    console.log(`  summoner = "${summoner?.displayName}" (puuid ${summoner?.puuid?.slice(0, 8)}...)`);
-  } catch (e) {
-    console.log('  FAILED: ' + e.message);
-    process.exit(1);
-  }
-
-  console.log('\n>>> LCU IS REACHABLE <<<');
 })();
