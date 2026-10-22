@@ -17,6 +17,7 @@
 'use strict';
 
 const { app, BrowserWindow, globalShortcut } = require('electron');
+const fs = require('fs');
 
 const { MAIN_TO_RENDERER } = require('../shared/channels.js');
 const protocolHandler = require('./protocol.js');
@@ -144,6 +145,64 @@ function registerShortcuts() {
 }
 
 /**
+ * Capture a screenshot of the app and exit.
+ *
+ * `--capture=<file>` writes one PNG and quits; `--capture-route=<id>` opens
+ * that screen first. The capture comes from `webContents.capturePage()`, so it
+ * works with the window hidden and never touches the user's desktop.
+ */
+function scheduleCapture() {
+  const captureArg = process.argv.find((arg) => arg.startsWith('--capture='));
+  if (!captureArg) return;
+
+  const file = captureArg.slice('--capture='.length);
+  const routeArg = process.argv.find((arg) => arg.startsWith('--capture-route='));
+  const route = routeArg ? routeArg.slice('--capture-route='.length) : '';
+
+  const win = windows.getMainWindow();
+  if (!win) return;
+
+  const target = win.webContents;
+  // The renderer needs a moment to route and to load its data.
+  setTimeout(async () => {
+    try {
+      if (route) {
+        await target.executeJavaScript(
+          `(() => { location.hash = '#/${route}'; return true; })()`,
+          true,
+        );
+        await new Promise((resolve) => setTimeout(resolve, 9000));
+      }
+      if (process.env.REA_CAPTURE_DUMP) {
+        const dump = await target.executeJavaScript(
+          `JSON.stringify({
+            hash: location.hash,
+            modes: (() => { const e = document.querySelector('.modes__modes'); return e ? { html: e.innerHTML.slice(0, 300), rect: e.getBoundingClientRect().toJSON() } : null; })(),
+            text: (document.body.innerText || '').replace(/\\s+/g, ' ').slice(0, 160),
+          })`,
+          true,
+        );
+        process.stderr.write(`[capture-dump] ${dump}\n`);
+      }
+      // A window that was never composited hands back a stale frame, so the
+      // size is nudged to force a fresh paint before the capture.
+      try {
+        const bounds = win.getBounds();
+        win.setBounds({ ...bounds, width: bounds.width - 1, height: bounds.height - 1 });
+        await new Promise((resolve) => setTimeout(resolve, 400));
+        win.setBounds(bounds);
+        await new Promise((resolve) => setTimeout(resolve, 900));
+      } catch (err) { /* the capture still works without a repaint */ }
+      const image = await target.capturePage();
+      fs.writeFileSync(file, image.toPNG());
+    } catch (err) {
+      // A failed capture must not stop the app from exiting.
+    }
+    app.quit();
+  }, route ? 4000 : 10000);
+}
+
+/**
  * Boot the application.
  */
 function bootstrap() {
@@ -158,6 +217,8 @@ function bootstrap() {
   tray.createTray();
   registerShortcuts();
   updater.start();
+
+  scheduleCapture();
 
   // Push the persisted settings and the current client status as soon as a
   // renderer is ready.

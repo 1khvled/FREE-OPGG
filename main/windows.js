@@ -64,6 +64,12 @@ const OVERLAY_PARTITION = 'persist:overlay';
  */
 const HIDDEN = process.argv.includes('--hidden');
 
+/**
+ * `--capture` renders the window off the desktop so a screenshot has real
+ * compositor frames without anything appearing on the user's screen.
+ */
+const CAPTURE = process.argv.some((arg) => arg.startsWith('--capture='));
+
 /** Live window handles. */
 let mainWindow = null;
 let overlayWindow = null;
@@ -181,6 +187,9 @@ function createMainWindow() {
     height: MAIN_WINDOW.height,
     minWidth: MAIN_WINDOW.minWidth,
     minHeight: MAIN_WINDOW.minHeight,
+    // A capture run needs real compositor frames, but the window must not be
+    // visible: it is placed off the desktop area and kept out of the taskbar.
+    ...(CAPTURE ? { x: -32000, y: -32000, skipTaskbar: true, focusable: false } : {}),
     show: false,
     backgroundColor: '#000000',
     icon: path.join(APP_ROOT, 'assets', 'icon.ico'),
@@ -201,9 +210,9 @@ function createMainWindow() {
     // `--hidden` keeps the window off screen: the verification tools drive the
     // app over the DevTools Protocol and must never steal focus or pop a
     // window on the user's desktop.
-    if (!HIDDEN) {
+    if (!HIDDEN || CAPTURE) {
       mainWindow.show();
-      mainWindow.focus();
+      if (!HIDDEN) mainWindow.focus();
     }
   });
 

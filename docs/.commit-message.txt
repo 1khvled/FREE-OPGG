@@ -1,0 +1,15 @@
+Fix the arena champion detail and capture the screens without a window
+
+- main/ipc/opgg.js: the arena build endpoint (`/champions/arena/{id}/none`)
+  answers 422, so the arena champion endpoint is now the source of truth for
+  the arena and Mayhem modes. The build request is attempted but no longer
+  fatal, and the response no longer dereferences a null payload. This is what
+  the ARAM: Mayhem screen needs for its augment pairing.
+- The verification tools now pass `--hidden`, and the main process honours it,
+  so a run never opens a window on the desktop. `--capture` renders the window
+  off the desktop area instead, and the capture is taken over the DevTools
+  Protocol, which produces a fresh frame.
+- tools/verify-pages.mjs fails a page that renders its own error state, and
+  bounds the screenshot call.
+- The ARAM: Mayhem page fetches the augment pairing lazily, when a cell
+  scrolls into view, instead of one request per champion up front.

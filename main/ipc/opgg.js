@@ -883,18 +883,23 @@ async function handleChampionDetail(payload) {
   const index = await getChampionIndex();
   const meta = index.byId.get(champId) || null;
 
-  const buildPayload = await opgg.getChampionBuild({ champId, mode, position, tier });
-  let data = buildPayload.data || {};
+  // The arena build endpoint (`/champions/arena/{id}/none`) answers 422, so
+  // the arena champion endpoint is the source of truth for the arena and
+  // Mayhem modes: it carries the build, the augment grouping and the prism
+  // items. The build request is still attempted for the modes that support it.
+  const isArena = mode === 'arena' || mode === 'mayhem';
+  let data = {};
 
-  // The arena build endpoint (`/champions/arena/{id}/none`) answers 422; the
-  // augment pairing lives on the champion endpoint (`/champions/arena/{id}`).
-  // Fetch it alongside the build so the ARAM: Mayhem screen has its data.
-  let arenaData = null;
-  if (mode === 'arena' || mode === 'mayhem') {
-    arenaData = await opgg.getArenaChampion(champId).catch(() => null);
-    if (arenaData && arenaData.data && Object.keys(arenaData.data).length) {
-      data = { ...data, ...arenaData.data };
-    }
+  if (isArena) {
+    const arenaData = await opgg.getArenaChampion(champId).catch(() => null);
+    data = (arenaData && arenaData.data) || {};
+  }
+
+  const buildPayload = await opgg
+    .getChampionBuild({ champId, mode, position, tier })
+    .catch(() => null);
+  if (buildPayload && buildPayload.data && Object.keys(buildPayload.data).length) {
+    data = { ...buildPayload.data, ...data };
   }
 
   const summary = data.summary || {};
@@ -1108,8 +1113,8 @@ async function handleChampionDetail(payload) {
     ok: true,
     mode,
     position,
-    patch: (buildPayload.meta && buildPayload.meta.version) || index.patch,
-    updatedAt: (buildPayload.meta && (buildPayload.meta.analyzed_at || buildPayload.meta.cached_at)) || new Date().toISOString(),
+    patch: ((buildPayload && buildPayload.meta && buildPayload.meta.version) || index.patch),
+    updatedAt: ((buildPayload && buildPayload.meta && (buildPayload.meta.analyzed_at || buildPayload.meta.cached_at)) || new Date().toISOString()),
     champion: {
       id: champId,
       key,
